@@ -1,0 +1,27 @@
+[gates]
+spinat.freifunk-mwu.de
+lotuswurzel.freifunk-mwu.de
+wasserfloh.freifunk-mwu.de
+kaschu.freifunk-mwu.de
+#mettigel.freifunk-mwu.de
+#parmesan.freifunk-mwu.de
+
+[meshing-srv:children]
+gates
+meshing-only-srv
+
+[meshing-only-srv]
+aubergine.freifunk-mwu.de  # int. DNS-master
+zuckerwatte.freifunk-mwu.de  #
+glueckskeks.freifunk-mwu.de  #
+zwiebel.freifunk-mwu.de  #
+suesskartoffel.freifunk-mwu.de  #
+
+[ff-server:children]
+gates
+meshing-only-srv
+simple-ff-server
+
+[simple-ff-server]  # not meshing
+linse.freifunk-mwu.de  # ext. DNS-master
+#pudding.freifunk-mwu.de  #
