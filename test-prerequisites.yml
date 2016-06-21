@@ -1,0 +1,21 @@
+#!/usr/bin/ansible-playbook
+---
+
+- hosts: ff-servers
+  remote_user: admin
+  strategy: free
+
+  tasks:
+  - name: test access to admin account (ssh key neccessary!)
+    command: "true"
+    changed_when: False
+
+  - name: test access to root account
+    command: "true"
+    changed_when: False
+    become: True
+    become_user: root
+
+  - name: check OS type and version  # TODO: include debian
+    fail: msg="unsupported OS type or version - {{ ansible_distribution }} {{ ansible_distribution_major_version }}"
+    when: not ( ansible_distribution=="Ubuntu" and ansible_distribution_major_version|int==14 )

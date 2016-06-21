@@ -3,6 +3,7 @@ spinat.freifunk-mwu.de
 lotuswurzel.freifunk-mwu.de
 wasserfloh.freifunk-mwu.de
 kaschu.freifunk-mwu.de
+ingwer.freifunk-mwu.de
 #mettigel.freifunk-mwu.de
 #parmesan.freifunk-mwu.de
 
@@ -17,11 +18,11 @@ glueckskeks.freifunk-mwu.de  #
 zwiebel.freifunk-mwu.de  #
 suesskartoffel.freifunk-mwu.de  #
 
-[ff-server:children]
+[ff-servers:children]
 gates
 meshing-only-srv
-simple-ff-server
+simple-ff-servers
 
-[simple-ff-server]  # not meshing
+[simple-ff-servers]  # not meshing
 linse.freifunk-mwu.de  # ext. DNS-master
 #pudding.freifunk-mwu.de  #
