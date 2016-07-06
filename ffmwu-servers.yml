@@ -1,0 +1,10 @@
+#!/usr/bin/ansible-playbook
+---
+
+#- hosts: ff-servers
+- hosts: wasserfloh.freifunk-mwu.de
+  remote_user: admin
+  strategy: linear
+
+  roles: 
+  - ffmwu-server

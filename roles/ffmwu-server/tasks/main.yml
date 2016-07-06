@@ -1,0 +1,5 @@
+---
+
+- name: ensure all wanted ssh keys exclusively
+  authorized_key: exclusive=True state=present user=admin
+                  key={{ mwu_s_admin_keys }}
