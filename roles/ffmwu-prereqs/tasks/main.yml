@@ -20,4 +20,4 @@
 
 - name: fail on wrong OS type and version  # TODO: include debian
   fail: msg="unsupported OS type or version - {{ ansible_distribution }} {{ ansible_distribution_major_version }}"
-  when: not ( ansible_distribution=="Ubuntu" and ansible_distribution_major_version|int==14 )
+  when: not ( ( ansible_distribution=="Ubuntu" and ansible_distribution_major_version|int==14 ) or ( ansible_distribution=="Debian" and ansible_distribution_major_version|int==8 ) )
