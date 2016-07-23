@@ -1,0 +1,54 @@
+#!/usr/bin/ansible-playbook
+---
+# localhost (aka 127.0.0.1) is the hypervisor (hard-coded)
+
+- hosts: test-vms
+#- hosts: local-test-vm.ffmwu.local
+  gather_facts: False
+#  remote_user: root
+
+  vars:
+  - vm_path: "{{ lookup('env','HOME') }}/tmp/ffmwu-loctevm"
+
+  tasks:
+  - name: ensure VM dir and vm image dir
+    file: path={{ vm_path }} state=directory mode=0700
+    delegate_to: 127.0.0.1  # local action
+
+  - name: exnsure image file
+    command: fallocate -l 15G {{ vm_path }}/loctevm.img
+    args:
+      creates: "{{ vm_path }}/loctevm.img"
+    delegate_to: 127.0.0.1  # local action
+
+  - name: get and prepare debian image file
+    include: loctevm-reset-iso.inc.yml
+
+  - name: find already defined local VMs
+    virt: command=list_vms
+    delegate_to: 127.0.0.1  # local action
+    become: True
+    register: vms
+
+  - block:
+    - name: construct VM xml file
+      template:
+        src: templates/loctevm.xml
+        dest: "{{ vm_path }}/loctevm.xml"
+      delegate_to: 127.0.0.1  # local action
+
+    - name: define VM
+      virt:
+        command: define
+        name: "{{ inventory_hostname }}"
+        xml: "{{ lookup('file',vm_path ~ '/loctevm.xml') }}"
+      delegate_to: 127.0.0.1  # local action
+
+    when: not inventory_hostname in vms.list_vms
+    # block end
+
+  - name: create VM
+    virt:
+      state: running
+      name: "{{ inventory_hostname }}"
+    delegate_to: 127.0.0.1  # local action

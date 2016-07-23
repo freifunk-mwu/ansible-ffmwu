@@ -1,0 +1,58 @@
+<!-- domain type='qemu' -->
+<domain type='kvm'>
+  <name>{{ inventory_hostname }}</name>
+  <memory unit='M'>1024</memory>
+  <currentMemory unit='M'>512</currentMemory>
+  <vcpu>1</vcpu>
+
+  <cpu mode='host-passthrough'/>
+  <!-- fallback to host-model on errors -->
+
+  <os>
+    <type machine='pc'>hvm</type>
+    <boot dev='hd'/>
+    <boot dev='cdrom'/>
+    <bootmenu enable='no'/>
+  </os>
+
+  <features>
+    <acpi/>
+    <apic/>
+    <pae/>
+  </features>
+
+  <clock offset='utc'/>
+
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>destroy</on_crash>
+
+  <devices>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='raw' cache='writeback'/>
+      <source file='{{ vm_path }}/loctevm.img'/>
+      <target dev='vda' bus='virtio'/>
+    </disk>
+
+    <disk type='file' device='cdrom'>
+      <source file='{{ vm_path }}/debian-8.5.0-amd64-i386-{{ inventory_hostname }}.iso'/>
+      <target dev='vdc' bus='virtio'/>
+    </disk>
+
+    <interface type='network'>
+      <source network='default'/>
+      <model type='virtio'/>
+    </interface>
+
+    <serial type='pty'>
+      <target port='0'/>
+    </serial>
+    <console type='pty'>
+      <target type='serial' port='0'/>
+    </console>
+
+    <input type='mouse' bus='ps2'/>
+    <graphics type='vnc' port='-1' autoport='yes'/>
+    <!-- graphics type='sdl' xauth='~/.Xauthority' fullscreen='no'/ -->
+  </devices>
+</domain>

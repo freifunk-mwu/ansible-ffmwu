@@ -1,0 +1,6 @@
+<pool type="dir">
+  <name>loctevm-pool</name>
+  <target>
+    <path>{{ vm_path }}</path>
+  </target>
+</pool>
