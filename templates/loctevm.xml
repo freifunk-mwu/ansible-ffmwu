@@ -36,7 +36,7 @@
 
     <disk type='file' device='cdrom'>
       <source file='{{ vm_path }}/debian-8.5.0-amd64-i386-{{ inventory_hostname }}.iso'/>
-      <target dev='vdc' bus='virtio'/>
+      <target dev='hdc' bus='ide'/>
     </disk>
 
     <interface type='network'>

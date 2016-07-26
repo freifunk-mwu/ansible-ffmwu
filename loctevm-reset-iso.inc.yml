@@ -73,21 +73,22 @@
     delegate_to: 127.0.0.1  # local action
 
   - name: manual intervention 1 - (re)install configs
-    debug: msg=|
-      *******************************
-      *
-      * MANUAL ACTION NEEDED (step 2)
-      * -----------------------------
-      * Please replace the files amdtxt.cfg and isolinux.cfg
-      * in the iso-directory /isolinux
-      * with the now patched files from host-directory {{ vm_path }} .
-      * Likewise copy preseed.cfg from the host-directory {{ vm_path }}
-      * to the iso-directory / .
-      * Finally save-as this patched iso file
-      * to debian-8.5.0-amd64-i386-{{ inventory_hostname }}.iso
-      * in the host-directory {{ vm_path }} .
-      *
-      *******************************
+    debug:
+      msg: |
+        *******************************
+        *
+        * MANUAL ACTION NEEDED (step 2)
+        * -----------------------------
+        * Please replace the files amdtxt.cfg and isolinux.cfg
+        * in the iso-directory /isolinux
+        * with the now patched files from host-directory {{ vm_path }} .
+        * Likewise copy preseed.cfg from the host-directory {{ vm_path }}
+        * to the iso-directory / .
+        * Finally save-as this patched iso file
+        * to debian-8.5.0-amd64-i386-{{ inventory_hostname }}.iso
+        * in the host-directory {{ vm_path }} .
+        *
+        *******************************
     delegate_to: 127.0.0.1  # local action
 
   - name: wait for emergence of {{ vm_path }}/debian-8.5.0-amd64-i386-{{ inventory_hostname }}.iso
@@ -95,8 +96,16 @@
               state=present  timeout=900
     delegate_to: 127.0.0.1  # local action
 
+  - name: allow some time for big file to be written
+    pause: seconds=5
+    delegate_to: 127.0.0.1  # local action
+
+  - name: correct access rights of iso file
+    file: mode=0644 path={{ vm_path }}/debian-8.5.0-amd64-i386-{{ inventory_hostname }}.iso state=file
+    delegate_to: 127.0.0.1  # local action
+
   when: download.changed or not seeded.stat.exists
-  # böock end
+  # block end
 
 #- name: regenerate seeded copy when downloaded file changed
 #  copy:

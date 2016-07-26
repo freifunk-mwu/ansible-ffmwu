@@ -1,0 +1,10 @@
+---
+
+# FIXME: do nothing for now
+# FIXME: how to learn about IP of VM ???
+
+#- name: prepare escalation
+#  set_fact: ansible_become_pass=bloed
+#
+#- name: ensure admin user
+#  user: comment=FFMWU Administrator name=admin state=present
