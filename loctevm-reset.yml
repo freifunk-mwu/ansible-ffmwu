@@ -28,6 +28,9 @@
   - name: get and prepare debian image file
     include: loctevm-reset-iso.inc.yml
 
+  - name: define Vnd activate Vnet (if not already)
+    include: loctevm-reset-net.inc.yml
+
   - name: define VM (if not already)
     include: loctevm-reset-vm.inc.yml
 
@@ -37,9 +40,15 @@
       name: "{{ inventory_hostname }}"
     delegate_to: 127.0.0.1  # local action
 
+  - name: wait for port 80 to appear (after reboot after OS installation)
+    wait_for: host={{ansible_host}} port=80 state=started timeout=300
+    delegate_to: 127.0.0.1  # local action
+
 - hosts: test-vms
   remote_user: hein
+  gather_facts: False
 #  become: True
 
+  tasks:
   - name: prepare VM (if not already)
     include: loctevm-reset-prereq.inc.yml

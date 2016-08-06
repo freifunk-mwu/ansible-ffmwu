@@ -1,0 +1,14 @@
+<network>
+  <name>ffmwu</name>
+  <bridge macTableManager="libvirt"/>
+  <forward mode="nat">
+    <!-- interface dev='eth0'/>
+    <interface dev='wlan0'/ -->
+  </forward>
+  <ip address="192.168.137.1" netmask="255.255.255.0">
+    <dhcp>
+      <range start="192.168.137.10" end="192.168.137.11" />
+      <host mac="52:53:54:55:56:57" ip="{{ansible_host}}" />
+    </dhcp>
+  </ip>
+</network>

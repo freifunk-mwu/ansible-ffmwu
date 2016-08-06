@@ -1,0 +1,29 @@
+---
+
+- name: find already defined local Vnets
+  virt_net: command=list_nets
+  delegate_to: 127.0.0.1  # local action
+  register: nets
+
+- debug: var=nets
+
+- block:
+  - name: construct Vnet xml file
+    template:
+      src: templates/loctenet.xml
+      dest: "{{ vm_path }}/loctenet.xml"
+    delegate_to: 127.0.0.1  # local action
+
+  - name: define Vnet
+    virt_net:
+      command: define
+      name: "ffmwu"
+      xml: "{{ lookup('file',vm_path ~ '/loctenet.xml') }}"
+    delegate_to: 127.0.0.1  # local action
+
+  when: not "ffmwu" in nets.list_nets
+  # block end
+
+- name: exnsure activ Vnet ffmwu
+  virt_net: name=ffmwu state=active
+  delegate_to: 127.0.0.1  # local action
