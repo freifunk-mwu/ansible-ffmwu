@@ -5,7 +5,7 @@
   delegate_to: 127.0.0.1  # local action
   register: nets
 
-- debug: var=nets
+#- debug: var=nets
 
 - block:
   - name: construct Vnet xml file

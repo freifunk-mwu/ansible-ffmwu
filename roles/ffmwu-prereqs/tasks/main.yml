@@ -3,10 +3,12 @@
 - name: assert IPv4 DNS entry
   local_action: shell dig A {{ inventory_hostname }} | egrep '^{{ inventory_hostname }}'
   changed_when: False
+  when: "{{ require_dns | default('True') }}"
 
 - name: assert IPv6 DNS entry
   local_action: shell dig AAAA {{ inventory_hostname }} | egrep '^{{ inventory_hostname }}'
   changed_when: False
+  when: "{{ require_dns | default('True') }}"
 
 - name: test access to admin account (ssh key neccessary!)
   command: "true"
