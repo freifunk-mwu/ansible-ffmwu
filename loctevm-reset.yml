@@ -16,7 +16,7 @@
     delegate_to: 127.0.0.1  # local action
 
   - name: ensure image file  # FIXME: change to rm + recreate
-    command: fallocate -l 10G {{ vm_path }}/loctevm.img  # 15G? size?
+    command: fallocate -l 5G {{ vm_path }}/loctevm.img  # 15G? size?
     args:
       creates: "{{ vm_path }}/loctevm.img"
     delegate_to: 127.0.0.1  # local action
@@ -41,7 +41,7 @@
     delegate_to: 127.0.0.1  # local action
 
   - name: wait for port 80 to appear (after reboot after OS installation)
-    wait_for: host={{ansible_host}} port=80 state=started timeout=300
+    wait_for: host={{ansible_host}} port=80 state=started timeout=900
     delegate_to: 127.0.0.1  # local action
 
 - hosts: test-vms

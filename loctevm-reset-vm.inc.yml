@@ -3,7 +3,6 @@
 - name: find already defined local VMs
   virt: command=list_vms
   delegate_to: 127.0.0.1  # local action
-#  become: True
   register: vms
 
 - block:
@@ -13,12 +12,22 @@
       dest: "{{ vm_path }}/loctevm.xml"
     delegate_to: 127.0.0.1  # local action
 
+  - name: ensure absence of outdated local known-hosts entry
+    known_hosts: host={{ansible_host}} state=absent
+    delegate_to: 127.0.0.1  # local action
+
   - name: define VM
     virt:
       command: define
       name: "{{ inventory_hostname }}"
       xml: "{{ lookup('file',vm_path ~ '/loctevm.xml') }}"
     delegate_to: 127.0.0.1  # local action
+
+  - name: do dummy connect to ensure new local known host entry
+    command: ssh -o PasswordAuthentication=no -o StrictHostKeyChecking=no hein@{{ansible_host}} true
+    delegate_to: 127.0.0.1  # local action
+    changed_when: False
+    failed_when: False
 
   when: not inventory_hostname in vms.list_vms
   # block end
