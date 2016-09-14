@@ -1,0 +1,29 @@
+---
+
+- include: mwu-m-repos.yml
+
+- name: ensure mandatory packages
+  apt:
+    state: present
+    name: "{{mwu_m_item}}"
+    update_cache: yes
+    cache_valid_time: 21600
+  with_items:
+    - git
+    - haveged
+    - python3-pip
+    - fastd
+    - batctl
+    - batman-adv-source
+  loop_control:
+    loop_var: mwu_m_item
+  become: True
+
+- name: ensure manatory python libs
+  pip: name={{mwu_m_item}} executable=pip3
+  with_items:
+    - py-cpuinfo
+    - photon_core
+  loop_control:
+    loop_var: mwu_m_item
+  become: True

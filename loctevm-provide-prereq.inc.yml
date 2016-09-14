@@ -22,6 +22,7 @@
 
 - name: ensure users ssh key to admin user
   authorized_key: user=admin key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+                  exclusive=no
   become: True
 
 - name: ensure users ssh key to bootstrap user

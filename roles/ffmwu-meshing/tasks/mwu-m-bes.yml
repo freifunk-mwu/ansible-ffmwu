@@ -1,0 +1,49 @@
+---
+
+- name: ensure backend-scripts-log-dir
+  file: path=~/.cronlog state=directory mode=0700
+
+- name: clone backend scripts
+  git:
+    dest: "~/clones/backend-scripts"
+    repo: "https://github.com/freifunk-mwu/backend-scripts.git"
+    accept_hostkey: yes
+
+- name: generate host key
+  shell: python3 ~/clones/backend-scripts/bootstrap_git_all.py
+  args:
+    creates: ~/.ssh/{{ansible_hostname}}_rsa
+  register: keypair
+
+# FIXME: activate with ansible 2.2 ...
+#- block:
+#  - name: read new pubkey
+#    shell: cat ~/.ssh/{{ansible_hostname}}_rsa.pub
+#    register: ssh_pub_key
+#
+#  - name: read existing secret from spinat
+#    shell: cat ~/.ssh/spinat_rsa
+#    register: github_access_token
+#    delegate_to: spinat.freifunk-mwu.de
+#
+#  - name: register new pubkey with github freifunkmwu account
+#    github_key:
+#      name: "Server {{ansible_hostname}}"
+#      token: "{{github_access_token.stdout}}"
+#      pubkey: "{{ssh_pub_key.stdout}}"
+#
+#  when: keypair.changed
+
+- name: manage crontab - PATH
+  cron: env=yes name=PATH value="/home/admin/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin"
+
+- name: manage crontab - entries
+  cron: name={{mwu_m_item.n}} job={{mwu_m_item.j}} minute={{mwu_m_item.mi}}
+        hour={{mwu_m_item.h}} day={{mwu_m_item.d}} month={{mwu_m_item.mo}}
+        weekday={{mwu_m_item.w}}
+  with_items:
+  - { n: "sync_meshkeys", mi: "*/15", h: "*", d: "*", mo: "*", w: "*", j: "/usr/bin/python3 $HOME/clones/backend-scripts/sync_meshkeys_gw.py > $HOME/.cronlog/sync_meshkeys.log" }
+    # FIXME: define hostvar for mi
+  - { n: "snapshot_configs", mi: "23", h: "5,23", d: "*", mo: "*", w: "*", j: "/usr/bin/python3 $HOME/clones/backend-scripts/snapshot_configs_all.py > $HOME/.cronlog/snapshot_configs.log" }
+  loop_control:
+    loop_var: mwu_m_item

@@ -1,0 +1,39 @@
+---
+
+- name: ensure neoraider key for fastd package
+  apt_key:
+    state: present
+    id: 16EF3F64CB201D9C
+    keyserver: keyserver.ubuntu.com
+  become: True
+
+- name: ensure neoraider fastd repo
+  apt_repository:
+    state: present
+    repo: 'deb https://repo.universe-factory.net/debian/ sid main'
+    update_cache: no
+    filename: freifunk
+  become: True
+
+- name: ensure freifunk-mwu key for batman package
+  apt_key:
+    state: present
+    id: 286CC7A4
+    keyserver: keyserver.ubuntu.com
+  become: True
+
+- name: ensure freifunk-mwu batman repo
+  apt_repository:
+    state: present
+    repo: 'deb http://ppa.launchpad.net/freifunk-mwu/batman-adv/ubuntu trusty main'
+    update_cache: no
+    filename: freifunk
+  become: True
+
+- name: ensure freifunk-mwu batman source repo
+  apt_repository:
+    state: present
+    repo: 'deb-src http://ppa.launchpad.net/freifunk-mwu/batman-adv/ubuntu trusty main'
+    update_cache: yes
+    filename: freifunk
+  become: True

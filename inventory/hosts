@@ -3,17 +3,19 @@ spinat.freifunk-mwu.de
 lotuswurzel.freifunk-mwu.de
 wasserfloh.freifunk-mwu.de
 # kaschu.freifunk-mwu.de  # außer Dienst
-ingwer.freifunk-mwu.de
+ingwer.freifunk-mwu.de # (Debian)
 #mettigel.freifunk-mwu.de
 #parmesan.freifunk-mwu.de
 
 [meshing-srv:children]
 gates
 meshing-only-srv
+test-vms
 
 [meshing-only-srv]
 aubergine.freifunk-mwu.de  # int. DNS-master
-zuckerwatte.freifunk-mwu.de  #
+zuckerwatte.freifunk-mwu.de  # web, blogs, wiki
+churro.freifunk-mwu.de  # Abloesung: web, blogs, wiki (Debian)
 glueckskeks.freifunk-mwu.de  #
 zwiebel.freifunk-mwu.de  #
 suesskartoffel.freifunk-mwu.de  #

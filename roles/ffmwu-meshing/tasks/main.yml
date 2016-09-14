@@ -1,0 +1,10 @@
+---
+
+  # arp and python packages
+- include: mwu-m-pkgs.yml
+
+  # backend scripts
+- include: mwu-m-bes.yml
+
+  # fastd
+- include: mwu-m-fastd.yml
