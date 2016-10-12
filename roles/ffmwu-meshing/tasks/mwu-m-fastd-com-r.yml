@@ -1,0 +1,73 @@
+---
+
+# hash describing community expected as "mf_com";
+# also expected: "f_ssh_keyfile" and "mf_com_repo"
+
+- name: clone key repo - {{mf_com.abbreviation}}
+  git:
+    dest: "{{mf_com_repo}}"
+    key_file: "{{f_ssh_keyfile.stdout}}"
+    repo: "ssh://git@github.com/{{mf_com.repo}}"
+    update: no
+    accept_hostkey: yes
+
+  # the following is a crude but functional work-around the problem that
+  # the git module wouldn't clone the repo with the ssh-config-entry
+  # in the url, but git wouldn't push without it (due to missing
+  # connection to the ssh key)
+- name: change git url to pushable
+  git_config:
+    repo: "{{mf_com_repo}}"
+    scope: local
+    name: "remote.origin.url"
+    value: "ssh://github_mwu/{{mf_com.repo}}"
+
+- name: generate fastd key pair - {{mf_com.abbreviation}}
+  command: fastd --generate-key
+           creates="/etc/fastd/{{mf_com.abbreviation}}VPN/secret.conf"
+  register: f_key_pair
+
+- block:
+
+#  - debug: var=f_key_pair
+
+  - name: write out fastd secret key - {{mf_com.abbreviation}}
+    lineinfile:
+      backup: yes
+      create: yes
+      dest: "/etc/fastd/{{mf_com.abbreviation}}VPN/secret.conf"
+      insertbefore: BOF
+      line: secret "{{f_key_pair.stdout_lines[0] |regex_replace('^Secret. ','')}}";
+      mode: 0400
+      regexp: '^secret ".*";'
+      state : present
+
+  - name: write out fastd public key - {{mf_com.abbreviation}}
+    lineinfile:
+      create: yes
+      dest: "{{mf_com_repo}}/servers/{{fastd_alias}}"
+      insertbefore: BOF
+      line: key "{{f_key_pair.stdout_lines[1] |regex_replace('^Public. ','')}}";
+      mode: 0440
+      regexp: '^key ".*";'
+      state : present
+    register: f_pub_key
+    ignore_errors: True
+
+  - name: delete secret in case of public failure - {{mf_com.abbreviation}}
+    file: path="/etc/fastd/{{mf_com.abbreviation}}VPN/secret.conf" state=absent
+    when: f_pub_key.failed is defined
+
+  - fail: msg="FAILED writing fastd key pair"
+    when: f_pub_key.failed is defined
+
+  when: f_key_pair.changed
+  # end of block
+
+- name: template out fastd.conf - {{mf_com.abbreviation}}
+  template:
+    backup: yes
+    dest: "/etc/fastd/{{mf_com.abbreviation}}VPN/fastd.conf"
+    mode: 0640
+    src: "{{mf_com_templ}}"
+    validate: 'fastd --verify-config -c %s'

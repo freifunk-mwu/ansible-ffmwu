@@ -1,0 +1,43 @@
+# fastd.conf
+# from https://github.com/freifunk-mwu/ansible-ffmwu.git
+
+log level warn;
+hide ip addresses yes;
+hide mac addresses yes;
+
+interface "{{mf_com.abbreviation}}VPN";
+method "salsa2012+umac";	# new method (faster)
+
+# Bind to v4 and v6 interfaces
+bind {{ansible_default_ipv4.address}}:{{mf_com.fastd_port}};
+{% if ansible_default_ipv6.address is defined %}
+bind [{{ansible_default_ipv6.address}}]:{{mf_com.fastd_port}};
+{% endif %}
+
+include "/etc/fastd/{{mf_com.abbreviation}}VPN/secret.conf";
+mtu 1406; # 1492 - IPv4/IPv6 Header - fastd Header...
+
+secure handshakes yes;
+mode tap;
+
+peer group "mesh_vpn_backbone" {
+    peer limit 4;
+    peer "gw_ingwer" {
+        key "9b74e90fd68df749e45718eced65268260872e4cf74369b9bf9e9fb42411efe9";
+        remote ipv6 "ingwer.freifunk-mwu.de" port {{mf_com.fastd_port}};
+    }
+    peer "gw_lotuswurzel" {
+        key "d73479cc97a87ffd4b256a873e505f3264408ed077b248358c52e8dc82bbfc07";
+        remote ipv6 "lotuswurzel.freifunk-mwu.de" port {{mf_com.fastd_port}};
+    }
+    peer "gw_spinat" {
+        key "9e59a202eccabe1aac37d8000e762ecb05e17b3e521f7a54ab693af66e4adfb7";
+        remote ipv6 "spinat.freifunk-mwu.de" port {{mf_com.fastd_port}};
+    }
+    peer "gw_wasserfloh" {
+        key "9c00e0534a9dc5232e9bfacb304261f21f24604ad233b648bf52d6b40ca60884";
+        remote ipv6 "wasserfloh.freifunk-mwu.de" port {{mf_com.fastd_port}};
+    }
+}
+
+status socket "/var/run/fastd-{{mf_com.abbreviation}}.status";

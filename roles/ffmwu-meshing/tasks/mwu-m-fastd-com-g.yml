@@ -1,0 +1,15 @@
+---
+# this file included by mwu-m-fastd-com.yml, which is included in a loop,
+# called seperately for each community
+# => configure fastd for one community here
+# hash describing community expected as "mf_com"; also expected: "f_ssh_keyfile"
+
+#- debug: var=mf_com
+
+#- debug: var=f_ssh_keyfile
+
+- set_fact:
+    mf_com_repo: "/etc/fastd/{{mf_com.abbreviation}}VPN/peers"
+    mf_com_templ: "fastd.conf-gate"
+
+- include: mwu-m-fastd-com-r.yml

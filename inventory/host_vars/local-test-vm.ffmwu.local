@@ -2,4 +2,5 @@
 
 # communities inherited as mz, wi
 
+fastd_config: 'meshing-only'
 fastd_alias: TST_local-vm
