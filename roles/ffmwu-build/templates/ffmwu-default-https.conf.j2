@@ -1,0 +1,36 @@
+<IfModule mod_ssl.c>
+	<VirtualHost *:443>
+		ServerAdmin webmaster@freifunk-mwu.de
+		ServerName {{ inventory_hostname }}
+
+		DocumentRoot /var/www/html/firmware
+
+		<Directory /var/www/html/firmware>
+				Options +Indexes +FollowSymlinks
+				IndexOptions FancyIndexing +FoldersFirst +HTMLTable +NameWidth=*
+				AllowOverride None
+				Order allow,deny
+				allow from all
+		</Directory>
+
+		SSLEngine on
+		SSLCertificateFile	/etc/webcerts/{{ inventory_hostname }}/cert.pem
+		SSLCertificateKeyFile /etc/webcerts/{{ inventory_hostname }}/privkey.pem
+		SSLCertificateChainFile /etc/webcerts/{{ inventory_hostname }}/fullchain.pem
+
+		<FilesMatch "\.(cgi|shtml|phtml|php)$">
+				SSLOptions +StdEnvVars
+		</FilesMatch>
+		<Directory /usr/lib/cgi-bin>
+				SSLOptions +StdEnvVars
+		</Directory>
+
+		BrowserMatch "MSIE [2-6]" \
+				nokeepalive ssl-unclean-shutdown \
+				downgrade-1.0 force-response-1.0
+		# MSIE 7 and newer should be able to use keepalive
+		BrowserMatch "MSIE [17-9]" ssl-unclean-shutdown
+	</VirtualHost>
+</IfModule>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
