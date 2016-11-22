@@ -27,7 +27,9 @@ simple-ff-servers
 
 [simple-ff-servers]  # not meshing
 linse.freifunk-mwu.de  # ext. DNS-master
-#pudding.freifunk-mwu.de  #
+
+[build-servers]
+milchreis.freifunk-mwu.de
 
 [test-vms]
 local-test-vm.ffmwu.local  ansible_host=192.168.137.7 require_dns=False

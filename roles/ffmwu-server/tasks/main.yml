@@ -3,6 +3,9 @@
 #- name: test key concatenation
 #  debug: msg=" would/will set keys; {{ mwu_s_admin_keys ~ ( h_v_add_auth_keys | default('') ) }}"
 
+- name: ensure needed system users are present
+  user: name=admin comment="Freifunk MWU Admin" shell=/bin/bash state=present
+
 - name: ensure all wanted ssh keys exclusively
   authorized_key: exclusive=True state=present user=admin
               key={{ mwu_s_admin_keys ~ ( h_v_add_auth_keys | default('') ) }}
@@ -27,3 +30,10 @@
   loop_control:
     loop_var: mwu_s_item
   become: True
+
+- name: ensure vim is default editor
+  alternatives: name=editor path=/usr/bin/vim.basic
+
+# enable with ansible version 2.2
+#- name: set timezone to Europe/Berlin
+#  timezone: name=Europe/Berlin

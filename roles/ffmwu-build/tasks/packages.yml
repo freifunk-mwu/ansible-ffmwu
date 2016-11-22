@@ -1,0 +1,31 @@
+---
+- name: add apt repository of neoraider
+  apt_repository: repo='deb https://repo.universe-factory.net/debian/ sid main' state=present filename='neoraider'
+  become: true
+
+- name: add apt-key of neoraider
+  apt_key: keyserver=keyserver.ubuntu.com id=16EF3F64CB201D9C state=present
+  become: true
+
+- name: install needed packages for build-server
+  apt: 
+    state: present
+    name: "{{ item }}"
+    update_cache: yes
+    cache_valid_time: 21600
+  with_items:
+    - apache2
+    - apache2-utils
+    - build-essential
+    - cmake
+    - gawk
+    - git
+    - haveged
+    - libncurses5-dev
+    - libssl-dev
+    - libuecc-dev
+    - pkg-config
+    - subversion
+    - unzip
+    - zlib1g-dev
+  become: true

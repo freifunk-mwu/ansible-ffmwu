@@ -1,0 +1,8 @@
+---
+- name: check apache syntax
+  shell: apachectl -t
+  become: true
+
+- name: restart systemd unit apache2
+  systemd: name=apache2 state=restarted
+  become: true

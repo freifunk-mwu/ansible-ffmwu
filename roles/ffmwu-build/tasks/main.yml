@@ -1,0 +1,6 @@
+---
+- include: tasks/packages.yml
+- include: tasks/ecdsautils.yml
+- include: tasks/repos.yml
+- include: tasks/rsync.yml
+- include: tasks/web.yml
