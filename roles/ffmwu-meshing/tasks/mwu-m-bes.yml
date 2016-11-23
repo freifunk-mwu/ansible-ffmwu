@@ -3,17 +3,12 @@
 - name: ensure backend-scripts-log-dir
   file: path=~/.cronlog state=directory mode=0700
 
+# FIXME: maybe move behind next block?
 - name: clone backend scripts
   git:
     dest: "~/clones/backend-scripts"
     repo: "https://github.com/freifunk-mwu/backend-scripts.git"
     accept_hostkey: yes
-
-#- name: generate host key
-#  shell: python3 ~/clones/backend-scripts/bootstrap_git_all.py
-#  args:
-#    creates: ~/.ssh/{{ansible_hostname}}_rsa
-#  register: keypair
 
 - block:  # replaces backend script bootstrap_git_all.py
   - name: generate host key
@@ -50,22 +45,22 @@
 
   # block end
 
-# FIXME: activate with ansible 2.2 ...
 - block:
   - name: read new pubkey
     shell: cat ~/.ssh/{{ansible_hostname}}_rsa.pub
     register: ssh_pub_key
 
-  - name: read existing token from spinat
+  - name: read existing github token from spinat
     shell: cat ~/.ssh/github-ansible-token
     register: github_access_token
     delegate_to: spinat.freifunk-mwu.de
 
   - name: register new pubkey with github freifunkmwu account
     github_key:
-      name: "Server {{ansible_hostname}} automatic test"
+      name: "Server {{ansible_hostname}}"
       token: "{{github_access_token.stdout}}"
       pubkey: "{{ssh_pub_key.stdout}}"
+      # FIXME: force yes ???
       force: no
 
   when: keypair.changed

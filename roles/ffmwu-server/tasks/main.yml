@@ -36,7 +36,6 @@
   alternatives: name=editor path=/usr/bin/vim.basic
   become: True
 
-# enable with ansible version 2.2
 - name: set timezone to Europe/Berlin
   timezone: name=Europe/Berlin
   become: True
