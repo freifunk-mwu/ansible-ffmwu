@@ -23,7 +23,7 @@
   pip: name={{mwu_m_item}} executable=pip3
   with_items:
     - py-cpuinfo
-    - photon_core
+#    - photon_core
   loop_control:
     loop_var: mwu_m_item
   become: True
