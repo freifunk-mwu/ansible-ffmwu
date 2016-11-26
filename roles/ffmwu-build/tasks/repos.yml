@@ -1,4 +1,0 @@
----
-- name: checkout sites-ffmwu repo
-  git: repo=https://github.com/freifunk-mwu/sites-ffmwu.git
-       dest=/home/admin/clones/sites-ffmwu

@@ -4,5 +4,5 @@
   remote_user: admin
   strategy: linear
 
-  roles: 
+  roles:
   - ffmwu-build

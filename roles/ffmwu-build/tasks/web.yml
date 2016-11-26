@@ -1,89 +1,123 @@
 ---
-- name: ensure webroot owns by user/group admin
-  file: dest=/var/www/html owner=admin group=admin recurse=yes
+- name: ensure webroot owned by user/group admin
+  file:
+    dest: /var/www/html
+    owner: admin
+    group: admin
+    recurse: yes
   become: true
 
 - name: enable apache module ssl
-  apache2_module: state=present name=ssl
+  apache2_module:
+    state: present
+    name: ssl
   become: true
   notify:
     - check apache syntax
     - restart systemd unit apache2
 
-- name: disable default apache sites and unwanted default configs
-  shell: a2dissite "{{ item }}"
-  with_items:
-    - 000-default
-    - default-ssl
+- name: disable default apache http site
+  command: /usr/sbin/a2dissite 000-default
+  args:
+    removes: /etc/apache2/sites-enabled/000-default.conf
   become: true
   notify:
     - check apache syntax
     - restart systemd unit apache2
 
-- shell: a2disconf "{{ item }}"
-  with_items:
-    - other-vhosts-access-log.conf
+- name: disable default apache https site
+  command: /usr/sbin/a2dissite default-ssl
+  args:
+    removes: /etc/apache2/sites-enabled/default-ssl.conf
   become: true
   notify:
     - check apache syntax
     - restart systemd unit apache2
 
-- name: configure apache ssl module settings
-  lineinfile: dest=/etc/apache2/mods-enabled/ssl.conf
-              regexp="^([\s\t]+)?SSLCipherSuite"
-              line="SSLCipherSuite ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA"
-              state=present
+- name: disable unwanted default configs
+  command: /usr/sbin/a2disconf other-vhosts-access-log
+  args:
+    removes: /etc/apache2/conf-enabled/other-vhosts-access-log.conf
   become: true
   notify:
     - check apache syntax
     - restart systemd unit apache2
 
-- lineinfile: dest=/etc/apache2/mods-available/ssl.conf
-              regexp="^([\s\t]+)?SSLProtocol"
-              line="SSLProtocol all -SSLv2 -SSLv3"
-              state=present
+- name: configure apache ssl cipher suites
+  lineinfile:
+    dest: /etc/apache2/mods-enabled/ssl.conf
+    regexp: '^([\s\t]+)?SSLCipherSuite'
+    line: "SSLCipherSuite ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA"
+    state: present
+  become: true
+  notify:
+    - check apache syntax
+    - restart systemd unit apache2
+
+- name: configure apache ssl protocols
+  lineinfile:
+    dest: /etc/apache2/mods-available/ssl.conf
+    regexp: '^([\s\t]+)?SSLProtocol'
+    line: "SSLProtocol all -SSLv2 -SSLv3"
+    state: present
   become: true
   notify:
     - check apache syntax
     - restart systemd unit apache2
 
 - name: configure apache security settings
-  lineinfile: dest=/etc/apache2/conf-available/security.conf
-              regexp="^ServerTokens"
-              line="ServerTokens Prod"
-              state=present
+  lineinfile:
+    dest: /etc/apache2/conf-available/security.conf
+    regexp: "^ServerTokens"
+    line: "ServerTokens Prod"
+    state: present
   become: true
   notify:
     - check apache syntax
     - restart systemd unit apache2
 
-- lineinfile: dest=/etc/apache2/conf-available/security.conf
-              regexp="^ServerSignature"
-              line="ServerSignature EMail"
-              state=present
+- name: configure apache server signature
+  lineinfile:
+    dest: /etc/apache2/conf-available/security.conf
+    regexp: "^ServerSignature"
+    line: "ServerSignature EMail"
+    state: present
   become: true
   notify:
     - check apache syntax
     - restart systemd unit apache2
 
-- name: write ffmwu apache sites
-  template: src=ffmwu-default-http.conf.j2 dest=/etc/apache2/sites-available/ffmwu-default-http.conf
+- name: write ffmwu http site
+  template:
+    src: ffmwu-default-http.conf.j2
+    dest: /etc/apache2/sites-available/ffmwu-default-http.conf
   become: true
   notify:
     - check apache syntax
     - restart systemd unit apache2
 
-- template: src=ffmwu-default-https.conf.j2 dest=/etc/apache2/sites-available/ffmwu-default-https.conf
+- name: write ffmwu https site
+  template:
+    src: ffmwu-default-https.conf.j2
+    dest: /etc/apache2/sites-available/ffmwu-default-https.conf
   become: true
   notify:
     - check apache syntax
     - restart systemd unit apache2
 
-- name: enable ffmwu apache sites
-  shell: a2ensite "{{ item }}"
-  with_items:
-    - ffmwu-default-http
-    - ffmwu-default-https
+- name: enable ffmwu apache http site
+  command: /usr/sbin/a2ensite ffmwu-default-http
+  args:
+    creates: /etc/apache2/sites-enabled/ffmwu-default-http.conf
+  become: true
+  notify:
+    - check apache syntax
+    - restart systemd unit apache2
+
+- name: enable ffmwu apache https site
+  command: /usr/sbin/a2ensite ffmwu-default-https
+  args:
+    creates: /etc/apache2/sites-enabled/ffmwu-default-https.conf
   become: true
   notify:
     - check apache syntax

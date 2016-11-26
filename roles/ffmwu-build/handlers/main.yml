@@ -1,8 +1,15 @@
 ---
 - name: check apache syntax
-  shell: apachectl -t
+  command: /usr/sbin/apachectl -t
   become: true
 
 - name: restart systemd unit apache2
-  systemd: name=apache2 state=restarted
+  systemd:
+    name: apache2
+    state: restarted
+  become: true
+
+- name: update apt cache
+  apt:
+    update_cache: yes
   become: true
