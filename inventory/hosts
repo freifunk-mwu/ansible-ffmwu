@@ -24,6 +24,8 @@ suesskartoffel.freifunk-mwu.de  #
 gates
 meshing-only-srv
 simple-ff-servers
+build-servers
+test-vms
 
 [simple-ff-servers]  # not meshing
 linse.freifunk-mwu.de  # ext. DNS-master
