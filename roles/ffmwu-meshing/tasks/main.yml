@@ -9,13 +9,13 @@
 
 - block:
     # arp and python packages
-  - include: mwu-m-pkgs.yml
+  - include: packages.yml
 
     # backend scripts
-  - include: mwu-m-bes.yml
+  - include: backend-scripts.yml
 
     # fastd
-  - include: mwu-m-fastd.yml
+  - include: fastd.yml
 
   when: (ansible_managed_meshing is defined) and (ansible_managed_meshing)
 # end block

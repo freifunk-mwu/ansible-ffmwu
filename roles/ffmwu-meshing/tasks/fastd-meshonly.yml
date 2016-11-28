@@ -1,5 +1,5 @@
 ---
-# this file included by mwu-m-fastd-com.yml, which is included in a loop,
+# this file included by fastd-community.yml, which is included in a loop,
 # called seperately for each community
 # => configure fastd for one community here
 # hash describing community expected as "mf_com"; also expected: "f_ssh_keyfile"
@@ -16,7 +16,7 @@
     mf_com_repo: "{{tmpdir.stdout}}"
     mf_com_templ: "fastd.conf-meshing"
 
-- include: mwu-m-fastd-com-r.yml
+- include: fastd-config.yml
 
 - name: git add new public key
   command: git add servers
