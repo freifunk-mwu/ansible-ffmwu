@@ -10,7 +10,7 @@
   changed_when: False
 
   # configure communtity, one by one
-- include: mwu-m-fastd-com.yml  mf_com={{mwu_mf_item.value}}
+- include: fastd-community.yml  mf_com={{mwu_mf_item.value}}
   with_dict: "{{community_params}}"
   loop_control:
     loop_var: mwu_mf_item

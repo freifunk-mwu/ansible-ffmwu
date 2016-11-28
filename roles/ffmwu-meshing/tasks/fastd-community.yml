@@ -13,9 +13,9 @@
 #- debug: var=f_ssh_keyfile
 
 - name: include either gate ...
-  include: mwu-m-fastd-com-g.yml
+  include: fastd-gate.yml
   when: fastd_config == 'gate'
 
 - name: ... or meshing-only style
-  include: mwu-m-fastd-com-o.yml
+  include: fastd-meshonly.yml
   when: fastd_config == 'meshing-only'

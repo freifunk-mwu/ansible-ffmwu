@@ -1,6 +1,6 @@
 ---
 
-- include: mwu-m-repos.yml
+- include: repos.yml
 
 - name: ensure mandatory packages
   apt:
