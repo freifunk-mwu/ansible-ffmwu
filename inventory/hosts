@@ -6,6 +6,7 @@ wasserfloh.freifunk-mwu.de
 ingwer.freifunk-mwu.de # (Debian)
 #mettigel.freifunk-mwu.de
 #parmesan.freifunk-mwu.de
+extrasahne.freifunk-mwu.de require_dns=False # (Debian 8) FIXME: set IPv6
 
 [meshing-srv:children]
 gates
