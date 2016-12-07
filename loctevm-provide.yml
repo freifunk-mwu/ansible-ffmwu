@@ -31,13 +31,13 @@
     delegate_to: 127.0.0.1  # local action
 
   - name: get and prepare debian image file
-    include: loctevm-provide-iso.inc.yml
+    include: include/loctevm-provide-iso.inc.yml
 
   - name: define Vnd activate Vnet (if not already)
-    include: loctevm-provide-net.inc.yml
+    include: include/loctevm-provide-net.inc.yml
 
   - name: define VM (if not already)
-    include: loctevm-provide-vm.inc.yml
+    include: include/loctevm-provide-vm.inc.yml
 
   - name: create VM - should start OS installation - might take looong time
     virt:
@@ -71,4 +71,4 @@
 
   tasks:
   - name: prepare VM (if not already)
-    include: loctevm-provide-prereq.inc.yml
+    include: include/loctevm-provide-prereq.inc.yml
