@@ -1,5 +1,25 @@
 ---
 
+# for package role :::::::::::::::::::::::::::::::::::::::::::::::::
+
+# not def: server_pkg_repo_list
+
+server_pkg_pkg_list:
+- software-properties-common
+- apt-transport-https
+- man-db
+- mosh
+- ntp
+- sudo
+- sysfsutils
+- vim
+- vnstat
+- vnstati
+
+# not def: server_pkg_pip_list
+
+# for tasks ::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 mwu_s_admin_keys: |
     ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAgEA2ProGXZXgOu1qAkY1COL4vvIdMpBAi/eg7/SvQRUrm1H8typyJHJPOvaMO8ozm9r4HQ7hZRL6Mf25IhTx9HFvlKwEbMpqUrIudBV/r07E0q4fjWWEY3OTUjSOUkArviKnYzhM8zYD9pSq6gXcCBXVGgNZsIEIeESvct/p8gB2dPI0DB81HEimCWHu1ge6KqClukxQZtmszT8rQZKWFK/yJkEBdAJtfcZSJg0IhqfJ7Zhuu4qPc8uAy7EkdsaidbU09tWVxdhHD27JAh3gFr62f+L4D9OKhl96sopEqkJmsYQe9GgjoUiKYD4DAvOWU3MmNsgc6xwRmgsaYcQaHVZEy/uF2XCLN1Ahq6UI6R/RDrMkxNVR+AF6BKagPGiId9UTNWM1BvARAMBjakptW6rU3Bwb8In3vItQT9rhG6RQcCBuAqLphXXqlGNsPDeY1E/T9uYRfeS6MIE+3VwuC2Q/NVWMXa2np9JgCjC29ur1w1+BiBeU3iwv+shHqq0zoNyX/EizkPuG8IyK1MrVY1sOUVcQzFFV+PMn8DMWgJpm0eeXJyxa3KBTovtINsFCWfDWtojkB0aC5/XKZAbVC4pOKNRROctRpcdLERNqV9dZ5TkIriB1N2/Z48hjQPimjlFrR8+v1pt37YP/2lvAbOf1sTysu8ey9pFTt7jiiTR5NM= kaba
     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC9iZOonZ/WGmtgpZgs9vibpq6HJhpvuciBa8vzjysIYYiqNGgLvtZxw/2Af0/ykTdsP09A28RVGJXel6u8I2b16a0e+H2yBbUn8pXFow8xODPXezN0J/U7CDb8mRF9SkBJEzqVt1ndchJWU/qTi/nqbPfNaurB8EXkIDGcmDiCci25RVBDUvSSQBP+XIxQICJgeJ66CYcrD1Sry65H8tVSsWr6+fruNFZQRYyxAFu/7wW3J/RfFJQJFF9WNRzspChsjYRqrYdZCCx6GZ0qQxK4hwqfVbv3cPjZGFfcLrQaOCUMIiDUVEVmmdp0phE7eYDYewxD2Yaw1+fIJ+hWal6F moritz@wwwserv.de

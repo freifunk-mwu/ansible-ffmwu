@@ -1,3 +1,7 @@
 ---
 dependencies:
-- ffmwu-prereqs
+- { role: ffmwu-prereqs }
+- { role: packages, server_pkg_repo_list: "{{meshing_pkg_repo_list}}",
+                    server_pkg_pkg_list: "{{meshing_pkg_pkg_list}}",
+                    server_pkg_pip_list: "{{meshing_pkg_pip_list}}",
+                    really_do: "{{ansible_managed_server}}" }

@@ -16,27 +16,6 @@
     authorized_key: exclusive=True state=present user=admin
                 key={{ mwu_s_admin_keys ~ ( h_v_add_auth_keys | default('') ) }}
 
-  - name: ensure some basic packages
-    apt:
-      state: present
-      name: "{{mwu_s_item}}"
-      update_cache: yes
-      cache_valid_time: 21600
-    with_items:
-      - software-properties-common
-      - apt-transport-https
-      - man-db
-      - mosh
-      - ntp
-      - sudo
-      - sysfsutils
-      - vim
-      - vnstat
-      - vnstati
-    loop_control:
-      loop_var: mwu_s_item
-    become: True
-
   - name: ensure vim is default editor
     alternatives: name=editor path=/usr/bin/vim.basic
     become: True

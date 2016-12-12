@@ -8,8 +8,6 @@
   when: (not ansible_managed_meshing is defined) or (not ansible_managed_meshing)
 
 - block:
-    # arp and python packages
-  - include: packages.yml
 
     # backend scripts
   - include: backend-scripts.yml
