@@ -1,0 +1,34 @@
+---
+- name: ensure dirmngr and apt-transport-https are installed
+  apt:
+    state: present
+    name: "{{ item }}"
+    update_cache: yes
+    cache_valid_time: 21600
+  with_items:
+    - dirmngr
+    - apt-transport-https
+  become: true
+
+- name: ensure apt key for universe-factory is present
+  apt_key:
+    state: present
+    id: 16ef3f64cb201d9c
+    keyserver: pgp.mit.edu
+  become: true
+
+- name: ensure apt key for freifunk-mwu is present
+  apt_key:
+    state: present
+    id: 83A70084
+    url: "http://repo.freifunk-mwu.de/83A70084.gpg.key"
+  become: true
+
+- name: ensure needed apt repos are present
+  apt_repository:
+    state: present
+    repo: "{{ item.repo }}"
+    update_cache: "{{ item.update_cache }}"
+    filename: "{{ item.name }}"
+  with_items: "{{ repos }}"
+  become: true

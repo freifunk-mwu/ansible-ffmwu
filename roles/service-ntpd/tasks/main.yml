@@ -1,0 +1,29 @@
+---
+- name: ensure systemd-timesyncd is disabled
+  systemd:
+    name: systemd-timesyncd
+    enabled: no
+    state: stopped
+  become: true
+
+- name: install ntp packages
+  apt:
+    state: present
+    name: "{{ item }}"
+    update_cache: yes
+    cache_valid_time: 21600
+  with_items:
+    - ntp
+    - ntp-doc
+    - ntpdate
+    - ntpstat
+  become: true
+
+- name: enable and start ntp daemon
+  systemd:
+    name: ntp
+    enabled: yes
+    state: started
+    daemon_reload: yes
+  become: true
+

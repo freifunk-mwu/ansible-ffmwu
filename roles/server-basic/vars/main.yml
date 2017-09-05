@@ -1,0 +1,10 @@
+---
+packages:
+  - apt-transport-https
+  - ifupdown2
+  - man-db
+  - mlocate
+  - mosh
+  - sudo
+  - sysfsutils
+  - vim

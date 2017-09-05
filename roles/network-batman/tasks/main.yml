@@ -1,0 +1,22 @@
+---
+- name: create dummy interfaces
+  template:
+    src: dummy.j2
+    dest: "/etc/network/interfaces.d/{{ item.key }}0"
+  with_dict: "{{ meshes }}"
+  become: true
+
+- name: create batman interfaces
+  template:
+    src: batman.j2
+    dest: "/etc/network/interfaces.d/{{ item.key }}BAT"
+  with_dict: "{{ meshes }}"
+  become: true
+
+- name: set sysfs variables
+  template:
+    src: sysfs.j2
+    dest: "/etc/sysfs.d/99-{{ item.key }}BAT.conf"
+  with_dict: "{{ meshes }}"
+  notify: activate sysfs variables
+  become: true

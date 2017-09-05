@@ -1,0 +1,14 @@
+---
+- name: create fastd mesh interfaces
+  template:
+    src: fastd-mesh.j2
+    dest: "/etc/network/interfaces.d/{{ item.key }}VPN"
+  with_dict: "{{ meshes }}"
+  become: true
+
+- name: create fastd intragate interfaces
+  template:
+    src: fastd-intragate.j2
+    dest: "/etc/network/interfaces.d/{{ item.key }}igVPN"
+  with_dict: "{{ meshes }}"
+  become: true

@@ -1,0 +1,6 @@
+---
+- name: activate sysfs variables
+  systemd:
+    name: sysfsutils
+    state: restarted
+  become: true

@@ -1,0 +1,22 @@
+#!/usr/bin/ansible-playbook
+---
+
+- hosts: ffmwu-gateways
+  remote_user: admin
+
+  roles:
+    - server-repos
+    - server-basic
+    - service-haveged
+    - service-ntpd
+    - kmod-batman
+    - network-routetables
+    - network-batman
+    - network-meshbridge
+    - service-dhcpd
+    - service-radvd
+    - service-fastd-mesh
+    - service-fastd-intragate
+    - git-fastd-peers
+    - network-fastd
+    - network-ffrl

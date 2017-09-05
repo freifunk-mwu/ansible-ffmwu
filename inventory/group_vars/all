@@ -1,0 +1,86 @@
+---
+as_private_mwu: 65037
+as_public_ffrl: 201701
+
+routing_tables:
+  icvpn: 23
+  mwu: 41
+  internet: 61
+
+icvpn_ipv4_network: 10.207.0.0/16
+mwu_icvpn_ipv4_network: 10.207.37.0/24
+bgp_loopback_net: 10.37.0.0/18
+
+meshes:
+  mz:
+    site_number: 37
+    site_code: ffmz
+    site_name: Mainz
+    ipv4_network: 10.37.0.0/18
+    ipv6:
+      ula:
+        - fd37:b4dc:4b1e::/48
+      public:
+        - 2a03:2260:11a::/48
+    dnssl:
+      - ffmz.org
+      - user.ffmz.org
+    batman:
+      it: 10000
+      gw: server 96mbit/96mbit
+      mm: 0
+      dat: 0
+    iface_mtu: 1350
+    peers_mesh_repo: https://github.com/freifunk-mwu/peers-ffmz.git
+    peers_intragate_repo: https://github.com/freifunk-mwu/ffmz-infrastructure-peers.git
+
+  wi:
+    site_number: 56
+    site_code: ffwi
+    site_name: Wiesbaden
+    ipv4_network: 10.56.0.0/18
+    ipv6:
+      ula:
+        - fd56:b4dc:4b1e::/48
+      public:
+        - 2a03:2260:11b::/48
+    dnssl:
+      - ffwi.org
+      - user.ffwi.org
+    batman:
+      it: 10000
+      gw: server 96mbit/96mbit
+      mm: 0
+      dat: 0
+    iface_mtu: 1350
+    peers_mesh_repo: https://github.com/freifunk-mwu/peers-ffwi.git
+    peers_intragate_repo: https://github.com/freifunk-mwu/ffwi-infrastructure-peers.git
+
+bgp_mwu_servers:
+  spinat:
+    ipv4: 10.37.0.7
+    ipv6: fd37:b4dc:4b1e::a25:7
+  lotuswurzel:
+    ipv4: 10.37.0.23
+    ipv6: fd37:b4dc:4b1e::a25:17
+  ingwer:
+    ipv4: 10.37.0.161
+    ipv6: fd37:b4dc:4b1e::a25:a1
+  wasserfloh:
+    ipv4: 10.37.0.231
+    ipv6: fd37:b4dc:4b1e::a25:e7
+  zuckerwatte:
+    ipv4: 10.37.1.2
+    ipv6: fd37:b4dc:4b1e::a25:102
+  aubergine:
+    ipv4: 10.37.1.3
+    ipv6: fd37:b4dc:4b1e::a25:103
+  zwiebel:
+    ipv4: 10.37.1.0
+    ipv6: fd37:b4dc:4b1e::a25:100
+  glueckskeks:
+    ipv4: 10.37.1.1
+    ipv6: fd37:b4dc:4b1e::a25:101
+  suesskartoffel:
+    ipv4: 10.37.1.4
+    ipv6: fd37:b4dc:4b1e::a25:104

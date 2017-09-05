@@ -1,0 +1,28 @@
+---
+- name: install fastd packages
+  apt:
+    name: fastd
+    state: present
+  become: true
+
+- name: create fastd intragate directories
+  file:
+    path: "/etc/fastd/{{ item.key }}igVPN"
+    state: directory
+    mode: 0755
+  with_dict: "{{ meshes }}"
+  become: true
+
+- name: template fastd mesh config
+  template:
+    src: fastd-intragate.conf.j2
+    dest: "/etc/fastd/{{ item.key }}igVPN/fastd.conf"
+  with_dict: "{{ meshes }}"
+  become: true
+
+- name: write fastd intragate secret
+  template:
+    src: fastd-secret.conf.j2
+    dest: "/etc/fastd/{{ item.key }}igVPN/secret.conf"
+  with_dict: "{{ meshes }}"
+  become: true
