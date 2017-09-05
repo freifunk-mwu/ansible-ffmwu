@@ -1,37 +1,10 @@
-[gates]
-spinat.freifunk-mwu.de
-lotuswurzel.freifunk-mwu.de
-wasserfloh.freifunk-mwu.de
-# kaschu.freifunk-mwu.de  # außer Dienst
-ingwer.freifunk-mwu.de # (Debian)
-#mettigel.freifunk-mwu.de
-#parmesan.freifunk-mwu.de
-extrasahne.freifunk-mwu.de require_dns=False # (Debian 8) FIXME: set IPv6
+[ffmwu-servers:children]
+ffmwu-gateways
+ffmwu-build-servers
 
-[meshing-srv:children]
-gates
-meshing-only-srv
-test-vms
+[ffmwu-gateways]
 
-[meshing-only-srv]
-aubergine.freifunk-mwu.de  # int. DNS-master
-zuckerwatte.freifunk-mwu.de  # web, blogs, wiki
-churro.freifunk-mwu.de  # Abloesung: web, blogs, wiki (Debian)
-glueckskeks.freifunk-mwu.de  #
-zwiebel.freifunk-mwu.de  #
-suesskartoffel.freifunk-mwu.de  #
-
-[ff-servers:children]
-gates
-meshing-only-srv
-simple-ff-servers
-build-servers
-test-vms
-
-[simple-ff-servers]  # not meshing
-linse.freifunk-mwu.de  # ext. DNS-master
-
-[build-servers]
+[ffmwu-build-servers]
 milchreis.freifunk-mwu.de
 
 [test-vms]

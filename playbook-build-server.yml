@@ -1,8 +1,7 @@
 #!/usr/bin/ansible-playbook
 ---
-- hosts: build-servers
+- hosts: ffmwu-build-servers
   remote_user: admin
-  strategy: linear
 
   roles:
   - ffmwu-build

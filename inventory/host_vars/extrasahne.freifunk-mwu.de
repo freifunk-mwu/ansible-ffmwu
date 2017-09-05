@@ -1,6 +1,0 @@
----
-
-ansible_managed_server: True
-ansible_managed_meshing: True
-
-fastd_alias: gw_extrasahne
