@@ -1,0 +1,10 @@
+{% set ip4hex = item.value.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
+{% set mac = '0211' + ip4hex -%}
+#
+# {{ ansible_managed }}
+#
+allow-hotplug {{ item.key }}VPN
+iface {{ item.key }}VPN inet manual
+	pre-up		/sbin/ip link set address {{ mac | hwaddr('linux') }} dev $IFACE
+	post-up		/sbin/ip link set dev $IFACE up
+	post-up		/sbin/ip link set dev $IFACE master {{ item.key }}BAT

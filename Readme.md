@@ -1,40 +1,138 @@
-# ansible-ffmwu.git
+# Ansible Freifunk MWU
 
-An dieser Stelle soll der ganze ansible-script-junk entstehen, um ein FFMWU-Gateway automagisiert aufzusetzen. Das Geraffel kann später auch auf andere server-Typen erweitert werden, wenn sinnvoll.
-Ein server muss minimal vorbereitet sein, bevor er mit den hiesigen Skripten zum Gate (oder zu Sonstigem) gemacht werden kann. Insbesondere müssen die folgenden Voraussetzungen erfüllt sein (diese werden vom playbook `test-prerequisites.yml` getestet):
+Wir, die Freifunk MWU Community, nutzen Ansible um unsere Freifunk Server aufzusetzen und zu konfigurieren. In
+diesem Repository verwalten wir unsere Ansible Roles und Playbooks.
+
+Ein Server muss minimal vorbereitet sein, bevor dieser per Ansible z.B. zu einem Freifunk-Gateway gemacht werden kann. Insbesondere müssen die folgenden Voraussetzungen erfüllt sein (diese werden vom playbook `playbook-test-prereqs.yml` getestet):
 
 - Ein dedizierter (v)server muss existieren und unter einer IPv4- und einer IPv6-Adresse öffentlich erreichbar sein.
-- Die Adressen sollen im MWU-DNS eingetragen sein.
-- Es muss eine nakte unterstützte linux-Version aufgesetzt sein (aktuell Ubuntu 14.04, bald Debian).
-- Es muss einen user admin geben, auf den die Admins Zugriff haben; dieser muss root-Zugang über sudo haben.
+- Die Adressen müssen im MWU-DNS eingetragen sein.
+- Als Betriebssystem muss das aktuelle Debian Stable installiert sein.
+- Es muss einen User admin geben, auf den die Admins Zugriff haben; dieser muss Root-Zugang über sudo haben.
 
-Zusätzlich ist sehr empfehlenswert, dass die Admins die Maschinen mit ihren fqdns in ihrer ssh-config definiert haben.
+Die Server werden mit ihren FQDNs im Ansible Inventory hinterlegt, bedenkt das für eure ssh-config.
 
-Bisher gibt es hier zwei Sammlungen von files: zum Einen der Beginn des eigentlichen Zwecks: bisher kann eine Rolle (auf Basis der obigen Voraussetzungen) alle FFMWU-Server in dem ihnen allen identischen Aspekt vorbereiten, der Pflege der ssh keys der admins. Zum Anderen gibt es ein playbook, das eine lokale Test-VM aufsetzt, auf der man alle eigentlichen playbooks und Rollen testen kann, ohne ernsthaften Schaden anzurichten.
+## Variablen für jedes Mesh
 
-## Aufsetzen und Pflegen von Gateways
+Viele Rollen brauchen spezifische Informationen, wie IP-Adresse, Masken, Interface-Namen, etc.
+Wir verwalten diese Mesh-Informationen in einem Dictionary unter `inventory/group_vars/all`:
 
-Alle FFMWU-Gatways sind auch FFMWU-Server, alle anderen server bei uns überraschenderweise auch; so sind auch Alle im inventory in der Gruppe 'ff-servers' zusammengefasst. Der Aspekt, der allen FFMWU-Servern gemein ist, sind die ssh-keys der admins. Auf einigen servern gibt es allerdings weitere Zugriffsberechtigte (spezialisierte admins).
+```
+meshes:
+  mz:
+    site_number: 37
+    site_code: ffmz
+    site_name: Mainz
+    ipv4_network: 10.37.0.0/18
+    ipv6:
+      ula:
+        - fd37:b4dc:4b1e::/48
+      public:
+        - 2a03:2260:11a::/48
+    dnssl:
+      - ffmz.org
+      - user.ffmz.org
+    batman:
+      it: 10000
+      gw: server 96mbit/96mbit
+      mm: 0
+      dat: 0
+    iface_mtu: 1350
+    peers_mesh_repo: https://github.com/freifunk-mwu/peers-ffmz.git
+    peers_intragate_repo: https://github.com/freifunk-mwu/ffmz-infrastructure-peers.git
 
-So gibt es eine Rolle ('ffmwu-server'), die allen hosts dieser Gruppe zugewiesen ist (über das playbook 'ffmwu-servers.yml', später auch über Abhängigkeiten der speziellern playbooks). Dieses playbook (einfach starten) weist die Rolle zu, welche ihrerseits die shh keys auf den hosts pflegt.
+  wi:
+    site_number: 56
+    site_code: ffwi
+    site_name: Wiesbaden
+    ipv4_network: 10.56.0.0/18
+    ipv6:
+      ula:
+        - fd56:b4dc:4b1e::/48
+      public:
+        - 2a03:2260:11b::/48
+    dnssl:
+      - ffwi.org
+      - user.ffwi.org
+    batman:
+      it: 10000
+      gw: server 96mbit/96mbit
+      mm: 0
+      dat: 0
+    iface_mtu: 1350
+    peers_mesh_repo: https://github.com/freifunk-mwu/peers-ffwi.git
+    peers_intragate_repo: https://github.com/freifunk-mwu/ffwi-infrastructure-peers.git
+```
 
-Die Rolle besteht aus nur einem task und einer definierten Variable, die die keys der admins enthält. Sind auf einem host weitere ssh keys von Nöten, so werden disse als hostvar definiert.
 
-## Erzeugen einer test-VM
+## Aufsetzen eines neuen Gateways
 
-Um die playbooks und Rollen gefahrlos testen zu können, bietet sich ein test host an. Hierfür kann eine lokale VM zu Einsatz kommen, wenn die Voraussetzungen stimmen.
+- FQDN im Inventory zur Gruppe ffmwu-gateways hinzufügen
+- Host-Variablen setzen
+  - inventory/host_vars/$FQDN
 
-Damit auf der lokalen Maschine (der ansible controle machine) VMs ablaufen (und mit dem playbook angelegt werden) können, müssen verschiedene Voraussetzungen erfüllt sein. U. a.:
+```
+---
+# Gateway-Nummer, von der vieles abgeleitet wird. Integer zwischen 1-254. Muss eindeutig unter allen FFMWU Servern sein.
+magic: 
 
-- installierte Pakete zu libvirt, kvm und qemu und Pakete virt-manager, isomaster
-- >15G freier Plattenplatz
-- ansible >= 2.1
+# Pfade zu den fastd secrets im passwordstore
+fastd_secrets:
+  mzVPN: "{{ lookup('passwordstore', 'fastd/mzVPN/$Hostname') }}"
+  wiVPN: "{{ lookup('passwordstore', 'fastd/wiVPN/$Hostname') }}"
+  mzigVPN: "{{ lookup('passwordstore', 'fastd/mzVPN/$Hostname') }}"
+  wiigVPN: "{{ lookup('passwordstore', 'fastd/wiVPN/$Hostname') }}"
 
-Leider sind die letzten 2 Meter der Aufgabe offenbar in dieser Art nicht automatisierbar. Deshalb muss der user an einer Stelle mit 'isomaster' kurz etwas manuell durchführen
-Das playbook 'loctevm-reset.yml' einfach ausführen.
+# FFRL (muss vorher bereits zugewiesen worden sein)
+# Öffentliche IPv4 NAT Adresse
+ffrl_public_ipv4_nat:
 
-### bekannte Probleme
+ffrl_exit_server:
+  ffrl-a-ak-ber:
+    public_ipv4_address: 
+    tunnel_ipv4_network: # Format: IP/Maske
+    tunnel_ipv4_address: 
+    tunnel_ipv4_netmask: 
+    tunnel_ipv6_address: 
+    tunnel_ipv6_netmask: 
+  ffrl-b-ak-ber:
+    public_ipv4_address: 
+    tunnel_ipv4_network: # Format: IP/Maske
+    tunnel_ipv4_address: 
+    tunnel_ipv4_netmask: 
+    tunnel_ipv6_address: 
+    tunnel_ipv6_netmask: 
+  ffrl-a-ix-dus:
+    public_ipv4_address: 
+    tunnel_ipv4_network: # Format: IP/Maske
+    tunnel_ipv4_address: 
+    tunnel_ipv4_netmask: 
+    tunnel_ipv6_address: 
+    tunnel_ipv6_netmask: 
+  ffrl-b-ix-dus:
+    public_ipv4_address: 
+    tunnel_ipv4_network: # Format: IP/Maske
+    tunnel_ipv4_address: 
+    tunnel_ipv4_netmask: 
+    tunnel_ipv6_address: 
+    tunnel_ipv6_netmask: 
+  ffrl-a-fra2-fra:
+    public_ipv4_address: 
+    tunnel_ipv4_network: # Format: IP/Maske
+    tunnel_ipv4_address: 
+    tunnel_ipv4_netmask: 
+    tunnel_ipv6_address: 
+    tunnel_ipv6_netmask: 
+  ffrl-b-fra2-fra:
+    public_ipv4_address: 
+    tunnel_ipv4_network: # Format: IP/Maske
+    tunnel_ipv4_address: 
+    tunnel_ipv4_netmask: 
+    tunnel_ipv6_address: 
+    tunnel_ipv6_netmask: 
 
-- Wenn die VM wegen Zugriffsfehler auf die virtuellen volumes nicht startet, können die Berechtigungen der übergeordneten Verzeichnisse Schuld sein -> hier mal schauen.
-- Ein Schritt scheint nicht automagisierbar, hier werden isomaster & der user benötigt.
-- Bisher wird direkt die 64bit-Version ausgewählt.
+```
+- Testen, ob alle Voraussetzungen erfüllt sind: `ansible-playbook playbook-test-prerequisites.yml`
+- Neues Gateway aufsetzen per `ansible-playbook playbook-gateways.yml`
+  - Hierbei werden die definierten Rollen auch auf schon aufgesetzte Gateways angewandt, was unkritisch ist, weil wir unsere Rollen idempotent schreiben.
+  - Um die Rollen nur auf das neu aufzusetzende Gateway anzuwenden: `ansible-playbook playbook-gateways.yml --limit=$FQDN`

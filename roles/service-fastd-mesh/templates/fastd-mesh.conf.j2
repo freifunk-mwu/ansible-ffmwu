@@ -1,0 +1,30 @@
+#
+# {{ ansible_managed }}
+#
+log level warn;
+hide ip addresses yes;
+hide mac addresses yes;
+
+method "salsa2012+umac";
+
+interface "{{ item.key }}VPN";
+
+bind {{ ansible_default_ipv4.address | ipaddr('public') }}:100{{ item.value.site_number }};
+bind {{ ansible_default_ipv6.address | ipaddr('public') | ipwrap }}:100{{ item.value.site_number }};
+
+include "secret.conf";
+mtu 1406;
+
+peer group "vpn_nodes" {
+    peer limit 150;
+    include peers from "peers";
+{% if item.key == "mz" %}
+    include peers from "peers_bingen";
+{% endif %}
+}
+
+peer group "servers" {
+    include peers from "peers/servers";
+}
+
+status socket "/var/run/fastd-{{ item.key }}.status";

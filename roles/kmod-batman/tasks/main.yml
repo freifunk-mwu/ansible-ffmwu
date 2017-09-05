@@ -1,0 +1,18 @@
+---
+- name: install batman-module and linux headers
+  apt:
+    state: present
+    name: "{{ item }}"
+    update_cache: yes
+    cache_valid_time: 21600
+  with_items:
+    - linux-headers-amd64
+    - batman-adv-dkms
+    - batctl
+  become: true
+
+- name: configure batman module to load on system boot
+  template:
+    src: batman-adv.module.conf.j2
+    dest: /etc/modules-load.d/batman-adv.conf
+  become: true

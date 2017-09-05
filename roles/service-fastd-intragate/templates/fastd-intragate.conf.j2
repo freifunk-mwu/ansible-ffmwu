@@ -1,0 +1,23 @@
+#
+# {{ ansible_managed }}
+#
+log level warn;
+hide ip addresses yes;
+hide mac addresses yes;
+
+method "aes128-ctr+umac";
+
+interface "{{ item.key }}igVPN";
+
+bind {{ ansible_default_ipv4.address | ipaddr('public') }}:101{{ item.value.site_number }};
+bind {{ ansible_default_ipv6.address | ipaddr('public') | ipwrap }}:101{{ item.value.site_number }};
+
+include "secret.conf";
+mtu 1406;
+
+peer group "servers" {
+    include peers from "peers/gates";
+    include peers from "peers/services";
+}
+
+status socket "/var/run/fastd-{{ item.key }}ig.status";

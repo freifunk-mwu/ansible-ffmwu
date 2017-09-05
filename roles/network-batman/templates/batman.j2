@@ -1,0 +1,18 @@
+{% set ip4hex = item.value.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
+{% set mac = '0201' + ip4hex -%}
+#
+# {{ ansible_managed }}
+#
+auto {{ item.key }}BAT
+iface {{ item.key }}BAT inet manual
+	pre-up		/sbin/ip link add name $IFACE type batadv
+	pre-up		/sbin/ip link set address {{ mac | hwaddr('linux') }} dev $IFACE
+	pre-up		/sbin/ip link set dev {{ item.key }}0 master $IFACE
+	pre-up		/sbin/ip link set up dev $IFACE
+	post-up		/sbin/ip addr flush dev $IFACE
+	post-up		/usr/sbin/batctl -m $IFACE it {{ item.value.batman.it }}
+	post-up		/usr/sbin/batctl -m $IFACE gw {{ item.value.batman.gw }}
+	post-up		/usr/sbin/batctl -m $IFACE mm {{ item.value.batman.mm }}
+	post-up		/usr/sbin/batctl -m $IFACE dat {{ item.value.batman.dat }}
+	post-down	/sbin/ip link set dev {{ item.key }}0 nomaster
+	post-down	/sbin/ip link delete $IFACE 2>&1 || true
