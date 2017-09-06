@@ -4,13 +4,16 @@ Wir, die Freifunk MWU Community, nutzen Ansible um unsere Freifunk Server aufzus
 diesem Repository verwalten wir unsere Ansible Roles und Playbooks.
 
 Ein Server muss minimal vorbereitet sein, bevor dieser per Ansible z.B. zu einem Freifunk-Gateway gemacht werden 
-kann. Insbesondere müssen die folgenden Voraussetzungen erfüllt sein (diese werden vom playbook `test-prereqs.yml` getestet):
+kann. Die folgenden Voraussetzungen müssen erfüllt sein:
 
 - Ein dedizierter (v)server muss existieren und unter einer IPv4- und einer IPv6-Adresse öffentlich erreichbar sein.
 - Die Adressen müssen im MWU-DNS eingetragen sein.
 - Als Betriebssystem muss Debian stretch installiert sein.
 - Für ansible muss Python 2.5 oder Python 2.4 + python-simplejson installiert sein.
 - Es muss einen User admin geben, auf den die Admins Zugriff haben; dieser muss Root-Zugang über sudo haben.
+
+Die Voraussetzungen werden von der Rolle `prerequisites` geprüft, die Rolle sollte als erste Rolle in jedem
+Playbook eingebunden sein.
 
 Die Server werden mit ihren FQDNs im Ansible Inventory hinterlegt, bedenkt das für eure ssh-config.
 
@@ -134,7 +137,6 @@ ffrl_exit_server:
     tunnel_ipv6_netmask: 
 
 ```
-- Testen, ob alle Voraussetzungen erfüllt sind: `ansible-playbook playbooks/test-prerequisites.yml`
 - Neues Gateway aufsetzen per `ansible-playbook playbooks/gateways.yml`
   - Hierbei werden die definierten Rollen auch auf schon aufgesetzte Gateways angewandt, was unkritisch ist, weil wir unsere Rollen idempotent schreiben.
   - Um die Rollen nur auf das neu aufzusetzende Gateway anzuwenden: `ansible-playbook playbooks/gateways.yml --limit=$FQDN`
