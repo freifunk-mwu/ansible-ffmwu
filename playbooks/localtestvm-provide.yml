@@ -1,5 +1,4 @@
 #!/usr/bin/ansible-playbook
----
 # localhost (aka 127.0.0.1) is the hypervisor (hard-coded)
 
 - hosts: test-vms

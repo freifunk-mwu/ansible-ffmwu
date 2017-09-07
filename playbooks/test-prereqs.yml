@@ -1,8 +1,0 @@
-#!/usr/bin/ansible-playbook
----
-
-- hosts: ffmwu-servers
-  remote_user: admin
-
-  roles:
-  - test-prerequisites
