@@ -1,0 +1,14 @@
+---
+
+- name: Check DNS entries and target distribution
+  assert:
+    that:
+      - "dns_host_ipv4_address in ansible_all_ipv4_addresses"
+      - "dns_host_ipv6_address in ansible_all_ipv6_addresses"
+      - "ansible_distribution == 'Debian'"
+      - "ansible_distribution_major_version == '9'"
+
+- name: Test root access for admin account
+  command: "true"
+  changed_when: False
+  become: True

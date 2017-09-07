@@ -1,10 +1,9 @@
 #!/usr/bin/ansible-playbook
----
 
 - hosts: ffmwu-gateways
   remote_user: admin
-
   roles:
+    - prerequisites
     - server-repos
     - server-basic
     - service-haveged

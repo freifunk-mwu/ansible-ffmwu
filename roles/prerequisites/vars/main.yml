@@ -1,0 +1,4 @@
+---
+
+dns_host_ipv4_address: "{{ lookup('dig', inventory_hostname, 'qtype=A') }}"
+dns_host_ipv6_address: "{{ lookup('dig', inventory_hostname, 'qtype=AAAA') }}"
