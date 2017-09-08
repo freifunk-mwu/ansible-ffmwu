@@ -1,7 +1,7 @@
 ---
 
 - name: retrieve install iso
-  get_url: 
+  get_url:
     checksum: "sha1:23dde0f195170d9fbe99547f9df75838acc95b5e"
     dest: "{{ vm_path }}/debian-8.6.0-amd64-i386-netinst.iso"
     force: no
@@ -24,7 +24,7 @@
     loop_control:
       loop_var: lri_item
     delegate_to: 127.0.0.1  # local action
-  
+
   - name: manual intervention 1 - extract configs
     debug:
       msg: |
@@ -125,4 +125,3 @@
 #    remote_src: True    # though remote equals local ...
 #  delegate_to: 127.0.0.1  # local action
 #  register: primcopy
-

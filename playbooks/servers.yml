@@ -2,6 +2,6 @@
 
 - hosts: ff-servers
   remote_user: admin
-  roles: 
+  roles:
     - prerequisites
     - ffmwu-server
