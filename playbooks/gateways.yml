@@ -19,3 +19,4 @@
     - git-fastd-peers
     - network-fastd
     - network-ffrl
+    - service-rclocal
