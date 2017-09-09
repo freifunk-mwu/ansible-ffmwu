@@ -1,0 +1,163 @@
+#!/bin/sh -e
+#
+# {{ ansible_managed }}
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+#
+# IP rules
+#
+
+# Priority 7 - lookup rt_table mwu for all incoming traffic of freifunk related interfaces
+{% for key, value in meshes.iteritems() %}
+ip -4 rule add from {{ value.ipv4_network | ipaddr('network') }}/16 lookup mwu priority 7
+ip -4 rule add to {{ value.ipv4_network | ipaddr('network') }}/16 lookup mwu priority 7
+ip -4 rule add from all oif {{ key }}BR lookup mwu priority 7
+{% for ula in value.ipv6.ula %}
+ip -6 rule add from {{ ula }} lookup mwu priority 7
+ip -6 rule add to {{ ula }} lookup mwu priority 7
+{% endfor %}
+{% for public in value.ipv6.public %}
+ip -6 rule add from {{ public }} lookup mwu priority 7
+ip -6 rule add to {{ public }} lookup mwu priority 7
+{% endfor %}
+ip -6 rule add from all oif {{ key }}BR lookup mwu priority 7
+{% endfor %}
+
+# Priority 23 - lookup rt_table icvpn for all incoming traffic of freifunk bridges
+{% for key, value in meshes.iteritems() %}
+ip -4 rule add from {{ value.ipv4_network | ipaddr('network') }}/16 lookup icvpn priority 23
+ip -4 rule add to {{ value.ipv4_network | ipaddr('network') }}/16 lookup icvpn priority 23
+ip -4 rule add from all oif {{ key }}BR lookup icvpn priority 23
+{% for ula in value.ipv6.ula %}
+ip -6 rule add from {{ ula }} lookup icvpn priority 23
+ip -6 rule add to {{ ula }} lookup icvpn priority 23
+{% endfor %}
+{% for public in value.ipv6.public %}
+ip -6 rule add from {{ public }} lookup icvpn priority 23
+ip -6 rule add to {{ public }} lookup icvpn priority 23
+{% endfor %}
+ip -6 rule add from all oif {{ key }}BR lookup icvpn priority 23
+{% endfor %}
+ip -4 rule add from all oif icVPN lookup icvpn priority 23
+ip -6 rule add from all oif icVPN lookup icvpn priority 23
+
+# Priority 41 - lookup rt_table internet for all incoming traffic of freifunk bridges
+{% for key, value in meshes.iteritems() %}
+ip -4 rule add from {{ value.ipv4_network | ipaddr('network') }}/16 lookup internet priority 41
+{% for ula in value.ipv6.ula %}
+ip -6 rule add from {{ ula }} lookup internet priority 41
+ip -6 rule add to {{ ula }} lookup internet priority 41
+{% endfor %}
+{% for public in value.ipv6.public %}
+ip -6 rule add from {{ public }} lookup internet priority 41
+ip -6 rule add to {{ public }} lookup internet priority 41
+{% endfor %}
+ip -6 rule add from all oif {{ key }}BR lookup internet priority 41
+{% endfor %}
+ip -4 rule add from {{ ffrl_public_ipv4_nat }}/32 lookup internet priority 41
+ip -4 rule add to {{ ffrl_public_ipv4_nat }}/32 lookup internet priority 41
+
+# Priority 61 - at this point this is the end of policy routing for freifunk related routes
+{% for key, value in meshes.iteritems() %}
+ip -4 rule add from all iif {{ key }}BR type unreachable priority 61
+ip -6 rule add from all iif {{ key }}BR type unreachable priority 61
+{% endfor %}
+ip -4 rule add from all iif icVPN type unreachable priority 61
+ip -4 rule add from all iif eth0 type unreachable priority 61
+{% for key, value in ffrl_exit_server.iteritems() %}
+ip -4 rule add from all iif {{ key }} type unreachable priority 61
+ip -6 rule add from all iif {{ key }} type unreachable priority 61
+{% endfor %}
+ip -6 rule add from all iif icVPN type unreachable priority 61
+ip -6 rule add from all iif eth0 type unreachable priority 61
+{% for key, value in meshes.iteritems() %}
+{% for public in value.ipv6.public %}
+ip -6 rule add from {{ public }} type unreachable priority 61
+ip -6 rule add to {{ public }} type unreachable priority 61
+{% endfor %}
+{% endfor %}
+
+# Priority 107 - lookup policies for the gateway host self originating traffic
+ip -4 rule add from all lookup mwu priority 107
+ip -4 rule add from all lookup icvpn priority 107
+ip -6 rule add from all lookup mwu priority 107
+ip -6 rule add from all lookup icvpn priority 107
+
+
+#
+# IP routes
+#
+
+{% for key, value in meshes.iteritems() %}
+# static {{ value.site_name }} routes for rt_table mwu
+/sbin/ip -4 route add {{ value.ipv4_network }} proto static dev {{ key }}BR table mwu
+{% for ula in value.ipv6.ula %}
+/sbin/ip -6 route add {{ ula | ipaddr('net') | ipsubnet(64, 0) }} proto static dev {{ key }}BR table mwu
+{% endfor %}
+{% for public in value.ipv6.public %}
+/sbin/ip -6 route add {{ public | ipaddr('net') | ipsubnet(64, 0) }} proto static dev {{ key }}BR table mwu
+/sbin/ip -6 route add {{ public | ipaddr('net') | ipsubnet(64, magic) }} proto static dev {{ key }}BR table mwu
+{% endfor %}
+{% if not loop.last %}
+
+{% endif %}
+{% endfor %}
+
+# static blackhole routes for rt_table internet
+/sbin/ip -4 route add blackhole 0.0.0.0/8 table internet
+/sbin/ip -4 route add blackhole 10.0.0.0/8 table internet
+/sbin/ip -4 route add blackhole 100.64.0.0/10 table internet
+/sbin/ip -4 route add blackhole 127.0.0.0/8 table internet
+/sbin/ip -4 route add blackhole 169.254.0.0/16 table internet
+/sbin/ip -4 route add blackhole 172.16.0.0/12 table internet
+/sbin/ip -4 route add blackhole 192.0.0.0/24 table internet
+/sbin/ip -4 route add blackhole 192.0.2.0/24 table internet
+/sbin/ip -4 route add blackhole 192.88.99.0/24 table internet
+/sbin/ip -4 route add blackhole 192.168.0.0/16 table internet
+/sbin/ip -4 route add blackhole 198.18.0.0/15 table internet
+/sbin/ip -4 route add blackhole 198.51.100.0/24 table internet
+/sbin/ip -4 route add blackhole 203.0.113.0/24 table internet
+/sbin/ip -4 route add blackhole 224.0.0.0/4 table internet
+/sbin/ip -4 route add blackhole 240.0.0.0/4 table internet
+/sbin/ip -4 route add blackhole 255.255.255.255/32 table internet
+/sbin/ip -6 route add blackhole fec0::/10 table internet
+/sbin/ip -6 route add blackhole fc00::/7 table internet
+/sbin/ip -6 route add blackhole ff00::/8 table internet
+/sbin/ip -6 route add blackhole ::/96 table internet
+/sbin/ip -6 route add blackhole 0:0:0:0:0:ffff::/96 table internet
+
+# static blackhole routes for rt_table main
+/sbin/ip -4 route add blackhole 0.0.0.0/8 table main
+/sbin/ip -4 route add blackhole 10.0.0.0/8 table main
+/sbin/ip -4 route add blackhole 100.64.0.0/10 table main
+/sbin/ip -4 route add blackhole 127.0.0.0/8 table main
+/sbin/ip -4 route add blackhole 169.254.0.0/16 table main
+/sbin/ip -4 route add blackhole 172.16.0.0/12 table main
+/sbin/ip -4 route add blackhole 192.0.0.0/24 table main
+/sbin/ip -4 route add blackhole 192.0.2.0/24 table main
+/sbin/ip -4 route add blackhole 192.88.99.0/24 table main
+/sbin/ip -4 route add blackhole 192.168.0.0/16 table main
+/sbin/ip -4 route add blackhole 198.18.0.0/15 table main
+/sbin/ip -4 route add blackhole 198.51.100.0/24 table main
+/sbin/ip -4 route add blackhole 203.0.113.0/24 table main
+/sbin/ip -4 route add blackhole 224.0.0.0/4 table main
+/sbin/ip -4 route add blackhole 240.0.0.0/4 table main
+/sbin/ip -4 route add blackhole 255.255.255.255/32 table main
+/sbin/ip -6 route add blackhole fec0::/10 table main
+/sbin/ip -6 route add blackhole fc00::/7 table main
+/sbin/ip -6 route add blackhole ff00::/8 table main
+/sbin/ip -6 route add blackhole ::/96 table main
+/sbin/ip -6 route add blackhole 0:0:0:0:0:ffff::/96 table main
+/sbin/ip -6 route add blackhole ::/0 table main
+
+exit 0
