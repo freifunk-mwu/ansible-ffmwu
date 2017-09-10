@@ -10,6 +10,8 @@ routing_tables:
 icvpn_ipv4_network: 10.207.0.0/16
 mwu_icvpn_ipv4_network: 10.207.37.0/24
 bgp_loopback_net: 10.37.0.0/18
+bgp_ipv4_transfer_net: 10.37.0.0/18
+bgp_ipv6_transfer_net: fd37:b4dc:4b1e::/64
 
 meshes:
   mz:

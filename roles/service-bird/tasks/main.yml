@@ -1,0 +1,46 @@
+---
+- name: install bird packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  notify: reload systemd
+  with_items:
+    - bird-bgp
+    - bird-doc
+  become: true
+
+- name: write bird configuration
+  template:
+    src: bird{{ item }}.conf.j2
+    dest: /etc/bird/bird{{ item }}.conf
+    mode: 0640
+    owner: bird
+    group: bird
+  notify: reload bird{{ item }}
+  with_items:
+    - ""
+    - 6
+  become: true
+
+- name: configure mwu peers
+  template:
+    src: mwu_ipv{{ item }}_peers.conf.j2
+    dest: /etc/bird/mwu_ipv{{ item }}_peers.conf
+    mode: 0640
+    owner: bird
+    group: bird
+  notify: reload bird{{ item }}
+  with_items:
+    - 4
+    - 6
+  become: true
+
+- name: enable + start systemd units bird + bird6
+  systemd:
+    name: bird{{ item }}
+    enabled: yes
+    state: started
+  with_items:
+    - ""
+    - 6
+  become: true

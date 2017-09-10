@@ -1,0 +1,17 @@
+---
+- name: reload systemd
+  systemd:
+    daemon_reload: yes
+  become: true
+
+- name: reload bird
+  systemd:
+    name: bird
+    state: reloaded
+  become: true
+
+- name: reload bird6
+  systemd:
+    name: bird6
+    state: reloaded
+  become: true
