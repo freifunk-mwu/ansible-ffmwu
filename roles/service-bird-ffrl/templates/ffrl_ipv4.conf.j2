@@ -1,0 +1,73 @@
+#
+# {{ ansible_managed }}
+#
+
+# Variables
+define ffrl_as = {{ as_public_ffrl }};
+define ffrl_nat_address = {{ ffrl_public_ipv4_nat }};
+
+# Routing Table
+table ffrl;
+
+# Functions
+function is_ffrl_nat() {
+    return net ~ [
+        {{ ffrl_public_ipv4_nat }}
+    ];
+}
+
+function is_ffrl_tunnel_nets() {
+    return net ~ [
+{% for peer_id, peer_value in ffrl_exit_server.iteritems() %}
+        {{ peer_value.tunnel_ipv4_network }}{{ "," if not loop.last else "" }}
+{% endfor %}
+    ];
+}
+
+# Filters
+filter ebgp_ffrl_import_filter {
+    if is_default() then accept;
+    reject;
+}
+
+filter ebgp_ffrl_export_filter {
+    if is_ffrl_nat() then accept;
+    reject;
+}
+
+# Protocols
+protocol static ffrl_uplink_hostroute {
+    table ffrl;
+    route {{ ffrl_public_ipv4_nat }}/32 reject;
+}
+
+protocol direct ffrl_tunnels {
+    table ffrl;
+    interface "ffrl-*";
+    import where is_ffrl_tunnel_nets();
+}
+
+protocol kernel kernel_ffrl {
+    scan time 30;
+    import none;
+    export filter {
+        krt_prefsrc = ffrl_nat_address;
+        accept;
+    };
+    table ffrl;
+    kernel table ipt_internet;
+};
+
+# Templates
+template bgp ffrl_uplink {
+    table ffrl;
+    local as mwu_as;
+    import keep filtered;
+    import filter ebgp_ffrl_import_filter;
+    export filter ebgp_ffrl_export_filter;
+    next hop self;
+    direct;
+};
+
+# Include FFRL IPv4 peers
+include "ffrl_ipv4_peers.con?";

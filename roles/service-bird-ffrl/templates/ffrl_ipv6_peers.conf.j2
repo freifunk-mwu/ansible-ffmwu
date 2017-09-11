@@ -1,0 +1,13 @@
+#
+# {{ ansible_managed }}
+#
+
+{% for peer_id, peer_value in ffrl_exit_server.iteritems() %}
+protocol bgp {{ peer_id }} from ffrl_uplink {
+    source address {{ peer_value.tunnel_ipv6_network | ipaddr('net') | ipaddr('2') | ipaddr('address') }};
+    neighbor {{ peer_value.tunnel_ipv6_network | ipaddr('net') | ipaddr('1') | ipaddr('address') }} as ffrl_as;
+};
+{% if not loop.last %}
+
+{% endif %}
+{% endfor %}

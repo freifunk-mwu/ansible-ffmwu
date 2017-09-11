@@ -1,0 +1,26 @@
+---
+- name: write ffrl bird configuration
+  template:
+    src: ffrl_ipv{{ item }}.conf.j2
+    dest: /etc/bird/ffrl_ipv{{ item }}.conf
+    mode: 0640
+    owner: bird
+    group: bird
+  notify: reload bird{{ item }}
+  with_items:
+    - 4
+    - 6
+  become: true
+
+- name: write ffrl peer configuration
+  template:
+    src: ffrl_ipv{{ item }}_peers.conf.j2
+    dest: /etc/bird/ffrl_ipv{{ item }}_peers.conf
+    mode: 0640
+    owner: bird
+    group: bird
+  notify: reload bird{{ item }}
+  with_items:
+    - 4
+    - 6
+  become: true
