@@ -6,6 +6,7 @@
     - prerequisites
     - server-repos
     - server-basic
+    - git-repos
     - service-haveged
     - service-ntpd
     - kmod-batman

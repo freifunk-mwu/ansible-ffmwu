@@ -1,0 +1,23 @@
+---
+- name: install git packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - git
+  become: true
+
+- name: ensure git directory is present
+  file:
+    path: /home/admin/clones
+    state: directory
+    mode: 0755
+    owner: admin
+    group: admin
+  become: true
+
+- name: clone git repositories
+  git:
+    repo: "{{ item.value.repo_url }}"
+    dest: "/home/admin/clones/{{ item.key }}"
+  with_dict: "{{ common_repos }}"
