@@ -21,4 +21,5 @@
     - network-fastd
     - network-ffrl
     - service-bird
+    - service-bird-icvpn
     - service-rclocal

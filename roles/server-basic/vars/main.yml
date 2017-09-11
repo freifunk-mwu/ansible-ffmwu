@@ -5,6 +5,7 @@ packages:
   - man-db
   - mlocate
   - mosh
+  - python3-yaml
   - sudo
   - sysfsutils
   - vim

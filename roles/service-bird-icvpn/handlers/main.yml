@@ -1,0 +1,28 @@
+---
+- name: reload bird4
+  systemd:
+    name: bird
+    state: reloaded
+  become: true
+
+- name: reload bird6
+  systemd:
+    name: bird6
+    state: reloaded
+  become: true
+
+- name: set file attrs 4
+  file:
+    path: /etc/bird/icvpn_ipv4_peers.conf
+    mode: 0640
+    owner: bird
+    group: bird
+  become: true
+
+- name: set file attrs 6
+  file:
+    path: /etc/bird/icvpn_ipv6_peers.conf
+    mode: 0640
+    owner: bird
+    group: bird
+  become: true

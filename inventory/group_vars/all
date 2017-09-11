@@ -7,8 +7,8 @@ routing_tables:
   mwu: 41
   internet: 61
 
-icvpn_ipv4_network: 10.207.0.0/16
-mwu_icvpn_ipv4_network: 10.207.37.0/24
+icvpn_ipv4_transfer_net: 10.207.0.0/16
+icvpn_ipv6_transfer_net: fec0::a:cf:0:0/96
 bgp_loopback_net: 10.37.0.0/18
 bgp_ipv4_transfer_net: 10.37.0.0/18
 bgp_ipv6_transfer_net: fd37:b4dc:4b1e::/64
