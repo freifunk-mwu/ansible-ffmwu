@@ -9,10 +9,8 @@
     - linux-headers-amd64
     - batman-adv-dkms
     - batctl
-  become: true
 
 - name: configure batman module to load on system boot
   template:
     src: batman-adv.module.conf.j2
     dest: /etc/modules-load.d/batman-adv.conf
-  become: true

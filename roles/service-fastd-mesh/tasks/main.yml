@@ -3,7 +3,6 @@
   apt:
     name: fastd
     state: present
-  become: true
 
 - name: create fastd directories
   file:
@@ -11,18 +10,15 @@
     state: directory
     mode: 0755
   with_dict: "{{ meshes }}"
-  become: true
 
 - name: template fastd mesh config
   template:
     src: fastd-mesh.conf.j2
     dest: "/etc/fastd/{{ item.key }}VPN/fastd.conf"
   with_dict: "{{ meshes }}"
-  become: true
 
 - name: write fastd mesh secret
   template:
     src: fastd-secret.conf.j2
     dest: "/etc/fastd/{{ item.key }}VPN/secret.conf"
   with_dict: "{{ meshes }}"
-  become: true

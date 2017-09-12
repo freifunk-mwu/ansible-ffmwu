@@ -4,10 +4,8 @@
     src: rc.local.j2
     dest: /etc/rc.local
     mode: 0755
-  become: true
 
 - name: enable systemd unit rc.local
   systemd:
     name: rc.local
     enabled: yes
-  become: true
