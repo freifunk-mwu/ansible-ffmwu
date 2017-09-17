@@ -10,7 +10,6 @@
   with_items:
     - 4
     - 6
-  become: true
 
 - name: write ffrl peer configuration
   template:
@@ -23,4 +22,3 @@
   with_items:
     - 4
     - 6
-  become: true

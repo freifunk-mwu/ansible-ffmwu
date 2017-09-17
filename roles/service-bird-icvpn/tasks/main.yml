@@ -10,7 +10,6 @@
   with_items:
     - 4
     - 6
-  become: true
 
 - name: write initial icvpn roa config
   shell: /usr/bin/python3 /home/admin/clones/icvpn-scripts/mkroa -{{ item.key }} -f bird -x mwu -m {{ item.value.max_prefix }} -s /home/admin/clones/icvpn-meta > /etc/bird/icvpn_ipv{{ item.key }}_roa.conf
@@ -25,7 +24,6 @@
       max_prefix: 20
     6:
       max_prefix: 64
-  become: true
 
 - name: write icvpn bird configuration
   template:
@@ -38,4 +36,3 @@
   with_items:
     - 4
     - 6
-  become: true

@@ -18,15 +18,14 @@
 
 - name: ensure admin user
   user: comment="FFMWU Administrator" name=admin shell=/bin/bash state=present
-  become: True
 
 - name: ensure users ssh key to admin user
   authorized_key: user=admin key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
                   exclusive=no
-  become: True
 
 - name: ensure users ssh key to bootstrap user
   authorized_key: user=hein key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+  become: false
 
 - name: ensure no-pw sudo capability for admin and bootstrap user
   lineinfile:
@@ -35,8 +34,6 @@
     line: "admin,hein ALL = (root) NOPASSWD: ALL"
     mode: 0440
     validate: visudo -c -f %s
-  become: True
 
 - name: from this point on prevent pw for bootstrap user
   user: user=hein password=X
-  become: True

@@ -3,10 +3,8 @@
   systemd:
     name: bird
     state: reloaded
-  become: true
 
 - name: reload bird6
   systemd:
     name: bird6
     state: reloaded
-  become: true

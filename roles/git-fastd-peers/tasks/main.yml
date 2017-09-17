@@ -30,6 +30,7 @@
     dest: "/etc/fastd/{{ item.key }}VPN/peers"
     update: no
   with_dict: "{{ meshes }}"
+  become: false
 
 - name: clone fastd peer intragate repos
   git:
@@ -37,3 +38,4 @@
     dest: "/etc/fastd/{{ item.key }}igVPN/peers"
     update: no
   with_dict: "{{ meshes }}"
+  become: false

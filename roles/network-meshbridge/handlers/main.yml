@@ -3,4 +3,3 @@
   systemd:
     name: sysfsutils
     state: restarted
-  become: true

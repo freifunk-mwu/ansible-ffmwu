@@ -5,7 +5,6 @@
     state: present
   with_items:
     - git
-  become: true
 
 - name: ensure git directory is present
   file:
@@ -14,10 +13,10 @@
     mode: 0755
     owner: admin
     group: admin
-  become: true
 
 - name: clone git repositories
   git:
     repo: "{{ item.value.repo_url }}"
     dest: "/home/admin/clones/{{ item.key }}"
   with_dict: "{{ common_repos }}"
+  become: false
