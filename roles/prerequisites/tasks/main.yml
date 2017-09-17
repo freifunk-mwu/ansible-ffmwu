@@ -11,4 +11,3 @@
 - name: Test root access for admin account
   command: "true"
   changed_when: False
-  become: True

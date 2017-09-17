@@ -5,7 +5,6 @@
     state: present
   with_items:
     - git
-  become: true
 
 - name: create fastd peer mesh directories
   file:
@@ -15,7 +14,6 @@
     owner: admin
     group: admin
   with_dict: "{{ meshes }}"
-  become: true
 
 - name: create fastd peer intragate directories
   file:
@@ -25,7 +23,6 @@
     owner: admin
     group: admin
   with_dict: "{{ meshes }}"
-  become: true
 
 - name: clone fastd peer mesh repos
   git:

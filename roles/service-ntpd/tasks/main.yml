@@ -4,7 +4,6 @@
     name: systemd-timesyncd
     enabled: no
     state: stopped
-  become: true
 
 - name: install ntp packages
   apt:
@@ -17,7 +16,6 @@
     - ntp-doc
     - ntpdate
     - ntpstat
-  become: true
 
 - name: enable and start ntp daemon
   systemd:
@@ -25,4 +23,3 @@
     enabled: yes
     state: started
     daemon_reload: yes
-  become: true

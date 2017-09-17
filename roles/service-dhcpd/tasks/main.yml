@@ -3,14 +3,12 @@
   apt:
     name: isc-dhcp-server
     state: present
-  become: true
 
 - name: enable systemd unit isc-dhcp-server
   systemd:
     name: isc-dhcp-server
     enabled: yes
     daemon_reload: yes
-  become: true
 
 - name: concatenate meshbridge interfaces
   set_fact:
@@ -22,18 +20,15 @@
     regexp: '^INTERFACESv4="'
     line: 'INTERFACESv4="{{ dhcp_interfaces }}"'
   notify: restart isc dhcp server
-  become: true
 
 - name: set ipv6 interfaces isc dhcp should listen on
   lineinfile:
     path: /etc/default/isc-dhcp-server
     regexp: '^INTERFACESv6="'
     line: 'INTERFACESv6=""'
-  become: true
 
 - name: configure isc dhcp server
   template:
     src: dhcpd.conf.j2
     dest: /etc/dhcp/dhcpd.conf
 #  notify: restart isc dhcp server
-  become: true

@@ -7,7 +7,6 @@
     owner: admin
     group: bird
     mode: 0750
-  become: yes
 
 - name: standardise file ownerships
   file:
@@ -16,7 +15,6 @@
     owner: admin
     group: bird
     mode: 0750
-  become: yes
   with_items:
   - /etc/bird/bird.conf
   - /etc/bird/mwu_peers_v4.inc

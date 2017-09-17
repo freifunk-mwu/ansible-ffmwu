@@ -4,11 +4,9 @@
     name: haveged
     state: present
   notify: reload systemd
-  become: true
 
 - name: start and enable systemd unit haveged
   systemd:
     name: haveged
     enabled: yes
     state: started
-  become: true

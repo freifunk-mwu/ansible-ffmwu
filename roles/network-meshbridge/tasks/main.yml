@@ -4,7 +4,6 @@
     src: bridge.j2
     dest: "/etc/network/interfaces.d/{{ item.key }}BR"
   with_dict: "{{ meshes }}"
-  become: true
 
 - name: set sysfs variables
   template:
@@ -12,4 +11,3 @@
     dest: "/etc/sysfs.d/99-{{ item.key }}BR.conf"
   with_dict: "{{ meshes }}"
   notify: activate sysfs variables
-  become: true
