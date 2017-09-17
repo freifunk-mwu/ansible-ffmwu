@@ -22,4 +22,5 @@
     - network-ffrl
     - service-bird
     - service-bird-icvpn
+    - service-bird-ffrl
     - service-rclocal
