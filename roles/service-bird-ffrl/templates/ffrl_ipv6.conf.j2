@@ -43,7 +43,7 @@ protocol static ffrl_public_routes {
 {% for mesh_id, mesh_value in meshes.iteritems() %}
 {% for prefix in mesh_value.ipv6.public %}
     route {{ prefix }} reject;
-    route {{ prefix | ipaddr('net') | ipsubnet(56, magic) | ipaddr('network') }} reject;
+    route {{ prefix | ipaddr('net') | ipsubnet(56, magic) | ipaddr('network/prefix') }} reject;
 {% endfor %}
 {% endfor %}
 }
