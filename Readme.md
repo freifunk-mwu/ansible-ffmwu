@@ -69,6 +69,13 @@ meshes:
     peers_intragate_repo: https://github.com/freifunk-mwu/ffwi-infrastructure-peers.git
 ```
 
+## Sensible Informationen
+
+Sensible Daten, z.B. private keys für Dienste wie fastd und tinc verwalten wir in einem [Password Store](https://www.passwordstore.org/).
+Falls ihr mehrere Password Stores verwaltet, denkt vor Benutzung von Ansible daran, die Umgebungsvariable auf den richtigen Store zu verweisen:
+```
+export PASSWORD_STORE_DIR=... 
+```
 
 ## Aufsetzen eines neuen Gateways
 
@@ -83,10 +90,10 @@ magic:
 
 # Pfade zu den fastd secrets im passwordstore
 fastd_secrets:
-  mzVPN: "{{ lookup('passwordstore', 'fastd/mzVPN/$Hostname') }}"
-  wiVPN: "{{ lookup('passwordstore', 'fastd/wiVPN/$Hostname') }}"
-  mzigVPN: "{{ lookup('passwordstore', 'fastd/mzVPN/$Hostname') }}"
-  wiigVPN: "{{ lookup('passwordstore', 'fastd/wiVPN/$Hostname') }}"
+  mzVPN: "{{ lookup('passwordstore', 'fastd/mzVPN/$Hostname subkey=secret') }}"
+  wiVPN: "{{ lookup('passwordstore', 'fastd/wiVPN/$Hostname subkey=secret') }}"
+  mzigVPN: "{{ lookup('passwordstore', 'fastd/mzVPN/$Hostname subkey=secret') }}"
+  wiigVPN: "{{ lookup('passwordstore', 'fastd/wiVPN/$Hostname subkey=secret') }}"
 
 # FFRL (muss vorher bereits zugewiesen worden sein)
 # Öffentliche IPv4 NAT Adresse
