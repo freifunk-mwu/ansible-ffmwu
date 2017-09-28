@@ -7,7 +7,7 @@ Diese Ansible role installiert und konfiguriert die fastd-Instanz für die Intra
 - stellt sicher, dass die Instanz-Verzeichnisse existieren
 - schreibt fastd.conf
 - schreibt secret.conf
-  - der private fastd Schlüssel wird aus dem Admin passwordstore gelesen
+  - der private fastd Schlüssel wird aus dem Admin passwordstore gelesen (YAML key secret)
 
 ## Benötigte Variablen
 
@@ -21,8 +21,8 @@ meshes:
 - Dictionary `fastd_secrets` (Host-Variable)
 ´´´
 fastd_secrets:
-  mzigVPN: "{{ lookup('passwordstore', 'fastd/mzigVPN/sparegate4') }}"
-  wiigVPN: "{{ lookup('passwordstore', 'fastd/wiigVPN/sparegate4') }}"
+  mzigVPN: "{{ lookup('passwordstore', 'fastd/mzigVPN/sparegate4 subkey=secret') }}"
+  wiigVPN: "{{ lookup('passwordstore', 'fastd/wiigVPN/sparegate4 subkey=secret') }}"
   ...
 
 ´´´
@@ -34,5 +34,5 @@ Bevor man ein Gateway aufsetzt, müssen die privaten Schlüssel für alle benöt
 Das Dictionary `fastd_secrets` folgt dem Aufbau:
 ```
 fastd_secrets:
-  $Instanz-Name: "{{ lookup('passwordstore', '$Pfad-im-passwordstore') }}"
+  $Instanz-Name: "{{ lookup('passwordstore', '$Pfad-im-passwordstore subkey=secret') }}"
 ```
