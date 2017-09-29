@@ -20,6 +20,7 @@
     - git-fastd-peers
     - network-fastd
     - network-ffrl
+    - service-tinc
     - service-bird
     - service-bird-icvpn
     - service-bird-ffrl

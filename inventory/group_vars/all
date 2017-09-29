@@ -58,6 +58,11 @@ meshes:
     peers_mesh_repo: https://github.com/freifunk-mwu/peers-ffwi.git
     peers_intragate_repo: https://github.com/freifunk-mwu/ffwi-infrastructure-peers.git
 
+icvpn:
+  prefix: mwu
+  interface: icVPN
+  icvpn_repo: https://github.com/freifunk/icvpn
+
 bgp_mwu_servers:
   spinat:
     ipv4: 10.37.0.7
