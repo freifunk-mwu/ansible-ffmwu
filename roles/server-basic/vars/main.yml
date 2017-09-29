@@ -1,6 +1,7 @@
 ---
 packages:
   - apt-transport-https
+  - bridge-utils
   - ifupdown2
   - man-db
   - mlocate
