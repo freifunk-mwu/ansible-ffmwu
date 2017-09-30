@@ -25,3 +25,4 @@
     - service-bird-icvpn
     - service-bird-ffrl
     - service-rclocal
+    - system-sysctl-gateway
