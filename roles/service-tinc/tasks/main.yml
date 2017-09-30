@@ -11,6 +11,7 @@
   git:
     repo: "{{ icvpn.icvpn_repo }}"
     dest: /etc/tinc/{{ icvpn.interface }}
+    version: master
     update: no
 
 - name: set directory permissions

@@ -18,5 +18,6 @@
   git:
     repo: "{{ item.value.repo_url }}"
     dest: "/home/admin/clones/{{ item.key }}"
+    version: "{{ item.value.version }}"
   with_dict: "{{ common_repos }}"
   become: false

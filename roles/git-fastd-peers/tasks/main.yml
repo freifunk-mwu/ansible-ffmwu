@@ -28,6 +28,7 @@
   git:
     repo: "{{ item.value.peers_mesh_repo }}"
     dest: "/etc/fastd/{{ item.key }}VPN/peers"
+    version: master
     update: no
   with_dict: "{{ meshes }}"
   become: false
@@ -36,6 +37,7 @@
   git:
     repo: "{{ item.value.peers_intragate_repo }}"
     dest: "/etc/fastd/{{ item.key }}igVPN/peers"
+    version: master
     update: no
   with_dict: "{{ meshes }}"
   become: false

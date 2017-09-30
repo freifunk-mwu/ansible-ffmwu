@@ -2,7 +2,10 @@
 common_repos:
   backend-scripts:
     repo_url: https://github.com/freifunk-mwu/backend-scripts.git
+    version: master
   icvpn-meta:
     repo_url: https://github.com/freifunk/icvpn-meta.git
+    version: master
   icvpn-scripts:
     repo_url: https://github.com/freifunk/icvpn-scripts.git
+    version: master
