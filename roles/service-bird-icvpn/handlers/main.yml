@@ -8,17 +8,3 @@
   systemd:
     name: bird6
     state: reloaded
-
-- name: set file attrs 4
-  file:
-    path: /etc/bird/icvpn_ipv4_peers.conf
-    mode: 0640
-    owner: bird
-    group: bird
-
-- name: set file attrs 6
-  file:
-    path: /etc/bird/icvpn_ipv6_peers.conf
-    mode: 0640
-    owner: bird
-    group: bird

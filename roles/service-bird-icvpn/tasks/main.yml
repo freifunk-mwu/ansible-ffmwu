@@ -6,7 +6,6 @@
     creates: /etc/bird/icvpn_ipv{{ item }}_peers.conf
   notify:
     - reload bird{{ item }}
-    - set file attrs {{ item }}
   with_items:
     - 4
     - 6
@@ -18,7 +17,6 @@
     creates: /etc/bird/icvpn_ipv{{ item.key }}_roa.conf
   notify:
     - reload bird{{ item.key }}
-    - set file attrs {{ item.key }}
   with_dict:
     4:
       max_prefix: 20
@@ -36,3 +34,27 @@
   with_items:
     - 4
     - 6
+
+- name: set file attributes for ipv4 roa and peer config
+  file:
+    path: "{{ item }}"
+    mode: 0640
+    owner: bird
+    group: bird
+  notify:
+    - reload bird4
+  with_items:
+    - /etc/bird/icvpn_ipv4_peers.conf
+    - /etc/bird/icvpn_ipv4_roa.conf
+
+- name: set file attributes for ipv6 roa and peer config
+  file:
+    path: "{{ item }}"
+    mode: 0640
+    owner: bird
+    group: bird
+  notify:
+    - reload bird6
+  with_items:
+    - /etc/bird/icvpn_ipv6_peers.conf
+    - /etc/bird/icvpn_ipv6_roa.conf
