@@ -1,0 +1,31 @@
+#
+# {{ ansible_managed }}
+#
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A INPUT -m conntrack --ctstate INVALID -j DROP
+-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+{% for mesh_id, mesh_value in meshes.iteritems() %}
+-A FORWARD -i {{ mesh_id }}BR -o {{ mesh_id }}BR -j ACCEPT
+{% endfor %}
+-A FORWARD -m conntrack --ctstate INVALID -j DROP
+-A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A OUTPUT -m conntrack --ctstate INVALID -j DROP
+-A OUTPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+COMMIT
+*mangle
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+-A POSTROUTING -o ffrl+ -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss ! --mss 0:{{ internet_exit_mtu_ipv6 }} -j TCPMSS --set-mss {{ internet_exit_mtu_ipv6 }}
+COMMIT
+*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+COMMIT
