@@ -38,6 +38,15 @@ meshes:
     iface_mtu: 1350
     peers_mesh_repo: https://github.com/freifunk-mwu/peers-ffmz.git
     peers_intragate_repo: https://github.com/freifunk-mwu/ffmz-infrastructure-peers.git
+    dns:
+      master: fd37:b4dc:4b1e::a25:103
+      forward_zones:
+        ffmz.org:
+        user.ffmz.org:
+        bb.ffmz.org:
+        nodes.ffmz.org:
+        ffbin:
+          master: fd37:b4dc:4b1e::a25:10c
 
   wi:
     site_number: 56
@@ -60,6 +69,13 @@ meshes:
     iface_mtu: 1350
     peers_mesh_repo: https://github.com/freifunk-mwu/peers-ffwi.git
     peers_intragate_repo: https://github.com/freifunk-mwu/ffwi-infrastructure-peers.git
+    dns:
+      master: fd56:b4dc:4b1e::a38:103
+      forward_zones:
+        ffwi.org:
+        user.ffwi.org:
+        bb.ffwi.org:
+        nodes.ffwi.org:
 
 icvpn:
   prefix: mwu

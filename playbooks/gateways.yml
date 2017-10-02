@@ -25,5 +25,6 @@
     - service-bird
     - service-bird-icvpn
     - service-bird-ffrl
+    - service-bind-slave
     - service-rclocal
     - system-sysctl-gateway

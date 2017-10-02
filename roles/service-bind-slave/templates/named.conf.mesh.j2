@@ -1,0 +1,58 @@
+//
+// {{ ansible_managed }}
+//
+
+// ACLs
+masters "ns-master-{{ item.value.site_code }}" {
+	{{ item.value.dns.master }};
+};
+
+{% for zone_id, zone_value in item.value.dns.forward_zones.iteritems() %}
+{% if zone_value.master is defined %}
+masters "ns-master-{{ zone_id }}" {
+	{{ zone_value.master }};
+};
+
+{% endif %}
+{% endfor %}
+
+acl "intern-{{ item.value.site_code }}" {
+	{{ item.value.ipv4_network | ipaddr('net') | ipaddr('network/prefix') }};
+{% for prefix in item.value.ipv6.ula %}
+	{{ prefix | ipaddr('net') | ipaddr('network/prefix') }};
+{% endfor %}
+};
+
+// DNS forward zones for {{ item.value.site_code }}
+{% for zone_id, zone_value in item.value.dns.forward_zones.iteritems() %}
+zone "{{ zone_id }}." {
+	type slave;
+	file "{{ zone_id }}.db";
+{% if zone_value.master is defined %}
+	masters { ns-master-{{ zone_id }}; };
+{% else %}
+	masters { ns-master-{{ item.value.site_code }}; };
+{% endif %}
+};
+{% if not loop.last %}
+
+{% endif %}
+{% endfor %}
+
+// DNS reverse zones for {{ item.value.site_code }}
+zone "{{ item.value.ipv4_network | ipaddr('net') | ipaddr('revdns') }}" {
+	type slave;
+	file "{{ item.value.ipv4_network | ipaddr('net') | ipaddr('revdns') }}";
+	masters { ns-master-{{ item.value.site_code }}; };
+};
+
+{% for prefix in item.value.ipv6.ula %}
+zone "{{ prefix | ipaddr('net') | ipaddr('revdns') }}" {
+	type slave;
+	file "{{ prefix | ipaddr('net') | ipaddr('revdns') }}";
+	masters { ns-master-{{ item.value.site_code }}; };
+};
+{% if not loop.last %}
+
+{% endif %}
+{% endfor %}
