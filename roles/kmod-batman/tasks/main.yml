@@ -14,3 +14,11 @@
   template:
     src: batman-adv.module.conf.j2
     dest: /etc/modules-load.d/batman-adv.conf
+
+- name: load batman + dummy module
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - batman-adv
+    - dummy
