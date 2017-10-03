@@ -31,7 +31,7 @@ peer group "servers" {
 
 on up "
     ip link set $INTERFACE down
-    ip link set address {{ mac }} dev $INTERFACE
+    ip link set address {{ mac | hwaddr('linux') }} dev $INTERFACE
     ip link set $INTERFACE up
 
     batctl -m {{ item.key }}BAT if add $INTERFACE
