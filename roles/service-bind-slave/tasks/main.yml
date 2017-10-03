@@ -65,3 +65,27 @@
     owner: admin
     group: bind
   notify: restart bind9
+
+- name: write systemd unit icvpn-dns-update.service
+  template:
+    src: icvpn-dns-update.service.j2
+    dest: /etc/systemd/system/icvpn-dns-update.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload systemd
+
+- name: write systemd timer icvpn-dns-update.timer
+  template:
+    src: icvpn-dns-update.timer.j2
+    dest: /etc/systemd/system/icvpn-dns-update.timer
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload systemd
+
+- name: configure systemd unit/timer icvpn-dns-update
+  systemd:
+    name: icvpn-dns-update.timer
+    enabled: yes
+    state: started
