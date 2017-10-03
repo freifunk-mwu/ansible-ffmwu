@@ -1,13 +1,15 @@
 # Ansible role service-fastd-mesh
 
-Diese Ansible role installiert und konfiguriert die fastd-Instanz für die Knoten Kommunikation.
+Diese Ansible role konfiguriert die fastd-Instanz für die Knoten Kommunikation.
 
-- installiert fastd
 - konfiguriert xxVPN-Instanzen
 - stellt sicher, dass die Instanz-Verzeichnisse existieren
 - schreibt fastd.conf
 - schreibt secret.conf
   - der private fastd Schlüssel wird aus dem Admin passwordstore gelesen (YAML key secret)
+- erstellt die erforderlichen peers Ordner
+- klont die fastd peer repos
+- klont bingener fastd peer repo (im Moment hardcoded)
 
 ## Benötigte Variablen
 
@@ -17,6 +19,8 @@ meshes:
   xx:
 ...
     site_number: # integer
+    peers_mesh_repo: # String - https Link zum Github Repository
+    peers_intragate_repo: # String - https Link zum Github Repository
 ´´´
 - Dictionary `fastd_secrets` (Host-Variable)
 ´´´
@@ -36,3 +40,7 @@ Das Dictionary `fastd_secrets` folgt dem Aufbau:
 fastd_secrets:
   $Instanz-Name: "{{ lookup('passwordstore', '$Pfad-im-passwordstore subkey=secret') }}"
 ```
+
+## Abhängigkeiten
+
+- role `service-fastd`

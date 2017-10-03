@@ -15,10 +15,10 @@
     - network-meshbridge
     - service-dhcpd
     - service-radvd
+    - network-fastd
+    - service-fastd
     - service-fastd-mesh
     - service-fastd-intragate
-    - git-fastd-peers
-    - network-fastd
     - network-iptables-gateway
     - network-ffrl
     - service-tinc

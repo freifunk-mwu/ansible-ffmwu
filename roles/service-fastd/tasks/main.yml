@@ -1,0 +1,9 @@
+---
+- name: install fastd packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  notify: reload systemd
+  with_items:
+    - fastd
+    - git

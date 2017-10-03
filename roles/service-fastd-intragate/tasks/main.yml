@@ -1,8 +1,9 @@
 ---
-- name: install fastd packages
-  apt:
-    name: fastd
-    state: present
+- name: configure systemd unit fastd@
+  systemd:
+    name: "fastd@{{ item.key }}igVPN"
+    enabled: yes
+  with_dict: "{{ meshes }}"
 
 - name: create fastd intragate directories
   file:
@@ -11,14 +12,34 @@
     mode: 0755
   with_dict: "{{ meshes }}"
 
+- name: create fastd peer intragate directories
+  file:
+    path: "/etc/fastd/{{ item.key }}igVPN/peers"
+    state: directory
+    mode: 0755
+    owner: admin
+    group: admin
+  with_dict: "{{ meshes }}"
+
+- name: clone fastd peer intragate repos
+  git:
+    repo: "{{ item.value.peers_intragate_repo }}"
+    dest: "/etc/fastd/{{ item.key }}igVPN/peers"
+    version: master
+    update: no
+  with_dict: "{{ meshes }}"
+  become: false
+
 - name: template fastd mesh config
   template:
     src: fastd-intragate.conf.j2
     dest: "/etc/fastd/{{ item.key }}igVPN/fastd.conf"
+  notify: restart fastd intragate instances
   with_dict: "{{ meshes }}"
 
 - name: write fastd intragate secret
   template:
     src: fastd-secret.conf.j2
     dest: "/etc/fastd/{{ item.key }}igVPN/secret.conf"
+  notify: restart fastd intragate instances
   with_dict: "{{ meshes }}"
