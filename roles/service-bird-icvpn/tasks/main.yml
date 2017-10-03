@@ -39,7 +39,7 @@
   file:
     path: "{{ item }}"
     mode: 0640
-    owner: bird
+    owner: admin
     group: bird
   notify:
     - reload bird4
@@ -51,10 +51,34 @@
   file:
     path: "{{ item }}"
     mode: 0640
-    owner: bird
+    owner: admin
     group: bird
   notify:
     - reload bird6
   with_items:
     - /etc/bird/icvpn_ipv6_peers.conf
     - /etc/bird/icvpn_ipv6_roa.conf
+
+- name: write systemd unit icvpn-update.service
+  template:
+    src: icvpn-update.service.j2
+    dest: /etc/systemd/system/icvpn-update.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload systemd
+
+- name: write systemd timer icvpn-update.timer
+  template:
+    src: icvpn-update.timer.j2
+    dest: /etc/systemd/system/icvpn-update.timer
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload systemd
+
+- name: configure systemd unit/timer icvpn-update
+  systemd:
+    name: icvpn-update.timer
+    enabled: yes
+    state: started

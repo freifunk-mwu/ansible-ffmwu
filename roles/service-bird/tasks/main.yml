@@ -8,6 +8,12 @@
     - bird-bgp
     - bird-doc
 
+- name: set directory permissions for /etc/bird
+  file:
+    path: /etc/bird
+    state: directory
+    mode: 0755
+
 - name: write bird configuration
   template:
     src: bird{{ item }}.conf.j2
