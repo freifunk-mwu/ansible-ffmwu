@@ -59,3 +59,27 @@
     dest: "/etc/fastd/{{ item.key }}VPN/secret.conf"
   notify: restart fastd mesh instances
   with_dict: "{{ meshes }}"
+
+- name: write systemd unit fastd-sync-meshkeys.service
+  template:
+    src: fastd-sync-meshkeys.service.j2
+    dest: /etc/systemd/system/fastd-sync-meshkeys.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload systemd
+
+- name: write systemd timer fastd-sync-meshkeys.timer
+  template:
+    src: fastd-sync-meshkeys.timer.j2
+    dest: /etc/systemd/system/fastd-sync-meshkeys.timer
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload systemd
+
+- name: configure systemd unit/timer fastd-sync-meshkeys
+  systemd:
+    name: fastd-sync-meshkeys.timer
+    enabled: yes
+    state: started
