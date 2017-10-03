@@ -1,9 +1,7 @@
 ---
-- name: configure systemd unit tinc
+- name: reload systemd
   systemd:
-    name: tinc
-    enabled: yes
-    daemon_reload: yes
+   daemon_reload: yes
 
 - name: restart systemd unit tinc
   systemd:

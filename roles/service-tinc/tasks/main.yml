@@ -3,9 +3,14 @@
   apt:
     name: "{{ item }}"
     state: present
+  notify: reload systemd
   with_items:
     - tinc
-  notify: configure systemd unit tinc
+
+- name: configure systemd unit tinc
+  systemd:
+    name: tinc
+    enabled: yes
 
 - name: clone icvpn repo
   git:
