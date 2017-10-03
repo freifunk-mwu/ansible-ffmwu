@@ -1,3 +1,4 @@
+
 #
 # {{ ansible_managed }}
 #
@@ -12,7 +13,7 @@ interface {{ mesh_id }}BR
 {% for ip_type, ip_list in mesh_value.ipv6.iteritems() %}
 {% for prefix in ip_list %}
 {% if ip_type == "ula" %}
-	RDNSS {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) }}
+	RDNSS {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('address') }}
 	{
 		FlushRDNSS off;
 	};
@@ -23,9 +24,9 @@ interface {{ mesh_id }}BR
 {% for ip_type, ip_list in mesh_value.ipv6.iteritems() %}
 {% for prefix in ip_list %}
 {% if ip_type == "public" %}
-	prefix {{ prefix | ipaddr('net') | ipsubnet(64, magic)  }}
+	prefix {{ prefix | ipaddr('net') | ipsubnet(64, magic) | ipaddr('subnet')  }}
 {% else %}
-	prefix {{ prefix | ipaddr('net') | ipsubnet(64, 0) }}
+	prefix {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }}
 {% endif %}
 	{
 		AdvValidLifetime 864000;
