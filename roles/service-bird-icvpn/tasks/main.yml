@@ -59,26 +59,26 @@
     - /etc/bird/icvpn_ipv6_peers.conf
     - /etc/bird/icvpn_ipv6_roa.conf
 
-- name: write systemd unit icvpn-update.service
+- name: write systemd unit icvpn-tinc-bgp-update.service
   template:
-    src: icvpn-update.service.j2
-    dest: /etc/systemd/system/icvpn-update.service
+    src: icvpn-tinc-bgp-update.service.j2
+    dest: /etc/systemd/system/icvpn-tinc-bgp-update.service
     owner: root
     group: root
     mode: 0644
   notify: reload systemd
 
-- name: write systemd timer icvpn-update.timer
+- name: write systemd timer icvpn-tinc-bgp-update.timer
   template:
-    src: icvpn-update.timer.j2
-    dest: /etc/systemd/system/icvpn-update.timer
+    src: icvpn-tinc-bgp-update.timer.j2
+    dest: /etc/systemd/system/icvpn-tinc-bgp-update.timer
     owner: root
     group: root
     mode: 0644
   notify: reload systemd
 
-- name: configure systemd unit/timer icvpn-update
+- name: configure systemd unit/timer icvpn-tinc-bgp-update
   systemd:
-    name: icvpn-update.timer
+    name: icvpn-tinc-bgp-update.timer
     enabled: yes
     state: started
