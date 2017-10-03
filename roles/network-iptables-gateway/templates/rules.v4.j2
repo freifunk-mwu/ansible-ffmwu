@@ -34,5 +34,5 @@ COMMIT
 {% for mesh_id, mesh_value in meshes.iteritems() %}
 -A POSTROUTING -s {{ mesh_value.ipv4_network | ipaddr('private') | ipaddr('net') }} -o ffrl+ -j ffrl-nat
 {% endfor %}
--A ffrl-nat -o ffrl+ -j SNAT --to-source {{ ffrl_public_ipv4_nat }}
+-A ffrl-nat -o ffrl+ -j SNAT --to-source {{ ffrl_public_ipv4_nat | ipaddr('address') }}
 COMMIT

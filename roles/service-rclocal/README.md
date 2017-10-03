@@ -22,5 +22,5 @@ meshes:
     iface_mtu: # integer
 ´´´
 - Host Variable `magic`
-- Host Variable `ffrl_public_ipv4_nat`
+- Host Variable `ffrl_public_ipv4_nat` # Format ip-adresse/prefix
 - Host Dictionary `ffrl_exit_server`

@@ -3,8 +3,6 @@
 #
 # {{ ansible_managed }}
 #
-allow-hotplug {{ item.key }}igVPN
-iface {{ item.key }}igVPN inet manual
-	pre-up		/sbin/ip link set address {{ mac | hwaddr('linux') }} dev $IFACE
-	post-up		/sbin/ip link set dev $IFACE up
-	post-up		/sbin/ip link set dev $IFACE master {{ item.key }}BAT
+auto {{ item.key }}igVPN
+iface {{ item.key }}igVPN
+    hwaddress {{ mac | hwaddr('linux') }}

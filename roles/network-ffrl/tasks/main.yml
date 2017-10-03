@@ -3,4 +3,5 @@
   template:
     src: ffrl.j2
     dest: "/etc/network/interfaces.d/{{ item.key }}"
+  notify: reload network interfaces
   with_dict: "{{ ffrl_exit_server }}"

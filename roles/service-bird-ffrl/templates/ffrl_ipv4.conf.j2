@@ -4,7 +4,7 @@
 
 # Variables
 define ffrl_as = {{ as_public_ffrl }};
-define ffrl_nat_address = {{ ffrl_public_ipv4_nat }};
+define ffrl_nat_address = {{ ffrl_public_ipv4_nat | ipaddr('address') }};
 
 # Routing Table
 table ffrl;
@@ -12,7 +12,7 @@ table ffrl;
 # Functions
 function is_ffrl_nat() {
     return net ~ [
-        {{ ffrl_public_ipv4_nat }}
+        {{ ffrl_public_ipv4_nat | ipaddr('address') }}/{{ ffrl_public_ipv4_nat | ipaddr('prefix') }}
     ];
 }
 
@@ -38,7 +38,7 @@ filter ebgp_ffrl_export_filter {
 # Protocols
 protocol static ffrl_uplink_hostroute {
     table ffrl;
-    route {{ ffrl_public_ipv4_nat }}/32 reject;
+    route {{ ffrl_public_ipv4_nat | ipaddr('address') }}/{{ ffrl_public_ipv4_nat | ipaddr('prefix') }} reject;
 }
 
 protocol direct ffrl_tunnels {

@@ -1,3 +1,5 @@
+{% set ip4hex = item.value.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
+{% set mac = '0212' + ip4hex -%}
 #
 # {{ ansible_managed }}
 #
@@ -19,5 +21,17 @@ peer group "servers" {
     include peers from "peers/gates";
     include peers from "peers/services";
 }
+
+on up "
+    ip link set $INTERFACE down
+    ip link set address {{ mac }} dev $INTERFACE
+    ip link set $INTERFACE up
+
+    batctl -m {{ item.key }}BAT if add $INTERFACE
+";
+
+on down "
+    batctl -m {{ item.key }}BAT if del $INTERFACE
+";
 
 status socket "/var/run/fastd-{{ item.key }}ig.status";

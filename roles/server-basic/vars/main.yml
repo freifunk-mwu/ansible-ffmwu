@@ -2,6 +2,7 @@
 packages:
   - apt-transport-https
   - bridge-utils
+  - ethtool
   - ifupdown2
   - man-db
   - mlocate

@@ -4,9 +4,6 @@
 # {{ ansible_managed }}
 #
 auto {{ item.key }}0
-iface {{ item.key }}0 inet manual
-	pre-up		/sbin/ip link add $IFACE type dummy
-	pre-up		/sbin/ip link set address {{ mac | hwaddr('linux') }} dev $IFACE
-	pre-up		/sbin/ip link set up dev $IFACE
-	post-up		/sbin/ip addr flush dev $IFACE
-	post-down	/sbin/ip link delete $IFACE 2>&1 || true
+iface {{ item.key }}0
+    link-type dummy
+    hwaddress {{ mac | hwaddr('linux') }}

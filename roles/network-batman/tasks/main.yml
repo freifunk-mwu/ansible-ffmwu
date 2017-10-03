@@ -3,17 +3,12 @@
   template:
     src: dummy.j2
     dest: "/etc/network/interfaces.d/{{ item.key }}0"
+  notify: reload network interfaces
   with_dict: "{{ meshes }}"
 
 - name: create batman interfaces
   template:
     src: batman.j2
     dest: "/etc/network/interfaces.d/{{ item.key }}BAT"
+  notify: reload network interfaces
   with_dict: "{{ meshes }}"
-
-- name: set sysfs variables
-  template:
-    src: sysfs.j2
-    dest: "/etc/sysfs.d/99-{{ item.key }}BAT.conf"
-  with_dict: "{{ meshes }}"
-  notify: activate sysfs variables

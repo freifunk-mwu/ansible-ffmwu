@@ -4,19 +4,12 @@
 # {{ ansible_managed }}
 #
 auto {{ item.key }}BR
-iface {{ item.key }}BR inet manual
-	address		{{ item.value.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') }}
-	network		{{ item.value.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('network') }}
-	netmask		{{ item.value.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('netmask') }}
-	broadcast	{{ item.value.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('broadcast') }}
-	pre-up		/sbin/ip link add name $IFACE type bridge
-	pre-up		/sbin/ip link set address {{ mac | hwaddr('linux') }} dev $IFACE
-	pre-up		/sbin/ip link set dev {{ item.key }}BAT master $IFACE
-	pre-up		/sbin/ip link set up dev $IFACE
+iface {{ item.key }}BR
+    hwaddress {{ mac | hwaddr('linux') }}
+    address {{ item.value.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') }}/{{ item.value.ipv4_network | ipaddr('net') | ipaddr('prefix') }}
 {% for ip_type, ip_list in item.value.ipv6.iteritems() %}
 {% for ip in ip_list %}
-	up		/sbin/ip address add {{ ip | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) }} dev $IFACE
+    address {{ ip | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('address') }}/{{ ip | ipaddr('net') | ipsubnet(64, 0) | ipaddr('prefix') }}
 {% endfor %}
 {% endfor %}
-	post-down	/sbin/ip link set dev {{ item.key }}BAT nomaster
-	post-down	/sbin/ip link delete $IFACE 2>&1 || true
+    bridge-ports {{ item.key }}BAT

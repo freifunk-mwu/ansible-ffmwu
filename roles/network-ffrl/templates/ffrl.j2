@@ -2,15 +2,15 @@
 # {{ ansible_managed }}
 #
 auto {{ item.key }}
-iface {{ item.key }} inet static
-        address {{ item.value.tunnel_ipv4_address }}
-        netmask {{ item.value.tunnel_ipv4_netmask }}
-        pre-up          /sbin/ip tunnel add $IFACE mode gre local {{ ansible_default_ipv4.address | ipaddr('public') }} remote {{ item.value.public_ipv4_address | ipaddr('public') }} ttl 255
-        post-up         /sbin/ip link set $IFACE mtu 1400
-        post-up         /sbin/ip addr add {{ ffrl_public_ipv4_nat }}/32 dev $IFACE
-        post-down       /sbin/ip tunnel del $IFACE
+iface {{ item.key }} inet tunnel
+    mode gre
+    local {{ ansible_default_ipv4.address | ipaddr('public') | ipaddr('address') }}
+    endpoint {{ item.value.public_ipv4_address | ipaddr('public') | ipaddr('address') }}
 
-iface {{ item.key }} inet6 static
-        address {{ item.value.tunnel_ipv6_network | ipaddr('net') | ipaddr('2') | ipaddr('address')  }}
-        netmask {{ item.value.tunnel_ipv6_netmask }}
+    ttl 64
+    mtu 1400
+    tunnel-physdev {{ ansible_default_ipv4.interface }}
 
+    address {{ item.value.tunnel_ipv4_network | ipaddr('net') | ipaddr('1') | ipaddr('address') }}/{{ item.value.tunnel_ipv4_network | ipaddr('net') | ipaddr('prefix') }}
+    address {{ item.value.tunnel_ipv6_network | ipaddr('net') | ipaddr('2') | ipaddr('address')  }}/{{ item.value.tunnel_ipv6_network | ipaddr('net') | ipaddr('prefix') }}
+    address {{ ffrl_public_ipv4_nat | ipaddr('address') }}/{{ ffrl_public_ipv4_nat | ipaddr('prefix') }}

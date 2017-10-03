@@ -26,4 +26,4 @@ meshes:
 ´´´
 - Variable `internet_exit_mtu_ipv4`
 - Variable `internet_exit_mtu_ipv6`
-- Host Variable `ffrl_public_ipv4_nat`
+- Host Variable `ffrl_public_ipv4_nat` # Format ip-adresse/prefix

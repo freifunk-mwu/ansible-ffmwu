@@ -3,6 +3,7 @@
   template:
     src: bridge.j2
     dest: "/etc/network/interfaces.d/{{ item.key }}BR"
+  notify: reload network interfaces
   with_dict: "{{ meshes }}"
 
 - name: set sysfs variables
