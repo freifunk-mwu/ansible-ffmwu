@@ -31,4 +31,4 @@
   template:
     src: dhcpd.conf.j2
     dest: /etc/dhcp/dhcpd.conf
-#  notify: restart isc dhcp server
+  notify: restart isc dhcp server
