@@ -3,15 +3,15 @@
   apt:
     name: radvd
     state: present
+  notify: reload systemd
 
 - name: enable systemd unit radvd
   systemd:
     name: radvd
     enabled: yes
-    daemon_reload: yes
 
 - name: configure radvd
   template:
     src: radvd.conf.j2
     dest: /etc/radvd.conf
-    #notify: restart radvd
+  notify: restart systemd unit radvd
