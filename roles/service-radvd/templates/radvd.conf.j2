@@ -7,7 +7,7 @@ interface {{ mesh_id }}BR
 {
 	AdvSendAdvert on;
 	IgnoreIfMissing on;
-	MaxRtrAdvInterval 900;
+	MaxRtrAdvInterval {{ mesh_value.radvd.maxrtradvinterval }};
 	AdvLinkMTU {{ mesh_value.iface_mtu }};
 
 {% for ip_type, ip_list in mesh_value.ipv6.iteritems() %}
@@ -29,8 +29,8 @@ interface {{ mesh_id }}BR
 	prefix {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }}
 {% endif %}
 	{
-		AdvValidLifetime 864000;
-		AdvPreferredLifetime 172800;
+		AdvValidLifetime {{ mesh_value.radvd.advvalidlifetime }};
+		AdvPreferredLifetime {{ mesh_value.radvd.advpreferredlifetime }};
 	};
 {% endfor %}
 {% if not loop.last %}

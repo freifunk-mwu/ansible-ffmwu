@@ -36,6 +36,10 @@ meshes:
       mm: 0
       dat: 0
       hop_penalty: 60
+    radvd:
+      maxrtradvinterval: 900
+      advvalidlifetime: 864000
+      advpreferredlifetime: 172800
     iface_mtu: 1350
     peers_mesh_repo: https://github.com/freifunk-mwu/peers-ffmz.git
     peers_intragate_repo: https://github.com/freifunk-mwu/ffmz-infrastructure-peers.git
@@ -68,6 +72,10 @@ meshes:
       mm: 0
       dat: 0
       hop_penalty: 60
+    radvd:
+      maxrtradvinterval: 900
+      advvalidlifetime: 864000
+      advpreferredlifetime: 172800
     iface_mtu: 1350
     peers_mesh_repo: https://github.com/freifunk-mwu/peers-ffwi.git
     peers_intragate_repo: https://github.com/freifunk-mwu/ffwi-infrastructure-peers.git
