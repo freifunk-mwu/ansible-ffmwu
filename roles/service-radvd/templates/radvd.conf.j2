@@ -1,15 +1,15 @@
 #
 # {{ ansible_managed }}
 #
-{% for key, value in meshes.iteritems() %}
-interface {{ key }}BR
+{% for mesh_id, mesh_value in meshes.iteritems() %}
+interface {{ mesh_id }}BR
 {
 	AdvSendAdvert on;
 	IgnoreIfMissing on;
 	MaxRtrAdvInterval 900;
-	AdvLinkMTU {{ value.iface_mtu }};
+	AdvLinkMTU {{ mesh_value.iface_mtu }};
 
-{% for ip_type, ip_list in value.ipv6.iteritems() %}
+{% for ip_type, ip_list in mesh_value.ipv6.iteritems() %}
 {% for prefix in ip_list %}
 {% if ip_type == "ula" %}
 	RDNSS {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) }}
@@ -20,7 +20,7 @@ interface {{ key }}BR
 {% endfor %}
 {% endfor %}
 
-{% for ip_type, ip_list in value.ipv6.iteritems() %}
+{% for ip_type, ip_list in mesh_value.ipv6.iteritems() %}
 {% for prefix in ip_list %}
 {% if ip_type == "public" %}
 	prefix {{ prefix | ipaddr('net') | ipsubnet(64, magic)  }}

@@ -18,70 +18,70 @@
 #
 
 # Priority 7 - lookup rt_table mwu for all incoming traffic of freifunk related interfaces
-{% for key, value in meshes.iteritems() %}
-ip -4 rule add from {{ value.ipv4_network | ipaddr('network') }}/16 lookup mwu priority 7
-ip -4 rule add to {{ value.ipv4_network | ipaddr('network') }}/16 lookup mwu priority 7
-ip -4 rule add from all oif {{ key }}BR lookup mwu priority 7
-{% for ula in value.ipv6.ula %}
+{% for mesh_id, mesh_value in meshes.iteritems() %}
+ip -4 rule add from {{ mesh_value.ipv4_network | ipaddr('network') }}/16 lookup mwu priority 7
+ip -4 rule add to {{ mesh_value.ipv4_network | ipaddr('network') }}/16 lookup mwu priority 7
+ip -4 rule add from all oif {{ mesh_id }}BR lookup mwu priority 7
+{% for ula in mesh_value.ipv6.ula %}
 ip -6 rule add from {{ ula }} lookup mwu priority 7
 ip -6 rule add to {{ ula }} lookup mwu priority 7
 {% endfor %}
-{% for public in value.ipv6.public %}
+{% for public in mesh_value.ipv6.public %}
 ip -6 rule add from {{ public }} lookup mwu priority 7
 ip -6 rule add to {{ public }} lookup mwu priority 7
 {% endfor %}
-ip -6 rule add from all oif {{ key }}BR lookup mwu priority 7
+ip -6 rule add from all oif {{ mesh_id }}BR lookup mwu priority 7
 {% endfor %}
 
 # Priority 23 - lookup rt_table icvpn for all incoming traffic of freifunk bridges
-{% for key, value in meshes.iteritems() %}
-ip -4 rule add from {{ value.ipv4_network | ipaddr('network') }}/16 lookup icvpn priority 23
-ip -4 rule add to {{ value.ipv4_network | ipaddr('network') }}/16 lookup icvpn priority 23
-ip -4 rule add from all oif {{ key }}BR lookup icvpn priority 23
-{% for ula in value.ipv6.ula %}
+{% for mesh_id, mesh_value in meshes.iteritems() %}
+ip -4 rule add from {{ mesh_value.ipv4_network | ipaddr('network') }}/16 lookup icvpn priority 23
+ip -4 rule add to {{ mesh_value.ipv4_network | ipaddr('network') }}/16 lookup icvpn priority 23
+ip -4 rule add from all oif {{ mesh_id }}BR lookup icvpn priority 23
+{% for ula in mesh_value.ipv6.ula %}
 ip -6 rule add from {{ ula }} lookup icvpn priority 23
 ip -6 rule add to {{ ula }} lookup icvpn priority 23
 {% endfor %}
-{% for public in value.ipv6.public %}
+{% for public in mesh_value.ipv6.public %}
 ip -6 rule add from {{ public }} lookup icvpn priority 23
 ip -6 rule add to {{ public }} lookup icvpn priority 23
 {% endfor %}
-ip -6 rule add from all oif {{ key }}BR lookup icvpn priority 23
+ip -6 rule add from all oif {{ mesh_id }}BR lookup icvpn priority 23
 {% endfor %}
 ip -4 rule add from all oif icVPN lookup icvpn priority 23
 ip -6 rule add from all oif icVPN lookup icvpn priority 23
 
 # Priority 41 - lookup rt_table internet for all incoming traffic of freifunk bridges
-{% for key, value in meshes.iteritems() %}
-ip -4 rule add from {{ value.ipv4_network | ipaddr('network') }}/16 lookup internet priority 41
-{% for ula in value.ipv6.ula %}
+{% for mesh_id, mesh_value in meshes.iteritems() %}
+ip -4 rule add from {{ mesh_value.ipv4_network | ipaddr('network') }}/16 lookup internet priority 41
+{% for ula in mesh_value.ipv6.ula %}
 ip -6 rule add from {{ ula }} lookup internet priority 41
 ip -6 rule add to {{ ula }} lookup internet priority 41
 {% endfor %}
-{% for public in value.ipv6.public %}
+{% for public in mesh_value.ipv6.public %}
 ip -6 rule add from {{ public }} lookup internet priority 41
 ip -6 rule add to {{ public }} lookup internet priority 41
 {% endfor %}
-ip -6 rule add from all oif {{ key }}BR lookup internet priority 41
+ip -6 rule add from all oif {{ mesh_id }}BR lookup internet priority 41
 {% endfor %}
 ip -4 rule add from {{ ffrl_public_ipv4_nat | ipaddr('address') }}/{{ ffrl_public_ipv4_nat | ipaddr('prefix') }} lookup internet priority 41
 ip -4 rule add to {{ ffrl_public_ipv4_nat | ipaddr('address') }}/{{ ffrl_public_ipv4_nat | ipaddr('prefix') }} lookup internet priority 41
 
 # Priority 61 - at this point this is the end of policy routing for freifunk related routes
-{% for key, value in meshes.iteritems() %}
-ip -4 rule add from all iif {{ key }}BR type unreachable priority 61
-ip -6 rule add from all iif {{ key }}BR type unreachable priority 61
+{% for mesh_id, mesh_value in meshes.iteritems() %}
+ip -4 rule add from all iif {{ mesh_id }}BR type unreachable priority 61
+ip -6 rule add from all iif {{ mesh_id }}BR type unreachable priority 61
 {% endfor %}
 ip -4 rule add from all iif icVPN type unreachable priority 61
 ip -4 rule add from all iif eth0 type unreachable priority 61
-{% for key, value in ffrl_exit_server.iteritems() %}
-ip -4 rule add from all iif {{ key }} type unreachable priority 61
-ip -6 rule add from all iif {{ key }} type unreachable priority 61
+{% for server_id, server_value in ffrl_exit_server.iteritems() %}
+ip -4 rule add from all iif {{ server_id }} type unreachable priority 61
+ip -6 rule add from all iif {{ server_id }} type unreachable priority 61
 {% endfor %}
 ip -6 rule add from all iif icVPN type unreachable priority 61
 ip -6 rule add from all iif eth0 type unreachable priority 61
-{% for key, value in meshes.iteritems() %}
-{% for public in value.ipv6.public %}
+{% for mesh_id, mesh_value in meshes.iteritems() %}
+{% for public in mesh_value.ipv6.public %}
 ip -6 rule add from {{ public }} type unreachable priority 61
 ip -6 rule add to {{ public }} type unreachable priority 61
 {% endfor %}
@@ -98,15 +98,15 @@ ip -6 rule add from all lookup icvpn priority 107
 # IP routes
 #
 
-{% for key, value in meshes.iteritems() %}
-# static {{ value.site_name }} routes for rt_table mwu
-/sbin/ip -4 route add {{ value.ipv4_network }} proto static dev {{ key }}BR table mwu
-{% for ula in value.ipv6.ula %}
-/sbin/ip -6 route add {{ ula | ipaddr('net') | ipsubnet(64, 0) }} proto static dev {{ key }}BR table mwu
+{% for mesh_id, mesh_value in meshes.iteritems() %}
+# static {{ mesh_value.site_name }} routes for rt_table mwu
+/sbin/ip -4 route add {{ mesh_value.ipv4_network }} proto static dev {{ mesh_id }}BR table mwu
+{% for ula in mesh_value.ipv6.ula %}
+/sbin/ip -6 route add {{ ula | ipaddr('net') | ipsubnet(64, 0) }} proto static dev {{ mesh_id }}BR table mwu
 {% endfor %}
-{% for public in value.ipv6.public %}
-/sbin/ip -6 route add {{ public | ipaddr('net') | ipsubnet(64, 0) }} proto static dev {{ key }}BR table mwu
-/sbin/ip -6 route add {{ public | ipaddr('net') | ipsubnet(64, magic) }} proto static dev {{ key }}BR table mwu
+{% for public in mesh_value.ipv6.public %}
+/sbin/ip -6 route add {{ public | ipaddr('net') | ipsubnet(64, 0) }} proto static dev {{ mesh_id }}BR table mwu
+/sbin/ip -6 route add {{ public | ipaddr('net') | ipsubnet(64, magic) }} proto static dev {{ mesh_id }}BR table mwu
 {% endfor %}
 {% if not loop.last %}
 
