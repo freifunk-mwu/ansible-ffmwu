@@ -13,4 +13,3 @@ iface {{ item.key }} inet tunnel
 
     address {{ item.value.tunnel_ipv4_network | ipaddr('net') | ipaddr('1') | ipaddr('address') }}/{{ item.value.tunnel_ipv4_network | ipaddr('net') | ipaddr('prefix') }}
     address {{ item.value.tunnel_ipv6_network | ipaddr('net') | ipaddr('2') | ipaddr('address')  }}/{{ item.value.tunnel_ipv6_network | ipaddr('net') | ipaddr('prefix') }}
-    address {{ ffrl_public_ipv4_nat | ipaddr('address') }}/{{ ffrl_public_ipv4_nat | ipaddr('prefix') }}

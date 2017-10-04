@@ -36,9 +36,10 @@ filter ebgp_ffrl_export_filter {
 }
 
 # Protocols
-protocol static ffrl_uplink_hostroute {
+protocol direct ffrl_nat {
     table ffrl;
-    route {{ ffrl_public_ipv4_nat | ipaddr('address') }}/{{ ffrl_public_ipv4_nat | ipaddr('prefix') }} reject;
+    interface "ffrl-nat";
+    import where is_ffrl_nat();
 }
 
 protocol direct ffrl_tunnels {
