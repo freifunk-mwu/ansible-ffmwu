@@ -23,7 +23,7 @@ COMMIT
 :FORWARD ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
 :POSTROUTING ACCEPT [0:0]
--A POSTROUTING -o ffrl+ -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss ! --mss 0:{{ internet_exit_mtu_ipv4 }} -j TCPMSS --set-mss {{ internet_exit_mtu_ipv4 }}
+-A POSTROUTING -o ffrl+ -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss ! --mss 0:{{ internet_exit_tcp_mss_ipv4 }} -j TCPMSS --set-mss {{ internet_exit_tcp_mss_ipv4 }}
 COMMIT
 *nat
 :PREROUTING ACCEPT [0:0]
