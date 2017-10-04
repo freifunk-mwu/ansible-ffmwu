@@ -1,39 +1,49 @@
 ---
-- name: write initial icvpn peers
-  shell: /usr/bin/python3 /home/admin/clones/icvpn-scripts/mkbgp -{{ item }} -f bird -x mwu -d ebgp_icvpn -s /home/admin/clones/icvpn-meta > /etc/bird/icvpn_ipv{{ item }}_peers.conf
+- name: generate initial icvpn_ipv4_peers.conf
+  shell: /usr/bin/python3 /home/admin/clones/icvpn-scripts/mkbgp -4 -f bird -x mwu -d ebgp_icvpn -s /home/admin/clones/icvpn-meta > /etc/bird/icvpn_ipv4_peers.conf
   args:
     chdir: /home/admin/clones/icvpn-scripts
-    creates: /etc/bird/icvpn_ipv{{ item }}_peers.conf
-  notify:
-    - reload bird{{ item }}
-  with_items:
-    - 4
-    - 6
+    creates: /etc/bird/icvpn_ipv4_peers.conf
+  notify: reload systemd unit bird
 
-- name: write initial icvpn roa config
-  shell: /usr/bin/python3 /home/admin/clones/icvpn-scripts/mkroa -{{ item.key }} -f bird -x mwu -m {{ item.value.max_prefix }} -s /home/admin/clones/icvpn-meta > /etc/bird/icvpn_ipv{{ item.key }}_roa.conf
+- name: generate initial icvpn_ipv6_peers.conf
+  shell: /usr/bin/python3 /home/admin/clones/icvpn-scripts/mkbgp -6 -f bird -x mwu -d ebgp_icvpn -s /home/admin/clones/icvpn-meta > /etc/bird/icvpn_ipv6_peers.conf
   args:
     chdir: /home/admin/clones/icvpn-scripts
-    creates: /etc/bird/icvpn_ipv{{ item.key }}_roa.conf
-  notify:
-    - reload bird{{ item.key }}
-  with_dict:
-    4:
-      max_prefix: 20
-    6:
-      max_prefix: 64
+    creates: /etc/bird/icvpn_ipv6_peers.conf
+  notify: reload systemd unit bird6
 
-- name: write icvpn bird configuration
+- name: generate initial icvpn_ipv4_roa.conf
+  shell: /usr/bin/python3 /home/admin/clones/icvpn-scripts/mkroa -4 -f bird -x mwu -m 20 -s /home/admin/clones/icvpn-meta > /etc/bird/icvpn_ipv4_roa.conf
+  args:
+    chdir: /home/admin/clones/icvpn-scripts
+    creates: /etc/bird/icvpn_ipv4_roa.conf
+  notify: reload systemd unit bird
+
+- name: generate initial icvpn_ipv6_roa.conf
+  shell: /usr/bin/python3 /home/admin/clones/icvpn-scripts/mkroa -6 -f bird -x mwu -m 64 -s /home/admin/clones/icvpn-meta > /etc/bird/icvpn_ipv6_roa.conf
+  args:
+    chdir: /home/admin/clones/icvpn-scripts
+    creates: /etc/bird/icvpn_ipv6_roa.conf
+  notify: reload systemd unit bird6
+
+- name: write icvpn_ipv4.conf
   template:
-    src: icvpn_ipv{{ item }}.conf.j2
-    dest: /etc/bird/icvpn_ipv{{ item }}.conf
+    src: icvpn_ipv4.conf.j2
+    dest: /etc/bird/icvpn_ipv4.conf
     mode: 0640
     owner: bird
     group: bird
-  notify: reload bird{{ item }}
-  with_items:
-    - 4
-    - 6
+  notify: reload systemd unit bird
+
+- name: write icvpn_ipv6.conf
+  template:
+    src: icvpn_ipv6.conf.j2
+    dest: /etc/bird/icvpn_ipv6.conf
+    mode: 0640
+    owner: bird
+    group: bird
+  notify: reload systemd unit bird6
 
 - name: set file attributes for ipv4 roa and peer config
   file:
@@ -41,8 +51,7 @@
     mode: 0640
     owner: admin
     group: bird
-  notify:
-    - reload bird4
+  notify: reload systemd unit bird
   with_items:
     - /etc/bird/icvpn_ipv4_peers.conf
     - /etc/bird/icvpn_ipv4_roa.conf
@@ -53,8 +62,7 @@
     mode: 0640
     owner: admin
     group: bird
-  notify:
-    - reload bird6
+  notify: reload systemd unit bird6
   with_items:
     - /etc/bird/icvpn_ipv6_peers.conf
     - /etc/bird/icvpn_ipv6_roa.conf

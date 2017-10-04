@@ -3,12 +3,12 @@
   systemd:
     daemon_reload: yes
 
-- name: reload bird
+- name: reload systemd unit bird
   systemd:
     name: bird
     state: reloaded
 
-- name: reload bird6
+- name: reload systemd unit bird6
   systemd:
     name: bird6
     state: reloaded

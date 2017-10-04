@@ -1,10 +1,10 @@
 ---
-- name: reload bird4
+- name: reload systemd unit bird
   systemd:
     name: bird
     state: reloaded
 
-- name: reload bird6
+- name: reload systemd unit bird6
   systemd:
     name: bird6
     state: reloaded

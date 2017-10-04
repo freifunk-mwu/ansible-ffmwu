@@ -14,29 +14,41 @@
     state: directory
     mode: 0755
 
-- name: write bird configuration
+- name: write bird.conf
   template:
-    src: bird{{ item }}.conf.j2
-    dest: /etc/bird/bird{{ item }}.conf
+    src: bird.conf.j2
+    dest: /etc/bird/bird.conf
     mode: 0640
     owner: bird
     group: bird
-  notify: reload bird{{ item }}
-  with_items:
-    - ""
-    - 6
+  notify: reload systemd unit bird
 
-- name: configure mwu peers
+- name: write bird6.conf
   template:
-    src: mwu_ipv{{ item }}_peers.conf.j2
-    dest: /etc/bird/mwu_ipv{{ item }}_peers.conf
+    src: bird6.conf.j2
+    dest: /etc/bird/bird6.conf
     mode: 0640
     owner: bird
     group: bird
-  notify: reload bird{{ item }}
-  with_items:
-    - 4
-    - 6
+  notify: reload systemd unit bird6
+
+- name: write mwu_ipv4_peers.conf
+  template:
+    src: mwu_ipv4_peers.conf.j2
+    dest: /etc/bird/mwu_ipv4_peers.conf
+    mode: 0640
+    owner: bird
+    group: bird
+  notify: reload systemd unit bird
+
+- name: write mwu_ipv6_peers.conf
+  template:
+    src: mwu_ipv6_peers.conf.j2
+    dest: /etc/bird/mwu_ipv6_peers.conf
+    mode: 0640
+    owner: bird
+    group: bird
+  notify: reload systemd unit bird6
 
 - name: enable + start systemd units bird + bird6
   systemd:
