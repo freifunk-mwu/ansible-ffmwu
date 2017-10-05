@@ -11,5 +11,5 @@ iface {{ item.key }} inet tunnel
     mtu 1400
     tunnel-physdev {{ ansible_default_ipv4.interface }}
 
-    address {{ item.value.tunnel_ipv4_network | ipaddr('net') | ipaddr('1') | ipaddr('address') }}/{{ item.value.tunnel_ipv4_network | ipaddr('net') | ipaddr('prefix') }}
-    address {{ item.value.tunnel_ipv6_network | ipaddr('net') | ipaddr('2') | ipaddr('address')  }}/{{ item.value.tunnel_ipv6_network | ipaddr('net') | ipaddr('prefix') }}
+    address {{ item.value.tunnel_ipv4_network | ipaddr('net') | ipaddr('1') | ipaddr('ip/prefix') }}
+    address {{ item.value.tunnel_ipv6_network | ipaddr('net') | ipaddr('2') | ipaddr('ip/prefix') }}

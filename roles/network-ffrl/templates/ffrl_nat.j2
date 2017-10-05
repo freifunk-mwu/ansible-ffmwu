@@ -4,4 +4,4 @@
 auto ffrl-nat
 iface ffrl-nat
     link-type dummy
-    address {{ ffrl_public_ipv4_nat | ipaddr('address') }}/{{ ffrl_public_ipv4_nat | ipaddr('prefix') }}
+    address {{ ffrl_public_ipv4_nat | ipaddr('host') }}

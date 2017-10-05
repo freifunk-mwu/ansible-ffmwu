@@ -12,7 +12,7 @@ table ffrl;
 # Functions
 function is_ffrl_nat() {
     return net ~ [
-        {{ ffrl_public_ipv4_nat | ipaddr('address') }}/{{ ffrl_public_ipv4_nat | ipaddr('prefix') }}
+        {{ ffrl_public_ipv4_nat | ipaddr('host') }}
     ];
 }
 
