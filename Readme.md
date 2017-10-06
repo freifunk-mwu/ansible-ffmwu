@@ -114,6 +114,7 @@ export PASSWORD_STORE_DIR=...
 magic:
 
 # Die Nummer des /22er IPv4-Subnetzes, das per DHCP verteilt werden soll.
+# z.B. 5 für 10.X.16.0/22 (fünftes /22 Subnetz aus 10.X.0.0/18)
 ipv4_dhcp_range:
 
 # FFRL (muss vorher bereits zugewiesen worden sein)
