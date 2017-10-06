@@ -1,5 +1,5 @@
 {% set ip4hex = icvpn_ipv4_transfer_net | ipaddr('net') | ipsubnet(24, 37) | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
-{% set mac = '0220' + ip4hex -%}
+{% set mac = '02f0' + ip4hex -%}
 #!/bin/sh
 #
 # {{ ansible_managed }}

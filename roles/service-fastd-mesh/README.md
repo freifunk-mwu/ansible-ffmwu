@@ -2,7 +2,6 @@
 
 Diese Ansible role konfiguriert die fastd-Instanz für die Knoten Kommunikation.
 
-- konfiguriert xxVPN-Instanzen
 - stellt sicher, dass die Instanz-Verzeichnisse existieren
 - schreibt fastd.conf
 - schreibt secret.conf
@@ -10,6 +9,10 @@ Diese Ansible role konfiguriert die fastd-Instanz für die Knoten Kommunikation.
 - erstellt die erforderlichen peers Ordner
 - klont die fastd peer repos
 - klont bingener fastd peer repo (im Moment hardcoded)
+
+## Instanz-Benamung
+Node-Instanzen: $mesh.id + VPN + '-' + $mesh.fastd.nodes.instances.xx.mtu, z.B. "mzVPN-1312"
+Intragate-Instanzen: $mesh.id + 'ig' + VPN + '-' + $mesh.fastd.intragate.instances.xx.mtu, z.B. "mzigVPN-1312"
 
 ## Benötigte Variablen
 
@@ -19,8 +22,15 @@ meshes:
   - id: xx
 ...
     site_number: # integer
-    peers_mesh_repo: # String - https Link zum Github Repository
-    peers_intragate_repo: # String - https Link zum Github Repository
+    fastd:
+      nodes:
+        instances:
+          - id: 0 # integer
+            mtu: # integer
+            peers:
+              repo: # String - https Link zum Github Repository
+              version: # String - Branch oder Commit ID
+          ...
 ´´´
 - Dictionary `fastd_secrets` (Host-Variable)
 ´´´

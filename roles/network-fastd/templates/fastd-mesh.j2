@@ -1,8 +1,8 @@
-{% set ip4hex = item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
-{% set mac = '0211' + ip4hex -%}
+{% set ip4hex = item.0.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
+{% set mac = '022' + item.1.id|string + ip4hex -%}
 #
 # {{ ansible_managed }}
 #
-auto {{ item.id }}VPN
-iface {{ item.id }}VPN
+auto {{ item.0.id }}VPN-{{ item.1.mtu }}
+iface {{ item.0.id }}VPN-{{ item.1.mtu }}
     hwaddress {{ mac | hwaddr('linux') }}

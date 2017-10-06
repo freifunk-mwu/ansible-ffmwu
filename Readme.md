@@ -47,8 +47,26 @@ meshes:
       advvalidlifetime: 864000
       advpreferredlifetime: 172800
     iface_mtu: 1350
-    peers_mesh_repo: https://github.com/freifunk-mwu/peers-ffmz.git
-    peers_intragate_repo: https://github.com/freifunk-mwu/ffmz-infrastructure-peers.git
+    fastd:
+      nodes:
+        instances:
+          - id: 0
+            mtu: 1406
+            peers:
+              repo: https://github.com/freifunk-mwu/peers-ffmz.git
+              version: master
+          - id: 1
+            mtu: 1312
+            peers:
+              repo: https://github.com/freifunk-mwu/peers-ffmz.git
+              version: master
+      intragate:
+        instances:
+          - id: 0
+            mtu: 1406
+            peers:
+              repo: https://github.com/freifunk-mwu/ffmz-infrastructure-peers.git
+              version: master
     dns:
       master: fd37:b4dc:4b1e::a25:103
       forward_zones:
@@ -81,8 +99,26 @@ meshes:
       maxrtradvinterval: 900
       advvalidlifetime: 864000
     iface_mtu: 1350
-    peers_mesh_repo: https://github.com/freifunk-mwu/peers-ffwi.git
-    peers_intragate_repo: https://github.com/freifunk-mwu/ffwi-infrastructure-peers.git
+    fastd:
+      nodes:
+        instances:
+          - id: 0
+            mtu: 1406
+            peers:
+              repo: https://github.com/freifunk-mwu/peers-ffwi.git
+              version: master
+          - id: 1
+            mtu: 1312
+            peers:
+              repo: https://github.com/freifunk-mwu/peers-ffwi.git
+              version: master
+      intragate:
+        instances:
+          - id: 0
+            mtu: 1406
+            peers:
+              repo: https://github.com/freifunk-mwu/ffwi-infrastructure-peers.git
+              version: master
     dns:
       master: fd56:b4dc:4b1e::a38:103
       forward_zones:

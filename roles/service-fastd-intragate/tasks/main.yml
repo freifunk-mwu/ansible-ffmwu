@@ -1,45 +1,57 @@
 ---
 - name: configure systemd unit fastd@
   systemd:
-    name: "fastd@{{ item.id }}igVPN"
+    name: "fastd@{{ item.0.id }}igVPN-{{ item.1.mtu }}"
     enabled: yes
-  with_items: "{{ meshes }}"
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.intragate.instances
 
 - name: create fastd intragate directories
   file:
-    path: "/etc/fastd/{{ item.id }}igVPN"
+    path: "/etc/fastd/{{ item.0.id }}igVPN-{{ item.1.mtu }}"
     state: directory
     mode: 0755
-  with_items: "{{ meshes }}"
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.intragate.instances
 
 - name: create fastd peer intragate directories
   file:
-    path: "/etc/fastd/{{ item.id }}igVPN/peers"
+    path: "/etc/fastd/{{ item.0.id }}igVPN-{{ item.1.mtu }}/peers"
     state: directory
     mode: 0755
     owner: admin
     group: admin
-  with_items: "{{ meshes }}"
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.intragate.instances
 
 - name: clone fastd peer intragate repos
   git:
-    repo: "{{ item.peers_intragate_repo }}"
-    dest: "/etc/fastd/{{ item.id }}igVPN/peers"
-    version: master
+    repo: "{{ item.1.peers.repo }}"
+    dest: "/etc/fastd/{{ item.0.id }}igVPN-{{ item.1.mtu }}/peers"
+    version: "{{ item.1.peers.version }}"
     update: no
-  with_items: "{{ meshes }}"
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.intragate.instances
   become: false
 
 - name: template fastd mesh config
   template:
     src: fastd-intragate.conf.j2
-    dest: "/etc/fastd/{{ item.id }}igVPN/fastd.conf"
+    dest: "/etc/fastd/{{ item.0.id }}igVPN-{{ item.1.mtu }}/fastd.conf"
   notify: restart fastd intragate instances
-  with_items: "{{ meshes }}"
+  with_subelements:
+    -  "{{ meshes }}"
+    - fastd.intragate.instances
 
 - name: write fastd intragate secret
   template:
     src: fastd-secret.conf.j2
-    dest: "/etc/fastd/{{ item.id }}igVPN/secret.conf"
+    dest: "/etc/fastd/{{ item.0.id }}igVPN-{{ item.1.mtu }}/secret.conf"
   notify: restart fastd intragate instances
-  with_items: "{{ meshes }}"
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.intragate.instances

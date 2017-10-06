@@ -18,8 +18,15 @@ meshes:
   - id: xx
 ...
     site_number: # integer
-    peers_mesh_repo: # String - https Link zum Github Repository
-    peers_intragate_repo: # String - https Link zum Github Repository
+    fastd:
+      nodes:
+        instances:
+          - id: 0 # integer
+            mtu: # integer
+            peers:
+              repo: # String - https Link zum Github Repository
+              version: # String - Branch oder Commit ID
+          ...
 ´´´
 - Dictionary `fastd_secrets` (Host-Variable)
 ´´´

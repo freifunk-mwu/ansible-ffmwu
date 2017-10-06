@@ -1,4 +1,4 @@
-{% set ip4hex = item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
+{% set ip4hex = item.0.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
 {% set mac = '0211' + ip4hex -%}
 #
 # {{ ansible_managed }}
@@ -9,18 +9,18 @@ hide mac addresses yes;
 
 method "salsa2012+umac";
 
-interface "{{ item.id }}VPN";
+interface "{{ item.0.id }}VPN-{{ item.1.mtu }}";
 
-bind {{ ansible_default_ipv4.address | ipaddr('public') }}:100{{ item.site_number }};
-bind {{ ansible_default_ipv6.address | ipaddr('public') | ipwrap }}:100{{ item.site_number }};
+bind {{ ansible_default_ipv4.address | ipaddr('public') }}:10{{ item.1.id }}{{ item.0.site_number }};
+bind {{ ansible_default_ipv6.address | ipaddr('public') | ipwrap }}:10{{ item.1.id }}{{ item.0.site_number }};
 
 include "secret.conf";
-mtu 1406;
+mtu {{ item.1.mtu }};
 
 peer group "vpn_nodes" {
     include "peer_limit.conf";
     include peers from "peers";
-{% if item.id == "mz" %}
+{% if item.0.id == "mz" %}
     include peers from "peers_bingen";
 {% endif %}
 }
@@ -34,11 +34,11 @@ on up "
     ip link set address {{ mac | hwaddr('linux') }} dev $INTERFACE
     ip link set $INTERFACE up
 
-    batctl -m {{ item.id }}BAT if add $INTERFACE
+    batctl -m {{ item.0.id }}BAT if add $INTERFACE
 ";
 
 on down "
-    batctl -m {{ item.id }}BAT if del $INTERFACE
+    batctl -m {{ item.0.id }}BAT if del $INTERFACE
 ";
 
-status socket "/var/run/fastd-{{ item.id }}VPN.status";
+status socket "/var/run/fastd-{{ item.0.id }}VPN-{{ item.1.mtu }}.status";

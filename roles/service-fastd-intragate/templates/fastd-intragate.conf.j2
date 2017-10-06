@@ -1,4 +1,4 @@
-{% set ip4hex = item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
+{% set ip4hex = item.0.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
 {% set mac = '0212' + ip4hex -%}
 #
 # {{ ansible_managed }}
@@ -9,13 +9,13 @@ hide mac addresses yes;
 
 method "aes128-ctr+umac";
 
-interface "{{ item.id }}igVPN";
+interface "{{ item.0.id }}igVPN-{{ item.1.mtu }}";
 
-bind {{ ansible_default_ipv4.address | ipaddr('public') }}:101{{ item.site_number }};
-bind {{ ansible_default_ipv6.address | ipaddr('public') | ipwrap }}:101{{ item.site_number }};
+bind {{ ansible_default_ipv4.address | ipaddr('public') }}:11{{ item.1.id }}{{ item.0.site_number }};
+bind {{ ansible_default_ipv6.address | ipaddr('public') | ipwrap }}:11{{ item.1.id }}{{ item.0.site_number }};
 
 include "secret.conf";
-mtu 1406;
+mtu {{ item.1.mtu }};
 
 peer group "servers" {
     include peers from "peers/gates";
@@ -27,11 +27,11 @@ on up "
     ip link set address {{ mac | hwaddr('linux') }} dev $INTERFACE
     ip link set $INTERFACE up
 
-    batctl -m {{ item.id }}BAT if add $INTERFACE
+    batctl -m {{ item.0.id }}BAT if add $INTERFACE
 ";
 
 on down "
-    batctl -m {{ item.id }}BAT if del $INTERFACE
+    batctl -m {{ item.0.id }}BAT if del $INTERFACE
 ";
 
-status socket "/var/run/fastd-{{ item.id }}igVPN.status";
+status socket "/var/run/fastd-{{ item.0.id }}igVPN-{{ item.1.mtu }}.status";

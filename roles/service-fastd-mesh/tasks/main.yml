@@ -1,84 +1,106 @@
 ---
 - name: configure systemd unit fastd@
   systemd:
-    name: "fastd@{{ item.id }}VPN"
+    name: "fastd@{{ item.0.id }}VPN-{{ item.1.mtu }}"
     enabled: yes
-  with_items: "{{ meshes }}"
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.nodes.instances
 
 - name: create fastd directories
   file:
-    path: "/etc/fastd/{{ item.id }}VPN"
+    path: "/etc/fastd/{{ item.0.id }}VPN-{{ item.1.mtu }}"
     state: directory
     mode: 0755
-  with_items: "{{ meshes }}"
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.nodes.instances
 
 - name: create fastd peer mesh directories
   file:
-    path: "/etc/fastd/{{ item.id }}VPN/peers"
+    path: "/etc/fastd/{{ item.0.id }}VPN-{{ item.1.mtu }}/peers"
     state: directory
     mode: 0755
     owner: admin
     group: admin
-  with_items: "{{ meshes }}"
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.nodes.instances
 
 - name: create fastd peer mesh directories for ffbin
   file:
-    path: "/etc/fastd/mzVPN/peers_bingen"
+    path: "/etc/fastd/mzVPN-{{ item }}/peers_bingen"
     state: directory
     mode: 0755
     owner: admin
     group: admin
+  with_items:
+    - 1406
+    - 1312
 
 - name: clone fastd peer mesh repos
   git:
-    repo: "{{ item.peers_mesh_repo }}"
-    dest: "/etc/fastd/{{ item.id }}VPN/peers"
-    version: master
+    repo: "{{ item.1.peers.repo }}"
+    dest: "/etc/fastd/{{ item.0.id }}VPN-{{ item.1.mtu }}/peers"
+    version: "{{ item.1.peers.version }}"
     update: no
-  with_items: "{{ meshes }}"
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.nodes.instances
   become: false
 
 - name: clone fastd peer mesh repo for ffbin
   git:
     repo: https://github.com/freifunk-bingen/peers-ffbin.git
-    dest: /etc/fastd/mzVPN/peers_bingen
+    dest: "/etc/fastd/mzVPN-{{ item }}/peers_bingen"
     version: master
     update: no
+  with_items:
+    - 1406
+    - 1312
   become: false
 
 - name: template fastd mesh config
   template:
     src: fastd-mesh.conf.j2
-    dest: "/etc/fastd/{{ item.id }}VPN/fastd.conf"
+    dest: "/etc/fastd/{{ item.0.id }}VPN-{{ item.1.mtu }}/fastd.conf"
   notify: restart fastd mesh instances
-  with_items: "{{ meshes }}"
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.nodes.instances
 
 - name: write fastd mesh secret
   template:
     src: fastd-secret.conf.j2
-    dest: "/etc/fastd/{{ item.id }}VPN/secret.conf"
+    dest: "/etc/fastd/{{ item.0.id }}VPN-{{ item.1.mtu }}/secret.conf"
   notify: restart fastd mesh instances
-  with_items: "{{ meshes }}"
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.nodes.instances
 
 - name: copy peer_limit.conf if not exist
   copy:
     src: peer_limit.conf
-    dest: "/etc/fastd/{{ item.id }}VPN/peer_limit.conf"
+    dest: "/etc/fastd/{{ item.0.id }}VPN-{{ item.1.mtu }}/peer_limit.conf"
     owner: admin
     group: admin
     mode: 0640
     force: no
   notify: restart fastd mesh instances
-  with_items: "{{ meshes }}"
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.nodes.instances
 
 - name: set file attributes for peer_limit.conf
   file:
-    path: "/etc/fastd/{{ item.id }}VPN/peer_limit.conf"
+    path: "/etc/fastd/{{ item.0.id }}VPN-{{ item.1.mtu }}/peer_limit.conf"
     mode: 0640
     owner: admin
     group: admin
   notify: restart fastd mesh instances
-  with_items: "{{ meshes }}"
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.nodes.instances
 
 - name: write systemd unit fastd-sync-meshkeys.service
   template:
