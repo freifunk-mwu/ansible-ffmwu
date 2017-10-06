@@ -24,7 +24,7 @@ interface {{ mesh_id }}BR
 {% for ip_type, ip_list in mesh_value.ipv6.iteritems() %}
 {% for prefix in ip_list %}
 {% if ip_type == "public" %}
-	prefix {{ prefix | ipaddr('net') | ipsubnet(64, magic) | ipaddr('subnet')  }}
+	prefix {{ prefix | ipaddr('net') | ipsubnet(56, magic) | ipsubnet(64, 0) | ipaddr('subnet') }}
 {% else %}
 	prefix {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }}
 {% endif %}

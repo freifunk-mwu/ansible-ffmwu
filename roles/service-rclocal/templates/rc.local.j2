@@ -102,11 +102,11 @@ ip -6 rule add from all lookup icvpn priority 107
 # static {{ mesh_value.site_name }} routes for rt_table mwu
 /sbin/ip -4 route add {{ mesh_value.ipv4_network }} proto static dev {{ mesh_id }}BR table mwu
 {% for ula in mesh_value.ipv6.ula %}
-/sbin/ip -6 route add {{ ula | ipaddr('net') | ipsubnet(64, 0) }} proto static dev {{ mesh_id }}BR table mwu
+/sbin/ip -6 route add {{ ula | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev {{ mesh_id }}BR table mwu
 {% endfor %}
 {% for public in mesh_value.ipv6.public %}
-/sbin/ip -6 route add {{ public | ipaddr('net') | ipsubnet(64, 0) }} proto static dev {{ mesh_id }}BR table mwu
-/sbin/ip -6 route add {{ public | ipaddr('net') | ipsubnet(64, magic) }} proto static dev {{ mesh_id }}BR table mwu
+/sbin/ip -6 route add {{ public | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev {{ mesh_id }}BR table mwu
+/sbin/ip -6 route add {{ public | ipaddr('net') | ipsubnet(56, magic) | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev {{ mesh_id }}BR table mwu
 {% endfor %}
 {% if not loop.last %}
 
