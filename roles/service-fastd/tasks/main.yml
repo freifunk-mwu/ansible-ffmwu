@@ -7,3 +7,8 @@
   with_items:
     - fastd
     - git
+
+- name: mask legacy service fastd
+  systemd:
+    name: fastd
+    masked: yes
