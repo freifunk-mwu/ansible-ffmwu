@@ -98,8 +98,29 @@
     mode: 0644
   notify: reload systemd
 
-- name: configure systemd unit/timer fastd-sync-meshkeys
+- name: write systemd unit fastd-peer-limit-update.service
+  template:
+    src: fastd-peer-limit-update.service.j2
+    dest: /etc/systemd/system/fastd-peer-limit-update.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload systemd
+
+- name: write systemd timer fastd-peer-limit-update.timer
+  template:
+    src: fastd-peer-limit-update.timer.j2
+    dest: /etc/systemd/system/fastd-peer-limit-update.timer
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload systemd
+
+- name: configure systemd timers for fastd-mesh instance
   systemd:
-    name: fastd-sync-meshkeys.timer
+    name: "{{ item }}.timer"
     enabled: yes
     state: started
+  with_items:
+    - fastd-sync-meshkeys
+    - fastd-peer-limit-update
