@@ -18,7 +18,7 @@ include "secret.conf";
 mtu 1406;
 
 peer group "vpn_nodes" {
-    peer limit 150;
+    include "peer_limit.conf";
     include peers from "peers";
 {% if item.key == "mz" %}
     include peers from "peers_bingen";

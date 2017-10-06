@@ -60,6 +60,26 @@
   notify: restart fastd mesh instances
   with_dict: "{{ meshes }}"
 
+- name: copy peer_limit.conf if not exist
+  copy:
+    src: peer_limit.conf
+    dest: "/etc/fastd/{{ item.key }}VPN/peer_limit.conf"
+    owner: admin
+    group: admin
+    mode: 0640
+    force: no
+  notify: restart fastd mesh instances
+  with_dict: "{{ meshes }}"
+
+- name: set file attributes for peer_limit.conf
+  file:
+    path: "/etc/fastd/{{ item.key }}VPN/peer_limit.conf"
+    mode: 0640
+    owner: admin
+    group: admin
+  notify: restart fastd mesh instances
+  with_dict: "{{ meshes }}"
+
 - name: write systemd unit fastd-sync-meshkeys.service
   template:
     src: fastd-sync-meshkeys.service.j2
