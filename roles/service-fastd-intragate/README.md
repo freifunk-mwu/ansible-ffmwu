@@ -15,7 +15,7 @@ Diese Ansible role konfiguriert die fastd-Instanz für die Intra-Server Kommunik
 - Dictionary `meshes`
 ´´´
 meshes:
-  xx:
+  - id: xx
 ...
     site_number: # integer
     peers_mesh_repo: # String - https Link zum Github Repository

@@ -11,11 +11,10 @@ Diese Ansible role ergänzt die benötigte bird + bird6 Konfiguration für den I
 - Dictionary `meshes`
 ```
 meshes:
-  xx:
+  - id: xx
 ...
-    ipv6:
-      public:
-        - # Public IPv6-Netzwerk
+    ipv6_public:
+      - # Public IPv6-Netzwerk
 ```
 - Host Dictionary `ffrl_exit_server`
 ´´´

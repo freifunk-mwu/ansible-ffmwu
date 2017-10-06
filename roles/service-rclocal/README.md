@@ -10,15 +10,14 @@ All dieses sollte in Zukunft durch systemd units abgelöst werden.
 - Dictionary `meshes`
 ´´´
 meshes:
-  xx:
+  - id: xx
 ...
     site_name: # string
     ipv4_network:
-    ipv6:
-      ula:
-        - # string
-      public:
-        - # string
+    ipv6_ula:
+      - # string
+    ipv6_public:
+      - # string
     iface_mtu: # integer
 ´´´
 - Host Variable `magic`

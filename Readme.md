@@ -20,20 +20,19 @@ Die Server werden mit ihren FQDNs im Ansible Inventory hinterlegt, bedenkt das f
 ## Variablen für jedes Mesh
 
 Viele Rollen brauchen spezifische Informationen, wie IP-Adresse, Masken, Interface-Namen, etc.
-Wir verwalten diese Mesh-Informationen in einem Dictionary unter `inventory/group_vars/all`:
+Wir verwalten diese Mesh-Informationen in einer Liste von Dictionaries unter `inventory/group_vars/all`:
 
 ```
 meshes:
-  mz:
+  - id: mz
     site_number: 37
     site_code: ffmz
     site_name: Mainz
     ipv4_network: 10.37.0.0/18
-    ipv6:
-      ula:
-        - fd37:b4dc:4b1e::/48
-      public:
-        - 2a03:2260:11a::/48
+    ipv6_ula:
+      - fd37:b4dc:4b1e::/48
+    ipv6_public:
+      - 2a03:2260:11a::/48
     dnssl:
       - ffmz.org
       - user.ffmz.org
@@ -53,23 +52,22 @@ meshes:
     dns:
       master: fd37:b4dc:4b1e::a25:103
       forward_zones:
-        ffmz.org:
-        user.ffmz.org:
-        bb.ffmz.org:
-        nodes.ffmz.org:
-        ffbin:
+        - name: ffmz.org
+        - name: user.ffmz.org
+        - name: bb.ffmz.org
+        - name: nodes.ffmz.org
+        - name: ffbin
           master: fd37:b4dc:4b1e::a25:10c
 
-  wi:
+  - id: wi
     site_number: 56
     site_code: ffwi
     site_name: Wiesbaden
     ipv4_network: 10.56.0.0/18
-    ipv6:
-      ula:
-        - fd56:b4dc:4b1e::/48
-      public:
-        - 2a03:2260:11b::/48
+    ipv6_ula:
+      - fd56:b4dc:4b1e::/48
+    ipv6_public:
+      - 2a03:2260:11b::/48
     dnssl:
       - ffwi.org
       - user.ffwi.org
@@ -88,10 +86,10 @@ meshes:
     dns:
       master: fd56:b4dc:4b1e::a38:103
       forward_zones:
-        ffwi.org:
-        user.ffwi.org:
-        bb.ffwi.org:
-        nodes.ffwi.org:
+        - name: ffwi.org
+        - name: user.ffwi.org
+        - name: bb.ffwi.org
+        - name: nodes.ffwi.org
 ```
 
 ## Sensible Informationen

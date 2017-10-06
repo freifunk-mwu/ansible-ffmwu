@@ -2,13 +2,13 @@
 - name: create fastd mesh interfaces
   template:
     src: fastd-mesh.j2
-    dest: "/etc/network/interfaces.d/{{ item.key }}VPN"
+    dest: "/etc/network/interfaces.d/{{ item.id }}VPN"
   notify: reload network interfaces
-  with_dict: "{{ meshes }}"
+  with_items: "{{ meshes }}"
 
 - name: create fastd intragate interfaces
   template:
     src: fastd-intragate.j2
-    dest: "/etc/network/interfaces.d/{{ item.key }}igVPN"
+    dest: "/etc/network/interfaces.d/{{ item.id }}igVPN"
   notify: reload network interfaces
-  with_dict: "{{ meshes }}"
+  with_items: "{{ meshes }}"

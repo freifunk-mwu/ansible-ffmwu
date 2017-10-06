@@ -12,7 +12,7 @@ Diese Ansible role konfiguriert batman-adv Netzwerk Interfaces.
 - Dictionary `meshes`
 ´´´
 meshes:
-  xx:
+  - id: xx
 ...
     ipv4_network:
 ...

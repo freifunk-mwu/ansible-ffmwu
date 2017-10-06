@@ -1,4 +1,4 @@
-{% set ip4hex = item.value.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
+{% set ip4hex = item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
 {% set mac = '0212' + ip4hex -%}
 #
 # {{ ansible_managed }}
@@ -9,10 +9,10 @@ hide mac addresses yes;
 
 method "aes128-ctr+umac";
 
-interface "{{ item.key }}igVPN";
+interface "{{ item.id }}igVPN";
 
-bind {{ ansible_default_ipv4.address | ipaddr('public') }}:101{{ item.value.site_number }};
-bind {{ ansible_default_ipv6.address | ipaddr('public') | ipwrap }}:101{{ item.value.site_number }};
+bind {{ ansible_default_ipv4.address | ipaddr('public') }}:101{{ item.site_number }};
+bind {{ ansible_default_ipv6.address | ipaddr('public') | ipwrap }}:101{{ item.site_number }};
 
 include "secret.conf";
 mtu 1406;
@@ -27,11 +27,11 @@ on up "
     ip link set address {{ mac | hwaddr('linux') }} dev $INTERFACE
     ip link set $INTERFACE up
 
-    batctl -m {{ item.key }}BAT if add $INTERFACE
+    batctl -m {{ item.id }}BAT if add $INTERFACE
 ";
 
 on down "
-    batctl -m {{ item.key }}BAT if del $INTERFACE
+    batctl -m {{ item.id }}BAT if del $INTERFACE
 ";
 
-status socket "/var/run/fastd-{{ item.key }}igVPN.status";
+status socket "/var/run/fastd-{{ item.id }}igVPN.status";

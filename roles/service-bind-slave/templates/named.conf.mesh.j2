@@ -3,35 +3,35 @@
 //
 
 // ACLs
-masters "ns-master-{{ item.value.site_code }}" {
-	{{ item.value.dns.master }};
+masters "ns-master-{{ item.site_code }}" {
+	{{ item.dns.master }};
 };
 
-{% for zone_id, zone_value in item.value.dns.forward_zones.iteritems() %}
-{% if zone_value.master is defined %}
-masters "ns-master-{{ zone_id }}" {
-	{{ zone_value.master }};
+{% for zone in item.dns.forward_zones %}
+{% if zone.master is defined %}
+masters "ns-master-{{ zone.name }}" {
+	{{ zone.master }};
 };
 
 {% endif %}
 {% endfor %}
 
-acl "intern-{{ item.value.site_code }}" {
-	{{ item.value.ipv4_network | ipaddr('net') | ipaddr('network/prefix') }};
-{% for prefix in item.value.ipv6.ula %}
+acl "intern-{{ item.site_code }}" {
+	{{ item.ipv4_network | ipaddr('net') | ipaddr('network/prefix') }};
+{% for prefix in item.ipv6_ula %}
 	{{ prefix | ipaddr('net') | ipaddr('network/prefix') }};
 {% endfor %}
 };
 
-// DNS forward zones for {{ item.value.site_code }}
-{% for zone_id, zone_value in item.value.dns.forward_zones.iteritems() %}
-zone "{{ zone_id }}." {
+// DNS forward zones for {{ item.site_code }}
+{% for zone in item.dns.forward_zones %}
+zone "{{ zone.name }}." {
 	type slave;
-	file "{{ zone_id }}.db";
-{% if zone_value.master is defined %}
-	masters { ns-master-{{ zone_id }}; };
+	file "{{ zone.name }}.db";
+{% if zone.master is defined %}
+	masters { ns-master-{{ zone.name }}; };
 {% else %}
-	masters { ns-master-{{ item.value.site_code }}; };
+	masters { ns-master-{{ item.site_code }}; };
 {% endif %}
 };
 {% if not loop.last %}
@@ -39,18 +39,18 @@ zone "{{ zone_id }}." {
 {% endif %}
 {% endfor %}
 
-// DNS reverse zones for {{ item.value.site_code }}
-zone "{{ item.value.ipv4_network | ipaddr('net') | ipaddr('revdns') }}" {
+// DNS reverse zones for {{ item.site_code }}
+zone "{{ item.ipv4_network | ipaddr('net') | ipaddr('revdns') }}" {
 	type slave;
-	file "{{ item.value.ipv4_network | ipaddr('net') | ipaddr('revdns') }}";
-	masters { ns-master-{{ item.value.site_code }}; };
+	file "{{ item.ipv4_network | ipaddr('net') | ipaddr('revdns') }}";
+	masters { ns-master-{{ item.site_code }}; };
 };
 
-{% for prefix in item.value.ipv6.ula %}
+{% for prefix in item.ipv6_ula %}
 zone "{{ prefix | ipaddr('net') | ipaddr('revdns') }}" {
 	type slave;
 	file "{{ prefix | ipaddr('net') | ipaddr('revdns') }}";
-	masters { ns-master-{{ item.value.site_code }}; };
+	masters { ns-master-{{ item.site_code }}; };
 };
 {% if not loop.last %}
 

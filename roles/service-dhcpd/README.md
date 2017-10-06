@@ -12,7 +12,7 @@ Wir nutzen diesen nur zur Verteilung von IPv4-Adressen.
 - Dictionary `meshes`
 ´´´
 meshes:
-  xx:
+  - id: xx
 ...
     site_name: # string
     site_code: # string

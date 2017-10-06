@@ -12,7 +12,7 @@ default-lease-time 300;
 min-lease-time 300;
 max-lease-time 300;
 
-{% for mesh in meshes.values() %}
+{% for mesh in meshes %}
 # DHCP subnet for site {{ mesh.site_name }} ({{ mesh.site_code }})
 subnet {{ mesh.ipv4_network | ipaddr('network') }} netmask {{ mesh.ipv4_network | ipaddr('netmask') }} {
 	range {{ mesh.ipv4_network | ipsubnet(22, ipv4_dhcp_range) | ipaddr('net') | ipaddr('network') }} {{ mesh.ipv4_network | ipsubnet(22, ipv4_dhcp_range) | ipaddr('net') | ipaddr('broadcast') }};

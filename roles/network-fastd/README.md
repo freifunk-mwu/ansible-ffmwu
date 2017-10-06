@@ -10,7 +10,7 @@ Diese Ansible role konfiguriert Netzwerk Interfaces für fastd.
 - Dictionary `meshes`
 ´´´
 meshes:
-  xx:
+  - id: xx
 ...
     ipv4_network:
 ...

@@ -18,7 +18,7 @@ sysctl_settings_netfilter:
 - Dictionary `meshes`
 ´´´
 meshes:
-  xx:
+  - id: xx
 ...
     ipv4_network:
 ...

@@ -15,18 +15,17 @@ Die Gateways agieren lediglich als Slave-DNS Server.
 - Dictionary `meshes`
 ´´´
 meshes:
-  xx:
+  - id: xx
 ...
     site_code: # string
     ipv4_network:
-    ipv6:
-      ula:
-        - # ULA-Prefix
-        - ...
+    ipv6_ula:
+      - # ULA-Prefix
+      - ...
     dns:
       master: # IP-Adresse des DNS Masters
       forward_zones:
-        $zone: # DNS-Domain
+        - name: $zone # DNS-Domain
           master: # optional: IP-Adresse des DNS Masters, wenn die vom übergeordneten abweicht.
       
 ´´´

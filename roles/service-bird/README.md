@@ -26,11 +26,10 @@ Im iBGP peeren wir mangels separatem Transfernetz (im Moment) im Mainzer Mesh Ne
 - Dictionary `meshes`
 ´´´
 meshes:
-  xx:
+  - id: xx
 ...
     ipv4_network:
-    ipv6:
-      ula:
-        - # IPv6-ULA Network
+    ipv6_ula:
+      - # IPv6-ULA Network
 ´´´
 - Host Variable `magic`

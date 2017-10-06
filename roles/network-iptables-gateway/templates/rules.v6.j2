@@ -7,8 +7,8 @@
 :OUTPUT ACCEPT [0:0]
 -A INPUT -m conntrack --ctstate INVALID -j DROP
 -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-{% for mesh_id, mesh_value in meshes.iteritems() %}
--A FORWARD -i {{ mesh_id }}BR -o {{ mesh_id }}BR -j ACCEPT
+{% for mesh in meshes %}
+-A FORWARD -i {{ mesh.id }}BR -o {{ mesh.id }}BR -j ACCEPT
 {% endfor %}
 -A FORWARD -m conntrack --ctstate INVALID -j DROP
 -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT

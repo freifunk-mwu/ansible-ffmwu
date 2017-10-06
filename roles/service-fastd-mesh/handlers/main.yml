@@ -1,6 +1,6 @@
 ---
 - name: restart fastd mesh instances
   systemd:
-    name: "fastd@{{ item.key }}VPN"
+    name: "fastd@{{ item.id }}VPN"
     state: restarted
   with_dict: "{{ meshes }}"

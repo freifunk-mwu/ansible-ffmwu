@@ -1,25 +1,25 @@
 ---
 - name: configure systemd unit fastd@
   systemd:
-    name: "fastd@{{ item.key }}VPN"
+    name: "fastd@{{ item.id }}VPN"
     enabled: yes
-  with_dict: "{{ meshes }}"
+  with_items: "{{ meshes }}"
 
 - name: create fastd directories
   file:
-    path: "/etc/fastd/{{ item.key }}VPN"
+    path: "/etc/fastd/{{ item.id }}VPN"
     state: directory
     mode: 0755
-  with_dict: "{{ meshes }}"
+  with_items: "{{ meshes }}"
 
 - name: create fastd peer mesh directories
   file:
-    path: "/etc/fastd/{{ item.key }}VPN/peers"
+    path: "/etc/fastd/{{ item.id }}VPN/peers"
     state: directory
     mode: 0755
     owner: admin
     group: admin
-  with_dict: "{{ meshes }}"
+  with_items: "{{ meshes }}"
 
 - name: create fastd peer mesh directories for ffbin
   file:
@@ -31,11 +31,11 @@
 
 - name: clone fastd peer mesh repos
   git:
-    repo: "{{ item.value.peers_mesh_repo }}"
-    dest: "/etc/fastd/{{ item.key }}VPN/peers"
+    repo: "{{ item.peers_mesh_repo }}"
+    dest: "/etc/fastd/{{ item.id }}VPN/peers"
     version: master
     update: no
-  with_dict: "{{ meshes }}"
+  with_items: "{{ meshes }}"
   become: false
 
 - name: clone fastd peer mesh repo for ffbin
@@ -49,36 +49,36 @@
 - name: template fastd mesh config
   template:
     src: fastd-mesh.conf.j2
-    dest: "/etc/fastd/{{ item.key }}VPN/fastd.conf"
+    dest: "/etc/fastd/{{ item.id }}VPN/fastd.conf"
   notify: restart fastd mesh instances
-  with_dict: "{{ meshes }}"
+  with_items: "{{ meshes }}"
 
 - name: write fastd mesh secret
   template:
     src: fastd-secret.conf.j2
-    dest: "/etc/fastd/{{ item.key }}VPN/secret.conf"
+    dest: "/etc/fastd/{{ item.id }}VPN/secret.conf"
   notify: restart fastd mesh instances
-  with_dict: "{{ meshes }}"
+  with_items: "{{ meshes }}"
 
 - name: copy peer_limit.conf if not exist
   copy:
     src: peer_limit.conf
-    dest: "/etc/fastd/{{ item.key }}VPN/peer_limit.conf"
+    dest: "/etc/fastd/{{ item.id }}VPN/peer_limit.conf"
     owner: admin
     group: admin
     mode: 0640
     force: no
   notify: restart fastd mesh instances
-  with_dict: "{{ meshes }}"
+  with_items: "{{ meshes }}"
 
 - name: set file attributes for peer_limit.conf
   file:
-    path: "/etc/fastd/{{ item.key }}VPN/peer_limit.conf"
+    path: "/etc/fastd/{{ item.id }}VPN/peer_limit.conf"
     mode: 0640
     owner: admin
     group: admin
   notify: restart fastd mesh instances
-  with_dict: "{{ meshes }}"
+  with_items: "{{ meshes }}"
 
 - name: write systemd unit fastd-sync-meshkeys.service
   template:

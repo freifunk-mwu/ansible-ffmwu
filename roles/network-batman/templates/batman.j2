@@ -1,14 +1,14 @@
-{% set ip4hex = item.value.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
+{% set ip4hex = item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
 {% set mac = '0201' + ip4hex -%}
 #
 # {{ ansible_managed }}
 #
-auto {{ item.key }}BAT
-iface {{ item.key }}BAT
+auto {{ item.id }}BAT
+iface {{ item.id }}BAT
     hwaddress {{ mac | hwaddr('linux') }}
-    batman-ifaces {{ item.key }}0 {{ item.key }}VPN {{ item.key }}igVPN
-    batman-hop-penalty {{ item.value.batman.hop_penalty }}
-    post-up /usr/sbin/batctl -m $IFACE it {{ item.value.batman.it }}
-    post-up /usr/sbin/batctl -m $IFACE gw {{ item.value.batman.gw }}
-    post-up /usr/sbin/batctl -m $IFACE mm {{ item.value.batman.mm }}
-    post-up /usr/sbin/batctl -m $IFACE dat {{ item.value.batman.dat }}
+    batman-ifaces {{ item.id }}0 {{ item.id }}VPN {{ item.id }}igVPN
+    batman-hop-penalty {{ item.batman.hop_penalty }}
+    post-up /usr/sbin/batctl -m $IFACE it {{ item.batman.it }}
+    post-up /usr/sbin/batctl -m $IFACE gw {{ item.batman.gw }}
+    post-up /usr/sbin/batctl -m $IFACE mm {{ item.batman.mm }}
+    post-up /usr/sbin/batctl -m $IFACE dat {{ item.batman.dat }}

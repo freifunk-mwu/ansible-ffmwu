@@ -26,8 +26,8 @@ function is_ula() {
 
 function is_mwu_self_nets() {
     return net ~ [
-{% for item, value in meshes.iteritems() %}
-{% for ula in value.ipv6.ula %}
+{% for mesh in meshes %}
+{% for ula in mesh.ipv6_ula %}
         {{ ula | ipaddr('net') }}+{{ "," if not loop.last else "" }}{% endfor %}{{ "," if not loop.last else "" }}
 {% endfor %}
     ];
@@ -39,8 +39,8 @@ protocol device {
 };
 
 protocol direct mwu_subnets {
-{% for item, value in meshes.iteritems() %}
-    interface "{{ item }}BR";
+{% for mesh in meshes %}
+    interface "{{ mesh.id }}BR";
 {% endfor %}
     import where is_mwu_self_nets();
 };

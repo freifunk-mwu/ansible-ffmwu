@@ -1,6 +1,6 @@
 ---
 - name: restart fastd intragate instances
   systemd:
-    name: "fastd@{{ item.key }}igVPN"
+    name: "fastd@{{ item.id }}igVPN"
     state: restarted
   with_dict: "{{ meshes }}"

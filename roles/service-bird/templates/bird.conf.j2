@@ -38,8 +38,8 @@ function is_chaosvpn() {
 
 function is_mwu_self_nets() {
     return net ~ [
-{% for item, value in meshes.iteritems() %}
-        {{ value.ipv4_network | ipaddr('net') }}+{{ "," if not loop.last else "" }}
+{% for mesh in meshes %}
+        {{ mesh.ipv4_network | ipaddr('net') }}+{{ "," if not loop.last else "" }}
 {% endfor %}
     ];
 }
@@ -50,8 +50,8 @@ protocol device {
 };
 
 protocol direct mwu_subnets {
-{% for item, value in meshes.iteritems() %}
-    interface "{{ item }}BR";
+{% for mesh in meshes %}
+    interface "{{ mesh.id }}BR";
 {% endfor %}
     import where is_mwu_self_nets();
 };

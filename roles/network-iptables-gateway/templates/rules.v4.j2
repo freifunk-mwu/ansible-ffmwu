@@ -8,8 +8,8 @@
 -A INPUT -d {{ ansible_default_ipv4.address | ipaddr('public') }}/32 -p gre -j ACCEPT
 -A INPUT -m conntrack --ctstate INVALID -j DROP
 -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-{% for mesh_id, mesh_value in meshes.iteritems() %}
--A FORWARD -i {{ mesh_id }}BR -o {{ mesh_id }}BR -j ACCEPT
+{% for mesh in meshes %}
+-A FORWARD -i {{ mesh.id }}BR -o {{ mesh.id }}BR -j ACCEPT
 {% endfor %}
 -A FORWARD -m conntrack --ctstate INVALID -j DROP
 -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
@@ -31,8 +31,8 @@ COMMIT
 :OUTPUT ACCEPT [0:0]
 :POSTROUTING ACCEPT [0:0]
 :ffrl-nat - [0:0]
-{% for mesh_id, mesh_value in meshes.iteritems() %}
--A POSTROUTING -s {{ mesh_value.ipv4_network | ipaddr('private') | ipaddr('net') }} -o ffrl+ -j ffrl-nat
+{% for mesh in meshes %}
+-A POSTROUTING -s {{ mesh.ipv4_network | ipaddr('private') | ipaddr('net') }} -o ffrl+ -j ffrl-nat
 {% endfor %}
 -A ffrl-nat -o ffrl+ -j SNAT --to-source {{ ffrl_public_ipv4_nat | ipaddr('address') }}
 COMMIT

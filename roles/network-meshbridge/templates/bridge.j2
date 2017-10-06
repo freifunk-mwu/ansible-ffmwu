@@ -1,15 +1,16 @@
-{% set ip4hex = item.value.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
+{% set ip4hex = item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
 {% set mac = '0210' + ip4hex -%}
 #
 # {{ ansible_managed }}
 #
-auto {{ item.key }}BR
-iface {{ item.key }}BR
+auto {{ item.id }}BR
+iface {{ item.id }}BR
     hwaddress {{ mac | hwaddr('linux') }}
-    address {{ item.value.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('ip/prefix') }}
-{% for ip_type, ip_list in item.value.ipv6.iteritems() %}
-{% for ip in ip_list %}
-    address {{ ip | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('ip/prefix') }}
+    address {{ item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('ip/prefix') }}
+{% for prefix in item.ipv6_ula %}
+    address {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('ip/prefix') }}
 {% endfor %}
+{% for prefix in item.ipv6_public %}
+    address {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('ip/prefix') }}
 {% endfor %}
-    bridge-ports {{ item.key }}BAT
+    bridge-ports {{ item.id }}BAT
