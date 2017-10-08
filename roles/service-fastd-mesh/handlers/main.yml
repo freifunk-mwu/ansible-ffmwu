@@ -1,7 +1,7 @@
 ---
 - name: restart fastd mesh instances
   systemd:
-    name: "fastd@{{ item.0.id }}VPN{{ item.1.mtu }}"
+    name: "fastd@{{ item.0.id }}VPN-{{ item.1.mtu }}"
     state: restarted
   with_subelements:
     - "{{ meshes }}"
