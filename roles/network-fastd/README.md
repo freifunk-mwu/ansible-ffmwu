@@ -17,6 +17,17 @@ meshes:
 ...
     ipv4_network:
 ...
+    fastd:
+      nodes:
+        instances:
+          - id: 0 # integer
+            mtu: # integer
+          ...
+      intragate:
+        instances:
+          - id: 0 # integer
+            mtu: # integer
+          ...
 
 ´´´
 - Host Variable `magic`
