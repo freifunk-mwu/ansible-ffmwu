@@ -21,6 +21,19 @@ meshes:
       gw: # string: gateway mode
       mm: # boolean: multicast mode
       dat: # boolean: distributed arp table
+      hop_penalty: # integer: hop penalty
+...
+    fastd:
+      nodes:
+        instances:
+          - id: 0 # integer
+            mtu: # integer
+          ...
+      intragate:
+        instances:
+          - id: 0 # integer
+            mtu: # integer
+          ...
 
 ´´´
 - Host Variable `magic`
