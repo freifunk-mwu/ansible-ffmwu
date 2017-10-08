@@ -17,6 +17,11 @@ Playbook eingebunden sein.
 
 Die Server werden mit ihren FQDNs im Ansible Inventory hinterlegt, bedenkt das für eure ssh-config.
 
+Voraussetzungen für die Control Machine:
+
+- Python 2 (Versionen 2.6 oder 2.7) oder 3 (Versionen 3.5 oder höher)
+- Ansible Version >= 2.4.0.0
+
 ## Variablen für jedes Mesh
 
 Viele Rollen brauchen spezifische Informationen, wie IP-Adresse, Masken, Interface-Namen, etc.
