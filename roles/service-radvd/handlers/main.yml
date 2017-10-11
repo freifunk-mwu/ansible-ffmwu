@@ -1,8 +1,4 @@
 ---
-- name: reload systemd
-  systemd:
-    daemon_reload: yes
-
 - name: restart systemd unit radvd
   systemd:
     name: radvd

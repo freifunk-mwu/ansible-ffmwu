@@ -3,7 +3,6 @@
   package:
     name: "{{ item }}"
     state: present
-  notify: reload systemd
   with_items:
     - fastd
     - git

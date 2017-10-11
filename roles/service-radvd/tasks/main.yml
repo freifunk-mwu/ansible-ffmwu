@@ -3,7 +3,6 @@
   package:
     name: radvd
     state: present
-  notify: reload systemd
 
 - name: enable systemd unit radvd
   systemd:

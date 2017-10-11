@@ -3,7 +3,6 @@
   package:
     name: haveged
     state: present
-  notify: reload systemd
 
 - name: start and enable systemd unit haveged
   systemd:
