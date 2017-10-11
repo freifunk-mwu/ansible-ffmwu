@@ -1,0 +1,34 @@
+---
+- name: write systemd unit ffmwu-static-routes.service
+  template:
+    src: ffmwu-static-routes.service.j2
+    dest: /etc/systemd/system/ffmwu-static-routes.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload systemd
+
+- name: write static route scripts
+  template:
+    src: "{{ item }}.j2"
+    dest: "/usr/local/bin/{{ item }}"
+    owner: root
+    group: root
+    mode: 0750
+  with_items:
+    - ffmwu-add-static-routes.sh
+    - ffmwu-del-static-routes.sh
+  notify: restart systemd unit ffmwu-static-routes
+
+- name: enable systemd unit ffmwu-static-routes.service
+  systemd:
+    name: ffmwu-static-routes
+    enabled: yes
+    state: started
+
+- name: set freifunk gateway sysctl settings
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+  with_items: "{{ sysctl_settings_routing }}"

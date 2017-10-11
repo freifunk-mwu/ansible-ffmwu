@@ -1,0 +1,62 @@
+#!/bin/sh
+{% for mesh in meshes %}
+# static {{ mesh.site_name }} routes for rt_table mwu
+/sbin/ip -4 route add {{ mesh.ipv4_network }} proto static dev {{ mesh.id }}BR table mwu
+{% for ula in mesh.ipv6_ula %}
+/sbin/ip -6 route add {{ ula | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev {{ mesh.id }}BR table mwu
+{% endfor %}
+{% for public in mesh.ipv6_public %}
+/sbin/ip -6 route add {{ public | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev {{ mesh.id }}BR table mwu
+/sbin/ip -6 route add {{ public | ipaddr('net') | ipsubnet(56, magic) | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev {{ mesh.id }}BR table mwu
+{% endfor %}
+{% if not loop.last %}
+
+{% endif %}
+{% endfor %}
+
+# static blackhole routes for rt_table internet
+/sbin/ip -4 route add blackhole 0.0.0.0/8 table internet
+/sbin/ip -4 route add blackhole 10.0.0.0/8 table internet
+/sbin/ip -4 route add blackhole 100.64.0.0/10 table internet
+/sbin/ip -4 route add blackhole 127.0.0.0/8 table internet
+/sbin/ip -4 route add blackhole 169.254.0.0/16 table internet
+/sbin/ip -4 route add blackhole 172.16.0.0/12 table internet
+/sbin/ip -4 route add blackhole 192.0.0.0/24 table internet
+/sbin/ip -4 route add blackhole 192.0.2.0/24 table internet
+/sbin/ip -4 route add blackhole 192.88.99.0/24 table internet
+/sbin/ip -4 route add blackhole 192.168.0.0/16 table internet
+/sbin/ip -4 route add blackhole 198.18.0.0/15 table internet
+/sbin/ip -4 route add blackhole 198.51.100.0/24 table internet
+/sbin/ip -4 route add blackhole 203.0.113.0/24 table internet
+/sbin/ip -4 route add blackhole 224.0.0.0/4 table internet
+/sbin/ip -4 route add blackhole 240.0.0.0/4 table internet
+/sbin/ip -4 route add blackhole 255.255.255.255/32 table internet
+/sbin/ip -6 route add blackhole fec0::/10 table internet
+/sbin/ip -6 route add blackhole fc00::/7 table internet
+/sbin/ip -6 route add blackhole ff00::/8 table internet
+/sbin/ip -6 route add blackhole ::/96 table internet
+/sbin/ip -6 route add blackhole 0:0:0:0:0:ffff::/96 table internet
+
+# static blackhole routes for rt_table main
+/sbin/ip -4 route add blackhole 0.0.0.0/8 table main
+/sbin/ip -4 route add blackhole 10.0.0.0/8 table main
+/sbin/ip -4 route add blackhole 100.64.0.0/10 table main
+/sbin/ip -4 route add blackhole 127.0.0.0/8 table main
+/sbin/ip -4 route add blackhole 169.254.0.0/16 table main
+/sbin/ip -4 route add blackhole 172.16.0.0/12 table main
+/sbin/ip -4 route add blackhole 192.0.0.0/24 table main
+/sbin/ip -4 route add blackhole 192.0.2.0/24 table main
+/sbin/ip -4 route add blackhole 192.88.99.0/24 table main
+/sbin/ip -4 route add blackhole 192.168.0.0/16 table main
+/sbin/ip -4 route add blackhole 198.18.0.0/15 table main
+/sbin/ip -4 route add blackhole 198.51.100.0/24 table main
+/sbin/ip -4 route add blackhole 203.0.113.0/24 table main
+/sbin/ip -4 route add blackhole 224.0.0.0/4 table main
+/sbin/ip -4 route add blackhole 240.0.0.0/4 table main
+/sbin/ip -4 route add blackhole 255.255.255.255/32 table main
+/sbin/ip -6 route add blackhole fec0::/10 table main
+/sbin/ip -6 route add blackhole fc00::/7 table main
+/sbin/ip -6 route add blackhole ff00::/8 table main
+/sbin/ip -6 route add blackhole ::/96 table main
+/sbin/ip -6 route add blackhole 0:0:0:0:0:ffff::/96 table main
+/sbin/ip -6 route add blackhole ::/0 table main
