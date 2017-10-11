@@ -1,6 +1,6 @@
 ---
 - name: install radvd packages
-  apt:
+  package:
     name: radvd
     state: present
   notify: reload systemd

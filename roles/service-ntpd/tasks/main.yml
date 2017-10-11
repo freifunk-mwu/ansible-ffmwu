@@ -6,11 +6,9 @@
     state: stopped
 
 - name: install ntp packages
-  apt:
-    state: present
+  package:
     name: "{{ item }}"
-    update_cache: yes
-    cache_valid_time: 21600
+    state: present
   with_items:
     - ntp
     - ntp-doc

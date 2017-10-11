@@ -1,6 +1,6 @@
 ---
 - name: install fastd packages
-  apt:
+  package:
     name: "{{ item }}"
     state: present
   notify: reload systemd

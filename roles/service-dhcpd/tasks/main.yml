@@ -1,6 +1,6 @@
 ---
 - name: install dhcp packages
-  apt:
+  package:
     name: isc-dhcp-server
     state: present
 

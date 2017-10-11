@@ -1,10 +1,8 @@
 ---
 - name: install batman-module and linux headers
-  apt:
-    state: present
+  package:
     name: "{{ item }}"
-    update_cache: yes
-    cache_valid_time: 21600
+    state: present
   with_items:
     - linux-headers-amd64
     - batman-adv-dkms

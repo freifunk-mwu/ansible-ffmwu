@@ -1,10 +1,8 @@
 ---
 - name: ensure dirmngr and apt-transport-https are installed
-  apt:
-    state: present
+  package:
     name: "{{ item }}"
-    update_cache: yes
-    cache_valid_time: 21600
+    state: present
   with_items:
     - dirmngr
     - apt-transport-https

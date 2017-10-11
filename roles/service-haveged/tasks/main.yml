@@ -1,6 +1,6 @@
 ---
 - name: install haveged
-  apt:
+  package:
     name: haveged
     state: present
   notify: reload systemd

@@ -1,10 +1,8 @@
 ---
 - name: ensure common packages are installed
-  apt:
-    state: present
+  package:
     name: "{{ item }}"
-    update_cache: yes
-    cache_valid_time: 21600
+    state: present
   with_items: "{{ packages }}"
 
 - name: ensure vim is default editor
