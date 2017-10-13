@@ -28,5 +28,4 @@
     - service-bird-ffrl
     - service-bind-slave
     - network-routing
-    - service-rclocal
     - system-sysctl-gateway

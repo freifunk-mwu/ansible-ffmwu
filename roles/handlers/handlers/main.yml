@@ -71,6 +71,11 @@
   systemd:
     name: ffmwu-static-routes
     state: restarted
+
+- name: restart systemd unit ffmwu-ip-rules
+  systemd:
+    name: ffmwu-ip-rules
+    state: restarted
     
 - name: iptables-restore
   shell: iptables-restore < /etc/iptables/rules.v4

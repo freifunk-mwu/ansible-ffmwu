@@ -1,4 +1,8 @@
 #!/bin/sh
+#
+# {{ ansible_managed }}
+#
+
 {% for mesh in meshes %}
 # static {{ mesh.site_name }} routes for rt_table mwu
 /sbin/ip -4 route add {{ mesh.ipv4_network }} proto static dev {{ mesh.id }}BR table mwu
