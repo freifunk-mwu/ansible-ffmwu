@@ -8,19 +8,21 @@ kann. Die folgenden Voraussetzungen müssen erfüllt sein:
 
 - Ein dedizierter (v)server muss existieren und unter einer IPv4- und einer IPv6-Adresse öffentlich erreichbar sein.
 - Die Adressen müssen im MWU-DNS eingetragen sein.
-- Als Betriebssystem muss Debian stretch installiert sein.
-- Für ansible muss Python 2.5 oder Python 2.4 + python-simplejson installiert sein.
+- Als Betriebssystem muss Debian Stretch installiert sein.
+- Für Ansible muss Python 2.6 oder höher installiert sein.
 - Es muss einen User admin geben, auf den die Admins Zugriff haben; dieser muss Root-Zugang über sudo haben.
 
-Die Voraussetzungen werden von der Rolle `prerequisites` geprüft, die Rolle sollte als erste Rolle in jedem
+Diese Voraussetzungen werden von der Rolle `prerequisites` geprüft, die Rolle sollte als erste Rolle in jedem
 Playbook eingebunden sein.
-
-Die Server werden mit ihren FQDNs im Ansible Inventory hinterlegt, bedenkt das für eure ssh-config.
 
 Voraussetzungen für die Control Machine:
 
 - Python 2 (Versionen 2.6 oder 2.7) oder 3 (Versionen 3.5 oder höher)
 - Ansible Version >= 2.4.0.0
+- Python Modul `netaddr`
+- Python Modul `dnspython`
+
+Die Server werden mit ihren FQDNs im Ansible Inventory hinterlegt, bedenkt das für eure ssh-config.
 
 ## Variablen für jedes Mesh
 
