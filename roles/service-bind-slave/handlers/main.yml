@@ -1,9 +1,0 @@
----
-- name: reload systemd
-  systemd:
-    daemon_reload: yes
-
-- name: restart bind9
-  systemd:
-    name: bind9
-    state: restarted

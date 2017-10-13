@@ -1,0 +1,79 @@
+---
+- name: reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: reload network interfaces
+  systemd:
+    name: networking
+    state: reloaded
+
+- name: activate sysfs variables
+  systemd:
+    name: sysfsutils
+    state: restarted
+
+- name: restart bind9
+  systemd:
+    name: bind9
+    state: restarted
+
+- name: reload systemd unit bird
+  systemd:
+    name: bird
+    state: reloaded
+
+- name: reload systemd unit bird6
+  systemd:
+    name: bird6
+    state: reloaded
+
+- name: restart isc dhcp server
+  systemd:
+    name: isc-dhcp-server
+    enabled: yes
+    state: restarted
+
+- name: restart fastd intragate instances
+  systemd:
+    name: "fastd@{{ item.0.id }}igVPN-{{ item.1.mtu }}"
+    state: restarted
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.intragate.instances
+
+- name: restart fastd mesh instances
+  systemd:
+    name: "fastd@{{ item.0.id }}VPN-{{ item.1.mtu }}"
+    state: restarted
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.nodes.instances
+
+- name: restart systemd unit radvd
+  systemd:
+    name: radvd
+    state: restarted
+
+- name: restart respondd
+  systemd:
+    name: "respondd-{{ item.id }}"
+    state: restarted
+  with_items: "{{ meshes }}"
+
+- name: restart systemd unit tinc
+  systemd:
+    name: tinc
+    enabled: yes
+    state: restarted
+
+- name: restart systemd unit ffmwu-static-routes
+  systemd:
+    name: ffmwu-static-routes
+    state: restarted
+    
+- name: iptables-restore
+  shell: iptables-restore < /etc/iptables/rules.v4
+
+- name: ip6tables-restore
+  shell: ip6tables-restore < /etc/iptables/rules.v6

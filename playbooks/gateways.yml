@@ -3,6 +3,7 @@
 - hosts: ffmwu-gateways
   remote_user: admin
   roles:
+    - handlers
     - prerequisites
     - server-repos
     - server-basic

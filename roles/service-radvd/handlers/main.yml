@@ -1,5 +1,0 @@
----
-- name: restart systemd unit radvd
-  systemd:
-    name: radvd
-    state: restarted

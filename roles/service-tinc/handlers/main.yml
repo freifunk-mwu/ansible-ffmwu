@@ -1,6 +1,0 @@
----
-- name: restart systemd unit tinc
-  systemd:
-    name: tinc
-    enabled: yes
-    state: restarted
