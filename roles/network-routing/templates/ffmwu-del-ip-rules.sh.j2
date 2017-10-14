@@ -5,8 +5,8 @@
 
 # Priority 7 - lookup rt_table mwu for all incoming traffic of freifunk related interfaces
 {% for mesh in meshes %}
-ip -4 rule del from {{ mesh.ipv4_network | ipdelr('network') }}/16 lookup mwu priority 7
-ip -4 rule del to {{ mesh.ipv4_network | ipdelr('network') }}/16 lookup mwu priority 7
+ip -4 rule del from {{ mesh.ipv4_network | ipaddr('network') }}/16 lookup mwu priority 7
+ip -4 rule del to {{ mesh.ipv4_network | ipaddr('network') }}/16 lookup mwu priority 7
 ip -4 rule del from all oif {{ mesh.id }}BR lookup mwu priority 7
 {% for ula in mesh.ipv6_ula %}
 ip -6 rule del from {{ ula }} lookup mwu priority 7
@@ -21,8 +21,8 @@ ip -6 rule del from all oif {{ mesh.id }}BR lookup mwu priority 7
 
 # Priority 23 - lookup rt_table icvpn for all incoming traffic of freifunk bridges
 {% for mesh in meshes %}
-ip -4 rule del from {{ mesh.ipv4_network | ipdelr('network') }}/16 lookup icvpn priority 23
-ip -4 rule del to {{ mesh.ipv4_network | ipdelr('network') }}/16 lookup icvpn priority 23
+ip -4 rule del from {{ mesh.ipv4_network | ipaddr('network') }}/16 lookup icvpn priority 23
+ip -4 rule del to {{ mesh.ipv4_network | ipaddr('network') }}/16 lookup icvpn priority 23
 ip -4 rule del from all oif {{ mesh.id }}BR lookup icvpn priority 23
 {% for ula in mesh.ipv6_ula %}
 ip -6 rule del from {{ ula }} lookup icvpn priority 23
@@ -39,7 +39,7 @@ ip -6 rule del from all oif icVPN lookup icvpn priority 23
 
 # Priority 41 - lookup rt_table internet for all incoming traffic of freifunk bridges
 {% for mesh in meshes %}
-ip -4 rule del from {{ mesh.ipv4_network | ipdelr('network') }}/16 lookup internet priority 41
+ip -4 rule del from {{ mesh.ipv4_network | ipaddr('network') }}/16 lookup internet priority 41
 {% for ula in mesh.ipv6_ula %}
 ip -6 rule del from {{ ula }} lookup internet priority 41
 ip -6 rule del to {{ ula }} lookup internet priority 41
@@ -50,8 +50,8 @@ ip -6 rule del to {{ public }} lookup internet priority 41
 {% endfor %}
 ip -6 rule del from all oif {{ mesh.id }}BR lookup internet priority 41
 {% endfor %}
-ip -4 rule del from {{ ffrl_public_ipv4_nat | ipdelr('host') }} lookup internet priority 41
-ip -4 rule del to {{ ffrl_public_ipv4_nat | ipdelr('host') }} lookup internet priority 41
+ip -4 rule del from {{ ffrl_public_ipv4_nat | ipaddr('host') }} lookup internet priority 41
+ip -4 rule del to {{ ffrl_public_ipv4_nat | ipaddr('host') }} lookup internet priority 41
 
 # Priority 61 - at this point this is the end of policy routing for freifunk related routes
 {% for mesh in meshes %}
