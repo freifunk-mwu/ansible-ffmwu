@@ -1,0 +1,10 @@
+[Unit]
+Description=respondd instance {{ item.id }}
+
+[Service]
+ExecStart=/home/admin/clones/mesh-announce/respondd.py -i {{ item.id }}BR -b {{ item.id }}BAT -s {{ item.site_code }} -d /home/admin/clones/mesh-announce/
+Restart=always
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+[Install]
+WantedBy=multi-user.target
