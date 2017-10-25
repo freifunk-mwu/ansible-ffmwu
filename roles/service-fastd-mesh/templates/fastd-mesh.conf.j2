@@ -1,5 +1,5 @@
 {% set ip4hex = item.0.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
-{% set mac = '0211' + ip4hex -%}
+{% set mac = '022' + item.1.id|string + ip4hex -%}
 #
 # {{ ansible_managed }}
 #
