@@ -82,7 +82,7 @@
     name: "respondd-{{ item.id }}"
     state: restarted
   with_items: "{{ meshes }}"
-    
+
 - name: iptables-restore
   shell: iptables-restore < /etc/iptables/rules.v4
 

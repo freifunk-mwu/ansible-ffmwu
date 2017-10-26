@@ -44,7 +44,7 @@
     dest: "/etc/fastd/{{ item.0.id }}igVPN-{{ item.1.mtu }}/fastd.conf"
   notify: restart fastd intragate instances
   with_subelements:
-    -  "{{ meshes }}"
+    - "{{ meshes }}"
     - fastd.intragate.instances
 
 - name: write fastd intragate secret
