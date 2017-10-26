@@ -1,12 +1,4 @@
 ---
-- name: configure systemd unit fastd@
-  systemd:
-    name: "fastd@{{ item.0.id }}VPN-{{ item.1.mtu }}"
-    enabled: yes
-  with_subelements:
-    - "{{ meshes }}"
-    - fastd.nodes.instances
-
 - name: create fastd directories
   file:
     path: "/etc/fastd/{{ item.0.id }}VPN-{{ item.1.mtu }}"
@@ -146,3 +138,12 @@
   with_items:
     - fastd-sync-meshkeys
     - fastd-peer-limit-update
+
+- name: configure systemd unit fastd@
+  systemd:
+    name: "fastd@{{ item.0.id }}VPN-{{ item.1.mtu }}"
+    enabled: yes
+    state: started
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.nodes.instances

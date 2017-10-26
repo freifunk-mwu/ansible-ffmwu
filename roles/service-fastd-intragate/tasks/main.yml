@@ -1,12 +1,4 @@
 ---
-- name: configure systemd unit fastd@
-  systemd:
-    name: "fastd@{{ item.0.id }}igVPN-{{ item.1.mtu }}"
-    enabled: yes
-  with_subelements:
-    - "{{ meshes }}"
-    - fastd.intragate.instances
-
 - name: create fastd intragate directories
   file:
     path: "/etc/fastd/{{ item.0.id }}igVPN-{{ item.1.mtu }}"
@@ -52,6 +44,15 @@
     src: fastd-secret.conf.j2
     dest: "/etc/fastd/{{ item.0.id }}igVPN-{{ item.1.mtu }}/secret.conf"
   notify: restart fastd intragate instances
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.intragate.instances
+
+- name: configure systemd unit fastd@
+  systemd:
+    name: "fastd@{{ item.0.id }}igVPN-{{ item.1.mtu }}"
+    enabled: yes
+    state: started
   with_subelements:
     - "{{ meshes }}"
     - fastd.intragate.instances

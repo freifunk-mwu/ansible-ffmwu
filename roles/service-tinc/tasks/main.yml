@@ -6,11 +6,6 @@
   with_items:
     - tinc
 
-- name: configure systemd unit tinc
-  systemd:
-    name: tinc
-    enabled: yes
-
 - name: clone icvpn repo
   git:
     repo: "{{ icvpn.icvpn_repo }}"
@@ -75,3 +70,9 @@
     owner: root
     group: root
   notify: restart systemd unit tinc
+
+- name: configure systemd unit tinc
+  systemd:
+    name: tinc
+    enabled: yes
+    state: started

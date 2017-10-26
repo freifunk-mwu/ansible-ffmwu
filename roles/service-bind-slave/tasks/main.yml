@@ -8,11 +8,6 @@
     - bind9-doc
     - bind9utils
 
-- name: enable systemd unit bind9
-  systemd:
-    name: bind9
-    enabled: yes
-
 - name: write named.conf
   template:
     src: named.conf.j2
@@ -86,5 +81,11 @@
 - name: configure systemd unit/timer icvpn-dns-update
   systemd:
     name: icvpn-dns-update.timer
+    enabled: yes
+    state: started
+
+- name: enable systemd unit bind9
+  systemd:
+    name: bind9
     enabled: yes
     state: started

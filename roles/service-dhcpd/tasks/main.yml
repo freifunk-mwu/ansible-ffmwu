@@ -4,12 +4,6 @@
     name: isc-dhcp-server
     state: present
 
-- name: enable systemd unit isc-dhcp-server
-  systemd:
-    name: isc-dhcp-server
-    enabled: yes
-    daemon_reload: yes
-
 - name: concatenate meshbridge interfaces
   set_fact:
     dhcp_interfaces: "{% for mesh in meshes %}{{ mesh.id }}BR{% if not loop.last %} {% endif %}{% endfor %}"
@@ -32,3 +26,9 @@
     src: dhcpd.conf.j2
     dest: /etc/dhcp/dhcpd.conf
   notify: restart isc dhcp server
+
+- name: enable systemd unit isc-dhcp-server
+  systemd:
+    name: isc-dhcp-server
+    enabled: yes
+    state: started

@@ -4,13 +4,14 @@
     name: radvd
     state: present
 
-- name: enable systemd unit radvd
-  systemd:
-    name: radvd
-    enabled: yes
-
 - name: configure radvd
   template:
     src: radvd.conf.j2
     dest: /etc/radvd.conf
   notify: restart systemd unit radvd
+
+- name: enable systemd unit radvd
+  systemd:
+    name: radvd
+    enabled: yes
+    state: started

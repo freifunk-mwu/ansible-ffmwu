@@ -20,4 +20,3 @@
     name: ntp
     enabled: yes
     state: started
-    daemon_reload: yes
