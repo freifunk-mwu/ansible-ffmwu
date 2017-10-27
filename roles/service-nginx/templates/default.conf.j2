@@ -1,0 +1,12 @@
+server {
+    listen 80 default_server;
+    server_name _;
+
+    charset utf-8;
+    server_tokens off;
+
+    root /var/www/html;
+    location / {
+        index index.html;
+    }
+}

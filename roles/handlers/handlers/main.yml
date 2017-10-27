@@ -88,3 +88,8 @@
 
 - name: ip6tables-restore
   shell: ip6tables-restore < /etc/iptables/rules.v6
+
+- name: reload nginx
+  systemd:
+    name: nginx
+    state: reloaded
