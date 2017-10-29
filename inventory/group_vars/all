@@ -16,6 +16,9 @@ bgp_loopback_net: 10.37.0.0/18
 bgp_ipv4_transfer_net: 10.37.0.0/18
 bgp_ipv6_transfer_net: fd37:b4dc:4b1e::/64
 
+http_domain_internal: ffmwu.org
+http_domain_external: freifunk-mwu.de
+
 meshes:
   - id: mz
     site_number: 37
@@ -69,6 +72,8 @@ meshes:
         - name: nodes.ffmz.org
         - name: ffbin
           master: fd37:b4dc:4b1e::a25:10c
+    http_domain_internal: ffmz.org
+    http_domain_external: freifunk-mainz.de
 
   - id: wi
     site_number: 56
@@ -120,6 +125,8 @@ meshes:
         - name: user.ffwi.org
         - name: bb.ffwi.org
         - name: nodes.ffwi.org
+    http_domain_internal: ffwi.org
+    http_domain_external: wiesbaden.freifunk.net
 
 icvpn:
   prefix: mwu
