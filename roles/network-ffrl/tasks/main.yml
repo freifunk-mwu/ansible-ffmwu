@@ -11,3 +11,6 @@
     src: ffrl_nat.j2
     dest: "/etc/network/interfaces.d/ffrl-nat"
   notify: reload network interfaces
+
+- name: flush handlers
+  meta: flush_handlers

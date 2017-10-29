@@ -12,3 +12,6 @@
     dest: "/etc/network/interfaces.d/{{ item.id }}BAT"
   notify: reload network interfaces
   with_items: "{{ meshes }}"
+
+- name: flush handlers
+  meta: flush_handlers

@@ -12,3 +12,6 @@
     dest: "/etc/sysfs.d/99-{{ item.id }}BR.conf"
   with_items: "{{ meshes }}"
   notify: activate sysfs variables
+
+- name: flush handlers
+  meta: flush_handlers

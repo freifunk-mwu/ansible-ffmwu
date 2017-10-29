@@ -16,3 +16,6 @@
   with_subelements:
     - "{{ meshes }}"
     - fastd.intragate.instances
+
+- name: flush handlers
+  meta: flush_handlers
