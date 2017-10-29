@@ -30,3 +30,5 @@
     - network-routing
     - system-sysctl-gateway
     - service-respondd
+    - service-nginx
+    - service-nginx-firmware
