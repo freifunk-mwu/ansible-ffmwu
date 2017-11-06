@@ -24,116 +24,122 @@ Voraussetzungen für die Control Machine:
 
 Die Server werden mit ihren FQDNs im Ansible Inventory hinterlegt, bedenkt das für eure ssh-config.
 
-## Variablen für jedes Mesh
+## Gruppen-Variablen
+Viele Variablen sind Mesh-spezifisch und werden auf allen Gateways benötigt. Deshalb verwalten wir die Liste `meshes`. Jeder Listeneintrag ist ein Dictionary. Diese Liste befindet sich in der Sondergruppe `all` (inventory/group_vars/all) und steht damit allen Hosts im Inventory zur Verfügung.
+Diese Liste ist quasi das Herzstück zur Konfiguration der Mesh-spezifischen Parameter auf den Freifunk-Gateways. Jedes Dictionary repräsentiert eine Mesh-Wolke/Domain/Layer2-Netzwerk und ist wie folgt aufgebaut (Beispiel Mainz):
 
-Viele Rollen brauchen spezifische Informationen, wie IP-Adresse, Masken, Interface-Namen, etc.
-Wir verwalten diese Mesh-Informationen in einer Liste von Dictionaries unter `inventory/group_vars/all`:
+|Name|Type|Value|Format|Comment|
+|----|----|-----|------|-------|
+|id  |Variable|mz|string|Zum Teil werden Interface-Namen davon abgeleitet, z.B. `mzBR` oder `mzBAT`|
+|site_number|Variable|37|integer|Fließt in IP-Adress-Berechnung ein|
+|site_code|Variable|ffmz|string||
+|site_name|Variable|Mainz|string||
+|ipv4_network|Variable|10.37.0.0/18|string; Network/Prefix||
+|ipv6_ula|List|- fd37:b4dc:4b1e::/48|string; Network/Prefix||
+|ipv6_public|List|- 2a03:2260:11a::/48|string; Network/Prefix||
+|dnssl|List|- ffmz.org|string|DNS Search List (dhcp/radvd)|
+|batman|Dictionary||||
+|batman.it|Key|10000|integer||
+|batman.gw|Key|server 96mbit/96mbit|string||
+|batman.mm|Key|0|boolean||
+|batman.dat|Key|0|boolean||
+|batman.hop_penalty|Key|60|integer||
+|radvd|Dictionary||||
+|radvd.maxrtradvinterval|Key|900|integer||
+|radvd.advvalidlifetime|Key|864000|integer||
+|radvd.advpreferredlifetime|Key|172800|integer||
+|iface_mtu|Variable|1350|integer|Client MTU|
+|fastd|Dictionary||||
+|fastd.nodes|Dictionary||||
+|fastd.nodes.instances|List|||Jeder Listeneintrag ist ein Dictionary; Instanzen für Node-Kommunikation|
+|fastd.nodes.instances[x].id|Key|0|integer||
+|fastd.nodes.instances[x].mtu|Key|1406|integer||
+|fastd.nodes.instances[x].peers|Dictionary||||
+|fastd.nodes.instances[x].peers.repo|Key|https://github.com/freifunk-mwu/peers-ffmz.git|URL||
+|fastd.nodes.instances[x].peers.version|Key|master|string||
+|fastd.intragate|Dictionary||||
+|fastd.intragate.instances|List|||Jeder Listeneintrag ist ein Dictionary; Instanzen für Intragate-Kommunikation|
+|fastd.intragate.instances[x].id|Key|0|integer||
+|fastd.intragate.instances[x].mtu|Key|1406|integer||
+|fastd.intragate.instances[x].peers|Dictionary||||
+|fastd.intragate.instances[x].peers.repo|Key|https://github.com/freifunk-mwu/peers-ffmz.git|URL||
+|fastd.intragate.instances[x].peers.version|Key|master|string||
+|dns|Dictionary||||
+|dns.master|Key|fd37:b4dc:4b1e::a25:103|string; IP-Adresse|DNS-Master IP|
+|dns.forward_zones|List||||
+|dns.forward_zones[x].name|Key|ffmz.org|string||
+|dns.forward_zones[x].master|Key|fd37:b4dc:4b1e::a25:10c|string; IP-Adresse|Optional - überschreibt dns.master|
+|http_domain_internal|Variable|ffmz.org|string|Haupt-Domain für HTTP-Server(intern)|
+|http_domain_external|Variable|freifunk-mainz.de|string|Haupt-Domain für HTTP-Server(extern)||
 
-```
-meshes:
-  - id: mz
-    site_number: 37
-    site_code: ffmz
-    site_name: Mainz
-    ipv4_network: 10.37.0.0/18
-    ipv6_ula:
-      - fd37:b4dc:4b1e::/48
-    ipv6_public:
-      - 2a03:2260:11a::/48
-    dnssl:
-      - ffmz.org
-      - user.ffmz.org
-    batman:
-      it: 10000
-      gw: server 96mbit/96mbit
-      mm: 0
-      dat: 0
-      hop_penalty: 60
-    radvd:
-      maxrtradvinterval: 900
-      advvalidlifetime: 864000
-      advpreferredlifetime: 172800
-    iface_mtu: 1350
-    fastd:
-      nodes:
-        instances:
-          - id: 0
-            mtu: 1406
-            peers:
-              repo: https://github.com/freifunk-mwu/peers-ffmz.git
-              version: master
-          - id: 1
-            mtu: 1312
-            peers:
-              repo: https://github.com/freifunk-mwu/peers-ffmz.git
-              version: master
-      intragate:
-        instances:
-          - id: 0
-            mtu: 1406
-            peers:
-              repo: https://github.com/freifunk-mwu/ffmz-infrastructure-peers.git
-              version: master
-    dns:
-      master: fd37:b4dc:4b1e::a25:103
-      forward_zones:
-        - name: ffmz.org
-        - name: user.ffmz.org
-        - name: bb.ffmz.org
-        - name: nodes.ffmz.org
-        - name: ffbin
-          master: fd37:b4dc:4b1e::a25:10c
+Weitere Gruppen-Variablen:
 
-  - id: wi
-    site_number: 56
-    site_code: ffwi
-    site_name: Wiesbaden
-    ipv4_network: 10.56.0.0/18
-    ipv6_ula:
-      - fd56:b4dc:4b1e::/48
-    ipv6_public:
-      - 2a03:2260:11b::/48
-    dnssl:
-      - ffwi.org
-      - user.ffwi.org
-    batman:
-      it: 10000
-      gw: server 96mbit/96mbit
-      mm: 0
-      dat: 0
-      hop_penalty: 60
-    radvd:
-      maxrtradvinterval: 900
-      advvalidlifetime: 864000
-    iface_mtu: 1350
-    fastd:
-      nodes:
-        instances:
-          - id: 0
-            mtu: 1406
-            peers:
-              repo: https://github.com/freifunk-mwu/peers-ffwi.git
-              version: master
-          - id: 1
-            mtu: 1312
-            peers:
-              repo: https://github.com/freifunk-mwu/peers-ffwi.git
-              version: master
-      intragate:
-        instances:
-          - id: 0
-            mtu: 1406
-            peers:
-              repo: https://github.com/freifunk-mwu/ffwi-infrastructure-peers.git
-              version: master
-    dns:
-      master: fd56:b4dc:4b1e::a38:103
-      forward_zones:
-        - name: ffwi.org
-        - name: user.ffwi.org
-        - name: bb.ffwi.org
-        - name: nodes.ffwi.org
-```
+|Name|Type|Value|Format|Comment|
+|----|----|-----|------|-------|
+|as_private_mwu|Variable|65037|integer|Privates AS von Freifunk MWU|
+|as_public_ffrl|Variable|201701|integer|Public AS von Freifunk Rheinland|
+|internet_exit_tcp_mss_ipv4|Variable|1240|integer|IPv4 TCP MSS|
+|internet_exit_tcp_mss_ipv6|Variable|1220|integer|IPv6 TCP MSS|
+|routing_tables|Dictionary||||
+|routing_tables.icvpn|Key|23|integer||
+|routing_tables.mwu|Key|41|integer||
+|routing_tables.internet|Key|61|integer||
+|icvpn_ipv4_transfer_net|Variable|10.207.0.0/16|string; Network/Prefix|ICVPN IPv4 Transfernetz|
+|icvpn_ipv6_transfer_net|Variable|fec0::a:cf:0:0/96|string; Network/Prefix|ICVPN IPv6 Transfernetz|
+|bgp_loopback_net|Variable|10.37.0.0/18|string; Network/Prefix|MWU Loopback Netz für dynamisches Routing|
+|bgp_ipv4_transfer_net|Variable|10.37.0.0/18|string; Network/Prefix|MWU IPv4 Transfernetz für dynamisches Routing|
+|bgp_ipv6_transfer_net|Variable|fd37:b4dc:4b1e::/64|string; Network/Prefix|MWU IPv6 Transfernetz für dynamisches Routing|
+|http_domain_internal|Variable|ffmwu.org|string|Haupt-Domain für HTTP-Server(intern)|
+|http_domain_external|Variable|freifunk-mwu.de|string|Haupt-Domain für HTTP-Server(extern)|
+|icvpn|Dictionary|||ICVPN Informationen|
+|icvpn.prefix|Key|mwu|string|Prefix für MWU Gateways,  z.B. `mwu7` für Spinat|
+|icvpn.interface|Key|icVPN|string|Name für ICVPN Interface + tinc Instanz|
+|icvpn.icvpn_repo|Key|https://github.com/freifunk/icvpn|string|URL zum freifunk/icvpn Repository|
+|bgp_mwu_servers|Dictionary|||Enthält pro BGP MWU peer ein Dictionary - IP-Adressen aus bgp_ipvX_transfer_net|
+|bgp_mwu_servers.spinat|Dictionary||||
+|bgp_mwu_servers.spinat.ipv4|Variable|10.37.0.7|string - IPv4-Adresse||
+|bgp_mwu_server.spinat.ipv6|Variable|fd37:b4dc:4b1e::a25:7|string - IPv6-Adresse||
+
+
+## Host-Variablen
+Alle Server- bzw. Gateway-spezifischen Parameter werden als Host-Variablen abgebildet:
+
+|Name|Type|Value|Format|Comment|
+|----|----|-----|------|-------|
+|magic|Variable|7|integer|Muss eindeutig unter allen Servern sein|
+|ipv4_dhcp_range|Variable|6|integer|Wenn man das Mesh-Netz (/18) in /22er-Subnetze unterteilt und durchnummeriert, ist der Wert hier die Nummer des zu verwendenden /22er Subnetzes zwecks DHCP-Adress-Vergabe|
+|ffrl_public_ipv4_nat|Variable|185.66.195.32/32|IP/Prefix|Öffentliche IPv4-NAT-Adresse|
+|ffrl_exit_server|Dictionary|||Enthält pro FFRL Tunnel ein Dictionary|
+|ffrl_exit_server.ffrl-a-ak-ber|Dictionary|||Name = Interface|
+|ffrl_exit_server.ffrl-a-ak-ber.public_ipv4_address|Key|185.66.195.0|IP-Adresse|IP-Adresse der Tunnel-Gegenstelle|
+|ffrl_exit_server.ffrl-a-ak-ber.tunnel_ipv4_network|Key|100.64.2.226/31|Network/Prefix|Internes IPv4-Tunnel-Subnetz|
+|ffrl_exit_server.ffrl-a-ak-ber.tunnel_ipv6_network|Key|2a03:2260:0:17b::/64|Network/Prefix|Internes IPv6-Tunnel-Subnetz|
+|ffrl_exit_server.ffrl-b-ak-ber|Dictionary|||Name = Interface|
+|ffrl_exit_server.ffrl-b-ak-ber.public_ipv4_address|Key|185.66.195.1|IP-Adresse|IP-Adresse der Tunnel-Gegenstelle|
+|ffrl_exit_server.ffrl-b-ak-ber.tunnel_ipv4_network|Key|100.64.2.228/31|Network/Prefix|Internes IPv4-Tunnel-Subnetz|
+|ffrl_exit_server.ffrl-b-ak-ber.tunnel_ipv6_network|Key|2a03:2260:0:17c::/64|Network/Prefix|Internes IPv6-Tunnel-Subnetz|
+|ffrl_exit_server.ffrl-a-ix-dus|Dictionary|||Name = Interface|
+|ffrl_exit_server.ffrl-a-ix-dus.public_ipv4_address|Key|185.66.193.0|IP-Adresse|IP-Adresse der Tunnel-Gegenstelle|
+|ffrl_exit_server.ffrl-a-ix-dus.tunnel_ipv4_network|Key|100.64.2.230/31|Network/Prefix|Internes IPv4-Tunnel-Subnetz|
+|ffrl_exit_server.ffrl-a-ix-dus.tunnel_ipv6_network|Key|2a03:2260:0:17d::/64|Network/Prefix|Internes IPv6-Tunnel-Subnetz|
+|ffrl_exit_server.ffrl-b-ix-dus|Dictionary|||Name = Interface|
+|ffrl_exit_server.ffrl-b-ix-dus.public_ipv4_address|Key|185.66.193.1|IP-Adresse|IP-Adresse der Tunnel-Gegenstelle|
+|ffrl_exit_server.ffrl-b-ix-dus.tunnel_ipv4_network|Key|100.64.2.232/31|Network/Prefix|Internes IPv4-Tunnel-Subnetz|
+|ffrl_exit_server.ffrl-b-ix-dus.tunnel_ipv6_network|Key|2a03:2260:0:17e::/64|Network/Prefix|Internes IPv6-Tunnel-Subnetz|
+|ffrl_exit_server.ffrl-a-fra2-fra|Dictionary|||Name = Interface|
+|ffrl_exit_server.ffrl-a-fra2-fra.public_ipv4_address|Key|185.66.194.0|IP-Adresse|IP-Adresse der Tunnel-Gegenstelle|
+|ffrl_exit_server.ffrl-a-fra2-fra.tunnel_ipv4_network|Key|100.64.0.186/31|Network/Prefix|Internes IPv4-Tunnel-Subnetz|
+|ffrl_exit_server.ffrl-a-fra2-fra.tunnel_ipv6_network|Key|2a03:2260:0:63::/64|Network/Prefix|Internes IPv6-Tunnel-Subnetz|
+|ffrl_exit_server.ffrl-b-fra2-fra|Dictionary|||Name = Interface|
+|ffrl_exit_server.ffrl-b-fra2-fra.public_ipv4_address|Key|185.66.194.1|IP-Adresse|IP-Adresse der Tunnel-Gegenstelle|
+|ffrl_exit_server.ffrl-b-fra2-fra.tunnel_ipv4_network|Key|100.64.0.188/31|Network/Prefix|Internes IPv4-Tunnel-Subnetz|
+|ffrl_exit_server.ffrl-b-fra2-fra.tunnel_ipv6_network|Key|2a03:2260:0:64::/64|Network/Prefix|Internes IPv6-Tunnel-Subnetz|
+|fastd_secrets|Dictionary|||Ein Eintrag pro fastd-Interface mit passwordstore lookup zum pass-Pfad|
+|fastd_secrets.mzVPN|Key|"{{ lookup('passwordstore', 'fastd/mzVPN/spinat subkey=secret') }}"|||
+|fastd_secrets.wiVPN|Key|"{{ lookup('passwordstore', 'fastd/wiVPN/spinat subkey=secret') }}"|||
+|fastd_secrets.mzigVPN|Key|"{{ lookup('passwordstore', 'fastd/mzVPN/spinat subkey=secret') }}"|||
+|fastd_secrets.wiigVPN|Key|"{{ lookup('passwordstore', 'fastd/wiVPN/spinat subkey=secret') }}"|||
+|tinc_private_key|Variable|"{{ lookup('passwordstore', 'tinc/icVPN/spinat_private returnall=true') }}"||Passwordstore lookup zum pass-Pfad|
 
 ## Sensible Informationen
 
