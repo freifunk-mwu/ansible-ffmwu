@@ -2,7 +2,7 @@
 common_repos:
   backend-scripts:
     repo_url: https://github.com/freifunk-mwu/backend-scripts.git
-    version: drop-photon
+    version: ansible
   icvpn-meta:
     repo_url: https://github.com/freifunk/icvpn-meta.git
     version: master

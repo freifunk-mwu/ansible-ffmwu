@@ -20,3 +20,11 @@
     group: root
     mode: 0644
   notify: reload systemd
+
+- name: copy fastd status script
+  copy:
+    src: fastd-status
+    dest: /usr/local/bin/fastd-status
+    owner: root
+    group: root
+    mode: 0755

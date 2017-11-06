@@ -161,3 +161,8 @@ bgp_mwu_servers:
   suesskartoffel:
     ipv4: 10.37.1.4
     ipv6: fd37:b4dc:4b1e::a25:104
+
+legacy_gateways:
+  - ingwer
+  - lotuswurzel
+  - spinat

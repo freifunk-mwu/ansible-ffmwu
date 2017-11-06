@@ -13,3 +13,11 @@
 - name: set timezone to Europe/Berlin
   timezone:
     name: Europe/Berlin
+
+- name: create ffmwu custom config dir
+  file:
+    path: /home/admin/.config
+    state: directory
+    owner: admin
+    group: admin
+    mode: 0750
