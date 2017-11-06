@@ -3,7 +3,7 @@
 Diese Ansible role installiert und konfiguriert den tinc daemon, der für die Verbindung in das InterCity-VPN benötigt wird.
 
 - installiert tinc
-- erzeugt icVPN tinc Instanz
+- erzeugt icvpn tinc Instanz
   - klont freifunk/icvpn repo
   - schreibt tinc.conf
   - schreibt tinc-up hook script
@@ -16,7 +16,7 @@ Diese Ansible role installiert und konfiguriert den tinc daemon, der für die Ve
 ```
 icvpn:
   prefix: mwu
-  interface: icVPN
+  interface: icvpn
   icvpn_repo: https://github.com/freifunk/icvpn
 ```
 - Variable `icvpn_ipv4_transfer_net`
@@ -30,12 +30,12 @@ routing_tables:
 - Host Variable `magic`
 - Host Variable `tinc_private_key`
 ```
-tinc_private_key: "{{ lookup('passwordstore', 'tinc/icVPN/$Hostname_private returnall=true') }}"
+tinc_private_key: "{{ lookup('passwordstore', 'tinc/icvpn/$Hostname_private returnall=true') }}"
 ```
 
 ## tinc private key
 
-Der private Schlüssel der icVPN tinc-Instanz liegt im passwordstore.
+Der private Schlüssel der icvpn tinc-Instanz liegt im passwordstore.
 Bevor man ein Gateway aufsetzt, muss der private Schlüssel generiert und im passwordstore hinterlegt werden.
 Die Variable `tinc_private_key` folgt dem Aufbau:
 ```

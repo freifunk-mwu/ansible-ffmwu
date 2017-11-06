@@ -2,7 +2,7 @@
 - name: create fastd mesh interfaces
   template:
     src: fastd-mesh.j2
-    dest: "/etc/network/interfaces.d/{{ item.0.id }}VPN-{{ item.1.mtu }}"
+    dest: "/etc/network/interfaces.d/{{ item.0.id }}vpn-{{ item.1.mtu }}"
   notify: reload network interfaces
   with_subelements:
     - "{{ meshes }}"
@@ -11,7 +11,7 @@
 - name: create fastd intragate interfaces
   template:
     src: fastd-intragate.j2
-    dest: "/etc/network/interfaces.d/{{ item.0.id }}igVPN-{{ item.1.mtu }}"
+    dest: "/etc/network/interfaces.d/{{ item.0.id }}igvpn-{{ item.1.mtu }}"
   notify: reload network interfaces
   with_subelements:
     - "{{ meshes }}"

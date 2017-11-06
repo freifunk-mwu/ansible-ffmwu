@@ -6,7 +6,7 @@
 
 - name: concatenate meshbridge interfaces
   set_fact:
-    dhcp_interfaces: "{% for mesh in meshes %}{{ mesh.id }}BR{% if not loop.last %} {% endif %}{% endfor %}"
+    dhcp_interfaces: "{% for mesh in meshes %}{{ mesh.id }}br{% if not loop.last %} {% endif %}{% endfor %}"
 
 - name: set ipv4 interfaces isc dhcp should listen on
   lineinfile:

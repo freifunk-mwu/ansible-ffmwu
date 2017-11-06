@@ -40,7 +40,7 @@ protocol device {
 
 protocol direct mwu_subnets {
 {% for mesh in meshes %}
-    interface "{{ mesh.id }}BR";
+    interface "{{ mesh.id }}br";
 {% endfor %}
     import where is_mwu_self_nets();
 };

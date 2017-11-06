@@ -3,7 +3,7 @@
 # {{ ansible_managed }}
 #
 {% for mesh in meshes %}
-interface {{ mesh.id }}BR
+interface {{ mesh.id }}br
 {
 	AdvSendAdvert on;
 	IgnoreIfMissing on;

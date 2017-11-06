@@ -2,7 +2,7 @@
 
 Diese Ansible role konfiguriert die fastd-Instanz für die Intra-Server Kommunikation.
 
-- konfiguriert xxigVPN-Instanzen
+- konfiguriert xxigvpn-Instanzen
 - stellt sicher, dass die Instanz-Verzeichnisse existieren
 - schreibt fastd.conf
 - schreibt secret.conf
@@ -31,8 +31,8 @@ meshes:
 - Dictionary `fastd_secrets` (Host-Variable)
 ´´´
 fastd_secrets:
-  mzigVPN: "{{ lookup('passwordstore', 'fastd/mzigVPN/sparegate4 subkey=secret') }}"
-  wiigVPN: "{{ lookup('passwordstore', 'fastd/wiigVPN/sparegate4 subkey=secret') }}"
+  mzigvpn: "{{ lookup('passwordstore', 'fastd/mzigvpn/sparegate4 subkey=secret') }}"
+  wiigvpn: "{{ lookup('passwordstore', 'fastd/wiigvpn/sparegate4 subkey=secret') }}"
   ...
 
 ´´´

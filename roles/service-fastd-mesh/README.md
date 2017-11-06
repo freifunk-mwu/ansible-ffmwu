@@ -11,8 +11,8 @@ Diese Ansible role konfiguriert die fastd-Instanz für die Knoten Kommunikation.
 - klont bingener fastd peer repo (im Moment hardcoded)
 
 ## Instanz-Benamung
-Node-Instanzen: $mesh.id + VPN + '-' + $mesh.fastd.nodes.instances.xx.mtu, z.B. "mzVPN-1312"
-Intragate-Instanzen: $mesh.id + 'ig' + VPN + '-' + $mesh.fastd.intragate.instances.xx.mtu, z.B. "mzigVPN-1312"
+Node-Instanzen: $mesh.id + vpn + '-' + $mesh.fastd.nodes.instances.xx.mtu, z.B. "mzvpn-1312"
+Intragate-Instanzen: $mesh.id + 'ig' + vpn + '-' + $mesh.fastd.intragate.instances.xx.mtu, z.B. "mzigvpn-1312"
 
 ## Benötigte Variablen
 
@@ -35,8 +35,8 @@ meshes:
 - Dictionary `fastd_secrets` (Host-Variable)
 ´´´
 fastd_secrets:
-  mzVPN: "{{ lookup('passwordstore', 'fastd/mzVPN/sparegate4 subkey=secret') }}"
-  wiVPN: "{{ lookup('passwordstore', 'fastd/wiVPN/sparegate4 subkey=secret') }}"
+  mzvpn: "{{ lookup('passwordstore', 'fastd/mzvpn/sparegate4 subkey=secret') }}"
+  wivpn: "{{ lookup('passwordstore', 'fastd/wivpn/sparegate4 subkey=secret') }}"
   ...
 
 ´´´

@@ -9,7 +9,7 @@ hide mac addresses yes;
 
 method "aes128-ctr+umac";
 
-interface "{{ item.0.id }}igVPN-{{ item.1.mtu }}";
+interface "{{ item.0.id }}igvpn-{{ item.1.mtu }}";
 
 bind {{ ansible_default_ipv4.address | ipaddr('public') }}:11{{ item.1.id }}{{ item.0.site_number }};
 bind {{ ansible_default_ipv6.address | ipaddr('public') | ipwrap }}:11{{ item.1.id }}{{ item.0.site_number }};
@@ -27,11 +27,11 @@ on up "
     ip link set address {{ mac | hwaddr('linux') }} dev $INTERFACE
     ip link set $INTERFACE up
 
-    batctl -m {{ item.0.id }}BAT if add $INTERFACE
+    batctl -m {{ item.0.id }}bat if add $INTERFACE
 ";
 
 on down "
-    batctl -m {{ item.0.id }}BAT if del $INTERFACE
+    batctl -m {{ item.0.id }}bat if del $INTERFACE
 ";
 
-status socket "/var/run/fastd-{{ item.0.id }}igVPN-{{ item.1.mtu }}.status";
+status socket "/var/run/fastd-{{ item.0.id }}igvpn-{{ item.1.mtu }}.status";

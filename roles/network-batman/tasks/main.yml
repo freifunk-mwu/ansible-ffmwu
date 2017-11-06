@@ -9,7 +9,7 @@
 - name: create batman interfaces
   template:
     src: batman.j2
-    dest: "/etc/network/interfaces.d/{{ item.id }}BAT"
+    dest: "/etc/network/interfaces.d/{{ item.id }}bat"
   notify: reload network interfaces
   with_items: "{{ meshes }}"
 

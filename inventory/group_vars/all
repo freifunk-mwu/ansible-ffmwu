@@ -130,7 +130,7 @@ meshes:
 
 icvpn:
   prefix: mwu
-  interface: icVPN
+  interface: icvpn
   icvpn_repo: https://github.com/freifunk/icvpn
 
 bgp_mwu_servers:

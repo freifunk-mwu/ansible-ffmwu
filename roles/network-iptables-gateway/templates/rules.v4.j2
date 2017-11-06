@@ -9,7 +9,7 @@
 -A INPUT -m conntrack --ctstate INVALID -j DROP
 -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 {% for mesh in meshes %}
--A FORWARD -i {{ mesh.id }}BR -o {{ mesh.id }}BR -j ACCEPT
+-A FORWARD -i {{ mesh.id }}br -o {{ mesh.id }}br -j ACCEPT
 {% endfor %}
 -A FORWARD -m conntrack --ctstate INVALID -j DROP
 -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT

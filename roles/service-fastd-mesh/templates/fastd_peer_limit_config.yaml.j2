@@ -6,7 +6,7 @@ additional: 8
 fastd_instances:
 {% for mesh in meshes %}
 {% for instance in mesh.fastd.nodes.instances %}
-  - {{ mesh.id }}VPN-{{ instance.mtu }}
+  - {{ mesh.id }}vpn-{{ instance.mtu }}
 {% endfor %}
 {% endfor %}
 cronlog: '/home/admin/.cronlog/limit.%s.log'

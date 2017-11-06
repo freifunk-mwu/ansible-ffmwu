@@ -4,10 +4,10 @@
 #
 # {{ ansible_managed }}
 #
-auto {{ item.id }}BAT
-iface {{ item.id }}BAT
+auto {{ item.id }}bat
+iface {{ item.id }}bat
     hwaddress {{ mac | hwaddr('linux') }}
-    batman-ifaces {{ item.id }}0 {% for instance in item.fastd.nodes.instances %}{{ item.id }}VPN-{{ instance.mtu }}{% if not loop.last %} {% endif %}{% endfor %} {% for instance in item.fastd.intragate.instances %}{{ item.id }}igVPN-{{ instance.mtu }}{% if not loop.last %} {% endif %}{% endfor %}
+    batman-ifaces {{ item.id }}0 {% for instance in item.fastd.nodes.instances %}{{ item.id }}vpn-{{ instance.mtu }}{% if not loop.last %} {% endif %}{% endfor %} {% for instance in item.fastd.intragate.instances %}{{ item.id }}igvpn-{{ instance.mtu }}{% if not loop.last %} {% endif %}{% endfor %}
     batman-hop-penalty {{ item.batman.hop_penalty }}
     post-up /usr/sbin/batctl -m $IFACE it {{ item.batman.it }}
     post-up /usr/sbin/batctl -m $IFACE gw {{ item.batman.gw }}

@@ -7,7 +7,7 @@
 {% for mesh in meshes %}
 ip -4 rule del from {{ mesh.ipv4_network | ipaddr('network') }}/16 lookup mwu priority 7
 ip -4 rule del to {{ mesh.ipv4_network | ipaddr('network') }}/16 lookup mwu priority 7
-ip -4 rule del from all oif {{ mesh.id }}BR lookup mwu priority 7
+ip -4 rule del from all oif {{ mesh.id }}br lookup mwu priority 7
 {% for ula in mesh.ipv6_ula %}
 ip -6 rule del from {{ ula }} lookup mwu priority 7
 ip -6 rule del to {{ ula }} lookup mwu priority 7
@@ -16,14 +16,14 @@ ip -6 rule del to {{ ula }} lookup mwu priority 7
 ip -6 rule del from {{ public }} lookup mwu priority 7
 ip -6 rule del to {{ public }} lookup mwu priority 7
 {% endfor %}
-ip -6 rule del from all oif {{ mesh.id }}BR lookup mwu priority 7
+ip -6 rule del from all oif {{ mesh.id }}br lookup mwu priority 7
 {% endfor %}
 
 # Priority 23 - lookup rt_table icvpn for all incoming traffic of freifunk bridges
 {% for mesh in meshes %}
 ip -4 rule del from {{ mesh.ipv4_network | ipaddr('network') }}/16 lookup icvpn priority 23
 ip -4 rule del to {{ mesh.ipv4_network | ipaddr('network') }}/16 lookup icvpn priority 23
-ip -4 rule del from all oif {{ mesh.id }}BR lookup icvpn priority 23
+ip -4 rule del from all oif {{ mesh.id }}br lookup icvpn priority 23
 {% for ula in mesh.ipv6_ula %}
 ip -6 rule del from {{ ula }} lookup icvpn priority 23
 ip -6 rule del to {{ ula }} lookup icvpn priority 23
@@ -32,10 +32,10 @@ ip -6 rule del to {{ ula }} lookup icvpn priority 23
 ip -6 rule del from {{ public }} lookup icvpn priority 23
 ip -6 rule del to {{ public }} lookup icvpn priority 23
 {% endfor %}
-ip -6 rule del from all oif {{ mesh.id }}BR lookup icvpn priority 23
+ip -6 rule del from all oif {{ mesh.id }}br lookup icvpn priority 23
 {% endfor %}
-ip -4 rule del from all oif icVPN lookup icvpn priority 23
-ip -6 rule del from all oif icVPN lookup icvpn priority 23
+ip -4 rule del from all oif icvpn lookup icvpn priority 23
+ip -6 rule del from all oif icvpn lookup icvpn priority 23
 
 # Priority 41 - lookup rt_table internet for all incoming traffic of freifunk bridges
 {% for mesh in meshes %}
@@ -48,23 +48,23 @@ ip -6 rule del to {{ ula }} lookup internet priority 41
 ip -6 rule del from {{ public }} lookup internet priority 41
 ip -6 rule del to {{ public }} lookup internet priority 41
 {% endfor %}
-ip -6 rule del from all oif {{ mesh.id }}BR lookup internet priority 41
+ip -6 rule del from all oif {{ mesh.id }}br lookup internet priority 41
 {% endfor %}
 ip -4 rule del from {{ ffrl_public_ipv4_nat | ipaddr('host') }} lookup internet priority 41
 ip -4 rule del to {{ ffrl_public_ipv4_nat | ipaddr('host') }} lookup internet priority 41
 
 # Priority 61 - at this point this is the end of policy routing for freifunk related routes
 {% for mesh in meshes %}
-ip -4 rule del from all iif {{ mesh.id }}BR type unreachable priority 61
-ip -6 rule del from all iif {{ mesh.id }}BR type unreachable priority 61
+ip -4 rule del from all iif {{ mesh.id }}br type unreachable priority 61
+ip -6 rule del from all iif {{ mesh.id }}br type unreachable priority 61
 {% endfor %}
-ip -4 rule del from all iif icVPN type unreachable priority 61
+ip -4 rule del from all iif icvpn type unreachable priority 61
 ip -4 rule del from all iif {{ ansible_default_ipv4.interface }} type unreachable priority 61
 {% for server_id, server_value in ffrl_exit_server.iteritems() %}
 ip -4 rule del from all iif {{ server_id }} type unreachable priority 61
 ip -6 rule del from all iif {{ server_id }} type unreachable priority 61
 {% endfor %}
-ip -6 rule del from all iif icVPN type unreachable priority 61
+ip -6 rule del from all iif icvpn type unreachable priority 61
 ip -6 rule del from all iif {{ ansible_default_ipv6.interface }} type unreachable priority 61
 {% for mesh in meshes %}
 {% for public in mesh.ipv6_public %}

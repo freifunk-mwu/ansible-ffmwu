@@ -43,4 +43,4 @@ meshes:
 Die MAC-Adressen der Interfaces werden aus dem IPv4-Subnetz sowie der `magic`-Nummer des Hosts berechnet.
 
 xx0-prefix: `02:00`
-xxBAT-prefix: `02:01`
+xxbat-prefix: `02:01`

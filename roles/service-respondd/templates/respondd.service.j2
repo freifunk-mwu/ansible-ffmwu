@@ -2,7 +2,7 @@
 Description=respondd instance {{ item.id }}
 
 [Service]
-ExecStart=/home/admin/clones/mesh-announce/respondd.py -i {{ item.id }}BR {% for interface in item.fastd.nodes.instances %}-i {{ item.id }}VPN-{{ interface.mtu }}{% if not loop.last %} {% endif %}{% endfor %} -b {{ item.id }}BAT -s {{ item.site_code }} -d /home/admin/clones/mesh-announce/
+ExecStart=/home/admin/clones/mesh-announce/respondd.py -i {{ item.id }}br {% for interface in item.fastd.nodes.instances %}-i {{ item.id }}vpn-{{ interface.mtu }}{% if not loop.last %} {% endif %}{% endfor %} -b {{ item.id }}bat -s {{ item.site_code }} -d /home/admin/clones/mesh-announce/
 Restart=always
 Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 

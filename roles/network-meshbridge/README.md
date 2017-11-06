@@ -27,4 +27,4 @@ meshes:
 
 Die MAC-Adressen der Interfaces werden aus dem IPv4-Subnetz sowie der `magic`-Nummer des Hosts berechnet.
 
-xxBR-prefix: `02:10`
+xxbr-prefix: `02:10`

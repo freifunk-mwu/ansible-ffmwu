@@ -30,7 +30,7 @@ Diese Liste ist quasi das Herzstück zur Konfiguration der Mesh-spezifischen Par
 
 |Name|Type|Value|Format|Comment|
 |----|----|-----|------|-------|
-|id  |Variable|mz|string|Zum Teil werden Interface-Namen davon abgeleitet, z.B. `mzBR` oder `mzBAT`|
+|id  |Variable|mz|string|Zum Teil werden Interface-Namen davon abgeleitet, z.B. `mzbr` oder `mzbat`|
 |site_number|Variable|37|integer|Fließt in IP-Adress-Berechnung ein|
 |site_code|Variable|ffmz|string||
 |site_name|Variable|Mainz|string||
@@ -93,7 +93,7 @@ Weitere Gruppen-Variablen:
 |http_domain_external|Variable|freifunk-mwu.de|string|Haupt-Domain für HTTP-Server(extern)|
 |icvpn|Dictionary|||ICVPN Informationen|
 |icvpn.prefix|Key|mwu|string|Prefix für MWU Gateways,  z.B. `mwu7` für Spinat|
-|icvpn.interface|Key|icVPN|string|Name für ICVPN Interface + tinc Instanz|
+|icvpn.interface|Key|icvpn|string|Name für ICVPN Interface + tinc Instanz|
 |icvpn.icvpn_repo|Key|https://github.com/freifunk/icvpn|string|URL zum freifunk/icvpn Repository|
 |bgp_mwu_servers|Dictionary|||Enthält pro BGP MWU peer ein Dictionary - IP-Adressen aus bgp_ipvX_transfer_net|
 |bgp_mwu_servers.spinat|Dictionary||||
@@ -135,11 +135,11 @@ Alle Server- bzw. Gateway-spezifischen Parameter werden als Host-Variablen abgeb
 |ffrl_exit_server.ffrl-b-fra2-fra.tunnel_ipv4_network|Key|100.64.0.188/31|Network/Prefix|Internes IPv4-Tunnel-Subnetz|
 |ffrl_exit_server.ffrl-b-fra2-fra.tunnel_ipv6_network|Key|2a03:2260:0:64::/64|Network/Prefix|Internes IPv6-Tunnel-Subnetz|
 |fastd_secrets|Dictionary|||Ein Eintrag pro fastd-Interface mit passwordstore lookup zum pass-Pfad|
-|fastd_secrets.mzVPN|Key|"{{ lookup('passwordstore', 'fastd/mzVPN/spinat subkey=secret') }}"|||
-|fastd_secrets.wiVPN|Key|"{{ lookup('passwordstore', 'fastd/wiVPN/spinat subkey=secret') }}"|||
-|fastd_secrets.mzigVPN|Key|"{{ lookup('passwordstore', 'fastd/mzVPN/spinat subkey=secret') }}"|||
-|fastd_secrets.wiigVPN|Key|"{{ lookup('passwordstore', 'fastd/wiVPN/spinat subkey=secret') }}"|||
-|tinc_private_key|Variable|"{{ lookup('passwordstore', 'tinc/icVPN/spinat_private returnall=true') }}"||Passwordstore lookup zum pass-Pfad|
+|fastd_secrets.mzvpn|Key|"{{ lookup('passwordstore', 'fastd/mzvpn/spinat subkey=secret') }}"|||
+|fastd_secrets.wivpn|Key|"{{ lookup('passwordstore', 'fastd/wivpn/spinat subkey=secret') }}"|||
+|fastd_secrets.mzigvpn|Key|"{{ lookup('passwordstore', 'fastd/mzvpn/spinat subkey=secret') }}"|||
+|fastd_secrets.wiigvpn|Key|"{{ lookup('passwordstore', 'fastd/wivpn/spinat subkey=secret') }}"|||
+|tinc_private_key|Variable|"{{ lookup('passwordstore', 'tinc/icvpn/spinat_private returnall=true') }}"||Passwordstore lookup zum pass-Pfad|
 
 ## Sensible Informationen
 
@@ -196,13 +196,13 @@ ffrl_exit_server:
 
 # Pfade zu den fastd secrets im passwordstore
 fastd_secrets:
-  mzVPN: "{{ lookup('passwordstore', 'fastd/mzVPN/$Hostname subkey=secret') }}"
-  wiVPN: "{{ lookup('passwordstore', 'fastd/wiVPN/$Hostname subkey=secret') }}"
-  mzigVPN: "{{ lookup('passwordstore', 'fastd/mzVPN/$Hostname subkey=secret') }}"
-  wiigVPN: "{{ lookup('passwordstore', 'fastd/wiVPN/$Hostname subkey=secret') }}"
+  mzvpn: "{{ lookup('passwordstore', 'fastd/mzvpn/$Hostname subkey=secret') }}"
+  wivpn: "{{ lookup('passwordstore', 'fastd/wivpn/$Hostname subkey=secret') }}"
+  mzigvpn: "{{ lookup('passwordstore', 'fastd/mzvpn/$Hostname subkey=secret') }}"
+  wiigvpn: "{{ lookup('passwordstore', 'fastd/wivpn/$Hostname subkey=secret') }}"
 
 # Pfade zum tinc secret im passwordstore
-tinc_private_key: "{{ lookup('passwordstore', 'tinc/icVPN/$hostname_private returnall=true') }}"
+tinc_private_key: "{{ lookup('passwordstore', 'tinc/icvpn/$hostname_private returnall=true') }}"
 ```
 - Neues Gateway aufsetzen per `ansible-playbook playbooks/gateways.yml`
   - Hierbei werden die definierten Rollen auch auf schon aufgesetzte Gateways angewandt, was unkritisch ist, weil wir unsere Rollen idempotent schreiben.

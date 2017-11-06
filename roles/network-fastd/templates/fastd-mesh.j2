@@ -3,6 +3,6 @@
 #
 # {{ ansible_managed }}
 #
-auto {{ item.0.id }}VPN-{{ item.1.mtu }}
-iface {{ item.0.id }}VPN-{{ item.1.mtu }}
+auto {{ item.0.id }}vpn-{{ item.1.mtu }}
+iface {{ item.0.id }}vpn-{{ item.1.mtu }}
     hwaddress {{ mac | hwaddr('linux') }}
