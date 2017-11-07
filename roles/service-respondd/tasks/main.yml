@@ -1,4 +1,9 @@
 ---
+- name: install packages
+  package:
+    name: python3-netifaces
+    state: present
+
 - name: clone respondd repo
   git:
     repo: https://github.com/freifunk-mwu/mesh-announce.git
