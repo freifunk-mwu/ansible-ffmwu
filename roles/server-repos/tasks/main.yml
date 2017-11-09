@@ -7,12 +7,6 @@
     - dirmngr
     - apt-transport-https
 
-- name: ensure apt key for universe-factory is present
-  apt_key:
-    state: present
-    id: 16ef3f64cb201d9c
-    keyserver: pgp.mit.edu
-
 - name: ensure apt key for freifunk-mwu is present
   apt_key:
     state: present
