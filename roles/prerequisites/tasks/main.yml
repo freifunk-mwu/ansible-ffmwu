@@ -5,6 +5,8 @@
     that:
       - "dns_host_ipv4_address in ansible_all_ipv4_addresses"
       - "dns_host_ipv6_address in ansible_all_ipv6_addresses"
+      - "dns_gate_num_cname == inventory_hostname"
+      - "dns_gate_icvpn_cname == inventory_hostname"
       - "ansible_distribution == 'Debian'"
       - "ansible_distribution_major_version == '9'"
 
