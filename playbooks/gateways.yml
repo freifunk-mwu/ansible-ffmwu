@@ -7,6 +7,7 @@
     - prerequisites
     - server-repos
     - server-basic
+    - system-sysctl-gateway
     - git-repos
     - service-haveged
     - service-ntpd
@@ -14,21 +15,20 @@
     - network-routetables
     - network-batman
     - network-meshbridge
+    - network-fastd
+    - network-ffrl
+    - network-iptables-gateway
+    - network-routing
     - service-dhcpd
     - service-radvd
-    - network-fastd
     - service-fastd
     - service-fastd-mesh
     - service-fastd-intragate
-    - network-iptables-gateway
-    - network-ffrl
     - service-tinc
     - service-bird
     - service-bird-icvpn
     - service-bird-ffrl
     - service-bind-slave
-    - network-routing
-    - system-sysctl-gateway
     - service-respondd
     - service-nginx
     - service-nginx-firmware
