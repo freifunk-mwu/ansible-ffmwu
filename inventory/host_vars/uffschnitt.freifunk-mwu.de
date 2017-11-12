@@ -29,5 +29,3 @@ ffrl_exit_server:
     public_ipv4_address: 185.66.194.1
     tunnel_ipv4_network: 100.64.9.50/31
     tunnel_ipv6_network: 2a03:2260:0:3c1::/64
-
-tinc_private_key: "{{ lookup('passwordstore', 'tinc/icvpn/uffschnitt_private returnall=true') }}"

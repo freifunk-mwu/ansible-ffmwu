@@ -136,7 +136,6 @@ Alle Server- bzw. Gateway-spezifischen Parameter werden als Host-Variablen abgeb
 |ffrl_exit_server.ffrl-b-fra2-fra.public_ipv4_address|Key|185.66.194.1|IP-Adresse|IP-Adresse der Tunnel-Gegenstelle|
 |ffrl_exit_server.ffrl-b-fra2-fra.tunnel_ipv4_network|Key|100.64.0.188/31|Network/Prefix|Internes IPv4-Tunnel-Subnetz|
 |ffrl_exit_server.ffrl-b-fra2-fra.tunnel_ipv6_network|Key|2a03:2260:0:64::/64|Network/Prefix|Internes IPv6-Tunnel-Subnetz|
-|tinc_private_key|Variable|"{{ lookup('passwordstore', 'tinc/icvpn/spinat_private returnall=true') }}"||Passwordstore lookup zum pass-Pfad|
 
 ## Sensible Informationen
 
@@ -190,9 +189,6 @@ ffrl_exit_server:
     public_ipv4_address: 185.66.194.1
     tunnel_ipv4_network: # Format: IP/Maske
     tunnel_ipv6_network:
-
-# Pfade zum tinc secret im passwordstore
-tinc_private_key: "{{ lookup('passwordstore', 'tinc/icvpn/$hostname_private returnall=true') }}"
 ```
 - Neues Gateway aufsetzen per `ansible-playbook playbooks/gateways.yml`
   - Hierbei werden die definierten Rollen auch auf schon aufgesetzte Gateways angewandt, was unkritisch ist, weil wir unsere Rollen idempotent schreiben.

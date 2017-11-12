@@ -28,18 +28,8 @@ routing_tables:
   ...
 ```
 - Host Variable `magic`
-- Host Variable `tinc_private_key`
-```
-tinc_private_key: "{{ lookup('passwordstore', 'tinc/icvpn/$Hostname_private returnall=true') }}"
-```
 
 ## tinc private key
 
 Der private Schlüssel der icvpn tinc-Instanz liegt im passwordstore.
 Bevor man ein Gateway aufsetzt, muss der private Schlüssel generiert und im passwordstore hinterlegt werden.
-Die Variable `tinc_private_key` folgt dem Aufbau:
-```
-tinc_private_key:
-  $Instanz-Name: "{{ lookup('passwordstore', '$Pfad-im-passwordstore returnall=true') }}"
-```
-
