@@ -30,10 +30,4 @@ ffrl_exit_server:
     tunnel_ipv4_network: 100.64.9.50/31
     tunnel_ipv6_network: 2a03:2260:0:3c1::/64
 
-fastd_secrets:
-  mzvpn: "{{ lookup('passwordstore', 'fastd/mzvpn/uffschnitt subkey=secret') }}"
-  wivpn: "{{ lookup('passwordstore', 'fastd/wivpn/uffschnitt subkey=secret') }}"
-  mzigvpn: "{{ lookup('passwordstore', 'fastd/mzvpn/uffschnitt subkey=secret') }}"
-  wiigvpn: "{{ lookup('passwordstore', 'fastd/wivpn/uffschnitt subkey=secret') }}"
-
 tinc_private_key: "{{ lookup('passwordstore', 'tinc/icvpn/uffschnitt_private returnall=true') }}"

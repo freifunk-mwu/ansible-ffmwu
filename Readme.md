@@ -57,6 +57,7 @@ Diese Liste ist quasi das Herzstück zur Konfiguration der Mesh-spezifischen Par
 |fastd.nodes.instances[x].peers|Dictionary||||
 |fastd.nodes.instances[x].peers.repo|Key|https://github.com/freifunk-mwu/peers-ffmz.git|URL||
 |fastd.nodes.instances[x].peers.version|Key|master|string||
+|fastd.nodes.instances[x].pass|Key|fastd/mzvpn|string||
 |fastd.intragate|Dictionary||||
 |fastd.intragate.instances|List|||Jeder Listeneintrag ist ein Dictionary; Instanzen für Intragate-Kommunikation|
 |fastd.intragate.instances[x].id|Key|0|integer||
@@ -64,6 +65,7 @@ Diese Liste ist quasi das Herzstück zur Konfiguration der Mesh-spezifischen Par
 |fastd.intragate.instances[x].peers|Dictionary||||
 |fastd.intragate.instances[x].peers.repo|Key|https://github.com/freifunk-mwu/peers-ffmz.git|URL||
 |fastd.intragate.instances[x].peers.version|Key|master|string||
+|fastd.intragate.instances[x].pass|Key|fastd/mzigvpn|string||
 |dns|Dictionary||||
 |dns.master|Key|fd37:b4dc:4b1e::a25:103|string; IP-Adresse|DNS-Master IP|
 |dns.forward_zones|List||||
@@ -134,11 +136,6 @@ Alle Server- bzw. Gateway-spezifischen Parameter werden als Host-Variablen abgeb
 |ffrl_exit_server.ffrl-b-fra2-fra.public_ipv4_address|Key|185.66.194.1|IP-Adresse|IP-Adresse der Tunnel-Gegenstelle|
 |ffrl_exit_server.ffrl-b-fra2-fra.tunnel_ipv4_network|Key|100.64.0.188/31|Network/Prefix|Internes IPv4-Tunnel-Subnetz|
 |ffrl_exit_server.ffrl-b-fra2-fra.tunnel_ipv6_network|Key|2a03:2260:0:64::/64|Network/Prefix|Internes IPv6-Tunnel-Subnetz|
-|fastd_secrets|Dictionary|||Ein Eintrag pro fastd-Interface mit passwordstore lookup zum pass-Pfad|
-|fastd_secrets.mzvpn|Key|"{{ lookup('passwordstore', 'fastd/mzvpn/spinat subkey=secret') }}"|||
-|fastd_secrets.wivpn|Key|"{{ lookup('passwordstore', 'fastd/wivpn/spinat subkey=secret') }}"|||
-|fastd_secrets.mzigvpn|Key|"{{ lookup('passwordstore', 'fastd/mzvpn/spinat subkey=secret') }}"|||
-|fastd_secrets.wiigvpn|Key|"{{ lookup('passwordstore', 'fastd/wivpn/spinat subkey=secret') }}"|||
 |tinc_private_key|Variable|"{{ lookup('passwordstore', 'tinc/icvpn/spinat_private returnall=true') }}"||Passwordstore lookup zum pass-Pfad|
 
 ## Sensible Informationen
@@ -193,13 +190,6 @@ ffrl_exit_server:
     public_ipv4_address: 185.66.194.1
     tunnel_ipv4_network: # Format: IP/Maske
     tunnel_ipv6_network:
-
-# Pfade zu den fastd secrets im passwordstore
-fastd_secrets:
-  mzvpn: "{{ lookup('passwordstore', 'fastd/mzvpn/$Hostname subkey=secret') }}"
-  wivpn: "{{ lookup('passwordstore', 'fastd/wivpn/$Hostname subkey=secret') }}"
-  mzigvpn: "{{ lookup('passwordstore', 'fastd/mzvpn/$Hostname subkey=secret') }}"
-  wiigvpn: "{{ lookup('passwordstore', 'fastd/wivpn/$Hostname subkey=secret') }}"
 
 # Pfade zum tinc secret im passwordstore
 tinc_private_key: "{{ lookup('passwordstore', 'tinc/icvpn/$hostname_private returnall=true') }}"

@@ -13,7 +13,7 @@ Diese Ansible role konfiguriert die fastd-Instanz für die Intra-Server Kommunik
 ## Benötigte Variablen
 
 - Dictionary `meshes`
-´´´
+```
 meshes:
   - id: xx
 ...
@@ -26,26 +26,14 @@ meshes:
             peers:
               repo: # String - https Link zum Github Repository
               version: # String - Branch oder Commit ID
+            pass: # String - Pfad des fastd secrets im Admin Pass
           ...
-´´´
-- Dictionary `fastd_secrets` (Host-Variable)
-´´´
-fastd_secrets:
-  mzigvpn: "{{ lookup('passwordstore', 'fastd/mzigvpn/sparegate4 subkey=secret') }}"
-  wiigvpn: "{{ lookup('passwordstore', 'fastd/wiigvpn/sparegate4 subkey=secret') }}"
-  ...
-
-´´´
+```
 
 ## fastd Secrets
 
 Die privaten Schlüssel der fastd Instanzen sind sehr sensible Informationen, weshalb wir diese in ein nicht öffentliches passwordstore ausgelagert haben.
 Bevor man ein Gateway aufsetzt, müssen die privaten Schlüssel für alle benötigten fastd Instanzen generiert und im passwordstore hinterlegt werden.
-Das Dictionary `fastd_secrets` folgt dem Aufbau:
-```
-fastd_secrets:
-  $Instanz-Name: "{{ lookup('passwordstore', '$Pfad-im-passwordstore subkey=secret') }}"
-```
 
 ## Abhängigkeiten
 

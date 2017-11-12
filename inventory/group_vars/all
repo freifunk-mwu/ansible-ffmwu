@@ -51,11 +51,13 @@ meshes:
             peers:
               repo: https://github.com/freifunk-mwu/peers-ffmz.git
               version: master
+            pass: fastd/mzvpn
           - id: 1
             mtu: 1312
             peers:
               repo: https://github.com/freifunk-mwu/peers-ffmz.git
               version: master
+            pass: fastd/mzvpn
       intragate:
         instances:
           - id: 0
@@ -63,6 +65,7 @@ meshes:
             peers:
               repo: https://github.com/freifunk-mwu/ffmz-infrastructure-peers.git
               version: master
+            pass: fastd/mzigvpn
     dns:
       master: fd37:b4dc:4b1e::a25:103
       forward_zones:
@@ -106,11 +109,13 @@ meshes:
             peers:
               repo: https://github.com/freifunk-mwu/peers-ffwi.git
               version: master
+            pass: fastd/wivpn
           - id: 1
             mtu: 1312
             peers: 
               repo: https://github.com/freifunk-mwu/peers-ffwi.git
               version: master
+            pass: fastd/wivpn
       intragate:
         instances:
           - id: 0
@@ -118,6 +123,7 @@ meshes:
             peers:
               repo: https://github.com/freifunk-mwu/ffwi-infrastructure-peers.git
               version: master
+            pass: fastd/wiigvpn
     dns:
       master: fd56:b4dc:4b1e::a38:103
       forward_zones:
