@@ -40,6 +40,7 @@ fastd_secrets:
   ...
 
 ´´´
+- Liste `legacy_gateways`
 
 ## fastd Secrets
 

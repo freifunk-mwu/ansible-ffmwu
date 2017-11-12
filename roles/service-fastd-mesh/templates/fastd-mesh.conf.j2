@@ -1,5 +1,3 @@
-{% set ip4hex = item.0.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
-{% set mac = '022' + item.1.id|string + ip4hex -%}
 #
 # {{ ansible_managed }}
 #
@@ -28,17 +26,5 @@ peer group "vpn_nodes" {
 peer group "servers" {
     include peers from "peers/servers";
 }
-
-on up "
-    ip link set $INTERFACE down
-    ip link set address {{ mac | hwaddr('linux') }} dev $INTERFACE
-    ip link set $INTERFACE up
-
-    batctl -m {{ item.0.id }}bat if add $INTERFACE
-";
-
-on down "
-    batctl -m {{ item.0.id }}bat if del $INTERFACE
-";
 
 status socket "/var/run/fastd-{{ item.0.id }}vpn-{{ item.1.mtu }}.status";
