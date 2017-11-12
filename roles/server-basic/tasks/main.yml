@@ -10,6 +10,15 @@
     name: editor
     path: /usr/bin/vim.basic
 
+- name: ensure default locale is installed
+  locale_gen:
+    name: "{{ default_locale }}"
+    state: present
+
+- name: ensure default locale is set
+  command: "/usr/bin/localectl set-locale LANG={{ default_locale }}"
+  changed_when: false
+
 - name: set timezone to Europe/Berlin
   timezone:
     name: Europe/Berlin
