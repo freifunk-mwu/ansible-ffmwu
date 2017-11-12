@@ -27,4 +27,6 @@ peer group "servers" {
     include peers from "peers/servers";
 }
 
+on up "/bin/systemctl reload networking";
+
 status socket "/var/run/fastd-{{ item.0.id }}vpn-{{ item.1.mtu }}.status";
