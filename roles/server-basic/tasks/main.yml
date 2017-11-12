@@ -30,3 +30,14 @@
     owner: admin
     group: admin
     mode: 0750
+
+- name: configure dummy module to load on system boot
+  template:
+    src: dummy.module.conf.j2
+    dest: /etc/modules-load.d/dummy.conf
+
+- name: load dummy module
+  modprobe:
+    name: "dummy"
+    state: present
+    params: "numdummies=0"

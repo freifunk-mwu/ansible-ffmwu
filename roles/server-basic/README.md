@@ -6,6 +6,7 @@ Diese Ansible role installiert Pakete, die auf allen MWU-Server benötigt werden
 - setzt vim als default Editor
 - setzt die Zeitzone auf Europe/Berlin
 - generiert und setzt default locale
+- konfiguriert das dummy Kernel Modul
 
 ## Benötigte Variablen
 
