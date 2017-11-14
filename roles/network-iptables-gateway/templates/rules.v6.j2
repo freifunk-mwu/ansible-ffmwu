@@ -7,8 +7,12 @@
 :OUTPUT ACCEPT [0:0]
 -A INPUT -m conntrack --ctstate INVALID -j DROP
 -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-{% for mesh in meshes %}
--A FORWARD -i {{ mesh.id }}br -o {{ mesh.id }}br -j ACCEPT
+{% for mesh_forward in meshes %}
+{% for mesh_recursive in meshes recursive %}
+{% if not mesh_forward.id == mesh_recursive.id %}
+-A FORWARD -i {{ mesh_forward.id }}br -o {{ mesh_recursive.id }}br -j ACCEPT
+{% endif %}
+{% endfor %}
 {% endfor %}
 -A FORWARD -m conntrack --ctstate INVALID -j DROP
 -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
