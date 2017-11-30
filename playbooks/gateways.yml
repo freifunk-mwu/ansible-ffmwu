@@ -20,6 +20,8 @@
     - network-iptables-gateway
     - network-routing
     - service-dhcpd
+    - service-nginx
+    - service-nginx-firmware
     - service-radvd
     - service-fastd
     - service-fastd-mesh
@@ -30,5 +32,3 @@
     - service-bird-ffrl
     - service-bind-slave
     - service-respondd
-    - service-nginx
-    - service-nginx-firmware

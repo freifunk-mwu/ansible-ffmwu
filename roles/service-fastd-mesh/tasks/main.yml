@@ -112,6 +112,14 @@
     mode: 0644
   notify: reload systemd
 
+- name: create fastd_status.json file
+  file:
+    path: /var/www/html/fastd_status.json
+    state: touch
+    owner: admin
+    group: admin
+    mode: 0644
+
 - name: write configuration for fastd-peer-limit-update script
   template:
     src: fastd_peer_limit_config.yaml.j2
