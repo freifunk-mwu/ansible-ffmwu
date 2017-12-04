@@ -1,0 +1,51 @@
+# Top-level installer for Prometheus.
+
+- name: create Prometheus group
+  group:
+    name: "{{ prometheus_group }}"
+    state: present
+
+- name: create Prometheus user
+  user:
+    name: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    createhome: no
+    shell: /sbin/nologin
+    comment: "Prometheus User"
+    state: present
+
+- name: create base directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: "u=rwx,g=rx,o="
+  with_items:
+    - "{{ prometheus_install_path }}"
+    - "{{ prometheus_config_path }}"
+    - "{{ prometheus_pid_path }}"
+
+- name: install helper utility "gosu"
+  include_tasks: install-gosu.yml
+
+- name: install and configure prometheus service
+  include_tasks: prometheus.yml
+  when: '"prometheus" in prometheus_components'
+
+- name: install and configure node-exporter service
+  include_tasks: node-exporter.yml
+  when: '"node_exporter" in prometheus_components'
+
+- name: install and configure alertmanager service
+  include_tasks: alertmanager.yml
+  when: '"alertmanager" in prometheus_components'
+
+- name: set {{ prometheus_install_path }} permissions, owner and group
+  file:
+    path: "{{ prometheus_install_path }}"
+    state: directory
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: "go-w"
+    recurse: yes
