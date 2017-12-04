@@ -26,6 +26,15 @@
   register: metanodes
   changed_when: false
 
+- name: enable freifunk/icvpn post-merge script
+  copy:
+    remote_src: yes
+    src: /etc/tinc/{{ icvpn.interface }}/scripts/post-merge
+    dest: /etc/tinc/{{ icvpn.interface }}/.git/hooks/
+    owner: admin
+    group: admin
+    mode: 0755
+
 - name: write tinc.conf
   template:
     src: tinc.conf.j2
