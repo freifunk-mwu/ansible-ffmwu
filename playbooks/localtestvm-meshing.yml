@@ -1,9 +1,0 @@
-#!/usr/bin/ansible-playbook
-
-- include: loctevm-provide.yml
-
-- hosts: test-vms
-  remote_user: admin
-  roles:
-    - prerequisites
-    - ffmwu-meshing

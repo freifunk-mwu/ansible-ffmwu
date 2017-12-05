@@ -1,0 +1,9 @@
+#!/usr/bin/ansible-playbook
+---
+
+- hosts: ff-servers
+  remote_user: admin
+  strategy: linear
+
+  roles: 
+  - ffmwu-server

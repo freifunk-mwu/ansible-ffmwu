@@ -10,6 +10,7 @@
 - block:
   - name: ensure needed system users are present
     user: name=admin comment="Freifunk MWU Admin" shell=/bin/bash state=present
+    become: True
 
   - name: ensure all wanted ssh keys exclusively
     authorized_key: exclusive=True state=present user=admin
@@ -17,9 +18,11 @@
 
   - name: ensure vim is default editor
     alternatives: name=editor path=/usr/bin/vim.basic
+    become: True
 
   - name: set timezone to Europe/Berlin
     timezone: name=Europe/Berlin
+    become: True
 
   when: (ansible_managed_server is defined) and (ansible_managed_server)
 # end block

@@ -1,7 +1,0 @@
----
-- name: set freifunk gateway sysctl settings
-  sysctl:
-    name: "{{ item.name }}"
-    value: "{{ item.value }}"
-    state: present
-  with_items: "{{ sysctl_settings_gateway }}"

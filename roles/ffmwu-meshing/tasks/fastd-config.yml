@@ -40,7 +40,7 @@
       line: secret "{{f_key_pair.stdout_lines[0] |regex_replace('^Secret. ','')}}";
       mode: 0400
       regexp: '^secret ".*";'
-      state: present
+      state : present
 
   - name: write out fastd public key - {{mf_com.abbreviation}}
     lineinfile:
@@ -50,7 +50,7 @@
       line: key "{{f_key_pair.stdout_lines[1] |regex_replace('^Public. ','')}}";
       mode: 0440
       regexp: '^key ".*";'
-      state: present
+      state : present
     register: f_pub_key
     ignore_errors: True
 
