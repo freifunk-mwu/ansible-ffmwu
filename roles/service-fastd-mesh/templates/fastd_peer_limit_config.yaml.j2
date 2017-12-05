@@ -1,0 +1,26 @@
+#
+# {{ ansible_managed }}
+#
+ansible_gate: True
+additional: 8
+fastd_instances:
+{% for mesh in meshes %}
+{% for instance in mesh.fastd.nodes.instances %}
+  - {{ mesh.id }}vpn-{{ instance.mtu }}
+{% endfor %}
+{% endfor %}
+cronlog: '/home/admin/.cronlog/limit.%s.log'
+fastd_config: '/etc/fastd/%s/peer_limit.conf'
+fastd_status: '/usr/local/bin/fastd-status'
+gateways:
+{% for gateway in groups['ffmwu-gateways'] %}
+  - {{ gateway.rstrip('.freifunk-mwu.de') }}
+{% endfor %}
+{% for gateway in legacy_gateways %}
+  - {{ gateway }}
+{% endfor %}
+restart_max: 43200
+stat: 'fastd_status.json'
+stat_ext: 'http://%s.freifunk-mwu.de/%s'
+stat_local: '/var/www/html/%s'
+timeout: 900

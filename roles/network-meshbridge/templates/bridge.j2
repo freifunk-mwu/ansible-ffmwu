@@ -1,0 +1,17 @@
+{% set ip4hex = item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
+{% set mac = '0210' + ip4hex -%}
+#
+# {{ ansible_managed }}
+#
+auto {{ item.id }}br
+iface {{ item.id }}br
+#   hwaddress {{ mac | hwaddr('linux') }} <-- preferred way, not working - ipv6 addresses not set on boot
+    pre-up /sbin/ip link set address {{ mac | hwaddr('linux') }} dev $IFACE # ^^^ dirty workaround to get rid of
+    address {{ item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('ip/prefix') }}
+{% for prefix in item.ipv6_ula %}
+    address {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('ip/prefix') }}
+{% endfor %}
+{% for prefix in item.ipv6_public %}
+    address {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('ip/prefix') }}
+{% endfor %}
+    bridge-ports {{ item.id }}bat

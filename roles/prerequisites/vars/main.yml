@@ -1,0 +1,8 @@
+---
+dns_gate_num: "gate{{ magic }}.{{ http_domain_external }}"
+dns_gate_icvpn: "icvpn{{ magic }}.{{ http_domain_external }}"
+
+dns_host_ipv4_address: "{{ lookup('dig', inventory_hostname, 'qtype=A') }}"
+dns_host_ipv6_address: "{{ lookup('dig', inventory_hostname, 'qtype=AAAA') }}"
+dns_gate_num_cname: "{{ lookup('dig', dns_gate_num, 'qtype=CNAME') | regex_replace('\\.$') }}"
+dns_gate_icvpn_cname: "{{ lookup('dig', dns_gate_icvpn, 'qtype=CNAME') | regex_replace('\\.$') }}"

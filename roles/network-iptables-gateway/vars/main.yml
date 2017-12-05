@@ -1,0 +1,6 @@
+---
+sysctl_settings_netfilter:
+  - name: net.netfilter.nf_conntrack_tcp_timeout_established
+    value: 86400
+  - name: net.netfilter.nf_conntrack_max
+    value: 262140

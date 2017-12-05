@@ -1,0 +1,66 @@
+#!/bin/sh
+#
+# {{ ansible_managed }}
+#
+
+{% for mesh in meshes %}
+# static {{ mesh.site_name }} routes for rt_table mwu
+/sbin/ip -4 route del {{ mesh.ipv4_network }} proto static dev {{ mesh.id }}br table mwu
+{% for ula in mesh.ipv6_ula %}
+/sbin/ip -6 route del {{ ula | ipaddr('net') | ipsubnet(64, 0) }} proto static dev {{ mesh.id }}br table mwu
+{% endfor %}
+{% for public in mesh.ipv6_public %}
+/sbin/ip -6 route del {{ public | ipaddr('net') | ipsubnet(64, 0) }} proto static dev {{ mesh.id }}br table mwu
+/sbin/ip -6 route del {{ public | ipaddr('net') | ipsubnet(64, magic) }} proto static dev {{ mesh.id }}br table mwu
+{% endfor %}
+{% if not loop.last %}
+
+{% endif %}
+{% endfor %}
+
+# static blackhole routes for rt_table internet
+/sbin/ip -4 route del blackhole 0.0.0.0/8 table internet
+/sbin/ip -4 route del blackhole 10.0.0.0/8 table internet
+/sbin/ip -4 route del blackhole 100.64.0.0/10 table internet
+/sbin/ip -4 route del blackhole 127.0.0.0/8 table internet
+/sbin/ip -4 route del blackhole 169.254.0.0/16 table internet
+/sbin/ip -4 route del blackhole 172.16.0.0/12 table internet
+/sbin/ip -4 route del blackhole 192.0.0.0/24 table internet
+/sbin/ip -4 route del blackhole 192.0.2.0/24 table internet
+/sbin/ip -4 route del blackhole 192.88.99.0/24 table internet
+/sbin/ip -4 route del blackhole 192.168.0.0/16 table internet
+/sbin/ip -4 route del blackhole 198.18.0.0/15 table internet
+/sbin/ip -4 route del blackhole 198.51.100.0/24 table internet
+/sbin/ip -4 route del blackhole 203.0.113.0/24 table internet
+/sbin/ip -4 route del blackhole 224.0.0.0/4 table internet
+/sbin/ip -4 route del blackhole 240.0.0.0/4 table internet
+/sbin/ip -4 route del blackhole 255.255.255.255/32 table internet
+/sbin/ip -6 route del blackhole fec0::/10 table internet
+/sbin/ip -6 route del blackhole fc00::/7 table internet
+/sbin/ip -6 route del blackhole ff00::/8 table internet
+/sbin/ip -6 route del blackhole ::/96 table internet
+/sbin/ip -6 route del blackhole 0:0:0:0:0:ffff::/96 table internet
+
+# static blackhole routes for rt_table main
+/sbin/ip -4 route del blackhole 0.0.0.0/8 table main
+/sbin/ip -4 route del blackhole 10.0.0.0/8 table main
+/sbin/ip -4 route del blackhole 100.64.0.0/10 table main
+/sbin/ip -4 route del blackhole 127.0.0.0/8 table main
+/sbin/ip -4 route del blackhole 169.254.0.0/16 table main
+/sbin/ip -4 route del blackhole 172.16.0.0/12 table main
+/sbin/ip -4 route del blackhole 192.0.0.0/24 table main
+/sbin/ip -4 route del blackhole 192.0.2.0/24 table main
+/sbin/ip -4 route del blackhole 192.88.99.0/24 table main
+/sbin/ip -4 route del blackhole 192.168.0.0/16 table main
+/sbin/ip -4 route del blackhole 198.18.0.0/15 table main
+/sbin/ip -4 route del blackhole 198.51.100.0/24 table main
+/sbin/ip -4 route del blackhole 203.0.113.0/24 table main
+/sbin/ip -4 route del blackhole 224.0.0.0/4 table main
+/sbin/ip -4 route del blackhole 240.0.0.0/4 table main
+/sbin/ip -4 route del blackhole 255.255.255.255/32 table main
+/sbin/ip -6 route del blackhole fec0::/10 table main
+/sbin/ip -6 route del blackhole fc00::/7 table main
+/sbin/ip -6 route del blackhole ff00::/8 table main
+/sbin/ip -6 route del blackhole ::/96 table main
+/sbin/ip -6 route del blackhole 0:0:0:0:0:ffff::/96 table main
+/sbin/ip -6 route del blackhole ::/0 table main

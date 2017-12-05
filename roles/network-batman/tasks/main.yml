@@ -1,0 +1,17 @@
+---
+- name: create dummy interfaces
+  template:
+    src: dummy.j2
+    dest: "/etc/network/interfaces.d/{{ item.id }}0"
+  notify: reload network interfaces
+  with_items: "{{ meshes }}"
+
+- name: create batman interfaces
+  template:
+    src: batman.j2
+    dest: "/etc/network/interfaces.d/{{ item.id }}bat"
+  notify: reload network interfaces
+  with_items: "{{ meshes }}"
+
+- name: flush handlers
+  meta: flush_handlers

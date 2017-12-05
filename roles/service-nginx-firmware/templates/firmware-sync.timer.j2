@@ -1,0 +1,12 @@
+#
+# {{ ansible_managed }}
+#
+[Unit]
+Description=Timer which schedules firmware-sync.service
+
+[Timer]
+OnBootSec=30min
+OnUnitActiveSec=10min
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,12 @@
+#
+# {{ ansible_managed }}
+#
+
+{% for item, value in bgp_mwu_servers.iteritems() %}
+{% if item != inventory_hostname_short %}
+protocol bgp mwu_{{ item }} from ibgp_mwu {
+    neighbor {{ value.ipv6 }} as mwu_as;
+};
+{% endif %}
+
+{% endfor %}

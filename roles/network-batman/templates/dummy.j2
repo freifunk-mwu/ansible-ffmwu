@@ -1,0 +1,9 @@
+{% set ip4hex = item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
+{% set mac = '0200' + ip4hex -%}
+#
+# {{ ansible_managed }}
+#
+auto {{ item.id }}0
+iface {{ item.id }}0
+    link-type dummy
+    hwaddress {{ mac | hwaddr('linux') }}

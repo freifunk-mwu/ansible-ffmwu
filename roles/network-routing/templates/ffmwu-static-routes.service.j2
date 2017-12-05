@@ -1,0 +1,12 @@
+[Unit]
+Description=Manage Freifunk MWU static routes
+After=network-online.target networking.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/bin/ffmwu-add-static-routes.sh
+ExecStop=/usr/local/bin/ffmwu-del-static-routes.sh
+
+[Install]
+WantedBy=multi-user.target

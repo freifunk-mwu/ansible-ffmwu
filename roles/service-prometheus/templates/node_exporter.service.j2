@@ -1,0 +1,18 @@
+[Unit]
+Description=node_exporter - Prometheus exporter for machine metrics.
+After=network.target
+
+[Service]
+Type=simple
+
+PIDFile={{ prometheus_pid_path }}/node_exporter.pid
+
+User={{ prometheus_user }}
+Group={{ prometheus_group }}
+
+{% if node_exporter_opts is defined %}
+ExecStart={{ node_exporter_daemon_dir }}/node_exporter  {{ node_exporter_opts }}
+{% else %}
+ExecStart={{ node_exporter_daemon_dir }}/node_exporter
+{% endif %}
+ExecReload=/bin/kill -HUP $MAINPID

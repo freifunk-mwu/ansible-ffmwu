@@ -1,0 +1,14 @@
+{% set ip4hex = icvpn_ipv4_transfer_net | ipaddr('net') | ipsubnet(24, 37) | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
+{% set mac = '02f0' + ip4hex -%}
+#!/bin/sh
+#
+# {{ ansible_managed }}
+#
+/sbin/ifconfig ${INTERFACE} hw ether {{ mac | hwaddr('linux') }}
+/sbin/ip link set dev ${INTERFACE} up
+
+/sbin/ip -4 route add {{ icvpn_ipv4_transfer_net }} proto static dev ${INTERFACE} table {{ routing_tables.icvpn }}
+/sbin/ip -6 route add {{ icvpn_ipv6_transfer_net }} proto static dev ${INTERFACE} table {{ routing_tables.icvpn }}
+
+/sbin/ip addr add dev ${INTERFACE} {{ icvpn_ipv4_transfer_net | ipaddr('net') | ipsubnet(24, 37) | ipaddr(magic) | ipaddr('address') }}/16 broadcast {{ icvpn_ipv4_transfer_net | ipaddr('net') | ipaddr('broadcast') }} scope link
+/sbin/ip -6 addr add dev ${INTERFACE} {{ icvpn_ipv6_transfer_net | ipaddr('net') | ipsubnet(112, 37) | ipaddr(magic) | ipaddr('address') }}/96 preferred_lft 0

@@ -1,0 +1,174 @@
+---
+as_private_mwu: 65037
+as_public_ffrl: 201701
+
+internet_exit_tcp_mss_ipv4: 1240
+internet_exit_tcp_mss_ipv6: 1220
+
+routing_tables:
+  icvpn: 23
+  mwu: 41
+  internet: 61
+
+icvpn_ipv4_transfer_net: 10.207.0.0/16
+icvpn_ipv6_transfer_net: fec0::a:cf:0:0/96
+bgp_loopback_net: 10.37.0.0/18
+bgp_ipv4_transfer_net: 10.37.0.0/18
+bgp_ipv6_transfer_net: fd37:b4dc:4b1e::/64
+
+http_domain_internal: ffmwu.org
+http_domain_external: freifunk-mwu.de
+
+meshes:
+  - id: mz
+    site_number: 37
+    site_code: ffmz
+    site_name: Mainz
+    ipv4_network: 10.37.0.0/18
+    ipv6_ula:
+      - fd37:b4dc:4b1e::/48
+    ipv6_public:
+      - 2a03:2260:11a::/48
+    dnssl:
+      - ffmz.org
+      - user.ffmz.org
+    batman:
+      it: 10000
+      gw: server 96mbit/96mbit
+      mm: 0
+      dat: 0
+      hop_penalty: 60
+    radvd:
+      maxrtradvinterval: 900
+      advvalidlifetime: 864000
+      advpreferredlifetime: 172800
+    iface_mtu: 1350
+    fastd:
+      nodes:
+        instances:
+          - id: 0
+            mtu: 1406
+            peers:
+              repo: https://github.com/freifunk-mwu/peers-ffmz.git
+              version: master
+            pass: fastd/mzvpn
+          - id: 1
+            mtu: 1312
+            peers:
+              repo: https://github.com/freifunk-mwu/peers-ffmz.git
+              version: master
+            pass: fastd/mzvpn
+      intragate:
+        instances:
+          - id: 0
+            mtu: 1406
+            peers:
+              repo: https://github.com/freifunk-mwu/ffmz-infrastructure-peers.git
+              version: master
+            pass: fastd/mzigvpn
+    dns:
+      master: fd37:b4dc:4b1e::a25:103
+      forward_zones:
+        - name: ffmz.org
+        - name: user.ffmz.org
+        - name: bb.ffmz.org
+        - name: nodes.ffmz.org
+        - name: ffbin
+          master: fd37:b4dc:4b1e::a25:10c
+    http_domain_internal: ffmz.org
+    http_domain_external: freifunk-mainz.de
+
+  - id: wi
+    site_number: 56
+    site_code: ffwi
+    site_name: Wiesbaden
+    ipv4_network: 10.56.0.0/18
+    ipv6_ula:
+      - fd56:b4dc:4b1e::/48
+    ipv6_public:
+      - 2a03:2260:11b::/48
+    dnssl:
+      - ffwi.org
+      - user.ffwi.org
+    batman:
+      it: 10000
+      gw: server 96mbit/96mbit
+      mm: 0
+      dat: 0
+      hop_penalty: 60
+    radvd:
+      maxrtradvinterval: 900
+      advvalidlifetime: 864000
+      advpreferredlifetime: 172800
+    iface_mtu: 1350
+    fastd:
+      nodes:
+        instances:
+          - id: 0
+            mtu: 1406
+            peers:
+              repo: https://github.com/freifunk-mwu/peers-ffwi.git
+              version: master
+            pass: fastd/wivpn
+          - id: 1
+            mtu: 1312
+            peers: 
+              repo: https://github.com/freifunk-mwu/peers-ffwi.git
+              version: master
+            pass: fastd/wivpn
+      intragate:
+        instances:
+          - id: 0
+            mtu: 1406
+            peers:
+              repo: https://github.com/freifunk-mwu/ffwi-infrastructure-peers.git
+              version: master
+            pass: fastd/wiigvpn
+    dns:
+      master: fd56:b4dc:4b1e::a38:103
+      forward_zones:
+        - name: ffwi.org
+        - name: user.ffwi.org
+        - name: bb.ffwi.org
+        - name: nodes.ffwi.org
+    http_domain_internal: ffwi.org
+    http_domain_external: wiesbaden.freifunk.net
+
+icvpn:
+  prefix: mwu
+  interface: icvpn
+  icvpn_repo: https://github.com/freifunk/icvpn
+
+bgp_mwu_servers:
+  spinat:
+    ipv4: 10.37.0.7
+    ipv6: fd37:b4dc:4b1e::a25:7
+  lotuswurzel:
+    ipv4: 10.37.0.23
+    ipv6: fd37:b4dc:4b1e::a25:17
+  ingwer:
+    ipv4: 10.37.0.161
+    ipv6: fd37:b4dc:4b1e::a25:a1
+  wasserfloh:
+    ipv4: 10.37.0.231
+    ipv6: fd37:b4dc:4b1e::a25:e7
+  zuckerwatte:
+    ipv4: 10.37.1.2
+    ipv6: fd37:b4dc:4b1e::a25:102
+  aubergine:
+    ipv4: 10.37.1.3
+    ipv6: fd37:b4dc:4b1e::a25:103
+  zwiebel:
+    ipv4: 10.37.1.0
+    ipv6: fd37:b4dc:4b1e::a25:100
+  glueckskeks:
+    ipv4: 10.37.1.1
+    ipv6: fd37:b4dc:4b1e::a25:101
+  suesskartoffel:
+    ipv4: 10.37.1.4
+    ipv6: fd37:b4dc:4b1e::a25:104
+
+legacy_gateways:
+  - ingwer
+  - lotuswurzel
+  - spinat

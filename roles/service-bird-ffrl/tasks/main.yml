@@ -1,0 +1,36 @@
+---
+- name: write ffrl_ipv4.conf.j2
+  template:
+    src: ffrl_ipv4.conf.j2
+    dest: /etc/bird/ffrl_ipv4.conf
+    mode: 0640
+    owner: bird
+    group: bird
+  notify: reload systemd unit bird
+
+- name: write ffrl_ipv6.conf.j2
+  template:
+    src: ffrl_ipv6.conf.j2
+    dest: /etc/bird/ffrl_ipv6.conf
+    mode: 0640
+    owner: bird
+    group: bird
+  notify: reload systemd unit bird6
+
+- name: write ffrl_ipv4_peers.conf
+  template:
+    src: ffrl_ipv4_peers.conf.j2
+    dest: /etc/bird/ffrl_ipv4_peers.conf
+    mode: 0640
+    owner: bird
+    group: bird
+  notify: reload systemd unit bird
+
+- name: write ffrl_ipv6_peers.conf
+  template:
+    src: ffrl_ipv6_peers.conf.j2
+    dest: /etc/bird/ffrl_ipv6_peers.conf
+    mode: 0640
+    owner: bird
+    group: bird
+  notify: reload systemd unit bird6

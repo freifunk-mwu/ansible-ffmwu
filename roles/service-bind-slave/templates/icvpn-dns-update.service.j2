@@ -1,0 +1,10 @@
+#
+# {{ ansible_managed }}
+#
+[Unit]
+Description=Update icvpn bind configuration
+
+[Service]
+ExecStart=/home/admin/clones/backend-scripts/gen_icvpn_dns_gw.sh
+User=admin
+Group=admin

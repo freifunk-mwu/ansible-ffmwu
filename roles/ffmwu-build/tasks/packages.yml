@@ -4,7 +4,6 @@
     repo: 'deb https://repo.universe-factory.net/debian/ sid main'
     state: present
     filename: 'neoraider'
-  become: true
   notify: update apt cache
 
 - name: add apt repository of freifunk-mwu
@@ -12,7 +11,6 @@
     repo: 'deb http://repo.freifunk-mwu.de/debian/ jessie main'
     state: present
     filename: 'ffmwu'
-  become: true
   notify: update apt cache
 
 - name: add apt-key of neoraider
@@ -20,14 +18,12 @@
     keyserver: keyserver.ubuntu.com
     id: 16EF3F64CB201D9C
     state: present
-  become: true
   notify: update apt cache
 
 - name: add apt-key of freifunk-mwu package sigs
   apt_key:
     url: http://repo.freifunk-mwu.de/83A70084.gpg.key
     state: present
-  become: true
   notify: update apt cache
 
 - name: install needed packages for build-server
@@ -50,4 +46,3 @@
     - subversion
     - unzip
     - zlib1g-dev
-  become: true

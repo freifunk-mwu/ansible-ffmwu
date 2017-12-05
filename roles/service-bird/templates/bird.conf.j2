@@ -1,0 +1,76 @@
+#
+# {{ ansible_managed }}
+#
+
+# Variables
+define mwu_address = {{ bgp_ipv4_transfer_net | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
+define mwu_as = {{ as_private_mwu }};
+define router_id = {{ bgp_loopback_net | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
+
+# General
+timeformat protocol iso long;
+router id router_id;
+
+# Functions
+function is_default() {
+    return net ~ [
+        0.0.0.0/0
+    ];
+}
+
+function is_freifunk() {
+    return net ~ [
+        10.0.0.0/8{16,24}
+    ];
+}
+
+function is_dn42() {
+    return net ~ [
+        172.20.0.0/14{20,28}
+    ];
+}
+
+function is_chaosvpn() {
+    return net ~ [
+        172.31.0.0/16+
+    ];
+}
+
+function is_mwu_self_nets() {
+    return net ~ [
+{% for mesh in meshes %}
+        {{ mesh.ipv4_network | ipaddr('net') }}+{{ "," if not loop.last else "" }}
+{% endfor %}
+    ];
+}
+
+# Protocols
+protocol device {
+    scan time 30;
+};
+
+protocol direct mwu_subnets {
+{% for mesh in meshes %}
+    interface "{{ mesh.id }}br";
+{% endfor %}
+    import where is_mwu_self_nets();
+};
+
+# Templates
+template bgp ibgp_mwu {
+    local mwu_address as mwu_as;
+    import keep filtered on;
+    import all;
+    export where source = RTS_BGP;
+    direct;
+    gateway direct;
+};
+
+# Include IPv4 MWU peers
+include "mwu_ipv4_peers.con?";
+
+# Include IPv4 ICVPN configuration
+include "icvpn_ipv4.con?";
+
+# Include IPv4 FFRL configuration
+include "ffrl_ipv4.con?";
