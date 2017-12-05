@@ -1,0 +1,19 @@
+---
+
+communities:
+  - mz
+  - wi
+
+community_params:
+  mz:
+    fastd_port: 10037
+    abbreviation: mz
+    name: mainz
+    repo: freifunk-mwu/peers-ffmz
+    xtra_peers:
+    - peers_bingen
+  wi:
+    fastd_port: 10056
+    abbreviation: wi
+    name: wiesbaden
+    repo: freifunk-mwu/peers-ffwi

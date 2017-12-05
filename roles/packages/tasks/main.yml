@@ -21,6 +21,7 @@
       with_items: "{{ (pkg_repo_list|default({})).repo_keys | default([]) }}"
       loop_control:
         loop_var: pkg_item
+      become: True
       # see defaults in with - when: (pkg_repo_list is defined) and (pkg_repo_list.repo_keys is defined)
 
     - name: ensure defined apt repos
@@ -32,6 +33,7 @@
       with_items: "{{ (pkg_repo_list|default({})).repos | default([]) }}"
       loop_control:
         loop_var: pkg_item
+      become: True
       # see defaults in with - when: (pkg_repo_list is defined) and (pkg_repo_list.repos is defined)
 
     # see defaults in with - when: pkg_repo_list is defined
@@ -46,6 +48,7 @@
     with_items: "{{meshing_pkg_pkg_list | default([])}}"
     loop_control:
       loop_var: mwu_m_item
+    become: True
     # see default in with - when: meshing_pkg_pkg_list is defined
 
   - name: ensure defined python libs
@@ -53,6 +56,7 @@
     with_items: "{{meshing_pkg_pip_list | default([])}}"
     loop_control:
       loop_var: mwu_m_item
+    become: True
     # see default in with - when: meshing_pkg_pip_list is defined
 
   when: (really_do is defined) and (really_do)

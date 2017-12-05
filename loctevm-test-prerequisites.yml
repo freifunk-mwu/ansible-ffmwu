@@ -1,0 +1,9 @@
+#!/usr/bin/ansible-playbook
+---
+
+- hosts: test-vms
+  remote_user: admin
+  strategy: free
+
+  roles:
+  - ffmwu-prereqs

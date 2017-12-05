@@ -1,5 +1,0 @@
----
-dependencies:
-  - { role: git-repos }
-  - { role: service-tinc }
-  - { role: service-bird }
