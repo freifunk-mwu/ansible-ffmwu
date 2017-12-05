@@ -1,0 +1,28 @@
+#
+# {{ ansible_managed }}
+#
+ddns-update-style none;
+
+authoritative;
+server-name "{{ inventory_hostname_short }}";
+
+log-facility local7;
+
+default-lease-time 300;
+min-lease-time 300;
+max-lease-time 300;
+
+{% for mesh in meshes %}
+# DHCP subnet for site {{ mesh.site_name }} ({{ mesh.site_code }})
+subnet {{ mesh.ipv4_network | ipaddr('network') }} netmask {{ mesh.ipv4_network | ipaddr('netmask') }} {
+	range {{ mesh.ipv4_network | ipsubnet(22, ipv4_dhcp_range) | ipaddr('net') | ipaddr('network') }} {{ mesh.ipv4_network | ipsubnet(22, ipv4_dhcp_range) | ipaddr('net') | ipaddr('broadcast') }};
+	option routers {{ mesh.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
+	option domain-name-servers {{ mesh.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
+	option domain-search {% for domain in mesh.dnssl %}"{{ domain }}"{% if not loop.last %}, {% endif %}{% endfor %};
+	option ntp-servers {{ mesh.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
+	option interface-mtu {{ mesh.iface_mtu }};
+}
+{% if not loop.last %}
+
+{% endif %}
+{% endfor %}

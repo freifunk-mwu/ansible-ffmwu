@@ -1,0 +1,87 @@
+---
+- name: install tinc packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - tinc
+
+- name: clone icvpn repo
+  git:
+    repo: "{{ icvpn.icvpn_repo }}"
+    dest: /etc/tinc/{{ icvpn.interface }}
+    version: master
+    update: no
+
+- name: set directory permissions
+  file:
+    path: /etc/tinc/{{ icvpn.interface }}
+    state: directory
+    owner: admin
+    group: admin
+    recurse: yes
+
+- name: register metanodes
+  command: cat /etc/tinc/{{ icvpn.interface }}/metanodes
+  register: metanodes
+  changed_when: false
+
+- name: enable freifunk/icvpn post-merge script
+  copy:
+    remote_src: yes
+    src: /etc/tinc/{{ icvpn.interface }}/scripts/post-merge
+    dest: /etc/tinc/{{ icvpn.interface }}/.git/hooks/
+    owner: admin
+    group: admin
+    mode: 0755
+
+- name: write tinc.conf
+  template:
+    src: tinc.conf.j2
+    dest: /etc/tinc/{{ icvpn.interface }}/tinc.conf
+    mode: 0664
+    owner: admin
+    group: admin
+  notify: restart systemd unit tinc
+
+- name: write tinc-up hook script
+  template:
+    src: tinc-up.j2
+    dest: /etc/tinc/{{ icvpn.interface }}/tinc-up
+    mode: 0775
+    owner: admin
+    group: admin
+  notify: restart systemd unit tinc
+
+- name: write tinc-down hook script
+  template:
+    src: tinc-down.j2
+    dest: /etc/tinc/{{ icvpn.interface }}/tinc-down
+    mode: 0775
+    owner: admin
+    group: admin
+  notify: restart systemd unit tinc
+
+- name: write tinc private key
+  template:
+    src: rsa_key.priv.j2
+    dest: /etc/tinc/{{ icvpn.interface }}/rsa_key.priv
+    mode: 0600
+    owner: admin
+    group: admin
+  notify: restart systemd unit tinc
+
+- name: write nets.boot
+  template:
+    src: nets.boot.j2
+    dest: /etc/tinc/nets.boot
+    mode: 0644
+    owner: root
+    group: root
+  notify: restart systemd unit tinc
+
+- name: configure systemd unit tinc
+  systemd:
+    name: tinc
+    enabled: yes
+    state: started

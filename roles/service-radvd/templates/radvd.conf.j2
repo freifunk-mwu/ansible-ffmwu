@@ -1,0 +1,44 @@
+
+#
+# {{ ansible_managed }}
+#
+{% for mesh in meshes %}
+interface {{ mesh.id }}br
+{
+	AdvSendAdvert on;
+	IgnoreIfMissing on;
+	MaxRtrAdvInterval {{ mesh.radvd.maxrtradvinterval }};
+	AdvLinkMTU {{ mesh.iface_mtu }};
+
+	RDNSS {% for prefix in mesh.ipv6_ula %}{{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('address') }}
+{% endfor %}
+	{
+		FlushRDNSS off;
+	};
+
+{% for prefix in mesh.ipv6_ula %}
+	prefix {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }}
+	{
+		AdvValidLifetime {{ mesh.radvd.advvalidlifetime }};
+		AdvPreferredLifetime {{ mesh.radvd.advpreferredlifetime }};
+	};
+{% if not loop.last %}
+
+{% endif %}
+{% endfor %}
+
+{% for prefix in mesh.ipv6_public %}
+	prefix {{ prefix | ipaddr('net') | ipsubnet(56, magic) | ipsubnet(64, 0) | ipaddr('subnet') }}
+	{
+		AdvValidLifetime {{ mesh.radvd.advvalidlifetime }};
+		AdvPreferredLifetime {{ mesh.radvd.advpreferredlifetime }};
+	};
+{% if not loop.last %}
+
+{% endif %}
+{% endfor %}
+};
+{% if not loop.last %}
+
+{% endif %}
+{% endfor %}

@@ -1,0 +1,16 @@
+---
+- name: create ffrl interfaces
+  template:
+    src: ffrl.j2
+    dest: "/etc/network/interfaces.d/{{ item.key }}"
+  notify: reload network interfaces
+  with_dict: "{{ ffrl_exit_server }}"
+
+- name: create ffrl-nat dummy interface
+  template:
+    src: ffrl_nat.j2
+    dest: "/etc/network/interfaces.d/ffrl-nat"
+  notify: reload network interfaces
+
+- name: flush handlers
+  meta: flush_handlers

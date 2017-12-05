@@ -4,18 +4,15 @@
     src: rsyncd.conf
     dest: /etc/rsyncd.conf
     mode: 0640
-  become: true
 
 - name: install rsnyc systemd unit
   copy:
     src: rsync.service
     dest: /etc/systemd/system/
     mode: 0644
-  become: true
 
 - name: ensure rsync is started on boot as a daemon
   systemd:
     name: rsync
     state: started
     enabled: True
-  become: true

@@ -1,0 +1,40 @@
+# Install Prometheus node-exporter.
+#
+# @see http://prometheus.io/docs/introduction/getting_started/
+
+- name: set internal variables for convenience
+  set_fact:
+    node_exporter_daemon_dir: "{{ prometheus_install_path }}/node_exporter-{{ node_exporter_version }}.linux-amd64"
+    node_exporter_tarball_url: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+
+- name: download and untar node_exporter tarball
+  unarchive:
+    src: "{{ node_exporter_tarball_url }}"
+    dest: "{{ prometheus_install_path }}"
+    copy: no
+    creates: "{{ node_exporter_daemon_dir }}"
+
+- name: create node_exporter /usr/local/bin link
+  file:
+    src: "{{ node_exporter_daemon_dir }}/node_exporter"
+    dest: "/usr/local/bin/node_exporter"
+    state: link
+
+- name: mkdir for data
+  file:
+    path: "{{ prometheus_db_path }}"
+    state: directory
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: "u=rwx,g=rx,o="
+
+- name: copy systemd config to server
+  template:
+    src: "../templates/node_exporter.service.j2"
+    dest: "/lib/systemd/system/node_exporter.service"
+
+- name: enable node_exporter service
+  service:
+    name: node_exporter
+    enabled: yes
+    state: started

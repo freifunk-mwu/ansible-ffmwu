@@ -1,0 +1,12 @@
+#
+# {{ ansible_managed }}
+#
+[Unit]
+Description=Timer which schedules icvpn-tinc-bgp-update.service
+
+[Timer]
+OnBootSec=1h
+OnUnitActiveSec=2d
+
+[Install]
+WantedBy=timers.target

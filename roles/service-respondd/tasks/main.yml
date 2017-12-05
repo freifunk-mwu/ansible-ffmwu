@@ -1,0 +1,31 @@
+---
+- name: install packages
+  package:
+    name: python3-netifaces
+    state: present
+
+- name: clone respondd repo
+  git:
+    repo: https://github.com/freifunk-mwu/mesh-announce.git
+    dest: /home/admin/clones/mesh-announce
+    version: mwu-respondd
+  become: false
+
+- name: write systemd unit files
+  template:
+    src: respondd.service.j2
+    dest: "/etc/systemd/system/respondd-{{ item.id }}.service"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload systemd
+    - restart respondd
+  with_items: "{{ meshes }}"
+
+- name: configure systemd unit files
+  systemd:
+    name: "respondd-{{ item.id }}"
+    enabled: yes
+    state: started
+  with_items: "{{ meshes }}"

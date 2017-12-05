@@ -1,0 +1,39 @@
+---
+
+# FIXME: do nothing for now
+# FIXME: how to learn about IP of VM ???
+
+- name: prepare escalation
+  set_fact: ansible_become_pass=bloed ansible_ssh_pass=bloed
+
+#- name: ensure absence of local known-hosts entry FIXME remove here
+#  known_hosts: host={{ansible_host}} state=absent
+#  delegate_to: 127.0.0.1  # local action
+
+#- name: do dummy commit to ensure known host key
+#  command: ssh -o PasswordAuthentication=no -o StrictHostKeyChecking=no hein@{{ansible_host}} true
+#  delegate_to: 127.0.0.1  # local action
+#  changed_when: False
+#  failed_when: False
+
+- name: ensure admin user
+  user: comment="FFMWU Administrator" name=admin shell=/bin/bash state=present
+
+- name: ensure users ssh key to admin user
+  authorized_key: user=admin key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+                  exclusive=no
+
+- name: ensure users ssh key to bootstrap user
+  authorized_key: user=hein key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+  become: false
+
+- name: ensure no-pw sudo capability for admin and bootstrap user
+  lineinfile:
+    create: yes
+    dest: /etc/sudoers.d/ffmwu
+    line: "admin,hein ALL = (root) NOPASSWD: ALL"
+    mode: 0440
+    validate: visudo -c -f %s
+
+- name: from this point on prevent pw for bootstrap user
+  user: user=hein password=X

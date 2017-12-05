@@ -1,0 +1,67 @@
+#
+# {{ ansible_managed }}
+#
+
+# Variables
+define icvpn_address = {{ icvpn_ipv6_transfer_net | ipaddr('net') | ipsubnet(112, 37) | ipaddr(magic) | ipaddr('address') }};
+
+# ROA
+roa table roa_icvpn {
+    include "icvpn_ipv6_roa.con?";
+}
+
+# Filters
+filter icvpn_import_filter {
+    if is_mwu_self_nets() then reject;
+    if roa_check(roa_icvpn) = ROA_VALID then {
+        if is_ula() then accept;
+    } else {
+        if roa_check(roa_icvpn) = ROA_UNKNOWN then {
+            if is_ula() then {
+                print "ROA UNKNOWN for net, accepting: ", net, " ASN: ", bgp_path.last;
+                accept;
+            }
+        }
+        if roa_check(roa_icvpn) = ROA_INVALID then {
+            if is_ula() then {
+                print "ROA INVALID for net, accept: ", net, " ASN: ", bgp_path.last;
+                accept;
+            }
+        }
+        reject;
+    }
+    reject;
+}
+
+# Protocols
+protocol kernel kernel_mwu {
+    scan time 30;
+    import none;
+    export filter {
+        if is_mwu_self_nets() then
+            reject;
+        krt_prefsrc = icvpn_address;
+        accept;
+    };
+    kernel table ipt_icvpn;
+};
+
+# Templates
+template bgp ebgp_icvpn {
+    local icvpn_address as mwu_as;
+    import keep filtered on;
+    import filter icvpn_import_filter;
+    export filter {
+        if is_mwu_self_nets() then {
+            accept;
+        }
+        if source = RTS_BGP then {
+            accept;
+        }
+        reject;
+    };
+    direct;
+}
+
+# Include ICVPN IPv6 peers
+include "icvpn_ipv6_peers.con?";

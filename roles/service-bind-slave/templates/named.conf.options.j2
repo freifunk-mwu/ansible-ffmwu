@@ -1,0 +1,37 @@
+//
+// {{ ansible_managed }}
+//
+options {
+	directory "/var/cache/bind";
+
+	dnssec-validation no;
+	auth-nxdomain no;
+
+	allow-query { any; };
+	allow-recursion {
+		127.0.0.1;
+		::1;
+{% for mesh in meshes %}
+		intern-{{ mesh.site_code }};
+{% endfor %}
+	};
+	allow-transfer { any; };
+
+	listen-on {
+		127.0.0.1;
+{% for mesh in meshes %}
+		{{ mesh.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
+{% endfor %}
+		{{ icvpn_ipv4_transfer_net | ipaddr('net') | ipsubnet(24, 37) | ipaddr(magic) | ipaddr('address') }};
+	};
+
+	listen-on-v6 {
+		::1;
+{% for mesh in meshes %}
+{% for ip in mesh.ipv6_ula %}
+		{{ ip | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('address') }};
+{% endfor %}
+{% endfor %}
+		{{ icvpn_ipv6_transfer_net | ipaddr('net') | ipsubnet(112, 37) | ipaddr(magic) | ipaddr('address') }};
+	};
+};

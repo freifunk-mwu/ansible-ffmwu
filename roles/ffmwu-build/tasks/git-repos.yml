@@ -4,3 +4,4 @@
     repo: https://github.com/freifunk-mwu/sites-ffmwu.git
     dest: /home/admin/clones/sites-ffmwu
     version: stable
+  become: false

@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Freifunk MWU Gateway "{{ inventory_hostname_short }}" </title>
+    <link href="./static/favicon.ico" rel="shortcut icon" />
+    <link href="./static/style.css" rel="stylesheet" type="text/css" media="screen" />
+    <script type="text/javascript">
+    <!--
+        function toggle(id)
+        {
+            var e = document.getElementById(id);
+            e.style.display = (e.style.display == 'none') ? 'block' : 'none';
+        }
+    -->
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Freifunk MWU Gateway <a href="./index.html">{{ inventory_hostname_short }}</a></h1>
+    </header>
+    <div class="block"><a href="firmware">Firmware</a></div>
+    <div class="block"><a href="traffic">Traffic</a></div>
+</body>
+</html>

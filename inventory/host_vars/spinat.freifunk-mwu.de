@@ -1,4 +1,0 @@
----
-
-ansible_managed_server: True
-# not yet: ansible_managed_meshing

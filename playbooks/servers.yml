@@ -1,0 +1,7 @@
+#!/usr/bin/ansible-playbook
+
+- hosts: ff-servers
+  remote_user: admin
+  roles:
+    - prerequisites
+    - ffmwu-server

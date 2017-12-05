@@ -1,0 +1,73 @@
+#!/usr/bin/ansible-playbook
+# localhost (aka 127.0.0.1) is the hypervisor (hard-coded)
+
+- hosts: test-vms
+#- hosts: local-test-vm.ffmwu.local
+  gather_facts: False
+#  remote_user: root
+
+  vars:
+  - vm_path: "{{ lookup('env','HOME') }}/tmp/ffmwu-loctevm"
+
+  tasks:
+  - name: ensure VM dir and vm image dir
+    file: path={{ vm_path }} state=directory mode=0755
+    delegate_to: 127.0.0.1  # local action
+
+  - name: remove old image file when asked to reset VM
+    file: path={{ vm_path }}/loctevm.img state=absent
+    when: vm_reset|default(False)
+    delegate_to: 127.0.0.1  # local action
+
+  - name: ensure image file  # FIXME: change to rm + recreate
+    command: fallocate -l 5G {{ vm_path }}/loctevm.img  # 15G? size?
+    args:
+      creates: "{{ vm_path }}/loctevm.img"
+    delegate_to: 127.0.0.1  # local action
+
+  - name: correct access rights of image file
+    file: mode=0666 path={{ vm_path }}/loctevm.img state=file
+    delegate_to: 127.0.0.1  # local action
+
+  - name: get and prepare debian image file
+    include: include/loctevm-provide-iso.inc.yml
+
+  - name: define Vnd activate Vnet (if not already)
+    include: include/loctevm-provide-net.inc.yml
+
+  - name: define VM (if not already)
+    include: include/loctevm-provide-vm.inc.yml
+
+  - name: create VM - should start OS installation - might take looong time
+    virt:
+      state: running
+      name: "{{ inventory_hostname }}"
+    register: virt_run
+    delegate_to: 127.0.0.1  # local action
+
+  - name: wait for port 80 to appear (after reboot after OS installation)
+    wait_for: host={{ansible_host}} port=80 state=started timeout=2500
+    delegate_to: 127.0.0.1  # local action
+
+  - block:
+    - name: ensure absence of outdated local known-hosts entry
+      known_hosts: host={{ansible_host}} state=absent
+      delegate_to: 127.0.0.1  # local action
+
+    - name: do dummy connect to ensure new local known host entry
+      command: ssh -o PasswordAuthentication=no -o StrictHostKeyChecking=no hein@{{ansible_host}} true
+      delegate_to: 127.0.0.1  # local action
+      changed_when: False
+      failed_when: False
+
+    when: virt_run.changed
+    # block end
+
+- hosts: test-vms
+  remote_user: hein
+  gather_facts: False
+#  become: True
+
+  tasks:
+  - name: prepare VM (if not already)
+    include: include/loctevm-provide-prereq.inc.yml

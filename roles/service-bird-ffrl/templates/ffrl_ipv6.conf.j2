@@ -1,0 +1,80 @@
+#
+# {{ ansible_managed }}
+#
+
+# Variables
+define ffrl_as = {{ as_public_ffrl }};
+
+# Routing Table
+table ffrl;
+
+# Functions
+function is_ffrl_public_nets() {
+    return net ~ [
+{% for mesh in meshes %}
+{% for prefix in mesh.ipv6_public %}
+        {{ prefix }}{48,56}{{ "," if not loop.last else "" }}{% endfor %}{{ "," if not loop.last else "" }}
+{% endfor %}
+    ];
+}
+
+function is_ffrl_tunnel_nets() {
+    return net ~ [
+{% for peer_id, peer_value in ffrl_exit_server.iteritems() %}
+        {{ peer_value.tunnel_ipv6_network }}{{ "," if not loop.last else "" }}
+{% endfor %}
+    ];
+}
+
+# Filters
+filter ebgp_ffrl_import_filter {
+    if is_default() then accept;
+    reject;
+}
+
+filter ebgp_ffrl_export_filter {
+    if is_ffrl_public_nets() then accept;
+    reject;
+}
+
+# Protocols
+protocol static ffrl_public_routes {
+    table ffrl;
+{% for mesh in meshes %}
+{% for prefix in mesh.ipv6_public %}
+    route {{ prefix }} reject;
+    route {{ prefix | ipaddr('net') | ipsubnet(56, magic) | ipaddr('network/prefix') }} reject;
+{% endfor %}
+{% endfor %}
+}
+
+protocol direct ffrl_tunnels {
+    table ffrl;
+    interface "ffrl-*";
+    import where is_ffrl_tunnel_nets();
+}
+
+protocol kernel kernel_ffrl {
+    scan time 30;
+    import none;
+    export filter {
+        if is_default() then accept;
+        reject;
+    };
+    table ffrl;
+    kernel table ipt_internet;
+};
+
+# Templates
+template bgp ffrl_uplink {
+    table ffrl;
+    local as mwu_as;
+    import keep filtered;
+    import filter ebgp_ffrl_import_filter;
+    export filter ebgp_ffrl_export_filter;
+    next hop self;
+    direct;
+};
+
+# Include FFRL IPv4 peers
+include "ffrl_ipv6_peers.con?";

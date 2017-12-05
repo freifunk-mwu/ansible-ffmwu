@@ -1,9 +1,0 @@
-#!/usr/bin/ansible-playbook
----
-
-- hosts: meshing-srv
-  remote_user: admin
-  strategy: linear
-
-  roles: 
-  - ffmwu-meshing
