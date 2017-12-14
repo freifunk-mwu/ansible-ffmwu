@@ -52,9 +52,6 @@ prometheus_install_path:   /opt/prometheus
 # directory for configuration files
 prometheus_config_path:    /etc/prometheus
 
-# directory for PID files
-prometheus_pid_path:       /var/run/prometheus
-
 # directory for temporary files
 prometheus_download_path:  /tmp
 

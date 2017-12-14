@@ -5,8 +5,6 @@ After=network.target
 [Service]
 Type=simple
 
-PIDFile={{ prometheus_pid_path }}/node_exporter.pid
-
 User={{ prometheus_user }}
 Group={{ prometheus_group }}
 
@@ -16,3 +14,6 @@ ExecStart={{ node_exporter_daemon_dir }}/node_exporter  {{ node_exporter_opts }}
 ExecStart={{ node_exporter_daemon_dir }}/node_exporter
 {% endif %}
 ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
