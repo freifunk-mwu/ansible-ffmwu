@@ -24,7 +24,6 @@
   with_items:
     - "{{ prometheus_install_path }}"
     - "{{ prometheus_config_path }}"
-    - "{{ prometheus_pid_path }}"
 
 - name: install helper utility "gosu"
   include_tasks: install-gosu.yml
