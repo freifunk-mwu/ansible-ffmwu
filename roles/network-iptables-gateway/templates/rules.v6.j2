@@ -5,7 +5,6 @@
 :INPUT ACCEPT [0:0]
 :FORWARD ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
--A INPUT -m conntrack --ctstate INVALID -j DROP
 -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 {% for mesh_forward in meshes %}
 {% for mesh_recursive in meshes recursive %}
@@ -14,9 +13,7 @@
 {% endif %}
 {% endfor %}
 {% endfor %}
--A FORWARD -m conntrack --ctstate INVALID -j DROP
 -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
--A OUTPUT -m conntrack --ctstate INVALID -j DROP
 -A OUTPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 COMMIT
 *mangle

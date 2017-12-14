@@ -6,7 +6,6 @@
 :FORWARD ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
 -A INPUT -d {{ ansible_default_ipv4.address | ipaddr('public') }}/32 -p gre -j ACCEPT
--A INPUT -m conntrack --ctstate INVALID -j DROP
 -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 {% for mesh_forward in meshes %}
 {% for mesh_recursive in meshes recursive %}
@@ -15,10 +14,8 @@
 {% endif %}
 {% endfor %}
 {% endfor %}
--A FORWARD -m conntrack --ctstate INVALID -j DROP
 -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 -A OUTPUT -s {{ ansible_default_ipv4.address | ipaddr('public') }}/32 -p gre -j ACCEPT
--A OUTPUT -m conntrack --ctstate INVALID -j DROP
 -A OUTPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 COMMIT
 *mangle
