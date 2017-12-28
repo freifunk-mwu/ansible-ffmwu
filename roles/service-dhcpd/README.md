@@ -1,11 +1,10 @@
 # Ansible role service-dhcpd
 
-Diese Ansible role installiert und konfiguriert den isc dhcp daemon.
+Diese Ansible role installiert und konfiguriert den kea dhcp daemon.
 Wir nutzen diesen nur zur Verteilung von IPv4-Adressen.
 
-- installiert isc-dhcp-server
-- setzt interfaces in /etc/default/isc-dhcp-server
-- schreibt dhcpd.conf
+- installiert kea-dhcp4-server
+- schreibt kea-dhcp4.conf
 
 ## Benötigte Variablen
 
@@ -19,6 +18,7 @@ meshes:
     ipv4_network:
     dnssl:
       - $domain # string
+    kea_dnssl_binary: # kea < 1.2 only supports dnssl data in hex format
     iface_mtu: # integer
 ´´´
 - Host Variable `magic`

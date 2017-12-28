@@ -1,0 +1,19 @@
+---
+kea_packages:
+  - kea-admin
+  - kea-common
+  - kea-dhcp4-server
+  - kea-doc
+
+kea_lease_database:
+  lfc_interval: 900
+
+kea_expired_leases_processing:
+  reclaim_timer_wait_time: 10
+  flush_reclaimed_timer_wait_time: 25
+  hold_reclaimed_time: 1800
+  max_reclaim_leases: 100
+  max_reclaim_time: 250
+  unwarned_reclaim_cycles: 5
+
+kea_lease_time: 300

@@ -28,12 +28,6 @@
     name: bird6
     state: reloaded
 
-- name: restart isc dhcp server
-  systemd:
-    name: isc-dhcp-server
-    enabled: yes
-    state: restarted
-
 - name: restart fastd intragate instances
   systemd:
     name: "fastd@{{ item.0.id }}igvpn-{{ item.1.mtu }}"

@@ -1,0 +1,81 @@
+#
+# {{ ansible_managed }}
+#
+{
+
+"Dhcp4":
+{
+  "interfaces-config": {
+    "interfaces": [
+{% for mesh in meshes %}
+{% if not loop.last %}
+      "{{ mesh.id }}br",
+{% else %}
+      "{{ mesh.id }}br"
+{% endif %}
+{% endfor %}
+    ]
+  },
+  "lease-database": {
+    "type": "memfile",
+    "persist": true,
+    "lfc-interval": {{ kea_lease_database['lfc_interval'] }}
+  },
+  "expired-leases-processing": {
+    "reclaim-timer-wait-time": {{ kea_expired_leases_processing['reclaim_timer_wait_time'] }},
+    "flush-reclaimed-timer-wait-time": {{ kea_expired_leases_processing['flush_reclaimed_timer_wait_time'] }} ,
+    "hold-reclaimed-time": {{ kea_expired_leases_processing['hold_reclaimed_time'] }},
+    "max-reclaim-leases": {{ kea_expired_leases_processing['max_reclaim_leases'] }},
+    "max-reclaim-time": {{ kea_expired_leases_processing['max_reclaim_time'] }},
+    "unwarned-reclaim-cycles": {{ kea_expired_leases_processing['unwarned_reclaim_cycles'] }}
+  },
+  "valid-lifetime": {{ kea_lease_time }},
+  "subnet4": [
+{% for mesh in meshes %}
+    {
+      "subnet": "{{ mesh.ipv4_network | ipaddr('network/prefix') }}",
+      "pools": [ { "pool": "{{ mesh.ipv4_network | ipsubnet(22, ipv4_dhcp_range) | ipaddr('net') | ipaddr('range_usable') }}" } ],
+      "option-data": [
+        {
+          "name": "routers",
+          "data": "{{ mesh.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') }}"
+        },
+        {
+          "name": "time-servers",
+          "data": "{{ mesh.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') }}"
+        },
+        {
+          "name": "domain-name-servers",
+          "data": "{{ mesh.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') }}"
+        },
+        {
+          "name": "domain-search",
+          "data": "{{ mesh.kea_dnssl_binary }}",
+          "csv-format": false
+        }
+      ]
+{% if not loop.last %}
+    },
+{% else %}
+    }
+  ]
+{% endif %}
+{% endfor %}
+},
+"Logging":
+{
+  "loggers": [
+    {
+      "name": "kea-dhcp4",
+      "output_options": [
+          {
+            "output": "/var/log/kea-dhcp4.log"
+          }
+      ],
+      "severity": "WARN",
+      "debuglevel": 0
+    },
+  ]
+}
+
+}
