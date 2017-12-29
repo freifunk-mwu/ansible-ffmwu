@@ -20,6 +20,15 @@
     name: nginx
     state: present
 
+- name: write nginx configuration nginx.conf
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    mode: 0644
+    owner: root
+    group: root
+  notify: reload nginx
+
 - name: write nginx configuration default.conf
   template:
     src: default.conf.j2
