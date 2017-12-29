@@ -71,17 +71,14 @@
     group: admin
   notify: restart systemd unit tinc
 
-- name: write nets.boot
-  template:
-    src: nets.boot.j2
-    dest: /etc/tinc/nets.boot
-    mode: 0644
-    owner: root
-    group: root
-  notify: restart systemd unit tinc
+- name: remove tinc init file if present
+  file:
+    path: /etc/init.d/tinc
+    state: absent
+  notify: reload systemd
 
 - name: configure systemd unit tinc
   systemd:
-    name: tinc
+    name: "tinc@{{ icvpn.interface }}"
     enabled: yes
     state: started

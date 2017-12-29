@@ -57,7 +57,7 @@
 
 - name: restart systemd unit tinc
   systemd:
-    name: tinc
+    name: "tinc@{{ icvpn.interface }}"
     enabled: yes
     state: restarted
 
