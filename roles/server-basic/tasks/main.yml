@@ -41,3 +41,19 @@
     name: "dummy"
     state: present
     params: "numdummies=0"
+
+- name: manage apt auto upgrades
+  template:
+    src: apt-20auto-upgrades.j2
+    dest: /etc/apt/apt.conf.d/20auto-upgrades
+    mode: 0644
+    owner: root
+    group: root
+
+- name: manage apt unattended upgrades
+  template:
+    src: apt-50unattended-upgrades.j2
+    dest: /etc/apt/apt.conf.d/50unattended-upgrades
+    mode: 0644
+    owner: root
+    group: root

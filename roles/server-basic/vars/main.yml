@@ -10,6 +10,7 @@ packages:
   - python3-yaml
   - sudo
   - sysfsutils
+  - unattended-upgrades
   - vim
 
 default_locale: "en_US.UTF-8"
