@@ -33,14 +33,24 @@
 
 - name: configure dummy module to load on system boot
   template:
-    src: dummy.module.conf.j2
+    src: modules_load_dummy.conf.j2
     dest: /etc/modules-load.d/dummy.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: configure dummy module options
+  template:
+    src: modprobe_dummy.conf.j2
+    dest: /etc/modprobe.d/dummy.conf
+    owner: root
+    group: root
+    mode: 0644
 
 - name: load dummy module
   modprobe:
     name: "dummy"
     state: present
-    params: "numdummies=0"
 
 - name: manage apt auto upgrades
   template:
