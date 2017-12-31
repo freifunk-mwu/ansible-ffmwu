@@ -123,7 +123,7 @@
 - name: write configuration for fastd-peer-limit-update script
   template:
     src: fastd_peer_limit_config.yaml.j2
-    dest: /home/admin/.config/fastd_peer_limit_config.yaml
+    dest: /home/admin/.ffmwu-config/fastd_peer_limit_config.yaml
     owner: admin
     group: admin
     mode: 0644
