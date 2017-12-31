@@ -1,0 +1,5 @@
+---
+- name: restart systemd unit vnstat
+  systemd:
+    name: vnstat
+    state: restarted

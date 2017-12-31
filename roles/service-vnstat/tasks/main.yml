@@ -1,0 +1,23 @@
+---
+- name: install vnstat packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - vnstat
+    - vnstati
+
+- name: write vnstat.conf
+  template:
+    src: vnstat.conf.j2
+    dest: /etc/vnstat.conf
+    mode: 0644
+    owner: root
+    group: vnstat
+  notify: restart systemd unit vnstat
+
+- name: enable and start systemd unit vnstat
+  systemd:
+    name: vnstat
+    enabled: yes
+    state: started
