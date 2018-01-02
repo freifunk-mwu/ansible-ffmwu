@@ -18,13 +18,13 @@ filter icvpn_import_filter {
     } else {
         if roa_check(roa_icvpn) = ROA_UNKNOWN then {
             if is_ula() then {
-                print "ROA UNKNOWN for net, accepting: ", net, " ASN: ", bgp_path.last;
+                print "ROA UNKNOWN for ula net, accepting: ", net, " ASN: ", bgp_path.last;
                 accept;
             }
         }
         if roa_check(roa_icvpn) = ROA_INVALID then {
             if is_ula() then {
-                print "ROA INVALID for net, accept: ", net, " ASN: ", bgp_path.last;
+                print "ROA INVALID for ula net, accepting: ", net, " ASN: ", bgp_path.last;
                 accept;
             }
         }
