@@ -1,0 +1,14 @@
+---
+- name: reload systemd unit postfix
+  systemd:
+    name: postfix
+    state: reloaded
+
+- name: restart systemd unit postfix
+  systemd:
+    name: postfix
+    state: restarted
+
+- name: run postalias
+  command: postalias /etc/aliases
+  changed_when: False

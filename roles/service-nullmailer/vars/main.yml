@@ -1,0 +1,8 @@
+---
+nullmailer_packages:
+  - postfix
+  - postfix-doc
+  - mailutils
+
+nullmailer_relayhost: "[fd37:b4dc:4b1e::a25:101]"
+admin_mail_address: "admin@lists.freifunk-mwu.de"

@@ -1,0 +1,32 @@
+---
+- name: install postfix packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ nullmailer_packages }}"
+
+- name: write /etc/mailname
+  template:
+    src: mailname.j2
+    dest: /etc/mailname
+    mode: 0644
+    owner: root
+    group: root
+  notify: reload systemd unit postfix
+
+- name: configure mail aliases
+  lineinfile:
+    path: /etc/aliases
+    state: present
+    regexp: '^root:'
+    line: "root: {{ admin_mail_address }}"
+  notify: run postalias
+
+- name: write /etc/postfix/main.cf
+  template:
+    src: main.cf.j2
+    dest: /etc/postfix/main.cf
+    mode: 0644
+    owner: root
+    group: root
+  notify: reload systemd unit postfix

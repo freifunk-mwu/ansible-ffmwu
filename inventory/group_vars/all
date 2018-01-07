@@ -19,6 +19,8 @@ bgp_ipv6_transfer_net: fd37:b4dc:4b1e::/64
 http_domain_internal: ffmwu.org
 http_domain_external: freifunk-mwu.de
 
+mail_domain: freifunk-mwu.de
+
 meshes:
   - id: mz
     site_number: 37
