@@ -1,0 +1,31 @@
+---
+magic: 104
+ipv4_dhcp_range: 8
+
+ffrl_public_ipv4_nat: 195.201.21.147/32
+
+ffrl_exit_server:
+  ffrl-a-ak-ber:
+    public_ipv4_address: 185.66.195.0
+    tunnel_ipv4_network: 100.64.9.42/31
+    tunnel_ipv6_network: 2a03:2260:0:3bd::/64
+  ffrl-b-ak-ber:
+    public_ipv4_address: 185.66.195.1
+    tunnel_ipv4_network: 100.64.9.48/31
+    tunnel_ipv6_network: 2a03:2260:0:3c0::/64
+  ffrl-a-ix-dus:
+    public_ipv4_address: 185.66.193.0
+    tunnel_ipv4_network: 100.64.9.46/31
+    tunnel_ipv6_network: 2a03:2260:0:3bf::/64
+  ffrl-b-ix-dus:
+    public_ipv4_address: 185.66.193.1
+    tunnel_ipv4_network: 100.64.9.52/31
+    tunnel_ipv6_network: 2a03:2260:0:3c2::/64
+  ffrl-a-fra2-fra:
+    public_ipv4_address: 185.66.194.0
+    tunnel_ipv4_network: 100.64.9.44/31
+    tunnel_ipv6_network: 2a03:2260:0:3be::/64
+  ffrl-b-fra2-fra:
+    public_ipv4_address: 185.66.194.1
+    tunnel_ipv4_network: 100.64.9.50/31
+    tunnel_ipv6_network: 2a03:2260:0:3c1::/64
