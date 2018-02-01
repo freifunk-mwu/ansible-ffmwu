@@ -3,21 +3,6 @@
 # {{ ansible_managed }}
 #
 
-{% for mesh in meshes %}
-# static {{ mesh.site_name }} routes for rt_table mwu
-/sbin/ip -4 route del {{ mesh.ipv4_network }} proto static dev {{ mesh.id }}br table mwu
-{% for ula in mesh.ipv6_ula %}
-/sbin/ip -6 route del {{ ula | ipaddr('net') | ipsubnet(64, 0) }} proto static dev {{ mesh.id }}br table mwu
-{% endfor %}
-{% for public in mesh.ipv6_public %}
-/sbin/ip -6 route del {{ public | ipaddr('net') | ipsubnet(64, 0) }} proto static dev {{ mesh.id }}br table mwu
-/sbin/ip -6 route del {{ public | ipaddr('net') | ipsubnet(64, magic) }} proto static dev {{ mesh.id }}br table mwu
-{% endfor %}
-{% if not loop.last %}
-
-{% endif %}
-{% endfor %}
-
 # static blackhole routes for rt_table internet
 /sbin/ip -4 route del blackhole 0.0.0.0/8 table internet
 /sbin/ip -4 route del blackhole 10.0.0.0/8 table internet
