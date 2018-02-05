@@ -5,6 +5,25 @@
     state: present
   with_items: "{{ kea_packages }}"
 
+- name: create systemd override dir for kea-dhcp4-server.service
+  file:
+    path: /etc/systemd/system/kea-dhcp4-server.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: configure systemd unit overrides
+  template:
+    src: kea_dhcp4_server_service_overrides.j2
+    dest: /etc/systemd/system/kea-dhcp4-server.service.d/override.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload systemd
+    - restart kea-dhcp4-server
+
 - name: configure kea dhcp server
   template:
     src: kea_dhcp4.conf.j2
