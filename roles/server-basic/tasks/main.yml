@@ -67,3 +67,21 @@
     mode: 0644
     owner: root
     group: root
+
+- name: create systemd override dir for networking.service
+  file:
+    path: /etc/systemd/system/networking.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: configure systemd unit overrides
+  template:
+    src: networking_service_overrides.j2
+    dest: /etc/systemd/system/networking.service.d/override.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload systemd
