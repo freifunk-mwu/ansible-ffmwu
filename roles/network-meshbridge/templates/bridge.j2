@@ -14,20 +14,3 @@ iface {{ item.id }}br
     address {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('ip/prefix') }}
 {% endfor %}
     bridge-ports {{ item.id }}bat
-    # static routes for rt_table mwu
-    post-up /sbin/ip -4 route add {{ item.ipv4_network }} proto static dev $IFACE table mwu
-{% for ula in item.ipv6_ula %}
-    post-up /sbin/ip -6 route add {{ ula | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev $IFACE table mwu
-{% endfor %}
-{% for public in item.ipv6_public %}
-    post-up /sbin/ip -6 route add {{ public | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev $IFACE table mwu
-    post-up /sbin/ip -6 route add {{ public | ipaddr('net') | ipsubnet(56, magic) | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev $IFACE table mwu
-{% endfor %}
-    pre-down /sbin/ip -4 route del {{ item.ipv4_network }} proto static dev $IFACE table mwu
-{% for ula in item.ipv6_ula %}
-    pre-down /sbin/ip -6 route del {{ ula | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev $IFACE table mwu
-{% endfor %}
-{% for public in item.ipv6_public %}
-    pre-down /sbin/ip -6 route del {{ public | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev $IFACE table mwu
-    pre-down /sbin/ip -6 route del {{ public | ipaddr('net') | ipsubnet(56, magic) | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev $IFACE table mwu
-{% endfor %}
