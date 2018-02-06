@@ -5,7 +5,8 @@
 #
 auto {{ item.id }}br
 iface {{ item.id }}br
-    hwaddress {{ mac | hwaddr('linux') }}
+#   hwaddress {{ mac | hwaddr('linux') }} <-- preferred way, not working - ipv6 addresses not set on boot
+    pre-up /sbin/ip link set address {{ mac | hwaddr('linux') }} dev $IFACE # ^^^ dirty workaround to get rid of
     address {{ item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('ip/prefix') }}
 {% for prefix in item.ipv6_ula %}
     address {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('ip/prefix') }}

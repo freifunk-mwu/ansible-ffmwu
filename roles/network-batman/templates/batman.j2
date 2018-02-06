@@ -9,7 +9,6 @@ iface {{ item.id }}bat
     hwaddress {{ mac | hwaddr('linux') }}
     batman-ifaces {{ item.id }}0 {% for instance in item.fastd.nodes.instances %}{{ item.id }}vpn-{{ instance.mtu }}{% if not loop.last %} {% endif %}{% endfor %} {% for instance in item.fastd.intragate.instances %}{{ item.id }}igvpn-{{ instance.mtu }}{% if not loop.last %} {% endif %}{% endfor %}
     batman-hop-penalty {{ item.batman.hop_penalty }}
-    up /sbin/ip link add name {{ item.id }}br type bridge # workaround to properly set hwaddress on {{ item.id }}br
     post-up /usr/sbin/batctl -m $IFACE it {{ item.batman.it }}
     post-up /usr/sbin/batctl -m $IFACE gw {{ item.batman.gw }}
     post-up /usr/sbin/batctl -m $IFACE mm {{ item.batman.mm }}
