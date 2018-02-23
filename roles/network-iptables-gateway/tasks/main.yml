@@ -7,6 +7,11 @@
     - iptables
     - iptables-persistent
 
+- name: configure nf_conntrack module to load on system boot
+  template:
+    src: nf_conntrack.module.conf.j2
+    dest: /etc/modules-load.d/nf_conntrack.conf
+
 - name: load netfilter modules
   modprobe:
     name: "{{ item }}"
