@@ -14,7 +14,7 @@ fastd_config: '/etc/fastd/%s/peer_limit.conf'
 fastd_status: '/usr/local/bin/fastd-status'
 gateways:
 {% for gateway in groups['ffmwu-gateways'] %}
-  - {{ gateway.rstrip('.freifunk-mwu.de') }}
+  - {{ gateway.rsplit('.freifunk-mwu.de')[0] }}
 {% endfor %}
 {% for gateway in legacy_gateways %}
   - {{ gateway }}
