@@ -1,5 +1,6 @@
 server {
     listen 80;
+    listen [::]:80;
     server_name firmware.{{ http_domain_internal }} firmware.{{ http_domain_external }};
 
     charset utf-8;
@@ -15,6 +16,7 @@ server {
 {% for mesh in meshes %}
 server {
     listen 80;
+    listen [::]:80;
     server_name firmware.{{ mesh.http_domain_internal }} firmware.{{ mesh.http_domain_external }};
 
     charset utf-8;
