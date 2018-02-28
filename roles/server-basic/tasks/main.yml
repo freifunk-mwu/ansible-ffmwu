@@ -1,4 +1,9 @@
 ---
+- name: ensure rpcbind is not installed
+  package:
+    name: rpcbind
+    state: absent
+
 - name: ensure common packages are installed
   package:
     name: "{{ item }}"
