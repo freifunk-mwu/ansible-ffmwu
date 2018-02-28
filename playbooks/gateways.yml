@@ -7,6 +7,7 @@
     - prerequisites
     - server-apt-repos
     - server-basic
+    - users
     - system-sysctl-gateway
     - git-repos
     - service-haveged

@@ -1,0 +1,24 @@
+---
+system_users:
+  - name: "admin"
+    comment: "Freifunk Admin Account"
+    shell: "/bin/bash"
+    home: "/home/admin"
+    state: "present"
+    ssh_keys: "{{ ssh_keys_admin_team }}"
+
+admin_users:
+
+ssh_keys_admin_team:
+  - name: kaba
+    ssh_public_key: "{{ lookup('file', 'kaba.pub') }}"
+  - name: moritz
+    ssh_public_key: "{{ lookup('file', 'moritz.pub') }}"
+  - name: juventas
+    ssh_public_key: "{{ lookup('file', 'juventas.pub') }}"
+  - name: prisma
+    ssh_public_key: "{{ lookup('file', 'prisma.pub') }}"
+  - name: kokel
+    ssh_public_key: "{{ lookup('file', 'kokel.pub') }}"
+  - name: belzebub
+    ssh_public_key: "{{ lookup('file', 'belzebub.pub') }}"

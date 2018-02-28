@@ -8,7 +8,6 @@ packages:
   - mlocate
   - mosh
   - python3-yaml
-  - sudo
   - sysfsutils
   - unattended-upgrades
   - vim
