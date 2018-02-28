@@ -11,7 +11,8 @@ Diese Ansible role konfiguriert System Einstellung bzgl. IP Routing.
 ## Benötigte Variablen
 
 - Dictionary `meshes`
-´´´
+
+```
 meshes:
   - id: xx
 ...
@@ -19,8 +20,10 @@ meshes:
     ipv4_network:
     ipv6_ula:
     ipv6_public:
-´´´
+```
+
 - List `sysctl_settings_gateway` (Rollen-Variable)
+
 ```
 sysctl_settings_routing:
   - name:       # sysctl-Parameter
@@ -28,6 +31,6 @@ sysctl_settings_routing:
 ...
 - Host Variable `ffrl_public_ipv4_nat` # Format ip-adresse/prefix
 - Host Dictionary `ffrl_exit_server
+```
 
-´´´
 - Host Variable `magic`

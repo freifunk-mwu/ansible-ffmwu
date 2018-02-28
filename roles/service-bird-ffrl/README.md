@@ -9,6 +9,7 @@ Diese Ansible role ergänzt die benötigte bird + bird6 Konfiguration für den I
 
 - Variable `as_public_ffrl` # Public ASN Freifunk Rheinland
 - Dictionary `meshes`
+
 ```
 meshes:
   - id: xx
@@ -16,8 +17,10 @@ meshes:
     ipv6_public:
       - # Public IPv6-Netzwerk
 ```
+
 - Host Dictionary `ffrl_exit_server`
-´´´
+
+```
 ffrl_exit_server:
   ffrl-a-ak-ber:
     public_ipv4_address: 185.66.195.0
@@ -43,8 +46,9 @@ ffrl_exit_server:
     public_ipv4_address: 185.66.194.1
     tunnel_ipv4_network:
     tunnel_ipv6_network:
-´´´
-- Host Variable `ffrl_public_ipv4_nat` # Format ip-adresse/prefix
+```
+
+- Host Variable `ffrl_public_ipv4_nat` (Format ip-adresse/prefix)
 - Host Variable `magic`
 
 ## Benötigte roles

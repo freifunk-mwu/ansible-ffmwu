@@ -11,12 +11,13 @@ Diese Ansible role konfiguriert die fastd-Instanz für die Knoten Kommunikation.
 - klont bingener fastd peer repo (im Moment hardcoded)
 
 ## Instanz-Benamung
-Node-Instanzen: $mesh.id + vpn + '-' + $mesh.fastd.nodes.instances.xx.mtu, z.B. "mzvpn-1312"
-Intragate-Instanzen: $mesh.id + 'ig' + vpn + '-' + $mesh.fastd.intragate.instances.xx.mtu, z.B. "mzigvpn-1312"
+- Node-Instanzen: _$mesh.id_ + vpn + '-' + _$mesh.fastd.nodes.instances.xx.mtu_, z.B. "mzvpn-1312"
+- Intragate-Instanzen: _$mesh.id_ + 'ig' + vpn + '-' + _$mesh.fastd.intragate.instances.xx.mtu_, z.B. "mzigvpn-1312"
 
 ## Benötigte Variablen
 
 - Dictionary `meshes`
+
 ```
 meshes:
   - id: xx
@@ -33,6 +34,7 @@ meshes:
             pass: # String - Pfad des fastd secrets im Admin Pass
           ...
 ```
+
 - Liste `legacy_gateways`
 
 ## fastd Secrets

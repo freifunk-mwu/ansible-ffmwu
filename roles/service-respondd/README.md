@@ -9,8 +9,9 @@ Pro Mesh Netzwerk muss eine `mesh-announce`-Instanz laufen.
 ## Benötigte Variablen
 
 - Dictionary `meshes`
-´´´
+
+```
 meshes:
   - id: xx
     site_code: # string
-´´´
+```

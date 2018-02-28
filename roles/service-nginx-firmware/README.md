@@ -11,7 +11,8 @@ Diese Ansible role konfiguriert die Firmware Synchronisation und die erforderlic
 - Variable `http_domain_external` # string: Externe Freifunk MWU Domain
 - Variable `http_domain_internal` # string: Interne Freifunk MWU Domain
 - Dictionary `meshes`
-´´´
+
+```
 meshes:
   - id: xx
 ...
@@ -19,4 +20,4 @@ meshes:
 ...
     http_domain_external: # string: Externe Mesh Domain
     http_domain_internal: # string: Interne Mesh Domain
-´´´
+```

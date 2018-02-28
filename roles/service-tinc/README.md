@@ -13,6 +13,7 @@ Diese Ansible role installiert und konfiguriert den tinc daemon, der für die Ve
 ## Benötigte Variablen
 
 - Dictionary `icvpn`
+
 ```
 icvpn:
   prefix: mwu
@@ -22,6 +23,7 @@ icvpn:
 - Variable `icvpn_ipv4_transfer_net`
 - Variable `icvpn_ipv6_transfer_net`
 - Dictionary `routing_tables`
+
 ```
 routing_tables:
   icvpn: 23

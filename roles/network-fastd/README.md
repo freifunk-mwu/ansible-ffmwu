@@ -5,13 +5,14 @@ Diese Ansible role konfiguriert Netzwerk Interfaces für die definierten fastd I
 Es wird zwischen node- und intragate-Instanzen unterschieden.
 
 ## Interface-Benamung
-Node-Interfaces: $mesh.id + vpn + '-' + $mesh.fastd.nodes.instances.xx.mtu, z.B. "mzvpn-1312"
-Intragate-Interfaces: $mesh.id + 'ig' + vpn + '-' + $mesh.fastd.intragate.instances.xx.mtu, z.B. "mzigvpn-1312"
+- Node-Interfaces: _$mesh.id_ + vpn + '-' + _$mesh.fastd.nodes.instances.xx.mtu_, z.B. "mzvpn-1312"
+- Intragate-Interfaces: _$mesh.id_ + 'ig' + vpn + '-' + _$mesh.fastd.intragate.instances.xx.mtu_, z.B. "mzigvpn-1312"
 
 ## Benötigte Variablen
 
 - Dictionary `meshes`
-´´´
+
+```
 meshes:
   - id: xx
 ...
@@ -29,7 +30,8 @@ meshes:
             mtu: # integer
           ...
 
-´´´
+```
+
 - Host Variable `magic`
 
 ## MAC-Adressen

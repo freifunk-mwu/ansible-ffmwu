@@ -9,7 +9,8 @@ Wir nutzen diesen nur zur Verteilung von IPv4-Adressen.
 ## Benötigte Variablen
 
 - Dictionary `meshes`
-´´´
+
+```
 meshes:
   - id: xx
 ...
@@ -20,7 +21,8 @@ meshes:
       - $domain # string
     kea_dnssl_binary: # kea < 1.2 only supports dnssl data in hex format
     iface_mtu: # integer
-´´´
+```
+
 - Host Variable `magic`
 - Host Variable `ipv4_dhcp_range`
 

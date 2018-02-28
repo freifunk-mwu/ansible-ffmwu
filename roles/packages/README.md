@@ -4,6 +4,7 @@ It expects the arguments pkg_repo_list, pkg_pkg_list and pkg_pip_list
 to be filled. If any argument is undefined, the repectibe action will
 be skipped. See below for examples.
 
+```
 pkg_repo_list: # example
   repo_keys:
   - cool_guy:
@@ -30,3 +31,4 @@ pkg_pip_list: # example
 
 # this flag controls the execution of the role; used to subdue if needed
 really_do: True
+```

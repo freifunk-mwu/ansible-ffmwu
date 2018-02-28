@@ -9,7 +9,8 @@ Diese Ansible role installiert und konfiguriert den radvd daemon.
 ## Benötigte Variablen
 
 - Dictionary `meshes`
-´´´
+
+```
 meshes:
   - id: xx
 ...
@@ -18,5 +19,6 @@ meshes:
     ipv6_public:
       - # Public-Prefix - String
     iface_mtu: # Integer
-´´´
+```
+
 - Host Variable `magic`

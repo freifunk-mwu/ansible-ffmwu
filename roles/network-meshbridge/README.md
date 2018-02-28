@@ -9,7 +9,8 @@ Diese Ansible role konfiguriert die Linux Bridges für die Freifunk Meshes.
 ## Benötigte Variablen
 
 - Dictionary `meshes`
-´´´
+
+```
 meshes:
   -id: xx
 ...
@@ -20,7 +21,8 @@ meshes:
     ipv6_public:
       - 2xxx.../48 # ipv6 public prefix
 
-´´´
+```
+
 - Host Variable `magic`
 
 ## MAC-Adressen

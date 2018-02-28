@@ -4,7 +4,8 @@ Diese Ansible role konfiguriert die GRE-Tunnel Interfaces, die für den Internet
 
 ## Benötigte Variablen
 - Dictionary `ffrl_exit_server` (Host Variable)
-´´´
+
+```
 ffrl_exit_server:
   ffrl-a-ak-ber:
     public_ipv4_address: 185.66.195.0
@@ -30,4 +31,4 @@ ffrl_exit_server:
     public_ipv4_address: 185.66.194.1
     tunnel_ipv4_network:
     tunnel_ipv6_network:
-´´´
+```

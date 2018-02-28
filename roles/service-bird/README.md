@@ -16,20 +16,23 @@ Im iBGP peeren wir mangels separatem Transfernetz (im Moment) im Mainzer Mesh Ne
 - Variable `bgp_ipv6_transfer_net` # IPv6-Range des Mainzer Meshes, das aktuell als Transfernetz benutzt wird.
 - Variable `bgp_as_private_mwu` # Private ASN von Freifunk MWU
 - Dictionary `bgp_mwu_servers`
+
 ```
   spinat: # kurzer Hostname des Peers
     ipv4: 10.37.0.7 # IPv4-Adresse des Peers
     ipv6: fd37:b4dc:4b1e::a25:7 # IPv6-Adresse des Peers
 ...
+```
+
+- Dictionary `meshes`
 
 ```
-- Dictionary `meshes`
-´´´
 meshes:
   - id: xx
 ...
     ipv4_network:
     ipv6_ula:
       - # IPv6-ULA Network
-´´´
+```
+
 - Host Variable `magic`

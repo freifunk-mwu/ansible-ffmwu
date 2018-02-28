@@ -10,7 +10,8 @@ Diese Ansible role konfiguriert batman-adv Netzwerk Interfaces.
 ## Benötigte Variablen
 
 - Dictionary `meshes`
-´´´
+
+```
 meshes:
   - id: xx
 ...
@@ -35,7 +36,8 @@ meshes:
             mtu: # integer
           ...
 
-´´´
+```
+
 - Host Variable `magic`
 
 ## MAC-Adressen

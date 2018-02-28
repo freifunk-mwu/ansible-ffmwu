@@ -13,7 +13,8 @@ Die Gateways agieren lediglich als Slave-DNS Server.
 ## Benötigte Variablen
 
 - Dictionary `meshes`
-´´´
+
+```
 meshes:
   - id: xx
 ...
@@ -27,8 +28,9 @@ meshes:
       forward_zones:
         - name: $zone # DNS-Domain
           master: # optional: IP-Adresse des DNS Masters, wenn die vom übergeordneten abweicht.
-      
-´´´
+
+```
+
 - Variable `icvpn_ipv4_transfer_net`
 - Variable `icvpn_ipv6_transfer_net`
 - Host Variable `magic`
