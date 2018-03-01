@@ -1,0 +1,12 @@
+---
+- name: reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: restart fastd mesh instances
+  systemd:
+    name: "fastd@{{ item.0.id }}vpn-{{ item.1.mtu }}"
+    state: restarted
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.nodes.instances

@@ -3,7 +3,7 @@
   systemd:
     daemon_reload: yes
 
-- name: restart kea-dhcp4-server
+- name: restart bind9
   systemd:
-    name: kea-dhcp4-server
+    name: bind9
     state: restarted

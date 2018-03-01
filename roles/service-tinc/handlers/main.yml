@@ -3,7 +3,8 @@
   systemd:
     daemon_reload: yes
 
-- name: restart kea-dhcp4-server
+- name: restart systemd unit tinc
   systemd:
-    name: kea-dhcp4-server
+    name: "tinc@{{ icvpn.interface }}"
+    enabled: yes
     state: restarted

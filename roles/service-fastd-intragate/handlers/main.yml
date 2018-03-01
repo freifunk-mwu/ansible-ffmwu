@@ -1,0 +1,8 @@
+---
+- name: restart fastd intragate instances
+  systemd:
+    name: "fastd@{{ item.0.id }}igvpn-{{ item.1.mtu }}"
+    state: restarted
+  with_subelements:
+    - "{{ meshes }}"
+    - fastd.intragate.instances
