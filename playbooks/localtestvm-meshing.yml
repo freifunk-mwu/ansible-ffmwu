@@ -5,5 +5,5 @@
 - hosts: test-vms
   remote_user: admin
   roles:
-    - prerequisites
-    - ffmwu-meshing
+  - prerequisites
+  - ffmwu-meshing

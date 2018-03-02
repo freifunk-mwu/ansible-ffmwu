@@ -3,5 +3,5 @@
 - hosts: meshing-srv
   remote_user: admin
   roles:
-    - prerequisites
-    - ffmwu-meshing
+  - prerequisites
+  - ffmwu-meshing
