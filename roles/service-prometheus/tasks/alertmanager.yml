@@ -42,7 +42,7 @@
   with_items:
     - "{{ alertmanager_db_path }}"
 
-- name: copy alertmanager systemd config 
+- name: copy alertmanager systemd config
   template:
     src: "alertmanager.service.j2"
     dest: "/lib/systemd/system/alertmanager.service"
@@ -55,7 +55,7 @@
     - reload alertmanager
 
 - name: enable alertmanager service
-  service: 
+  service:
     name: alertmanager
     enabled: yes
     state: started
