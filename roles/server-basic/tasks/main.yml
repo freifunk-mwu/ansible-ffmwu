@@ -1,4 +1,16 @@
 ---
+- name: configure debian apt repositories
+  template:
+    src: apt-sources-list.j2
+    dest: /etc/apt/sources.list
+    owner: root
+    group: root
+    mode: 0644
+
+- name: update package information
+  apt:
+    update_cache: yes
+
 - name: ensure rpcbind is not installed
   package:
     name: rpcbind
