@@ -21,6 +21,8 @@ http_domain_external: freifunk-mwu.de
 
 mail_domain: freifunk-mwu.de
 
+acme_server: zuckerwatte
+
 meshes:
   - id: mz
     site_number: 37
