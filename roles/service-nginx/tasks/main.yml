@@ -20,6 +20,42 @@
     name: nginx
     state: present
 
+- name: create cronjob to sync ssl certs
+  template:
+    src: ssl_certs.cron.j2
+    dest: /etc/cron.daily/ssl_certs
+    mode: 0755
+    owner: root
+    group: root
+  notify: reload cron
+
+- name: create config snippets directory
+  file:
+    path: /etc/nginx/snippets
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+- name: create certs directory
+  file:
+    path: /etc/nginx/ssl
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+- name: sync ssl certs
+  shell: /etc/cron.daily/ssl_certs
+
+- name: write nginx configuration letsencrypt-acme-challenge.conf
+  template:
+    src: letsencrypt-acme-challenge.conf.j2
+    dest: /etc/nginx/snippets/letsencrypt-acme-challenge.conf
+    mode: 0644
+    owner: root
+    group: root
+
 - name: write nginx configuration nginx.conf
   template:
     src: nginx.conf.j2

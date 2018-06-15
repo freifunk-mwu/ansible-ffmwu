@@ -1,0 +1,7 @@
+location ^~ /.well-known/acme-challenge/ {
+    proxy_pass https://{{ acme_server }}.{{ http_domain_internal }}:443;
+}
+
+location = /.well-known/acme-challenge/ {
+    return 404;
+}
