@@ -6,6 +6,28 @@ server {
     charset utf-8;
     server_tokens off;
 
+    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+
+    root /var/www/html/firmware;
+    location / {
+        autoindex on;
+        autoindex_exact_size off;
+    }
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name firmware.{{ http_domain_internal }} firmware.{{ http_domain_external }};
+
+    charset utf-8;
+    server_tokens off;
+
+    ssl_certificate     /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;
+
+    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+
     root /var/www/html/firmware;
     location / {
         autoindex on;
@@ -21,6 +43,28 @@ server {
 
     charset utf-8;
     server_tokens off;
+
+    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+
+    root /var/www/html/firmware/{{ mesh.site_name.lower() }};
+    location / {
+        autoindex on;
+        autoindex_exact_size off;
+    }
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name firmware.{{ mesh.http_domain_internal }} firmware.{{ mesh.http_domain_external }};
+
+    charset utf-8;
+    server_tokens off;
+
+    ssl_certificate     /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;
+
+    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
 
     root /var/www/html/firmware/{{ mesh.site_name.lower() }};
     location / {
