@@ -1,0 +1,14 @@
+#!/usr/bin/ansible-playbook
+
+- hosts: ffmwu-build-servers
+  remote_user: admin
+  roles:
+  - prerequisites
+  - server-apt-repos
+  - server-basic
+  - users
+  - service-haveged
+  - service-ntpd
+  - service-vnstat
+  - service-nginx
+  - firmware-build-server

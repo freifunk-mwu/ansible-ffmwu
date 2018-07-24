@@ -1,7 +1,0 @@
-#!/usr/bin/ansible-playbook
-
-- hosts: ffmwu-build-servers
-  remote_user: admin
-  roles:
-  - prerequisites
-  - ffmwu-build

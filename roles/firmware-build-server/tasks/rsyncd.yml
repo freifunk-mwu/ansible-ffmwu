@@ -1,17 +1,22 @@
 ---
 - name: install rsnycd configuration file
-  copy:
-    src: rsyncd.conf
+  template:
+    src: rsyncd.conf.j2
     dest: /etc/rsyncd.conf
     mode: 0640
+    owner: root
+    group: root
 
 - name: install rsnyc systemd unit
-  copy:
-    src: rsync.service
+  template:
+    src: rsync.service.j2
     dest: /etc/systemd/system/
     mode: 0644
+    owner: root
+    group: root
+  notify: reload systemd
 
-- name: ensure rsync is started on boot as a daemon
+- name: ensure rsync is started and activated
   systemd:
     name: rsync
     state: started

@@ -20,6 +20,9 @@
         <h1>Freifunk MWU Gateway <a href="./index.html">{{ inventory_hostname_short }}</a></h1>
     </header>
     <div class="block"><a href="firmware">Firmware</a></div>
+{% if ffmwu_server_type == "firmware-build" %}
+    <div class="block"><a href="_archive">Firmware Archiv</a></div>
+{% endif %}
     <div class="block"><a href="traffic">Traffic</a></div>
 </body>
 </html>
