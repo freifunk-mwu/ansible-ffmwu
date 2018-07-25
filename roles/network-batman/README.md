@@ -30,7 +30,7 @@ meshes:
           - id: 0 # integer
             mtu: # integer
           ...
-      intragate:
+      backbone:
         instances:
           - id: 0 # integer
             mtu: # integer

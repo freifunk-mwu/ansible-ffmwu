@@ -63,7 +63,7 @@ meshes:
               repo: https://github.com/freifunk-mwu/peers-ffmz.git
               version: master
             pass: fastd/mzvpn
-      intragate:
+      backbone:
         instances:
           - id: 0
             mtu: 1406
@@ -122,7 +122,7 @@ meshes:
               repo: https://github.com/freifunk-mwu/peers-ffwi.git
               version: master
             pass: fastd/wivpn
-      intragate:
+      backbone:
         instances:
           - id: 0
             mtu: 1406

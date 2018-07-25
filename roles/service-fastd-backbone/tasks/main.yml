@@ -1,14 +1,14 @@
 ---
-- name: create fastd intragate directories
+- name: create fastd backbone directories
   file:
     path: "/etc/fastd/{{ item.0.id }}igvpn-{{ item.1.mtu }}"
     state: directory
     mode: 0755
   with_subelements:
     - "{{ meshes }}"
-    - fastd.intragate.instances
+    - fastd.backbone.instances
 
-- name: create fastd peer intragate directories
+- name: create fastd peer backbone directories
   file:
     path: "/etc/fastd/{{ item.0.id }}igvpn-{{ item.1.mtu }}/peers"
     state: directory
@@ -17,9 +17,9 @@
     group: admin
   with_subelements:
     - "{{ meshes }}"
-    - fastd.intragate.instances
+    - fastd.backbone.instances
 
-- name: clone fastd peer intragate repos
+- name: clone fastd peer backbone repos
   git:
     repo: "{{ item.1.peers.repo }}"
     dest: "/etc/fastd/{{ item.0.id }}igvpn-{{ item.1.mtu }}/peers"
@@ -27,26 +27,26 @@
     update: no
   with_subelements:
     - "{{ meshes }}"
-    - fastd.intragate.instances
+    - fastd.backbone.instances
   become: false
 
-- name: template fastd mesh config
+- name: template fastd backbone config
   template:
-    src: fastd-intragate.conf.j2
+    src: fastd-backbone.conf.j2
     dest: "/etc/fastd/{{ item.0.id }}igvpn-{{ item.1.mtu }}/fastd.conf"
-  notify: restart fastd intragate instances
+  notify: restart fastd backbone instances
   with_subelements:
     - "{{ meshes }}"
-    - fastd.intragate.instances
+    - fastd.backbone.instances
 
-- name: write fastd intragate secret
+- name: write fastd backbone secret
   template:
     src: fastd-secret.conf.j2
     dest: "/etc/fastd/{{ item.0.id }}igvpn-{{ item.1.mtu }}/secret.conf"
-  notify: restart fastd intragate instances
+  notify: restart fastd backbone instances
   with_subelements:
     - "{{ meshes }}"
-    - fastd.intragate.instances
+    - fastd.backbone.instances
 
 - name: configure systemd unit fastd@
   systemd:
@@ -55,4 +55,4 @@
     state: started
   with_subelements:
     - "{{ meshes }}"
-    - fastd.intragate.instances
+    - fastd.backbone.instances

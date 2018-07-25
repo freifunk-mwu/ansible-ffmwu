@@ -58,14 +58,14 @@ Diese Liste ist quasi das Herzstück zur Konfiguration der Mesh-spezifischen Par
 |fastd.nodes.instances[x].peers.repo|Key|https://github.com/freifunk-mwu/peers-ffmz.git|URL||
 |fastd.nodes.instances[x].peers.version|Key|master|string||
 |fastd.nodes.instances[x].pass|Key|fastd/mzvpn|string||
-|fastd.intragate|Dictionary||||
-|fastd.intragate.instances|List|||Jeder Listeneintrag ist ein Dictionary; Instanzen für Intragate-Kommunikation|
-|fastd.intragate.instances[x].id|Key|0|integer||
-|fastd.intragate.instances[x].mtu|Key|1406|integer||
-|fastd.intragate.instances[x].peers|Dictionary||||
-|fastd.intragate.instances[x].peers.repo|Key|https://github.com/freifunk-mwu/peers-ffmz.git|URL||
-|fastd.intragate.instances[x].peers.version|Key|master|string||
-|fastd.intragate.instances[x].pass|Key|fastd/mzigvpn|string||
+|fastd.backbone|Dictionary||||
+|fastd.backbone.instances|List|||Jeder Listeneintrag ist ein Dictionary; Instanzen für Intra-Server-Kommunikation|
+|fastd.backbone.instances[x].id|Key|0|integer||
+|fastd.backbone.instances[x].mtu|Key|1406|integer||
+|fastd.backbone.instances[x].peers|Dictionary||||
+|fastd.backbone.instances[x].peers.repo|Key|https://github.com/freifunk-mwu/ffmz-infrastructure-peers.git|URL||
+|fastd.backbone.instances[x].peers.version|Key|master|string||
+|fastd.backbone.instances[x].pass|Key|fastd/mzigvpn|string||
 |dns|Dictionary||||
 |dns.master|Key|fd37:b4dc:4b1e::a25:103|string; IP-Adresse|DNS-Master IP|
 |dns.forward_zones|List||||

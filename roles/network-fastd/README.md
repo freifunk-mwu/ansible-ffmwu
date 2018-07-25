@@ -2,11 +2,11 @@
 
 Diese Ansible role konfiguriert Netzwerk Interfaces für die definierten fastd Instanzen.
 
-Es wird zwischen node- und intragate-Instanzen unterschieden.
+Es wird zwischen node- und backbone-Instanzen unterschieden.
 
 ## Interface-Benamung
 - Node-Interfaces: _$mesh.id_ + vpn + '-' + _$mesh.fastd.nodes.instances.xx.mtu_, z.B. "mzvpn-1312"
-- Intragate-Interfaces: _$mesh.id_ + 'ig' + vpn + '-' + _$mesh.fastd.intragate.instances.xx.mtu_, z.B. "mzigvpn-1312"
+- Backbone-Interfaces: _$mesh.id_ + 'ig' + vpn + '-' + _$mesh.fastd.backbone.instances.xx.mtu_, z.B. "mzigvpn-1312"
 
 ## Benötigte Variablen
 
@@ -24,7 +24,7 @@ meshes:
           - id: 0 # integer
             mtu: # integer
           ...
-      intragate:
+      backbone:
         instances:
           - id: 0 # integer
             mtu: # integer

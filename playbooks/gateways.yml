@@ -25,7 +25,7 @@
   - service-radvd
   - service-fastd
   - service-fastd-mesh
-  - service-fastd-intragate
+  - service-fastd-backbone
   - service-tinc
   - service-bird
   - service-bird-icvpn

@@ -1,4 +1,4 @@
-# Ansible role service-fastd-intragate
+# Ansible role service-fastd-backbone
 
 Diese Ansible role konfiguriert die fastd-Instanz für die Intra-Server Kommunikation.
 
@@ -20,7 +20,7 @@ meshes:
 ...
     site_number: # integer
     fastd:
-      nodes:
+      backbone:
         instances:
           - id: 0 # integer
             mtu: # integer

@@ -12,7 +12,7 @@ Diese Ansible role konfiguriert die fastd-Instanz für die Knoten Kommunikation.
 
 ## Instanz-Benamung
 - Node-Instanzen: _$mesh.id_ + vpn + '-' + _$mesh.fastd.nodes.instances.xx.mtu_, z.B. "mzvpn-1312"
-- Intragate-Instanzen: _$mesh.id_ + 'ig' + vpn + '-' + _$mesh.fastd.intragate.instances.xx.mtu_, z.B. "mzigvpn-1312"
+- Backbone-Instanzen: _$mesh.id_ + 'ig' + vpn + '-' + _$mesh.fastd.backbone.instances.xx.mtu_, z.B. "mzigvpn-1312"
 
 ## Benötigte Variablen
 
