@@ -17,4 +17,4 @@ done
 chown -R www-data:admin $LOCAL_DIR
 
 #restart
-systemctl reload nginx.service
+systemctl reload nginx.service || systemctl start nginx.service
