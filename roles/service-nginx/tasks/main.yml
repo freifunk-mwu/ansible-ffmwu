@@ -27,7 +27,7 @@
     mode: 0755
     owner: root
     group: root
-  notify: reload cron
+  notify: restart cron
 
 - name: create config snippets directory
   file:
