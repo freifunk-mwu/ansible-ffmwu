@@ -20,7 +20,7 @@ function is_ffrl_public_nets() {
 
 function is_ffrl_tunnel_nets() {
     return net ~ [
-{% for peer_id, peer_value in ffrl_exit_server.iteritems() %}
+{% for peer_id, peer_value in ffrl_exit_server.items() %}
         {{ peer_value.tunnel_ipv6_network }}{{ "," if not loop.last else "" }}
 {% endfor %}
     ];

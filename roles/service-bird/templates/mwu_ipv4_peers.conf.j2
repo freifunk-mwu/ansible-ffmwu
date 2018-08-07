@@ -10,7 +10,7 @@ protocol bgp mwu_{{ gateway.rsplit('.freifunk-mwu.de')[0] }} from ibgp_mwu {
 
 {% endif %}
 {% endfor %}
-{% for item, value in bgp_mwu_servers.iteritems() %}
+{% for item, value in bgp_mwu_servers.items() %}
 {% if item != inventory_hostname_short %}
 protocol bgp mwu_{{ item }} from ibgp_mwu {
     neighbor {{ value.ipv4 }} as mwu_as;
