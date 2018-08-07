@@ -1,4 +1,6 @@
 ---
+ffmwu_server_type: "gateway"
+
 magic: 161
 ipv4_dhcp_range: 7
 
