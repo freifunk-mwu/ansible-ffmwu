@@ -22,7 +22,7 @@ meshes:
     ipv6_public:
 ```
 
-- List `sysctl_settings_gateway` (Rollen-Variable)
+- List `sysctl_settings_routing` (Rollen-Variable)
 
 ```
 sysctl_settings_routing:
