@@ -1,10 +1,10 @@
 ---
-- name: set freifunk gateway sysctl settings
+- name: set freifunk sysctl settings
   sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
     state: present
-  with_items: "{{ sysctl_settings_gateway }}"
+  with_items: "{{ sysctl_settings }}"
 
 - name: create systemd override dir for systemd-sysctl.service
   file:

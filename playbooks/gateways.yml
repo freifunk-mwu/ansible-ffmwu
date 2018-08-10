@@ -7,7 +7,7 @@
   - server-apt-repos
   - server-basic
   - users
-  - system-sysctl-gateway
+  - system-sysctl
   - git-repos
   - service-haveged
   - service-ntpd

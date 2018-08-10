@@ -1,5 +1,5 @@
 ---
-sysctl_settings_gateway:
+sysctl_settings:
   - name: net.ipv4.neigh.default.gc_thresh1
     value: 1024
   - name: net.ipv4.neigh.default.gc_thresh2
