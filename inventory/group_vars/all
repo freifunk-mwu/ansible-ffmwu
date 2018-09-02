@@ -146,9 +146,6 @@ icvpn:
   icvpn_repo: https://github.com/freifunk/icvpn
 
 bgp_mwu_servers:
-  spinat:
-    ipv4: 10.37.0.7
-    ipv6: fd37:b4dc:4b1e::a25:7
   wasserfloh:
     ipv4: 10.37.0.231
     ipv6: fd37:b4dc:4b1e::a25:e7
@@ -173,5 +170,4 @@ bgp_mwu_servers:
 
 
 legacy_gateways:
-  - spinat
   - wasserfloh
