@@ -173,5 +173,4 @@ bgp_mwu_servers:
 
 
 legacy_gateways:
-  - spinat
   - wasserfloh
