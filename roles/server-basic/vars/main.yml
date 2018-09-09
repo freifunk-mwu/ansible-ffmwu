@@ -2,11 +2,13 @@
 packages:
   - apt-transport-https
   - bridge-utils
+  - dnsutils
   - ethtool
   - ifupdown2
   - man-db
   - mlocate
   - mosh
+  - net-tools
   - python3-yaml
   - sysfsutils
   - unattended-upgrades
