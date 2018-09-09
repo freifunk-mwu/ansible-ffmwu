@@ -20,6 +20,17 @@
     name: nginx
     state: present
 
+- name: install ssl-cert packages
+  package:
+    name: ssl-cert
+    state: present
+
+- name: Add remote server to known_hosts
+  known_hosts:
+    path: /etc/ssh/ssh_known_hosts
+    name: zuckerwatte.ffmwu.org
+    key: "{{ lookup('file', 'known_hosts') }}"
+
 - name: create cronjob to sync ssl certs
   template:
     src: ssl_certs.cron.j2
@@ -39,11 +50,36 @@
 
 - name: create certs directory
   file:
-    path: /etc/nginx/ssl
+    path: /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}
     state: directory
-    mode: 0755
-    owner: root
-    group: root
+    mode: 0550
+    owner: www-data
+    group: admin
+
+- name: create snakeoil cert
+  shell: make-ssl-cert generate-default-snakeoil
+  args:
+    creates: /etc/ssl/certs/ssl-cert-snakeoil.pem
+
+- name: copy snakeoil ssl key for first start
+  copy:
+    src: /etc/ssl/private/ssl-cert-snakeoil.key
+    dest: /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem
+    remote_src: yes
+    force: no
+    owner: www-data
+    group: admin
+    mode: 0440
+
+- name: copy snakeoil ssl cert for first start
+  copy:
+    src: /etc/ssl/certs/ssl-cert-snakeoil.pem
+    dest: /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem
+    remote_src: yes
+    force: no
+    owner: www-data
+    group: admin
+    mode: 0440
 
 - name: sync ssl certs
   shell: /etc/cron.daily/ssl_certs
@@ -55,6 +91,7 @@
     mode: 0644
     owner: root
     group: root
+  notify: restart nginx
 
 - name: write nginx configuration nginx.conf
   template:
@@ -63,14 +100,14 @@
     mode: 0644
     owner: root
     group: root
-  notify: reload nginx
+  notify: restart nginx
 
 - name: write nginx configuration default.conf
   template:
     src: default.conf.j2
     dest: /etc/nginx/conf.d/default.conf
     mode: 0644
-  notify: reload nginx
+  notify: restart nginx
 
 - name: manage html directory for static files
   file:

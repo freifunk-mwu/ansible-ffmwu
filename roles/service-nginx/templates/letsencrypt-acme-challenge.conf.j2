@@ -1,5 +1,5 @@
 location ^~ /.well-known/acme-challenge/ {
-    resolver 127.0.0.1;
+    resolver 9.9.9.9;
     set $acme_host {{ acme_server }}.{{ http_domain_internal }};
     proxy_pass https://$acme_host:443;
 }
