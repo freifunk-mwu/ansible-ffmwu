@@ -1,0 +1,13 @@
+---
+routing_tables:
+  mwu: 41
+
+common_repos:
+  backend-scripts:
+    repo_url: https://github.com/freifunk-mwu/backend-scripts.git
+    version: ansible
+
+prometheus_components:
+  - prometheus
+  - alertmanager
+  - node_exporter

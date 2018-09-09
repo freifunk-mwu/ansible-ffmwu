@@ -12,6 +12,12 @@ bgp_ipv4_transfer_net: 10.37.0.0/18
 bgp_ipv6_transfer_net: fd37:b4dc:4b1e::/64
 bgp_groups:
   - ffmwu-gateways
+  - ffmwu-monitoring
+
+prometheus_groups:
+  - ffmwu-gateways
+
+prometheus_conf_main: prometheus/prometheus.yml.j2
 
 http_domain_internal: ffmwu.org
 http_domain_external: freifunk-mwu.de

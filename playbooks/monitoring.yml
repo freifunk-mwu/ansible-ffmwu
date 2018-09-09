@@ -1,0 +1,26 @@
+#!/usr/bin/ansible-playbook
+
+- hosts: ffmwu-monitoring
+  remote_user: admin
+  roles:
+  - prerequisites
+  - server-apt-repos
+  - server-basic
+  - users
+  - system-sysctl
+  - git-repos
+  - service-haveged
+  - service-ntpd
+  - kmod-batman
+  - network-routetables
+  - network-batman
+  - network-meshbridge
+  - network-fastd
+  - network-routing
+  - service-nginx
+  - service-fastd
+  - service-fastd-backbone
+  - service-bird
+  - service-respondd
+  - service-nullmailer
+  - service-prometheus
