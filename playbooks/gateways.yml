@@ -34,3 +34,4 @@
   - service-respondd
   - service-vnstat
   - service-nullmailer
+  - service-prometheus
