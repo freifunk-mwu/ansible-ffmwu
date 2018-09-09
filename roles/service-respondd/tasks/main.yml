@@ -11,6 +11,14 @@
     version: mwu-respondd
   become: false
 
+- name: set respondd vpn flag to false
+  when: ffmwu_server_type != "gateway"
+  copy:
+    content: "False"
+    dest: /home/admin/clones/mesh-announce/nodeinfo.d/vpn
+  notify:
+    - restart respondd
+
 - name: write systemd unit files
   template:
     src: respondd.service.j2

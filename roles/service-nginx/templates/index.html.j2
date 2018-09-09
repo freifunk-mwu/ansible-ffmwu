@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>Freifunk MWU Gateway "{{ inventory_hostname_short }}" </title>
+    <title>Freifunk MWU Server "{{ inventory_hostname_short }}" </title>
     <link href="./static/favicon.ico" rel="shortcut icon" />
     <link href="./static/style.css" rel="stylesheet" type="text/css" media="screen" />
     <script type="text/javascript">
@@ -17,9 +17,11 @@
 </head>
 <body>
     <header>
-        <h1>Freifunk MWU Gateway <a href="./index.html">{{ inventory_hostname_short }}</a></h1>
+        <h1>Freifunk MWU Server <a href="./index.html">{{ inventory_hostname_short }}</a></h1>
     </header>
+{% if ffmwu_server_type == "firmware-build" or ffmwu_server_type == "gateway" %}
     <div class="block"><a href="firmware">Firmware</a></div>
+{% endif %}
 {% if ffmwu_server_type == "firmware-build" %}
     <div class="block"><a href="_archive">Firmware Archiv</a></div>
 {% endif %}

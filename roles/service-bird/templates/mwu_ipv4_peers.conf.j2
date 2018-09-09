@@ -2,13 +2,15 @@
 # {{ ansible_managed }}
 #
 
-{% for gateway in groups['ffmwu-gateways'] %}
-{% if gateway != inventory_hostname %}
-protocol bgp mwu_{{ gateway.rsplit('.freifunk-mwu.de')[0] }} from ibgp_mwu {
-    neighbor {{ bgp_ipv4_transfer_net | ipaddr('net') | ipaddr(hostvars[gateway]['magic']) | ipaddr('ip') }} as mwu_as;
+{% for group in bgp_groups %}
+{% for host in groups[group] %}
+{% if host != inventory_hostname %}
+protocol bgp mwu_{{ host.rsplit('.freifunk-mwu.de')[0] }} from ibgp_mwu {
+    neighbor {{ bgp_ipv4_transfer_net | ipaddr('net') | ipaddr(hostvars[host]['magic']) | ipaddr('ip') }} as mwu_as;
 };
 
 {% endif %}
+{% endfor %}
 {% endfor %}
 {% for item, value in bgp_mwu_servers.items() %}
 {% if item != inventory_hostname_short %}

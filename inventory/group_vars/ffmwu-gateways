@@ -1,4 +1,9 @@
 ---
+routing_tables:
+  icvpn: 23
+  mwu: 41
+  internet: 61
+
 common_repos:
   backend-scripts:
     repo_url: https://github.com/freifunk-mwu/backend-scripts.git
@@ -9,3 +14,6 @@ common_repos:
   icvpn-scripts:
     repo_url: https://github.com/freifunk/icvpn-scripts.git
     version: master
+
+prometheus_components:
+  - node_exporter

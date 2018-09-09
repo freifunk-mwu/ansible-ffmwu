@@ -5,16 +5,13 @@ as_public_ffrl: 201701
 internet_exit_tcp_mss_ipv4: 1240
 internet_exit_tcp_mss_ipv6: 1220
 
-routing_tables:
-  icvpn: 23
-  mwu: 41
-  internet: 61
-
 icvpn_ipv4_transfer_net: 10.207.0.0/16
 icvpn_ipv6_transfer_net: fec0::a:cf:0:0/96
 bgp_loopback_net: 10.37.0.0/18
 bgp_ipv4_transfer_net: 10.37.0.0/18
 bgp_ipv6_transfer_net: fd37:b4dc:4b1e::/64
+bgp_groups:
+  - ffmwu-gateways
 
 http_domain_internal: ffmwu.org
 http_domain_external: freifunk-mwu.de

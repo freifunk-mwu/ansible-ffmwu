@@ -15,6 +15,7 @@ Im iBGP peeren wir mangels separatem Transfernetz (im Moment) im Mainzer Mesh Ne
 - Variable `bgp_ipv4_transfer_net` # IPv4-Range des Mainzer Meshes, das aktuell als Transfernetz benutzt wird.
 - Variable `bgp_ipv6_transfer_net` # IPv6-Range des Mainzer Meshes, das aktuell als Transfernetz benutzt wird.
 - Variable `bgp_as_private_mwu` # Private ASN von Freifunk MWU
+- Liste `bgp_groups` # List von Hostgruppen zu denen eine Verbindung aufgebaut werden soll
 - Dictionary `bgp_mwu_servers`
 
 ```
