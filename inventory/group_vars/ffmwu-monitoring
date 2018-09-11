@@ -7,6 +7,9 @@ common_repos:
     repo_url: https://github.com/freifunk-mwu/backend-scripts.git
     version: ansible
 
+prometheus_conf_main: prometheus/prometheus.yml.j2
+prometheus_opts: "--web.listen-address=localhost:9090"
+
 prometheus_components:
   - prometheus
   - alertmanager

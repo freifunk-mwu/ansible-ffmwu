@@ -17,7 +17,7 @@ bgp_groups:
 prometheus_groups:
   - ffmwu-gateways
 
-prometheus_conf_main: prometheus/prometheus.yml.j2
+node_exporter_opts: "--web.listen-address=localhost:9100 --collector.systemd"
 
 http_domain_internal: ffmwu.org
 http_domain_external: freifunk-mwu.de
