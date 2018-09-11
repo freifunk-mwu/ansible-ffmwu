@@ -1,0 +1,23 @@
+---
+http_meshviewer_external: "{{ http_meshviewer_prefix }}.{{ http_domain_external }}"
+http_meshviewer_internal: "{{ http_meshviewer_prefix }}.{{ http_domain_internal }}"
+
+meshviewer_path: "/var/www/{{ http_meshviewer_external }}"
+meshviewer_src: "/home/admin/clones/meshviewer"
+
+map_layers:
+  - osm_mapnik_cached:
+    name: 'OpenStreetMap.Mapnik CACHED'
+    url: 'https://{{ http_meshviewer_external }}/{z}/{x}/{y}.png'
+    max_zoom: 19
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  - osm_mapnik:
+    name: 'OpenStreetMap.Mapnik'
+    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+    max_zoom: 19
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  - osm_hot:
+    name: 'OpenStreetMap.HOT'
+    url: 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
+    max_zoom: 19
+    attribution: '&copy; Openstreetmap France | &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'

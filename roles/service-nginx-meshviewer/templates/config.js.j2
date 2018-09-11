@@ -1,0 +1,97 @@
+module.exports = function () {
+  return {
+    // Variables are NODE_ID and NODE_NAME (only a-z0-9\- other chars are replaced with _)
+    'nodeInfos': [
+      {
+        'name': 'Clients',
+        'href': 'https://{{ http_grafana_prefix }}.{{ http_domain_external }}/dashboard/db/freifunk-mwu-knoten?panelId=1&var-NODE_ID={NODE_ID}&from=now-1d&fullscreen',
+        'image': 'https://{{ http_grafana_prefix }}.{{ http_domain_external }}/render/dashboard-solo/db/freifunk-mwu-knoten?panelId=1&var-NODE_ID={NODE_ID}&from=now-1d&theme=light&width=650&height=350',
+        'title': 'Knoten {NODE_ID} - weitere Statistiken'
+      },
+      {
+        'name': 'Traffic',
+        'href': 'https://{{ http_grafana_prefix }}.{{ http_domain_external }}/dashboard/db/freifunk-mwu-knoten?panelId=2&var-NODE_ID={NODE_ID}&from=now-1d&fullscreen',
+        'image': 'https://{{ http_grafana_prefix }}.{{ http_domain_external }}/render/dashboard-solo/db/freifunk-mwu-knoten?panelId=2&var-NODE_ID={NODE_ID}&from=now-1d&theme=light&width=650&height=350',
+        'title': 'Knoten {NODE_ID} - weitere Statistiken'
+      },
+      {
+        'name': 'Load',
+        'href': 'https://{{ http_grafana_prefix }}.{{ http_domain_external }}/dashboard/db/freifunk-mwu-knoten?panelId=3&var-NODE_ID={NODE_ID}&from=now-1d&fullscreen',
+        'image': 'https://{{ http_grafana_prefix }}.{{ http_domain_external }}/render/dashboard-solo/db/freifunk-mwu-knoten?panelId=3&var-NODE_ID={NODE_ID}&from=now-1d&theme=light&width=650&height=350',
+        'title': 'Knoten {NODE_ID} - weitere Statistiken'
+      },
+      {
+        'name': 'Airtime',
+        'href': 'https://{{ http_grafana_prefix }}.{{ http_domain_external }}/dashboard/db/freifunk-mwu-knoten?panelId=8&var-NODE_ID={NODE_ID}&from=now-1d&fullscreen',
+        'image': 'https://{{ http_grafana_prefix }}.{{ http_domain_external }}/render/dashboard-solo/db/freifunk-mwu-knoten?panelId=8&var-NODE_ID={NODE_ID}&from=now-1d&theme=light&width=650&height=350',
+        'title': 'Knoten {NODE_ID} - weitere Statistiken'
+      }
+    ],
+    'globalInfos': [
+      {
+        'name': 'Statistik - letzter Monat',
+        'href': 'https://{{ http_grafana_prefix }}.{{ http_domain_external }}/d/000000001/freifunk-mwu-global?panelId=1&orgId=1&from=now-30d&to=now&var-INTERVAL=1d&fullscreen',
+        'image': 'https://{{ http_grafana_prefix }}.{{ http_domain_external }}/render/d-solo/000000001/freifunk-mwu-global?panelId=1&orgId=1&from=now-30d&to=now&var-INTERVAL=1d&theme=light&width=650&height=350&tz=Europe%2FBerlin',
+        'title': 'Statistik - letzter Monat'
+      },
+      {
+        'name': 'Statistik - 6 Monate',
+        'href': 'https://{{ http_grafana_prefix }}.{{ http_domain_external }}/d/000000001/freifunk-mwu-global?panelId=1&orgId=1&from=now-6M&to=now&var-INTERVAL=7d&fullscreen',
+        'image': 'https://{{ http_grafana_prefix }}.{{ http_domain_external }}/render/d-solo/000000001/freifunk-mwu-global?panelId=1&orgId=1&from=now-6M&to=now&var-INTERVAL=7d&theme=light&width=650&height=350&tz=Europe%2FBerlin',
+        'title': 'Statistik - 6 Monate'
+      },
+      {
+        'name': 'Statistik - 1 Jahr',
+        'href': 'https://{{ http_grafana_prefix }}.{{ http_domain_external }}/d/000000001/freifunk-mwu-global?panelId=1&orgId=1&from=now-1y&to=now&var-INTERVAL=14d&fullscreen',
+        'image': 'https://{{ http_grafana_prefix }}.{{ http_domain_external }}/render/d-solo/000000001/freifunk-mwu-global?panelId=1&orgId=1&from=now-1y&to=now&var-INTERVAL=14d&theme=light&width=650&height=350&tz=Europe%2FBerlin',
+        'title': 'Statistik - 1 Jahr'
+      }
+    ],
+    // String or array of data provider are supported
+    'dataPath': [
+       '/data/'
+     ],
+    'siteName': 'Freifunk in Mainz, Wiesbaden und Umgebung',
+    'mapLayers': [
+{% for layer in map_layers %}
+      {
+        'name': '{{ layer.name }}',
+        'url': '{{ layer.url }}',
+        'config': {
+          'maxZoom': {{ layer.max_zoom }},
+          'attribution': '{{ layer.attribution }}'
+        }
+      },
+{% endfor %}
+    ],
+    // Set a visible frame
+    'fixedCenter': [
+      // Northwest
+      [
+        50.165024,
+        8.528137
+      ],
+      // Southeast
+      [
+        49.895961,
+        7.609406
+      ]
+    ],
+    'siteNames': [
+{% for mesh in meshes %}
+      {
+        'site': '{{ mesh.site_code }}',
+        'name': '{{ mesh.site_name }}'
+      },
+{% if mesh.sites_virtual is defined %}
+{% for site, name in mesh.sites_virtual.items() %}
+      {
+        'site': '{{ site }}',
+        'name': '{{ name }}'
+      },
+{% endfor %}
+{% endif %}
+{% endfor %}
+    ]
+  };
+};

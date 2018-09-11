@@ -1,0 +1,47 @@
+---
+- name: create deploy directory
+  file:
+    path: "{{ meshviewer_path }}"
+    state: directory
+    mode: 0755
+    owner: www-data
+    group: www-data
+
+- name: clone repo
+  git:
+    repo: "https://github.com/ffrgb/meshviewer.git"
+    dest: "{{ meshviewer_src }}"
+    version: develop
+    force: yes
+
+- name: install dependencies
+  yarn:
+    path: "{{ meshviewer_src }}"
+
+- name: create meshviewer config
+  template:
+    src: config.js.j2
+    dest: "{{ meshviewer_src }}/config.js"
+    mode: 0644
+    owner: admin
+    group: admin
+
+- name: build
+  shell: yarn run gulp
+  args:
+    chdir: "{{ meshviewer_src }}"
+
+- name: deploy
+  shell: 'rm -rf {{ meshviewer_path }}/* && cp -ar build/* {{ meshviewer_path }} && chown www-data:www-data -R {{ meshviewer_path }}'
+  args:
+    chdir: "{{ meshviewer_src }}"
+    warn: no
+
+- name: write vhost
+  template:
+    src: meshviewer_vhost.conf.j2
+    dest: /etc/nginx/conf.d/meshviewer.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx

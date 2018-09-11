@@ -1,0 +1,78 @@
+proxy_cache_path  /var/www/cache levels=1:2 keys_zone=osm_tiles:32m max_size=5G;
+proxy_temp_path   /var/www/cache/tmp;
+
+upstream openstreetmap {
+    server  a.tile.openstreetmap.org;
+    server  b.tile.openstreetmap.org;
+    server  c.tile.openstreetmap.org;
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name {{ http_meshviewer_internal }} {{ http_meshviewer_external }};
+
+    include /etc/nginx/snippets/redirect-to-ssl.conf;
+    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name {{ http_meshviewer_internal }} {{ http_meshviewer_external }};
+
+    ssl_certificate     /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;
+
+    include /etc/nginx/snippets/gzip.conf;
+    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+
+    root {{ meshviewer_path }};
+    index index.html index.htm;
+
+    location /data {
+        alias /var/lib/yanic/data;
+    }
+
+    location /tiles {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X_FORWARDED_PROTO http;
+        proxy_set_header Host $http_host;
+        proxy_cache osm_tiles;
+        proxy_cache_valid  200 302  7d;
+        proxy_cache_valid  404      1m;
+        proxy_redirect off;
+            if (!-f $request_filename) {
+            rewrite ^/tiles(/.*)$ $1 break;
+            proxy_pass http://openstreetmap;
+            break;
+        }
+    }
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+
+{% for mesh in meshes %}
+server {
+    listen 80;
+    listen [::]:80;
+    server_name {{ http_meshviewer_prefix }}.{{ mesh.http_domain_internal }} {{ http_meshviewer_prefix }}.{{ mesh.http_domain_external }};
+    return 301 https://{{ http_meshviewer_external }}$request_uri;
+
+    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name {{ http_meshviewer_prefix }}.{{ mesh.http_domain_internal }} {{ http_meshviewer_prefix }}.{{ mesh.http_domain_external }};
+    return 301 https://{{ http_meshviewer_external }}$request_uri;
+
+    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+}
+{% if not loop.last %}
+
+{% endif %}
+{% endfor %}
