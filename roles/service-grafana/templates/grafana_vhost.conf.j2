@@ -1,0 +1,24 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name stats.{{ http_domain_internal }} stats.{{ http_domain_external }};
+
+    include /etc/nginx/snippets/redirect-to-ssl.conf;
+    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name stats.{{ http_domain_internal }} stats.{{ http_domain_external }};
+
+    ssl_certificate     /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;
+
+    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+
+    location / {
+      set $grafana_addr 127.0.0.1 ;
+      proxy_pass http://$grafana_addr:3000;
+    }
+}

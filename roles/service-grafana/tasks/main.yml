@@ -1,0 +1,42 @@
+---
+- name: ensure apt key for grafana is present
+  apt_key:
+    state: present
+    id: D59097AB
+    url: "https://packagecloud.io/gpg.key"
+
+- name: ensure grafana apt repo is present
+  apt_repository:
+    state: present
+    repo: "deb https://packagecloud.io/grafana/stable/debian/ stretch main"
+    update_cache: yes
+    filename: grafana
+
+- name: install grafana package
+  package:
+    name: grafana
+    state: present
+
+- name: copy grafana.ini
+  copy:
+    src: grafana.ini
+    dest: /etc/grafana/grafana.ini
+    owner: root
+    group: grafana
+    mode: 0640
+  notify: restart grafana
+
+- name: write vhost grafana.conf
+  template:
+    src: grafana_vhost.conf.j2
+    dest: /etc/nginx/conf.d/grafana.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+
+- name: enable systemd unit grafana
+  systemd:
+    name: grafana-server
+    enabled: yes
+    state: started
