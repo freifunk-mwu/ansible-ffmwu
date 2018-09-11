@@ -44,6 +44,9 @@
   template:
     src: "prometheus.service.j2"
     dest: "/lib/systemd/system/prometheus.service"
+  notify:
+    - reload systemd
+    - restart prometheus
 
 - name: copy rule files from playbook's, if any
   copy:
@@ -52,7 +55,7 @@
     validate: "{{ prometheus_daemon_dir }}/promtool check rules %s"
   with_dict: '{{ prometheus_rule_files | default({}) }}'
   notify:
-    - reload prometheus
+    - restart prometheus
 
 - name: copy prometheus main config file from role's default, if necessary
   template:
@@ -61,7 +64,7 @@
     validate: "{{ prometheus_daemon_dir }}/promtool check config %s"
   when: prometheus_conf_main is not defined
   notify:
-    - reload prometheus
+    - restart prometheus
 
 - name: copy prometheus main config file from playbook's, if any
   template:
@@ -70,7 +73,7 @@
     validate: "{{ prometheus_daemon_dir }}/promtool check config %s"
   when: prometheus_conf_main is defined
   notify:
-    - reload prometheus
+    - restart prometheus
 
 - name: enable prometheus service
   service:

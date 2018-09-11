@@ -1,9 +1,18 @@
-- name: reload prometheus
+- name: reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: restart prometheus
   service:
     name: prometheus
-    state: reloaded
+    state: restarted
 
-- name: reload alertmanager
+- name: restart alertmanager
   service:
     name: alertmanager
-    state: reloaded
+    state: restarted
+
+- name: restart node_exporter
+  service:
+    name: node_exporter
+    state: restarted

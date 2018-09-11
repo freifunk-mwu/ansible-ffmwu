@@ -46,13 +46,16 @@
   template:
     src: "alertmanager.service.j2"
     dest: "/lib/systemd/system/alertmanager.service"
+  notify:
+    - reload systemd
+    - restart alertmanager
 
 - name: install alertmanager config file
   copy:
     src: "alertmanager.yml"
     dest: "{{ prometheus_config_path }}/alertmanager.yml"
   notify:
-    - reload alertmanager
+    - restart alertmanager
 
 - name: enable alertmanager service
   service:

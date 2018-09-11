@@ -32,6 +32,9 @@
   template:
     src: "../templates/node_exporter.service.j2"
     dest: "/lib/systemd/system/node_exporter.service"
+  notify:
+    - reload systemd
+    - restart node_exporter
 
 - name: enable node_exporter service
   service:
