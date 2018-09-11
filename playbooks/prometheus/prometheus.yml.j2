@@ -23,19 +23,15 @@ scrape_configs:
     scrape_interval: 10s
     scrape_timeout:  10s
     static_configs:
-      - targets: ['localhost:9090', 'localhost:9100']
+      - targets: ['localhost:9090']
 
   - job_name: "node"
-    file_sd_configs:
-      - files:
-        - '{{ prometheus_file_sd_config_path }}/*.json'
-        - '{{ prometheus_file_sd_config_path }}/*.yml'
-        - '{{ prometheus_file_sd_config_path }}/*.yaml'
+    scheme: "https"
     static_configs:
 {%for group in prometheus_groups %}
       - targets:
 {% for host in groups[group] %}
-        - '{{ host }}:9100'
+        - '{{ host }}'
 {% endfor %}
         labels:
           group: '{{ group }}'
