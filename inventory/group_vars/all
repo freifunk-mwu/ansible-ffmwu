@@ -16,6 +16,7 @@ bgp_groups:
 
 prometheus_groups:
   - ffmwu-gateways
+  - ffmwu-monitoring
 
 node_exporter_opts: "--web.listen-address=localhost:9100 --collector.systemd"
 
@@ -31,6 +32,9 @@ meshes:
     site_number: 37
     site_code: ffmz
     site_name: Mainz
+    sites_virtual:
+      ffbin: Bingen
+      ffrhg: Rheingau
     ipv4_network: 10.37.0.0/18
     ipv6_ula:
       - fd37:b4dc:4b1e::/48
@@ -90,6 +94,8 @@ meshes:
     site_number: 56
     site_code: ffwi
     site_name: Wiesbaden
+    sites_virtual:
+      ffta: Taunus
     ipv4_network: 10.56.0.0/18
     ipv6_ula:
       - fd56:b4dc:4b1e::/48
