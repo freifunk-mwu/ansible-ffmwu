@@ -1,0 +1,47 @@
+---
+- name: ensure apt key for influxdb is present
+  apt_key:
+    state: present
+    id: 2582E0C5
+    url: "https://repos.influxdata.com/influxdb.key"
+
+- name: ensure influxdb apt repo is present
+  apt_repository:
+    state: present
+    repo: "deb https://repos.influxdata.com/debian stretch stable"
+    update_cache: yes
+    filename: influxdb
+
+- name: install influxdb package
+  package:
+    name: influxdb
+    state: present
+
+- name: bind influxdb to localhost only
+  lineinfile:
+    dest: "/etc/influxdb/influxdb.conf"
+    regexp: '^.*bind-address.*:8086.*$'
+    line: '  bind-address = "127.0.0.1:8086"'
+  notify: restart influxdb
+
+- name: enable influxdb rpc on localhost only
+  lineinfile:
+    dest: "/etc/influxdb/influxdb.conf"
+    regexp: '^.*bind-address.*:8088.*$'
+    line: 'bind-address = "127.0.0.1:8088"'
+  notify: restart influxdb
+
+- name: install python-requests package
+  package:
+    name: python-requests
+    state: present
+
+- name: install python-influxdb package
+  pip:
+    name: influxdb
+
+- name: enable systemd unit influxdb
+  systemd:
+    name: influxdb
+    enabled: yes
+    state: started

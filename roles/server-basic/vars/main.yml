@@ -9,6 +9,7 @@ packages:
   - mlocate
   - mosh
   - net-tools
+  - python-pip
   - python3-yaml
   - sysfsutils
   - unattended-upgrades
