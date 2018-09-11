@@ -1,0 +1,29 @@
+---
+- name: install golang package
+  package:
+    name: golang-1.8
+    state: present
+
+- name: create symlink to golang binary
+  file:
+    src: /usr/lib/go-1.8/bin/go
+    dest: /usr/bin/go
+    state: link
+    owner: root
+    group: root
+
+- name: create GOPATH directory
+  file:
+    path: "{{ gopath }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: set GOPATH globally via profile.d
+  template:
+    src: go.sh.j2
+    dest: /etc/profile.d/go.sh
+    owner: root
+    group: root
+    mode: 0644
