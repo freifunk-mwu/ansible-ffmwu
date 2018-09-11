@@ -1,0 +1,18 @@
+---
+- name: ensure apt key for nodejs is present
+  apt_key:
+    state: present
+    id: 68576280
+    url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+
+- name: ensure nodejs apt repo is present
+  apt_repository:
+    state: present
+    repo: "deb https://deb.nodesource.com/node_8.x stretch main"
+    update_cache: yes
+    filename: nodesource
+
+- name: install nodejs package
+  package:
+    name: nodejs
+    state: present
