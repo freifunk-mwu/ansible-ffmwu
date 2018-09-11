@@ -84,14 +84,29 @@
 - name: sync ssl certs
   shell: /etc/cron.daily/ssl_certs
 
-- name: write nginx configuration letsencrypt-acme-challenge.conf
+- name: copy gzip.conf to snippets
+  copy:
+    src: gzip.conf
+    dest: /etc/nginx/snippets/gzip.conf
+    mode: 0644
+    owner: root
+    group: root
+
+- name: copy redirect-to-ssl.conf to snippets
+  copy:
+    src: redirect-to-ssl.conf
+    dest: /etc/nginx/snippets/redirect-to-ssl.conf
+    mode: 0644
+    owner: root
+    group: root
+
+- name: write letsencrypt-acme-challenge.conf to snippets
   template:
     src: letsencrypt-acme-challenge.conf.j2
     dest: /etc/nginx/snippets/letsencrypt-acme-challenge.conf
     mode: 0644
     owner: root
     group: root
-  notify: restart nginx
 
 - name: write nginx configuration nginx.conf
   template:
