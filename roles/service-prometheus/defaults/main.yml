@@ -28,4 +28,4 @@ prometheus_goroot: "{{ prometheus_workdir }}/go"
 prometheus_gopath: "{{ prometheus_workdir }}/gopath"
 
 prometheus_default_opts: "--config.file={{ prometheus_config_path }}/prometheus.yml --storage.tsdb.path={{ prometheus_db_path }}"
-alertmanager_default_opts: "-config.file={{ prometheus_config_path }}/alertmanager.yml -storage.path={{ alertmanager_db_path }}"
+alertmanager_default_opts: "--config.file={{ prometheus_config_path }}/alertmanager.yml --storage.path={{ alertmanager_db_path }}"
