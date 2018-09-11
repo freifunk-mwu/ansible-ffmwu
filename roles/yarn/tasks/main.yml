@@ -1,0 +1,18 @@
+---
+- name: ensure apt key for yarn is present
+  apt_key:
+    state: present
+    id: 86E50310
+    url: "https://dl.yarnpkg.com/debian/pubkey.gpg"
+
+- name: ensure yarn apt repo is present
+  apt_repository:
+    state: present
+    repo: "deb https://dl.yarnpkg.com/debian/ stable main"
+    update_cache: yes
+    filename: yarn
+
+- name: install yarn package
+  package:
+    name: yarn
+    state: present
