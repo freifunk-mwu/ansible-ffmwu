@@ -19,6 +19,7 @@
   - network-ffrl
   - network-iptables-gateway
   - network-routing
+  - service-prometheus
   - service-dhcpd
   - service-nginx
   - service-nginx-firmware
@@ -32,6 +33,4 @@
   - service-bird-ffrl
   - service-bind-slave
   - service-respondd
-  - service-vnstat
   - service-nullmailer
-  - service-prometheus
