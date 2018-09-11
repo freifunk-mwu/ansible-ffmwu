@@ -1,0 +1,40 @@
+---
+- name: create Yanic system user
+  user:
+    name: "{{ yanic_user }}"
+    home: "{{ yanic_home }}"
+    shell: /bin/false
+
+- name: create data dir
+  file:
+    path: "{{ yanic_home }}/data"
+    state: directory
+    owner: yanic
+    group: yanic
+    mode: 0755
+
+- name: create database
+  influxdb_database:
+      database_name: "{{ yanic_database }}"
+
+- name: write Yanic config
+  template:
+    src: "yanic.conf.j2"
+    dest: "{{ yanic_config }}"
+  notify: restart yanic
+
+- name: create systemd unit for Yanic
+  template:
+    src: "yanic.service.j2"
+    dest: "/etc/systemd/system/yanic.service"
+  notify: reload systemd
+
+- name: build Yanic binary
+  shell: "GOPATH={{ gopath }} go get -v -u github.com/FreifunkBremen/yanic"
+  notify: restart yanic
+
+- name: configure Yanic systemd unit
+  systemd:
+    name: "yanic.service"
+    enabled: yes
+    state: started

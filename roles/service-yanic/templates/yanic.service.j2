@@ -1,0 +1,18 @@
+[Unit]
+Description=Yanic - Yet another node info collector
+Documentation=https://github.com/FreifunkBremen/yanic
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+
+User={{ yanic_user }}
+Group={{ yanic_user }}
+
+ExecStart={{ yanic_path }}  serve --config {{ yanic_config }}
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

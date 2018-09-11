@@ -1,0 +1,60 @@
+#
+# {{ ansible_managed }}
+#
+
+[respondd]
+enable           = true
+synchronize      = "1m"
+collect_interval = "1m"
+
+{% for mesh in meshes %}
+[respondd.sites.{{ mesh.site_code }}]
+{% if mesh.sites_virtual is defined %}
+{% for site, name in mesh.sites_virtual.items() %}
+[respondd.sites.{{ site }}]
+{% endfor %}
+{% endif %}
+{% endfor %}
+
+{% for mesh in meshes %}
+[[respondd.interfaces]]
+ifname = "{{mesh.id}}br"
+{% endfor %}
+
+[nodes]
+state_path = "/var/lib/yanic/state.json"
+prune_after = "30d"
+save_interval = "5s"
+offline_after = "10m"
+
+[[nodes.output.meshviewer-ffrgb]]
+enable = true
+path = "/var/lib/yanic/data/meshviewer.json"
+[nodes.output.meshviewer-ffrgb.filter]
+no_owner = true
+{% if yanic_blacklist is defined %}
+blacklist = [{% for node in yanic_blacklist %}"{{ node }}"{% if not loop.last %},{% endif %}{% endfor %}]
+{% endif %}
+
+[[nodes.output.meshviewer]]
+enable = true
+version = 2
+nodes_path = "/var/lib/yanic/data/nodes.json"
+graph_path = "/var/lib/yanic/data/graph.json"
+[nodes.output.meshviewer.filter]
+no_owner = true
+
+[[nodes.output.nodelist]]
+enable = true
+path = "/var/lib/yanic/data/nodelist.json"
+
+[database]
+delete_after    = "30d"
+delete_interval = "1h"
+
+[[database.connection.influxdb]]
+enable   = true
+address  = "http://localhost:8086"
+database = "yanic"
+username = ""
+password = ""
