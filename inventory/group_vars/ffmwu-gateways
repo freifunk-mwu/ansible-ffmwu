@@ -8,12 +8,15 @@ common_repos:
   backend-scripts:
     repo_url: https://github.com/freifunk-mwu/backend-scripts.git
     version: ansible
+    force: no
   icvpn-meta:
     repo_url: https://github.com/freifunk/icvpn-meta.git
     version: master
+    force: no
   icvpn-scripts:
     repo_url: https://github.com/freifunk/icvpn-scripts.git
     version: master
+    force: no
 
 prometheus_components:
   - node_exporter
