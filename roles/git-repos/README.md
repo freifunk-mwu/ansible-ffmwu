@@ -13,6 +13,8 @@ Diese Ansible role klont wichtige git Repositories.
 common_repos:
   name: # name des Repositories == Ordner Name
     repo_url: # HTTP-URL zum Repository
+    version: # Branch/Tag/Commit
+    force: # Update erzwingen
 ...
 
 ```

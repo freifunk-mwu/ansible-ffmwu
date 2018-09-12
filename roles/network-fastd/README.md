@@ -34,9 +34,11 @@ meshes:
 
 - Host Variable `magic`
 
+- Host Variable `ffmwu_server_type`
+
 ## MAC-Adressen
 
-Die MAC-Adressen der Interfaces werden aus dem IPv4-Subnetz sowie der `magic`-Nummer des Hosts berechnet.
+Die MAC-Adressen der Interfaces werden aus dem IPv4-Subnetz sowie der `magic`-Nummer des Hosts berechnet. x = ID der fastd-Instanz.
 
-xxvpn-$mtu prefix: `02:2x` # x = ID der fastd-Instanz
-xxigvpn-$mtu prefix: `02:3x` # x = ID der fastd-Instanz
+- xxvpn-$mtu prefix: `02:2x`
+- xxigvpn-$mtu prefix: `02:3x` 

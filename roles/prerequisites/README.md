@@ -16,3 +16,4 @@ Die folgenden Variablen werden über einen DNS Lookup gesetzt:
 - Variable `dns_host_ipv6_address` (Rollen-Variable)
 - Variable `dns_gate_num_cname` (Rollen-Variable)
 - Variable `dns_gate_icvpn_cname` (Rollen-Variable)
+- Variable `ffmwu_server_type`

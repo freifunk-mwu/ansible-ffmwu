@@ -6,9 +6,10 @@ Diese Ansible role installiert und konfiguriert den Web Server nginx.
 - installiert nginx
 - schreibt nginx.conf
 - schreibt default.conf
-- installiert die Standard MWU Gateway Webseite
+- installiert die Standard MWU Server Webseite
 
 ## Benötigte Variablen
 
 - Variable `acme_server`
+- Variable `ffmwu_server_type`
 - Variable `inventory_hostname_short`

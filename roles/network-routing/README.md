@@ -22,15 +22,18 @@ meshes:
     ipv6_public:
 ```
 
-- List `sysctl_settings_routing` (Rollen-Variable)
+- Listen `sysctl_settings_routing_basic` und `sysctl_settings_routing_gateway` (Rollen-Variablen)
 
 ```
-sysctl_settings_routing:
+sysctl_settings_routing_(basic|gateway):
   - name:       # sysctl-Parameter
     value:      # zu setzender Wert
 ...
-- Host Variable `ffrl_public_ipv4_nat` # Format ip-adresse/prefix
-- Host Dictionary `ffrl_exit_server
 ```
+- Host Variable `ffrl_public_ipv4_nat` # Format ip-adresse/prefix
+
+- Host Dictionary `ffrl_exit_server`
 
 - Host Variable `magic`
+
+- Host Variable `ffmwu_server_type`
