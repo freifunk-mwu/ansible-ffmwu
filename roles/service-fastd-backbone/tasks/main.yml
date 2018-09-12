@@ -24,7 +24,7 @@
     repo: "{{ item.1.peers.repo }}"
     dest: "/etc/fastd/{{ item.0.id }}igvpn-{{ item.1.mtu }}/peers"
     version: "{{ item.1.peers.version }}"
-    update: no
+    update: yes
   with_subelements:
     - "{{ meshes }}"
     - fastd.backbone.instances
