@@ -67,8 +67,6 @@
 /sbin/ip -6 route del blackhole ::/0 table main
 {% else %}
 # static routes for icvpn
-/sbin/ip -4 route del {{ icvpn_ipv4_transfer_net }}{% for host in groups['ffmwu-gateways'] %} nexthop via {{ bgp_ipv4_transfer_net | ipaddr('net') | ipaddr(hostvars[host]['magic']) | ipaddr('ip') }}{% endfor %}
-
-/sbin/ip -6 route del {{ icvpn_ipv6_transfer_net }}{% for host in groups['ffmwu-gateways'] %} nexthop via {{ bgp_ipv6_transfer_net | ipaddr('net') | ipsubnet(64, 0) | ipaddr(hostvars[host]['magic']) | ipaddr('ip') }}{% endfor %}
-
+/sbin/ip -4 route flush exact {{ icvpn_ipv4_transfer_net }}
+/sbin/ip -6 route flush exact {{ icvpn_ipv6_transfer_net }}
 {% endif %}
