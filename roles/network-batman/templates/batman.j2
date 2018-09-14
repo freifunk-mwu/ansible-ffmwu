@@ -12,4 +12,4 @@ iface {{ item.id }}bat
     post-up /usr/sbin/batctl -m $IFACE it {{ item.batman.it }}
     post-up /usr/sbin/batctl -m $IFACE mm {{ item.batman.mm }}
     post-up /usr/sbin/batctl -m $IFACE dat {{ item.batman.dat }}
-{% if ffmwu_server_type == 'gateway' %}    post-up /usr/sbin/batctl -m $IFACE gw {{ item.batman.gw }}{% endif %}
+    post-up /usr/sbin/batctl -m $IFACE gw {% if ffmwu_server_type == 'gateway' %}{{ item.batman.gw }}{% else %}off{% endif %}
