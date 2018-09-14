@@ -35,6 +35,13 @@
     mode: 0644
   notify: restart nginx
 
+- name: install piechart panel plugin
+  grafana_plugin:
+    name: grafana-piechart-panel
+    version: latest
+    state: present
+  notify: restart grafana
+
 - name: enable systemd unit grafana
   systemd:
     name: grafana-server
