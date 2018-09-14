@@ -1,4 +1,8 @@
 ---
+- name: set facts about Yanic
+  set_fact:
+    yanic_present: yes
+
 - name: create Yanic system user
   user:
     name: "{{ yanic_user }}"
