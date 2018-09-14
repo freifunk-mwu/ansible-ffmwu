@@ -47,3 +47,24 @@
     name: grafana-server
     enabled: yes
     state: started
+
+- name: add yanic datasource
+  when: yanic_present is defined
+  grafana_datasource:
+    name: "yanic"
+    grafana_url: "http://localhost:3000"
+    grafana_user: "admin"
+    grafana_password: "{{ lookup('passwordstore', 'grafana/admin') }}"
+    ds_type: "influxdb"
+    url: "http://localhost:8086"
+    database: "yanic"
+
+- name: add prometheus datasource
+  when: prometheus_present is defined
+  grafana_datasource:
+    name: "prometheus"
+    grafana_url: "http://localhost:3000"
+    grafana_user: "admin"
+    grafana_password: "{{ lookup('passwordstore', 'grafana/admin') }}"
+    ds_type: "prometheus"
+    url: "http://localhost:9090"
