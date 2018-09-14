@@ -23,6 +23,8 @@ reporting_enabled = false
 
 [security]
 
+admin_user = admin
+admin_password = {{ lookup('passwordstore', 'grafana/admin') }};
 login_remember_days = 7
 
 [snapshots]

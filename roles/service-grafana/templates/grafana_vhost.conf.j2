@@ -1,7 +1,7 @@
 server {
     listen 80;
     listen [::]:80;
-    server_name stats.{{ http_domain_internal }} stats.{{ http_domain_external }};
+    server_name {{ grafana_url_internal }} {{ grafana_url_external }};
 
     include /etc/nginx/snippets/redirect-to-ssl.conf;
     include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
@@ -10,7 +10,7 @@ server {
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
-    server_name stats.{{ http_domain_internal }} stats.{{ http_domain_external }};
+    server_name {{ grafana_url_internal }} {{ grafana_url_external }};
 
     ssl_certificate     /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
     ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;

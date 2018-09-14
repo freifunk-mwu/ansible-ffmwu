@@ -1,0 +1,3 @@
+---
+grafana_url_external: "{{ http_grafana_prefix }}.{{ http_domain_external }}"
+grafana_url_internal: "{{ http_grafana_prefix }}.{{ http_domain_internal }}"

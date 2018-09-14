@@ -18,8 +18,8 @@
     state: present
 
 - name: copy grafana.ini
-  copy:
-    src: grafana.ini
+  template:
+    src: grafana.ini.j2
     dest: /etc/grafana/grafana.ini
     owner: root
     group: grafana
