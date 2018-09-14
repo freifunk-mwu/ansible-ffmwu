@@ -3,6 +3,7 @@
 
 - name: set internal variables, part 1
   set_fact:
+    alertmanager_present: yes
     alertmanager_signature: "alertmanager-{{ alertmanager_version }}.linux-amd64"
 
 - name: set internal variables, part 2

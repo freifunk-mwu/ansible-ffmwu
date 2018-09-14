@@ -5,6 +5,7 @@
 
 - name: set internal variables for convenience
   set_fact:
+    prometheus_present: yes
     prometheus_daemon_dir: "{{ prometheus_install_path }}/prometheus-{{ prometheus_version }}.linux-amd64"
     prometheus_tarball_url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
 
