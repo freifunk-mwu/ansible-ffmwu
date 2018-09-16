@@ -5,4 +5,4 @@
     regexp: '^{{ item.value }}'
     line: "{{ item.value }}{{ '\t' }}{{ item.key }}"
     state: present
-  with_dict: "{{ routing_tables }}"
+  loop: "{{ routing_tables | dict2items }}"

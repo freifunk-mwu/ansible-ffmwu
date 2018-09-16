@@ -52,7 +52,7 @@
     owner: admin
     group: bird
   notify: reload systemd unit bird
-  with_items:
+  loop:
     - /etc/bird/icvpn_ipv4_peers.conf
     - /etc/bird/icvpn_ipv4_roa.conf
 
@@ -63,7 +63,7 @@
     owner: admin
     group: bird
   notify: reload systemd unit bird6
-  with_items:
+  loop:
     - /etc/bird/icvpn_ipv6_peers.conf
     - /etc/bird/icvpn_ipv6_roa.conf
 

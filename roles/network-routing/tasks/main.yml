@@ -15,7 +15,7 @@
     owner: root
     group: root
     mode: 0750
-  with_items:
+  loop:
     - ffmwu-add-static-routes.sh
     - ffmwu-del-static-routes.sh
   notify: restart systemd unit ffmwu-static-routes
@@ -42,7 +42,7 @@
     owner: root
     group: root
     mode: 0750
-  with_items:
+  loop:
     - ffmwu-add-ip-rules.sh
     - ffmwu-del-ip-rules.sh
   notify: restart systemd unit ffmwu-ip-rules
@@ -58,7 +58,7 @@
     name: "{{ item.name }}"
     value: "{{ item.value }}"
     state: present
-  with_items: "{{ sysctl_settings_routing_basic }}"
+  loop: "{{ sysctl_settings_routing_basic }}"
 
 - name: set gateway sysctl settings for routing
   when: ffmwu_server_type == "gateway"
@@ -66,4 +66,4 @@
     name: "{{ item.name }}"
     value: "{{ item.value }}"
     state: present
-  with_items: "{{ sysctl_settings_routing_gateway }}"
+  loop: "{{ sysctl_settings_routing_gateway }}"

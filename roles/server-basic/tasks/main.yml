@@ -18,9 +18,8 @@
 
 - name: ensure common packages are installed
   package:
-    name: "{{ item }}"
+    name: "{{ packages }}"
     state: present
-  with_items: "{{ packages }}"
 
 - name: ensure vim is default editor
   alternatives:

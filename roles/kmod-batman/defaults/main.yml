@@ -1,0 +1,5 @@
+---
+batman_packages:
+  - "linux-headers-amd64"
+  - "batman-adv-dkms"
+  - "batctl"

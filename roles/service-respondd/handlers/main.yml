@@ -7,4 +7,4 @@
   systemd:
     name: "respondd-{{ item.id }}"
     state: restarted
-  with_items: "{{ meshes }}"
+  loop: "{{ meshes }}"

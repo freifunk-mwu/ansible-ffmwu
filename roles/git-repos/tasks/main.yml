@@ -1,10 +1,8 @@
 ---
 - name: install git packages
   package:
-    name: "{{ item }}"
+    name: "{{ git_packages }}"
     state: present
-  with_items:
-    - git
 
 - name: ensure git directory is present
   file:
@@ -20,5 +18,5 @@
     dest: "/home/admin/clones/{{ item.key }}"
     version: "{{ item.value.version }}"
     force: "{{ item.value.force }}"
-  with_dict: "{{ common_repos }}"
+  loop: "{{ common_repos | dict2items }}"
   become: false

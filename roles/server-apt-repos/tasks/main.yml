@@ -3,7 +3,7 @@
   package:
     name: "{{ item }}"
     state: present
-  with_items:
+  loop:
     - dirmngr
     - apt-transport-https
 
@@ -19,4 +19,4 @@
     repo: "{{ item.repo }}"
     update_cache: "{{ item.update_cache }}"
     filename: "{{ item.name }}"
-  with_items: "{{ repos }}"
+  loop: "{{ repos }}"

@@ -4,7 +4,7 @@
     name: "{{ item.name }}"
     value: "{{ item.value }}"
     state: present
-  with_items: "{{ sysctl_settings }}"
+  loop: "{{ sysctl_settings }}"
 
 - name: create systemd override dir for systemd-sysctl.service
   file:

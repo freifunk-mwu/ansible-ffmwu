@@ -9,7 +9,7 @@
   package:
     name: "{{ item }}"
     state: present
-  with_items:
+  loop:
     - ntp
     - ntp-doc
     - ntpdate

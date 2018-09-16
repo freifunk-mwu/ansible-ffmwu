@@ -1,12 +1,8 @@
 ---
 - name: install batman-module and linux headers
   package:
-    name: "{{ item }}"
+    name: "{{ batman_packages }}"
     state: present
-  with_items:
-    - linux-headers-amd64
-    - batman-adv-dkms
-    - batctl
 
 - name: configure batman module to load on system boot
   template:

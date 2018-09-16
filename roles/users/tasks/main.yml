@@ -11,7 +11,7 @@
     shell: "{{ item.shell }}"
     home: "{{ item.home }}"
     state: "{{ item.state }}"
-  with_items: "{{ system_users }}"
+  loop: "{{ system_users }}"
 
 - name: ensure ssh config directory is present
   file:
@@ -20,7 +20,7 @@
     owner: "{{ item.name }}"
     group: "{{ item.name }}"
     mode: '0700'
-  with_items: "{{ system_users }}"
+  loop: "{{ system_users }}"
 
 - name: configure ssh public keys
   template:
@@ -29,7 +29,7 @@
     owner: "{{ item.name }}"
     group: "{{ item.name }}"
     mode: '0600'
-  with_items: "{{ system_users }}"
+  loop: "{{ system_users }}"
 
 - name: configure passwordless sudo access
   template:
@@ -39,7 +39,7 @@
     group: root
     mode: '0440'
     validate: "/usr/sbin/visudo -cf %s"
-  with_items: "{{ system_users }}"
+  loop: "{{ system_users }}"
 
 - name: remove admin lines from /etc/sudoers
   lineinfile:

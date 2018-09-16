@@ -5,18 +5,14 @@
     src: fastd-mesh.j2
     dest: "/etc/network/interfaces.d/{{ item.0.id }}vpn-{{ item.1.mtu }}"
   notify: reload network interfaces
-  with_subelements:
-    - "{{ meshes }}"
-    - fastd.nodes.instances
+  loop: "{{ meshes | subelements('fastd.nodes.instances') }}"
 
 - name: create fastd backbone interfaces
   template:
     src: fastd-backbone.j2
     dest: "/etc/network/interfaces.d/{{ item.0.id }}igvpn-{{ item.1.mtu }}"
   notify: reload network interfaces
-  with_subelements:
-    - "{{ meshes }}"
-    - fastd.backbone.instances
+  loop: "{{ meshes | subelements('fastd.backbone.instances') }}"
 
 - name: flush handlers
   meta: flush_handlers

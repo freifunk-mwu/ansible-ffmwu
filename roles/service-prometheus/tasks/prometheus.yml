@@ -25,7 +25,7 @@
     src: "{{ prometheus_daemon_dir }}/{{ item }}"
     dest: "/usr/local/bin/{{ item }}"
     state: link
-  with_items:
+  loop:
     - "prometheus"
     - "promtool"
 
@@ -36,7 +36,7 @@
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: "u=rwx,g=rx,o="
-  with_items:
+  loop:
     - "{{ prometheus_rule_path }}"
     - "{{ prometheus_file_sd_config_path }}"
     - "{{ prometheus_db_path }}"
@@ -54,7 +54,7 @@
     src: "{{ playbook_dir }}/{{ item.value.src }}"
     dest: "{{ prometheus_rule_path }}/{{ item.value.dest }}"
     validate: "{{ prometheus_daemon_dir }}/promtool check rules %s"
-  with_dict: '{{ prometheus_rule_files | default({}) }}'
+  loop: '{{ prometheus_rule_files | dict2items | default({}) }}'
   notify:
     - restart prometheus
 

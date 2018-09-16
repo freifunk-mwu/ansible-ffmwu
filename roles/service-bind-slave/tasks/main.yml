@@ -3,7 +3,7 @@
   package:
     name: "{{ item }}"
     state: present
-  with_items:
+  loop:
     - bind9
     - bind9-doc
     - bind9utils
@@ -43,7 +43,7 @@
     group: bind
     mode: 0644
   notify: restart bind9
-  with_items: "{{ meshes }}"
+  loop: "{{ meshes }}"
 
 - name: write initial icvpn bind config
   shell: /usr/bin/python3 /home/admin/clones/icvpn-scripts/mkdns -f bind -x mwu -x bingen -s /home/admin/clones/icvpn-meta > /etc/bind/named.conf.icvpn

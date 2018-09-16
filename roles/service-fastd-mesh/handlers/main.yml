@@ -7,6 +7,4 @@
   systemd:
     name: "fastd@{{ item.0.id }}vpn-{{ item.1.mtu }}"
     state: restarted
-  with_subelements:
-    - "{{ meshes }}"
-    - fastd.nodes.instances
+  loop: "{{ meshes | subelements('fastd.nodes.instances') }}"

@@ -1,9 +1,8 @@
 ---
 - name: install dhcp packages
   package:
-    name: "{{ item }}"
+    name: "{{ kea_packages }}"
     state: present
-  with_items: "{{ kea_packages }}"
 
 - name: create systemd override dir for kea-dhcp4-server.service
   file:

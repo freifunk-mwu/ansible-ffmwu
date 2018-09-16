@@ -29,7 +29,7 @@
     src: "{{ alertmanager_daemon_dir }}/{{ item }}"
     dest: "/usr/local/bin/{{ item }}"
     state: link
-  with_items:
+  loop:
     - "alertmanager"
     - "amtool"
 
@@ -40,8 +40,7 @@
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: "u=rwx,g=rx,o="
-  with_items:
-    - "{{ alertmanager_db_path }}"
+  loop: "{{ alertmanager_db_path }}"
 
 - name: copy alertmanager systemd config
   template:

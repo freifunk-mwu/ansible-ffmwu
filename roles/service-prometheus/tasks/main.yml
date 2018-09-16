@@ -21,7 +21,7 @@
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: "u=rwx,g=rx,o="
-  with_items:
+  loop:
     - "{{ prometheus_install_path }}"
     - "{{ prometheus_config_path }}"
 

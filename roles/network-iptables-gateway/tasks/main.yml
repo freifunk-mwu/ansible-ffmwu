@@ -3,7 +3,7 @@
   package:
     name: "{{ item }}"
     state: present
-  with_items:
+  loop:
     - iptables
     - iptables-persistent
 
@@ -16,7 +16,7 @@
   modprobe:
     name: "{{ item }}"
     state: present
-  with_items:
+  loop:
     - nf_conntrack
     - nf_conntrack_ipv4
 
@@ -25,7 +25,7 @@
     name: "{{ item.name }}"
     value: "{{ item.value }}"
     state: present
-  with_items: "{{ sysctl_settings_netfilter }}"
+  loop: "{{ sysctl_settings_netfilter }}"
 
 - name: write iptables configuration
   template:

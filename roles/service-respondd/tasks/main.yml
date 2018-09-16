@@ -29,11 +29,11 @@
   notify:
     - reload systemd
     - restart respondd
-  with_items: "{{ meshes }}"
+  loop: "{{ meshes }}"
 
 - name: configure systemd unit files
   systemd:
     name: "respondd-{{ item.id }}"
     enabled: yes
     state: started
-  with_items: "{{ meshes }}"
+  loop: "{{ meshes }}"

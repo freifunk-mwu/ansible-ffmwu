@@ -11,7 +11,7 @@
     repo: "{{ item }}"
     update_cache: yes
     filename: nginx
-  with_items:
+  loop:
     - deb http://nginx.org/packages/debian/ stretch nginx
     - deb-src http://nginx.org/packages/debian/ stretch nginx
 
