@@ -18,8 +18,3 @@
 - name: Test root access for admin account
   command: "true"
   changed_when: False
-
-- name: Generate SSH keys
-  shell: "ssh-keygen -b 4096 -t rsa -f /home/admin/.ssh/id_rsa -q -N '' -C '{{ inventory_hostname_short }}'"
-  args:
-    creates: /home/admin/.ssh/id_rsa

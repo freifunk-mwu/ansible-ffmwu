@@ -6,6 +6,8 @@ system_users:
     home: "/home/admin"
     state: "present"
     ssh_keys: "{{ ssh_keys_admin_team }}"
+    generate_ssh_key: "yes"
+    ssh_key_bits: 4096
 
 admin_users:
 

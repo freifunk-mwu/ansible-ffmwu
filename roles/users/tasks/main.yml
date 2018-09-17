@@ -10,6 +10,8 @@
     comment: "{{ item.comment }}"
     shell: "{{ item.shell }}"
     home: "{{ item.home }}"
+    generate_ssh_key: "{{ item.generate_ssh_key }}"
+    ssh_key_bits: "{{ item.ssh_key_bits }}"
     state: "{{ item.state }}"
   loop: "{{ system_users }}"
 
