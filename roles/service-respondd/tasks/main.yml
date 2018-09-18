@@ -9,6 +9,7 @@
     repo: https://github.com/freifunk-mwu/mesh-announce.git
     dest: /home/admin/clones/mesh-announce
     version: mwu-respondd
+    force: yes
   become: false
 
 - name: set respondd vpn flag to false
