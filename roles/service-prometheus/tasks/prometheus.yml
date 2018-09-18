@@ -54,7 +54,7 @@
     src: "{{ playbook_dir }}/{{ item.value.src }}"
     dest: "{{ prometheus_rule_path }}/{{ item.value.dest }}"
     validate: "{{ prometheus_daemon_dir }}/promtool check rules %s"
-  loop: '{{ prometheus_rule_files | dict2items | default({}) }}'
+  loop: '{{ prometheus_rule_files | default({}) | dict2items }}'
   notify:
     - restart prometheus
 

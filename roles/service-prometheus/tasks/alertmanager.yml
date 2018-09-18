@@ -35,12 +35,11 @@
 
 - name: mkdir for alertmanager data (silences.json for now)
   file:
-    path: "{{ item }}"
+    path: "{{ alertmanager_db_path }}"
     state: directory
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: "u=rwx,g=rx,o="
-  loop: "{{ alertmanager_db_path }}"
 
 - name: copy alertmanager systemd config
   template:
