@@ -170,9 +170,6 @@ bgp_mwu_servers:
   glueckskeks:
     ipv4: 10.37.1.1
     ipv6: fd37:b4dc:4b1e::a25:101
-  suesskartoffel:
-    ipv4: 10.37.1.4
-    ipv6: fd37:b4dc:4b1e::a25:104
   extrasahne:
     ipv4: 10.37.0.42
     ipv6: fd37:b4dc:4b1e::a25:2a
