@@ -48,6 +48,6 @@ server {
         allow {{ lookup('dig', host, 'qtype=AAAA') }};
         deny all;
 {% endfor %}
-{% endif %}
     }
+{% endif %}
 }
