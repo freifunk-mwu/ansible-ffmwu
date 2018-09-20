@@ -39,6 +39,12 @@ Unattended-Upgrade::Origins-Pattern {
         "origin=Debian,codename=${distro_codename},label=Debian-Security";
         "origin=Freifunk MWU,codename=${distro_codename},label=Freifunk MWU";
         "origin=nginx,codename=${distro_codename},label=nginx,archive=stable";
+{% if 'ffmwu-monitoring' in group_names %}
+        "origin=yarn,codename=stable,archive=stable,label=yarn-stable";
+        "origin=Node Source,codename=${distro_codename},label=Node Source";
+        "origin=InfluxDB,codename=${distro_codename},label=InfluxDB";
+        "origin=packagecloud.io/grafana/stable,codename=${distro_codename},archive=${distro_codename},label=stable";
+{% endif %}
 };
 
 // List of packages to not update (regexp are supported)
