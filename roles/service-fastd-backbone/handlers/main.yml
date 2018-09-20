@@ -4,3 +4,9 @@
     name: "fastd@{{ item.0.id }}igvpn-{{ item.1.mtu }}"
     state: restarted
   loop: "{{ meshes | subelements('fastd.backbone.instances') }}"
+
+- name: reload fastd backbone instances
+  systemd:
+    name: "fastd@{{ item.0.id }}igvpn-{{ item.1.mtu }}"
+    state: reloaded
+  loop: "{{ meshes | subelements('fastd.backbone.instances') }}"
