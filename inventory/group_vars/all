@@ -43,7 +43,6 @@ meshes:
     dnssl:
       - ffmz.org
       - user.ffmz.org
-    kea_dnssl_binary: "0466666d7a036f72670004757365729000"
     batman:
       it: 10000
       gw: server 96mbit/96mbit
@@ -104,7 +103,6 @@ meshes:
     dnssl:
       - ffwi.org
       - user.ffwi.org
-    kea_dnssl_binary: "0466667769036f72670004757365729000"
     batman:
       it: 10000
       gw: server 96mbit/96mbit
@@ -127,7 +125,7 @@ meshes:
             pass: fastd/wivpn
           - id: 1
             mtu: 1312
-            peers: 
+            peers:
               repo: https://github.com/freifunk-mwu/peers-ffwi.git
               version: master
             pass: fastd/wivpn
