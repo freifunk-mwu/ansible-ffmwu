@@ -1,0 +1,19 @@
+---
+- name: reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: restart bird-lg-proxy
+  systemd:
+    name: bird-lg-proxy
+    state: restarted
+
+- name: restart bird-lg-webservice
+  systemd:
+    name: bird-lg-webservice
+    state: restarted
+
+- name: restart nginx
+  systemd:
+    name: nginx
+    state: restarted

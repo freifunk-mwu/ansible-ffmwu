@@ -1,0 +1,24 @@
+---
+- name: write lgproxy.cfg
+  template:
+    src: lgproxy.cfg.j2
+    dest: "{{ lg_path }}/lgproxy.cfg"
+  notify:
+    - restart bird-lg-proxy
+
+- name: write systemd unit
+  template:
+    src: bird-lg-proxy.service.j2
+    dest: "/etc/systemd/system/bird-lg-proxy.service"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload systemd
+    - restart bird-lg-proxy
+
+- name: configure systemd unit
+  systemd:
+    name: bird-lg-proxy
+    enabled: yes
+    state: started

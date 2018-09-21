@@ -1,0 +1,33 @@
+---
+- name: write lg.cfg
+  template:
+    src: lg.cfg.j2
+    dest: "{{ lg_path }}/lg.cfg"
+  notify:
+    - restart bird-lg-webservice
+
+- name: write vhost lookingglass.conf
+  template:
+    src: lookingglass_vhost.conf.j2
+    dest: /etc/nginx/conf.d/lookingglass.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+
+- name: write systemd unit
+  template:
+    src: bird-lg-webservice.service.j2
+    dest: "/etc/systemd/system/bird-lg-webservice.service"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload systemd
+    - restart bird-lg-webservice
+
+- name: configure systemd unit
+  systemd:
+    name: bird-lg-webservice
+    enabled: yes
+    state: started

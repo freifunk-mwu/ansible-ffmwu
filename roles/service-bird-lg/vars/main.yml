@@ -1,0 +1,6 @@
+---
+lg_path: "{{ git_path }}/bird-lg"
+lg_user: "lookingglass"
+
+lg_url_external: "{{ http_lookingglass_prefix }}.{{ http_domain_external }}"
+lg_url_internal: "{{ http_lookingglass_prefix }}.{{ http_domain_internal }}"

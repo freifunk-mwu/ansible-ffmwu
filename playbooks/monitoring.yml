@@ -29,5 +29,6 @@
   - service-fastd
   - service-fastd-backbone
   - service-bird
+  - service-bird-lg
   - service-respondd
   - service-nullmailer

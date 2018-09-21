@@ -10,6 +10,7 @@ common_repos:
 
 http_meshviewer_prefix: map
 http_grafana_prefix: stats
+http_lookingglass_prefix: lg
 
 prometheus_conf_main: prometheus/prometheus.yml.j2
 prometheus_opts: "--web.listen-address=localhost:9090"

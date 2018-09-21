@@ -1,0 +1,42 @@
+---
+- name: clone repo
+  git:
+    repo: "https://github.com/sileht/bird-lg.git"
+    dest: "{{ lg_path }}"
+    version: master
+    force: yes
+
+- name: install dependencies
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - python-flask
+    - python-dnspython
+    - python-pydot
+    - python-memcache
+    - graphviz
+    - whois
+    - traceroute
+
+- name: create system user
+  user:
+    name: "{{ lg_user }}"
+    home: "{{ lg_path }}"
+    groups: bird
+    shell: /bin/false
+
+- name: create log dir
+  file:
+    path: "/var/log/bird-lg"
+    state: directory
+    owner: "{{ lg_user }}"
+    group: "{{ lg_user }}"
+
+- name: configure lg-proxy
+  when: ffmwu_server_type == "gateway"
+  include_tasks: lg-proxy.yml
+
+- name: configure lg-webservice
+  when: ffmwu_server_type == "monitoring"
+  include_tasks: lg-webservice.yml

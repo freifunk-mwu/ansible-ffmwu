@@ -1,0 +1,34 @@
+DEBUG = False
+LOG_FILE="/var/log/bird-lg/lg-webservice.log"
+LOG_LEVEL="WARNING"
+
+DOMAIN = "ffmwu.org"
+
+BIND_IP = "127.0.0.1"
+BIND_PORT = 5001
+
+PROXY = {
+{% for host in groups["ffmwu-gateways"] %}
+  "{{ host.rsplit('.freifunk-mwu.de')[0] }}" : 5000,
+{% endfor %}
+}
+
+# Used for bgpmap
+ROUTER_IP = {
+{% for host in groups["ffmwu-gateways"] %}
+  "{{ host.rsplit('.freifunk-mwu.de')[0] }}" : [ "{{ bgp_ipv4_transfer_net | ipaddr('net') | ipaddr(hostvars[host]['magic']) | ipaddr('ip') }}", "{{ bgp_ipv6_transfer_net | ipaddr('net') | ipsubnet(64, 0) | ipaddr(hostvars[host]['magic']) | ipaddr('ip') }}" ],
+{% endfor %}
+}
+
+AS_NUMBER = {
+{% for host in groups["ffmwu-gateways"] %}
+  "{{ host.rsplit('.freifunk-mwu.de')[0] }}" : "65037",
+{% endfor %}
+}
+
+#WHOIS_SERVER = "whois.foo.bar"
+
+# DNS zone to query for ASN -> name mapping
+ASN_ZONE = "asn.cymru.com"
+
+SESSION_KEY = '\xd77\xf9\xfa\xc2\xb5\xcd\x85)`+H\x9d\xeeW\\%\xbe/\xbaT\x89\xe8\xa7'

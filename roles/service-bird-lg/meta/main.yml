@@ -1,0 +1,4 @@
+---
+dependencies:
+  - { role: service-bird }
+  - { role: service-nginx }
