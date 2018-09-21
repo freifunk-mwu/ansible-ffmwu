@@ -28,10 +28,10 @@ ROUTER_IP = {
 
 AS_NUMBER = {
 {% for host in groups["ffmwu-gateways"] %}
-  "{{ host.rsplit('.freifunk-mwu.de')[0] }}" : "65037",
+  "{{ host.rsplit('.freifunk-mwu.de')[0] }}" : "{{ as_private_mwu }}",
 {% endfor %}
 {% for host in legacy_gateways %}
-  "{{ host }}" : "65037",
+  "{{ host }}" : "{{ as_private_mwu }}",
 {% endfor %}
 }
 
