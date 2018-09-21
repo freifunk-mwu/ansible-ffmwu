@@ -27,6 +27,8 @@ mail_domain: freifunk-mwu.de
 
 acme_server: zuckerwatte
 
+git_path: "/home/admin/clones"
+
 meshes:
   - id: mz
     site_number: 37
