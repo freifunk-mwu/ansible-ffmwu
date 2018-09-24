@@ -31,7 +31,7 @@ scrape_configs:
 {%for group in prometheus_groups %}
       - targets:
 {% for host in groups[group] %}
-        - '{{ host }}'
+        - '{{ host }}:9100'
 {% endfor %}
         labels:
           group: '{{ group }}'

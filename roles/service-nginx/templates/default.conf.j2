@@ -35,19 +35,4 @@ server {
         autoindex on;
         autoindex_exact_size off;
     }
-
-{% if node_exporter_present is defined %}
-    location ^~ /metrics {
-        set $metric_addr 127.0.0.1;
-        proxy_pass http://$metric_addr:9100/metrics;
-
-        allow 127.0.0.0/8;
-        allow ::1/128;
-{% for host in groups['ffmwu-monitoring'] %}
-        allow {{ lookup('dig', host, 'qtype=A') }};
-        allow {{ lookup('dig', host, 'qtype=AAAA') }};
-        deny all;
-{% endfor %}
-    }
-{% endif %}
 }

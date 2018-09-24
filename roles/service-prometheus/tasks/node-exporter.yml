@@ -29,6 +29,13 @@
     group: "{{ prometheus_group }}"
     mode: "u=rwx,g=rx,o="
 
+- name: copy vhost node_exporter.conf
+  template:
+    src: "../templates/node_exporter_vhost.conf.j2"
+    dest: "/etc/nginx/conf.d/node_exporter.conf"
+  notify:
+    - restart nginx
+
 - name: copy systemd config to server
   template:
     src: "../templates/node_exporter.service.j2"
