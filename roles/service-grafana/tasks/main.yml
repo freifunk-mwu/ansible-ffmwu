@@ -60,7 +60,7 @@
     database: "yanic"
 
 - name: add prometheus datasource
-  when: prometheus_present is defined
+  when: '"prometheus" in prometheus_components'
   grafana_datasource:
     name: "prometheus"
     grafana_url: "http://localhost:3000"
