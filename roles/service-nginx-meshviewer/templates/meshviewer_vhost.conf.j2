@@ -10,7 +10,7 @@ upstream openstreetmap {
 server {
     listen 80;
     listen [::]:80;
-    server_name {{ http_meshviewer_internal }} {{ http_meshviewer_external }};
+    server_name {{ http_meshviewer_external }} {{ http_meshviewer_internal }};
 
     include /etc/nginx/snippets/redirect-to-ssl.conf;
     include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
@@ -19,7 +19,7 @@ server {
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
-    server_name {{ http_meshviewer_internal }} {{ http_meshviewer_external }};
+    server_name {{ http_meshviewer_external }} {{ http_meshviewer_internal }};
 
     ssl_certificate     /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
     ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;
@@ -58,7 +58,7 @@ server {
 server {
     listen 80;
     listen [::]:80;
-    server_name {{ http_meshviewer_prefix }}.{{ mesh.http_domain_internal }} {{ http_meshviewer_prefix }}.{{ mesh.http_domain_external }};
+    server_name {{ http_meshviewer_prefix }}.{{ mesh.http_domain_external }} {{ http_meshviewer_prefix }}.{{ mesh.http_domain_internal }};
     return 301 https://{{ http_meshviewer_external }}$request_uri;
 
     include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
