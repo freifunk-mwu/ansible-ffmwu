@@ -9,9 +9,9 @@ User={{ prometheus_user }}
 Group={{ prometheus_group }}
 
 {% if node_exporter_opts is defined %}
-ExecStart={{ node_exporter_daemon_dir }}/node_exporter  {{ node_exporter_opts }}
+ExecStart={{ node_exporter_daemon_dir }}/node_exporter {{ node_exporter_default_opts }} {{ node_exporter_opts }}
 {% else %}
-ExecStart={{ node_exporter_daemon_dir }}/node_exporter
+ExecStart={{ node_exporter_daemon_dir }}/node_exporter {{ node_exporter_default_opts }}
 {% endif %}
 ExecReload=/bin/kill -HUP $MAINPID
 
