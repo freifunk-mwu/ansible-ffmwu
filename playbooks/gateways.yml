@@ -19,10 +19,10 @@
   - network-ffrl
   - network-iptables-gateway
   - network-routing
-  - service-prometheus
-  - service-dhcpd
   - service-nginx
   - service-nginx-firmware
+  - service-prometheus
+  - service-dhcpd
   - service-radvd
   - service-fastd
   - service-fastd-mesh

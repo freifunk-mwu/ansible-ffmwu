@@ -9,9 +9,6 @@
   - users
   - system-sysctl
   - git-repos
-  - golang
-  - nodejs
-  - yarn
   - service-haveged
   - service-ntpd
   - kmod-batman
@@ -20,10 +17,10 @@
   - network-meshbridge
   - network-fastd
   - network-routing
+  - service-nginx
   - service-prometheus
   - service-influxdb
   - service-yanic
-  - service-nginx
   - service-nginx-meshviewer
   - service-grafana
   - service-fastd
