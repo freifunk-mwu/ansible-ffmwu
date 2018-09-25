@@ -18,7 +18,7 @@ prometheus_groups:
   - ffmwu-gateways
   - ffmwu-monitoring
 
-node_exporter_opts: "--web.listen-address=localhost:9100 --collector.systemd"
+node_exporter_opts: "--collector.systemd"
 
 http_domain_internal: ffmwu.org
 http_domain_external: freifunk-mwu.de
