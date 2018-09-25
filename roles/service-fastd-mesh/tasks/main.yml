@@ -147,3 +147,25 @@
     enabled: yes
     state: started
   loop: "{{ meshes | subelements('fastd.nodes.instances') }}"
+
+- name: build fastd-exporter binary
+  shell: "GOPATH={{ gopath }} go get -v -u github.com/freifunk-darmstadt/fastd-exporter"
+  notify: restart fastd-exporter
+
+- name: copy vhost fastd_exporter.conf
+  template:
+    src: "fastd_exporter_vhost.conf.j2"
+    dest: "/etc/nginx/conf.d/fastd_exporter.conf"
+  notify: restart nginx
+
+- name: create systemd unit for fastd-exporter
+  template:
+    src: "fastd-exporter.service.j2"
+    dest: "/etc/systemd/system/fastd-exporter.service"
+  notify: reload systemd
+
+- name: configure fastd-exporter systemd unit
+  systemd:
+    name: "fastd-exporter.service"
+    enabled: yes
+    state: started

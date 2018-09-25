@@ -1,0 +1,2 @@
+fastd_exporter_path: "{{ gopath }}/bin/fastd-exporter"
+fastd_exporter_default_opts: "--web.listen-address=localhost:9281"

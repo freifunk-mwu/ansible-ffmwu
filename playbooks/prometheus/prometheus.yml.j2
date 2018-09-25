@@ -37,6 +37,14 @@ scrape_configs:
           group: '{{ group }}'
 {% endfor %}
 
+  - job_name: "fastd"
+    scheme: "https"
+    static_configs:
+      - targets:
+{% for host in groups['ffmwu-gateways'] %}
+        - '{{ host }}:9281'
+{% endfor %}
+
   - job_name: "icmp6"
     metrics_path: /probe
     params:
