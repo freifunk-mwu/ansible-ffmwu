@@ -5,6 +5,7 @@
     dest: "{{ lg_path }}"
     version: master
     force: yes
+  become: false
 
 - name: install dependencies
   package:

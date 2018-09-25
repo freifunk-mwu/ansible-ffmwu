@@ -3,6 +3,7 @@
   template:
     src: lgproxy.cfg.j2
     dest: "{{ lg_path }}/lgproxy.cfg"
+  become: false
   notify:
     - restart bird-lg-proxy
 

@@ -13,10 +13,12 @@
     dest: "{{ meshviewer_src }}"
     version: develop
     force: yes
+  become: false
 
 - name: install dependencies
   yarn:
     path: "{{ meshviewer_src }}"
+  become: false
 
 - name: create meshviewer config
   template:
@@ -25,11 +27,13 @@
     mode: 0644
     owner: admin
     group: admin
+  become: false
 
 - name: build
   shell: yarn run gulp
   args:
     chdir: "{{ meshviewer_src }}"
+  become: false
 
 - name: deploy
   shell: 'rm -rf {{ meshviewer_path }}/* && cp -ar build/* {{ meshviewer_path }} && chown www-data:www-data -R {{ meshviewer_path }}'

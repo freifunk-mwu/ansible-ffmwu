@@ -3,6 +3,7 @@
   template:
     src: lg.cfg.j2
     dest: "{{ lg_path }}/lg.cfg"
+  become: false
   notify:
     - restart bird-lg-webservice
 
