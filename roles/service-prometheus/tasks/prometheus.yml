@@ -12,6 +12,11 @@
   set_fact:
     prometheus_default_opts: "{{ prometheus_default_opts }} --web.console.templates={{ prometheus_daemon_dir }}/consoles  --web.console.libraries={{ prometheus_daemon_dir }}/console_libraries"
 
+- name: install python-passlib
+  package:
+    name: python-passlib
+    state: present
+
 - name: download and untar prometheus tarball
   unarchive:
     src: "{{ prometheus_tarball_url }}"
@@ -80,3 +85,22 @@
     name: prometheus
     enabled: yes
     state: started
+
+- name: create htpasswd
+  htpasswd:
+    path: /etc/nginx/htpasswd_prometheus
+    name: admin
+    password: "{{ lookup('passwordstore', 'prometheus/admin') }}"
+    owner: root
+    group: nginx
+    mode: 0640
+  notify: restart nginx
+
+- name: write vhost
+  template:
+    src: prometheus_vhost.conf.j2
+    dest: /etc/nginx/conf.d/prometheus.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx

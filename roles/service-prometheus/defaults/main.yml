@@ -15,6 +15,9 @@ alertmanager_version: 0.15.2
 
 gosu_version: "1.10"
 
+prometheus_url_external: "{{ http_prometheus_prefix }}.{{ http_domain_external }}"
+prometheus_url_internal: "{{ http_prometheus_prefix }}.{{ http_domain_internal }}"
+
 prometheus_install_path: /opt/prometheus
 prometheus_config_path: /etc/prometheus
 prometheus_rule_path: "{{ prometheus_config_path }}/rules"
