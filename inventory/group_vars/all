@@ -29,6 +29,8 @@ acme_server: zuckerwatte
 
 git_path: "/home/admin/clones"
 
+gopath: "/opt/go"
+
 meshes:
   - id: mz
     site_number: 37

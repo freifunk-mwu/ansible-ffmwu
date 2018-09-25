@@ -20,7 +20,5 @@ prometheus_components:
   - alertmanager
   - node_exporter
 
-gopath: "/opt/go"
-
 yanic_blacklist:
   - 98ded0c5e0c0
