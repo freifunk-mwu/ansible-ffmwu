@@ -36,3 +36,29 @@ scrape_configs:
         labels:
           group: '{{ group }}'
 {% endfor %}
+
+  - job_name: "icmp6"
+    metrics_path: /probe
+    params:
+      module: ["icmp6"]
+    static_configs:
+      - targets:
+{%for group in prometheus_groups %}
+{% for host in groups[group] %}
+{% if host != inventory_hostname %}
+        - "{{ host.rsplit('.freifunk-mwu.de')[0] }}.ffwi.org"
+        - "{{ host.rsplit('.freifunk-mwu.de')[0] }}.ffmz.org"
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% for host, _ in bgp_mwu_servers.items() %}
+        - "{{ host }}.ffwi.org"
+        - "{{ host }}.ffmz.org"
+{% endfor %}
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 127.0.0.1:9115

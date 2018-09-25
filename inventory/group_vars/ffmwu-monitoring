@@ -19,6 +19,7 @@ prometheus_components:
   - prometheus
   - alertmanager
   - node_exporter
+  - blackbox_exporter
 
 yanic_blacklist:
   - 98ded0c5e0c0

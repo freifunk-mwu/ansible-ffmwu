@@ -36,6 +36,10 @@
   include_tasks: node-exporter.yml
   when: '"node_exporter" in prometheus_components'
 
+- name: install and configure blackbox-exporter service
+  include_tasks: blackbox-exporter.yml
+  when: '"blackbox_exporter" in prometheus_components'
+
 - name: install and configure alertmanager service
   include_tasks: alertmanager.yml
   when: '"alertmanager" in prometheus_components'

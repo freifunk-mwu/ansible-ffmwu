@@ -1,0 +1,64 @@
+# Install Prometheus node-exporter.
+#
+# @see http://prometheus.io/docs/introduction/getting_started/
+
+- name: set internal variables for convenience
+  set_fact:
+    blackbox_exporter_present: yes
+    blackbox_exporter_daemon_dir: "{{ prometheus_install_path }}/blackbox_exporter-{{ blackbox_exporter_version }}.linux-amd64"
+    blackbox_exporter_tarball_url: "https://github.com/prometheus/blackbox_exporter/releases/download/v{{ blackbox_exporter_version }}/blackbox_exporter-{{ blackbox_exporter_version }}.linux-amd64.tar.gz"
+
+- name: install libcap2-bin package
+  package:
+    name: libcap2-bin
+    state: present
+
+- name: download and untar blackbox_exporter tarball
+  unarchive:
+    src: "{{ blackbox_exporter_tarball_url }}"
+    dest: "{{ prometheus_install_path }}"
+    copy: no
+    creates: "{{ blackbox_exporter_daemon_dir }}"
+
+- name: set cap_net_raw+ep on blackbox_exporter
+  capabilities:
+    path: "{{ blackbox_exporter_daemon_dir }}/blackbox_exporter"
+    capability: cap_net_raw+ep
+    state: present
+  notify:
+    - restart blackbox_exporter
+
+- name: create blackbox_exporter /usr/local/bin link
+  file:
+    src: "{{ blackbox_exporter_daemon_dir }}/blackbox_exporter"
+    dest: "/usr/local/bin/blackbox_exporter"
+    state: link
+
+- name: mkdir for data
+  file:
+    path: "{{ prometheus_db_path }}"
+    state: directory
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: "u=rwx,g=rx,o="
+
+- name: install blackbox config file
+  copy:
+    src: "blackbox.yml"
+    dest: "{{ prometheus_config_path }}/blackbox.yml"
+  notify:
+    - restart blackbox_exporter
+
+- name: copy systemd config to server
+  template:
+    src: "../templates/blackbox_exporter.service.j2"
+    dest: "/lib/systemd/system/blackbox_exporter.service"
+  notify:
+    - reload systemd
+    - restart blackbox_exporter
+
+- name: enable blackbox_exporter service
+  service:
+    name: blackbox_exporter
+    enabled: yes
+    state: started

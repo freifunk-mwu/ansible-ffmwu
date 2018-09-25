@@ -1,0 +1,19 @@
+[Unit]
+Description=blackbox_exporter - Prometheus blackbox prober exporter.
+After=network.target
+
+[Service]
+Type=simple
+
+User={{ prometheus_user }}
+Group={{ prometheus_group }}
+
+{% if blackbox_exporter_opts is defined %}
+ExecStart={{ blackbox_exporter_daemon_dir }}/blackbox_exporter {{ blackbox_default_opts }} {{ blackbox_exporter_opts }}
+{% else %}
+ExecStart={{ blackbox_exporter_daemon_dir }}/blackbox_exporter {{ blackbox_default_opts }}
+{% endif %}
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
