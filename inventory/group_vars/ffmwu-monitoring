@@ -15,11 +15,18 @@ http_prometheus_prefix: prom
 
 prometheus_conf_main: prometheus/prometheus.yml.j2
 
+prometheus_rule_files:
+  alert_rules:
+    src:  prometheus/alert.rules
+    dest: alert.rules
+
 prometheus_components:
   - prometheus
   - alertmanager
   - node_exporter
   - blackbox_exporter
+
+alertmanager_opts: "--web.external-url=https://{{ http_prometheus_prefix }}.{{ http_domain_external }}/alertmanager/"
 
 yanic_blacklist:
   - 98ded0c5e0c0

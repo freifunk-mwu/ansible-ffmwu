@@ -1,0 +1,124 @@
+groups:
+- name: blackbox
+  rules:
+  - alert: Icmp4Timeout
+    expr: probe_success{job="icmp4"} == 0
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      description: 'ICMP requests to the primary IPv4 address timed out'
+      summary: 'Instance {{ $labels.instance }} does not respond to ICMPv4 echo requests'
+
+  - alert: Icmp6Timeout
+    expr: probe_success{job="icmp6"} == 0
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      description: 'ICMP requests to the primary IPv6 address timed out'
+      summary: 'Instance {{ $labels.instance }} does not respond to ICMPv6 echo requests'
+
+- name: node
+  rules:
+  - alert: InstanceDown
+    expr: up{job="node"} == 0
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      description: 'The instance is down for more than 5 minutes'
+      summary: 'Instance {{ $labels.instance }} is down'
+
+  - alert: ExporterDown
+    expr: up{job!="node"} == 0
+    for: 5m
+    annotations:
+      description: 'An exporter is down for more than 5 minutes'
+      summary: 'Exporter {{ $labels.instance }} is down'
+
+  - alert: InstanceHighCpu
+    expr: 100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) BY (instance) * 100) > 90
+    for: 5m
+    annotations:
+      description: 'CPU usage above 90% for more than 5m'
+      summary: 'Instance {{ $labels.instance }}: cpu usage at {{ $value }}'
+      value: '{{ $value }}'
+
+  - alert: InstanceHighCpuLong
+    expr: 100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) BY (instance) * 100) > 90
+    for: 30m
+    labels:
+      severity: page
+    annotations:
+      description: 'CPU usage above 90% for more than 30m'
+      summary: 'Instance {{ $labels.instance }}: persistent cpu usage at {{ $value }}'
+      value: '{{ $value }}'
+
+  - alert: InstanceLowMem
+    expr: node_memory_MemAvailable_bytes / 1024 / 1024 < node_memory_MemTotal_bytes / 1024 / 1024 / 10
+    for: 3m
+    labels:
+      severity: page
+    annotations:
+      description: 'Less than 10% of free memory'
+      summary: 'Instance {{ $labels.instance }}: {{ $value }}MB of free memory'
+      value: '{{ $value }}'
+
+  - alert: InstanceLowDiskPrediction4Hours
+    expr: predict_linear(node_filesystem_free_bytes{device=~"/dev/.*",job="node"}[1h], 4 * 3600) < 0
+    for: 30m
+    labels:
+      severity: page
+    annotations:
+      description: 'Disk {{ $labels.mountpoint }} ({{ $labels.device }}) will be full in less than 4 hours'
+      summary: 'Instance {{ $labels.instance }}: Disk {{ $labels.mountpoint }} ({{ $labels.device }}) will be full in less than 4 hours'
+
+  - alert: InstanceLowDiskPrediction12Hours
+    expr: predict_linear(node_filesystem_free_bytes{device=~"/dev/.*",job="node"}[3h], 12 * 3600) < 0
+    for: 60m
+    labels:
+      severity: page
+    annotations:
+      description: 'Disk {{ $labels.mountpoint }} ({{ $labels.device }}) will be full in less than 12 hours'
+      summary: 'Instance {{ $labels.instance }}: Disk {{ $labels.mountpoint }} ({{ $labels.device }}) will be full in less than 12 hours'
+
+  - alert: InstanceLowDiskAbs
+    expr: node_filesystem_avail_bytes{mountpoint="/"} / 1024 / 1024 < 1024
+    for: 1m
+    labels:
+      severity: page
+    annotations:
+      description: 'Less than 1GB of free disk space left on the root filesystem'
+      summary: 'Instance {{ $labels.instance }}: {{ $value }}MB free disk space on {{ $labels.device }}'
+      value: '{{ $value }}'
+
+  - alert: InstanceLowDiskPerc
+    expr: 100 * (node_filesystem_free_bytes / node_filesystem_size_bytes) < 10
+    for: 1m
+    labels:
+      severity: page
+    annotations:
+      description: 'Less than 10% of free disk space left on a device'
+      summary: 'Instance {{ $labels.instance }}: {{ $value }}% free disk space on {{ $labels.device }}'
+      value: '{{ $value }}'
+
+  - alert: ServiceFailed
+    expr: node_systemd_unit_state{state="failed"} > 0
+    for: 1m
+    labels:
+      severity: page
+    annotations:
+      description: 'A systemd unit went into failed state'
+      summary: 'Instance {{ $labels.instance }}: Service {{ $labels.name }} failed'
+      value: '{{ $labels.name }}'
+
+  - alert: ServiceFlapping
+    expr: changes(node_systemd_unit_state{state="failed"}[5m]) > 5 or
+     (changes(node_systemd_unit_state{state="failed"}[1h]) > 15 unless changes(node_systemd_unit_state{state="failed"}[30m]) < 7)
+    labels:
+      severity: page
+    annotations:
+      description: 'A systemd service changed its state more than 5x/5min or 15x/1h'
+      summary: 'Instance {{ $labels.instance }}: Service {{ $labels.name }} is flapping'
+      value: '{{ $labels.name }}'

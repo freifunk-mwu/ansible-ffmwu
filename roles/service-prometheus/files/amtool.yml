@@ -1,0 +1,8 @@
+# Define the path that amtool can find your `alertmanager` instance at
+alertmanager.url: "http://localhost:9093/alertmanager"
+
+# Override the default author. (unset defaults to your username)
+author: admin@freifunk-mwu.de
+
+# Force amtool to give you an error if you don't include a comment on a silence
+comment_required: true

@@ -41,6 +41,14 @@
     group: "{{ prometheus_group }}"
     mode: "u=rwx,g=rx,o="
 
+- name: mkdir for amtool config
+  file:
+    path: "/etc/amtool"
+    state: directory
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: "u=rwx,g=rx,o=rx"
+
 - name: copy alertmanager systemd config
   template:
     src: "alertmanager.service.j2"
@@ -48,6 +56,11 @@
   notify:
     - reload systemd
     - restart alertmanager
+
+- name: install amtool config file
+  copy:
+    src: "amtool.yml"
+    dest: "/etc/amtool/config.yml"
 
 - name: install alertmanager config file
   copy:
