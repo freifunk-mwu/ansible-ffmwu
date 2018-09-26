@@ -166,16 +166,12 @@ bgp_mwu_servers:
   aubergine:
     ipv4: 10.37.1.3
     ipv6: fd37:b4dc:4b1e::a25:103
-  zwiebel:
-    ipv4: 10.37.1.0
-    ipv6: fd37:b4dc:4b1e::a25:100
   glueckskeks:
     ipv4: 10.37.1.1
     ipv6: fd37:b4dc:4b1e::a25:101
   extrasahne:
     ipv4: 10.37.0.42
     ipv6: fd37:b4dc:4b1e::a25:2a
-
 
 legacy_gateways:
   - wasserfloh
