@@ -68,9 +68,11 @@ template bgp ibgp_mwu {
 
 # Include IPv4 MWU peers
 include "mwu_ipv4_peers.con?";
+{% if ffmwu_server_type == "gateway" %}
 
 # Include IPv4 ICVPN configuration
 include "icvpn_ipv4.con?";
 
 # Include IPv4 FFRL configuration
 include "ffrl_ipv4.con?";
+{% endif %}

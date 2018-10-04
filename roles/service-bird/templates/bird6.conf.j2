@@ -57,9 +57,11 @@ template bgp ibgp_mwu {
 
 # Include IPv6 MWU peers
 include "mwu_ipv6_peers.con?";
+{% if ffmwu_server_type == "gateway" %}
 
 # Include IPv6 ICVPN configuration
 include "icvpn_ipv6.con?";
 
 # Include IPv6 FFRL configuration
 include "ffrl_ipv6.con?";
+{% endif %}
