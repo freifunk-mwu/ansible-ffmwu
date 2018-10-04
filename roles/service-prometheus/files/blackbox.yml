@@ -9,7 +9,7 @@ modules:
     tcp:
       query_response:
       - expect: "^SSH-2.0-"
-  icmp:
+  icmp4:
     prober: icmp
     icmp:
       preferred_ip_protocol: "ip4"

@@ -3,11 +3,6 @@ global:
   evaluation_interval: 15s # By default, scrape targets every 15 seconds.
   # scrape_timeout is set to the global default (10s).
 
-  # The labels to add to any time series or alerts when communicating with
-  # external systems (federation, remote storage, Alertmanager).
-  external_labels:
-    monitor: 'master'
-
 alerting:
   alertmanagers:
     - scheme: https
@@ -51,23 +46,26 @@ scrape_configs:
         - '{{ host }}:9281'
 {% endfor %}
 
-  - job_name: "icmp6"
+{% for job in ['icmp4','icmp6'] %}
+  - job_name: "{{ job }}"
     metrics_path: /probe
     params:
-      module: ["icmp6"]
+      module: ["{{ job }}"]
     static_configs:
       - targets:
-{%for group in prometheus_groups %}
+{% for group in prometheus_groups %}
 {% for host in groups[group] %}
 {% if host != inventory_hostname %}
-        - "{{ host.rsplit('.freifunk-mwu.de')[0] }}.ffwi.org"
-        - "{{ host.rsplit('.freifunk-mwu.de')[0] }}.ffmz.org"
+        - "{{ host.rsplit('.')[0] }}.ffwi.org"
+        - "{{ host.rsplit('.')[0] }}.ffmz.org"
 {% endif %}
 {% endfor %}
 {% endfor %}
 {% for host, _ in bgp_mwu_servers.items() %}
+{% if host not in ['extrasahne'] %}
         - "{{ host }}.ffwi.org"
         - "{{ host }}.ffmz.org"
+{% endif %}
 {% endfor %}
     relabel_configs:
       - source_labels: [__address__]
@@ -76,3 +74,5 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: 127.0.0.1:9115
+
+{% endfor %}
