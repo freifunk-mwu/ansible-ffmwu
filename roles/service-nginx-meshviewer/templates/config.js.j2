@@ -77,16 +77,16 @@ module.exports = function () {
         7.609406
       ]
     ],
-    'siteNames': [
+    'domainNames': [
 {% for mesh in meshes %}
       {
-        'site': '{{ mesh.site_code }}',
+        'domain': '{{ mesh.site_code }}',
         'name': '{{ mesh.site_name }}'
       },
 {% if mesh.sites_virtual is defined %}
 {% for site, name in mesh.sites_virtual.items() %}
       {
-        'site': '{{ site }}',
+        'domain': '{{ site }}',
         'name': '{{ name }}'
       },
 {% endfor %}
