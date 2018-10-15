@@ -1,16 +1,9 @@
 ---
 - name: install golang package
-  package:
-    name: golang-1.8
-    state: present
-
-- name: create symlink to golang binary
-  file:
-    src: /usr/lib/go-1.8/bin/go
-    dest: /usr/bin/go
-    state: link
-    owner: root
-    group: root
+  apt:
+    name: golang
+    state: latest
+    default_release: stretch-backports
 
 - name: create GOPATH directory
   file:
