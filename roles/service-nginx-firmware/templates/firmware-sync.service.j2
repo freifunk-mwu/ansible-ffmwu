@@ -6,6 +6,6 @@ Description=Synchronize Freifunk MWU Firmware directory
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/rsync -avh4 --delete rsync://milchreis.freifunk-mwu.de:873/firmware /var/www/html/firmware
+ExecStart=/usr/bin/rsync -rlptvh4 --delete rsync://milchreis.freifunk-mwu.de:873/firmware /var/www/html/firmware
 User=www-data
 Group=www-data
