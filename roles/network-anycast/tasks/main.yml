@@ -1,0 +1,6 @@
+---
+- name: create anycast interface
+  template:
+    src: anycast.j2
+    dest: "/etc/network/interfaces.d/anycast"
+  notify: reload network interfaces
