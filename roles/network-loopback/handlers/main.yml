@@ -1,0 +1,5 @@
+---
+- name: reload network interfaces
+  systemd:
+    name: networking
+    state: reloaded

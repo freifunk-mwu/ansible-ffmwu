@@ -6,6 +6,8 @@
   - prerequisites
   - server-apt-repos
   - server-basic
+  - network-loopback
+  - network-anycast
   - users
   - system-sysctl
   - git-repos
