@@ -10,9 +10,12 @@ roa table roa_icvpn {
     include "icvpn_ipv6_roa.con?";
 }
 
+# Routing Tables
+table icvpn;
+
 # Filters
 filter icvpn_import_filter {
-    if is_mwu_self_nets() then reject;
+    if is_mwu_self_nets_loose() then reject;
     if roa_check(roa_icvpn) = ROA_VALID then {
         if is_ula() then accept;
     } else {
@@ -34,12 +37,22 @@ filter icvpn_import_filter {
 }
 
 # Protocols
-protocol kernel kernel_mwu {
+protocol pipe {
+    peer table icvpn;
+    export filter {
+        if is_mwu_self_nets_loose() then reject;
+        if is_ula() then accept;
+        reject;
+    };
+    import none;
+};
+
+protocol kernel kernel_icvpn {
+    table icvpn;
     scan time 30;
     import none;
     export filter {
-        if is_mwu_self_nets() then
-            reject;
+        if is_mwu_self_nets_loose() then reject;
         krt_prefsrc = icvpn_address;
         accept;
     };
@@ -52,12 +65,8 @@ template bgp ebgp_icvpn {
     import keep filtered on;
     import filter icvpn_import_filter;
     export filter {
-        if is_mwu_self_nets() then {
-            accept;
-        }
-        if source = RTS_BGP then {
-            accept;
-        }
+        if is_mwu_self_nets_strict() then accept;
+        if source = RTS_BGP then accept;
         reject;
     };
     direct;
