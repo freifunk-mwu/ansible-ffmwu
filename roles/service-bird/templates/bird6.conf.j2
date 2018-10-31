@@ -24,14 +24,33 @@ function is_ula() {
     ];
 }
 
-function is_mwu_self_nets() {
+function is_mwu_self_nets_loose() {
     return net ~ [
-{% for mesh in meshes %}
-{% for ula in mesh.ipv6_ula %}
-        {{ ula | ipaddr('net') }}+{{ "," if not loop.last else "" }}{% endfor %}{{ "," if not loop.last else "" }}
+{% for prefix in ffmwu_internal_prefixes %}
+        {{ prefix.ipv6 | ipaddr('net') }}+{{ "," if not loop.last else "" }}
 {% endfor %}
     ];
 }
+
+function is_mwu_self_nets_strict() {
+    return net ~ [
+{% for prefix in ffmwu_internal_prefixes %}
+        {{ prefix.ipv6 | ipaddr('net') }}{{ "," if not loop.last else "" }}
+{% endfor %}
+    ];
+}
+
+function is_mwu_loopback() {
+    return net ~ [
+        {{ ffmwu_loopback_net_ipv6 }}+
+    ];
+};
+
+function is_mwu_anycast() {
+    return net ~ [
+        {{ ffmwu_anycast_ipv6 }}+
+    ];
+};
 
 # Protocols
 protocol device {
@@ -42,15 +61,54 @@ protocol direct mwu_subnets {
 {% for mesh in meshes %}
     interface "{{ mesh.id }}br";
 {% endfor %}
-    import where is_mwu_self_nets();
+    import where is_mwu_self_nets_loose();
+};
+
+protocol direct mwu_loopback {
+    interface "loopback";
+    import where is_mwu_loopback();
+};
+
+{% if ffmwu_server_type == "gateway" %}
+protocol direct mwu_anycast {
+    interface "anycast";
+    import where is_mwu_anycast();
+};
+{% endif %}
+
+protocol static {
+{% for prefix in ffmwu_internal_prefixes %}
+    route {{ prefix.ipv6 }} reject;
+{% endfor %}
+};
+
+protocol kernel kernel_mwu {
+    scan time 30;
+    import none;
+    export filter {
+        if is_mwu_anycast() then reject;
+        if is_mwu_loopback() then accept;
+        reject;
+    };
+    kernel table ipt_mwu;
 };
 
 # Templates
 template bgp ibgp_mwu {
     local mwu_address as mwu_as;
     import keep filtered on;
-    import all;
-    export where source = RTS_BGP;
+    import filter {
+        if is_mwu_anycast() then reject;
+        if is_mwu_self_nets_loose() then accept;
+        if is_ula() then accept;
+        reject;
+    };
+    export filter {
+        if is_mwu_anycast() then reject;
+        if is_mwu_self_nets_loose() then accept;
+        if source = RTS_BGP then accept;
+        reject;
+    };
     direct;
     gateway direct;
 };
