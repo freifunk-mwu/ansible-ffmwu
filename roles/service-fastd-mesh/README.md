@@ -35,8 +35,6 @@ meshes:
           ...
 ```
 
-- Liste `legacy_gateways`
-
 ## fastd Secrets
 
 Die privaten Schlüssel der fastd Instanzen sind sehr sensible Informationen, weshalb wir diese in ein nicht öffentliches passwordstore ausgelagert haben.

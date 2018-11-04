@@ -16,9 +16,6 @@ gateways:
 {% for gateway in groups['ffmwu-gateways'] %}
   - {{ gateway.rsplit('.freifunk-mwu.de')[0] }}
 {% endfor %}
-{% for gateway in legacy_gateways %}
-  - {{ gateway }}
-{% endfor %}
 restart_max: 43200
 stat: 'fastd_status.json'
 stat_ext: 'http://%s.freifunk-mwu.de/%s'
