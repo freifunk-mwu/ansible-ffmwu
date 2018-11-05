@@ -7,18 +7,6 @@ internet_exit_tcp_mss_ipv6: 1220
 
 icvpn_ipv4_transfer_net: 10.207.0.0/16
 icvpn_ipv6_transfer_net: fec0::a:cf:0:0/96
-
-ffmwu_loopback_net_ipv4: 10.37.255.0/24
-ffmwu_loopback_net_ipv6: fd37:b4dc:4b1e:ffff::/64
-ffmwu_anycast_ipv4: 10.37.255.255/32
-ffmwu_anycast_ipv6: fd37:b4dc:4b1e:ffff:ffff:ffff:ffff:ffff/128
-
-ffmwu_internal_prefixes:
-  - ipv4: 10.37.0.0/16
-    ipv6: fd37:b4dc:4b1e::/48
-  - ipv4: 10.56.0.0/16
-    ipv6: fd56:b4dc:4b1e::/48
-
 bgp_loopback_net: 10.37.0.0/18
 bgp_ipv4_transfer_net: 10.37.0.0/18
 bgp_ipv6_transfer_net: fd37:b4dc:4b1e::/64

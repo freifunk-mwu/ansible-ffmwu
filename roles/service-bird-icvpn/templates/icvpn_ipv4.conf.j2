@@ -10,12 +10,9 @@ roa table roa_icvpn {
     include "icvpn_ipv4_roa.con?";
 }
 
-# Routing Tables
-table icvpn;
-
 # Filters
 filter icvpn_import_filter {
-    if is_mwu_self_nets_loose() then reject;
+    if is_mwu_self_nets() then reject;
     if is_chaosvpn() then accept;
     if roa_check(roa_icvpn) = ROA_VALID then {
         if is_freifunk() then accept;
@@ -43,25 +40,12 @@ filter icvpn_import_filter {
 }
 
 # Protocols
-protocol pipe {
-    peer table icvpn;
-    import none;
-    export filter {
-        if is_mwu_self_nets_loose() then reject;
-        if is_freifunk() then accept;
-        if is_chaosvpn() then accept;
-        if is_dn42() then accept;
-        reject;
-    };
-};
-
-# Protocols
-protocol kernel kernel_icvpn {
-    table icvpn;
+protocol kernel kernel_mwu {
     scan time 30;
     import none;
     export filter {
-        if is_mwu_self_nets_loose() then reject;
+        if is_mwu_self_nets() then
+            reject;
         krt_prefsrc = icvpn_address;
         accept;
     };
@@ -74,7 +58,9 @@ template bgp ebgp_icvpn {
     import keep filtered on;
     import filter icvpn_import_filter;
     export filter {
-        if is_mwu_self_nets_strict() then accept;
+        if is_mwu_self_nets() then {
+            accept;
+        }
         if source = RTS_BGP then {
             if is_freifunk() || is_dn42() then {
                 accept;
