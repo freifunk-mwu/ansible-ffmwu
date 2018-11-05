@@ -10,7 +10,7 @@ ffrl_exit_server:
   ffrl-a-ak-ber:
     public_ipv4_address: 185.66.195.0
     tunnel_ipv4_network: 100.64.2.218/31
-    tunnel_ipv6_network: 2a03:2260:0:117::/64
+    tunnel_ipv6_network: 2a03:2260:0:177::/64
   ffrl-b-ak-ber:
     public_ipv4_address: 185.66.195.1
     tunnel_ipv4_network: 100.64.2.220/31
