@@ -1,6 +1,0 @@
----
-- name: create loopback interface
-  template:
-    src: loopback.j2
-    dest: "/etc/network/interfaces.d/loopback"
-  notify: reload network interfaces
