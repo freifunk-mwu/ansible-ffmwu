@@ -103,8 +103,8 @@ groups:
 
 - name: fastd
   rules:
-  - alert: NoTraffic
-    expr: fastd_tx_bytes{interface!~".*-1312"} == 0
+  - alert: FastdNoTraffic
+    expr: irate(fastd_tx_bytes{interface!~".*-1312"}[5m]) == 0
     for: 5m
     annotations:
       description: 'No TX data was seen on a fastd interface for more than 5 minutes'
