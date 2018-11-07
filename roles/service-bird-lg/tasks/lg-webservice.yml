@@ -7,12 +7,6 @@
   notify:
     - restart bird-lg-webservice
 
-- name: apply patch simplify-parsing
-  patch:
-    src: simplify-parsing.patch
-    basedir: "{{ lg_path }}"
-    strip: 1
-
 - name: write vhost lookingglass.conf
   template:
     src: lookingglass_vhost.conf.j2
