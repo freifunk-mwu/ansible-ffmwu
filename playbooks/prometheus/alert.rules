@@ -100,3 +100,12 @@ groups:
       description: 'A systemd service changed its state more than 5x/5min or 15x/1h'
       summary: 'Instance {{ $labels.instance }}: Service {{ $labels.name }} is flapping'
       value: '{{ $labels.name }}'
+
+- name: fastd
+  rules:
+  - alert: NoTraffic
+    expr: fastd_tx_bytes{interface!~".*-1312"} == 0
+    for: 5m
+    annotations:
+      description: 'No TX data was seen on a fastd interface for more than 5 minutes'
+      summary: 'Instance {{ $labels.instance }}: No traffic on {{ $labels.interface }}'
