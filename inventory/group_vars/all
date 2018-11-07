@@ -1,4 +1,6 @@
 ---
+debug_fastd: False
+
 as_private_mwu: 65037
 as_public_ffrl: 201701
 

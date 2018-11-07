@@ -52,6 +52,7 @@
     dest: "/etc/fastd/{{ item.0.id }}vpn-{{ item.1.mtu }}/fastd.conf"
   notify: restart fastd mesh instances
   loop: "{{ meshes | subelements('fastd.nodes.instances') }}"
+  tags: debug
 
 - name: write fastd mesh secret
   template:

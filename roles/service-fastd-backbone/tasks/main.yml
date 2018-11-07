@@ -32,6 +32,7 @@
     dest: "/etc/fastd/{{ item.0.id }}igvpn-{{ item.1.mtu }}/fastd.conf"
   notify: restart fastd backbone instances
   loop: "{{ meshes | subelements('fastd.backbone.instances') }}"
+  tags: debug
 
 - name: write fastd backbone secret
   template:

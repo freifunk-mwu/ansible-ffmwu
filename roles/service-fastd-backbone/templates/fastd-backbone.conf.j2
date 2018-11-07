@@ -1,7 +1,11 @@
 #
 # {{ ansible_managed }}
 #
+{% if debug_fastd %}
+log level debug;
+{% else %}
 log level warn;
+{% endif %}
 hide ip addresses yes;
 hide mac addresses yes;
 
