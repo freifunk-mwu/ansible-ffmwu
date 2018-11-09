@@ -1,17 +1,10 @@
 ---
-- name: install radvd packages
+- name: ensure radvd is not installed
   package:
     name: radvd
-    state: present
+    state: absent
 
-- name: configure radvd
-  template:
-    src: radvd.conf.j2
-    dest: /etc/radvd.conf
-  notify: restart systemd unit radvd
-
-- name: enable systemd unit radvd
-  systemd:
-    name: radvd
-    enabled: yes
-    state: started
+- name: remove radvd config file
+  file:
+    path: /etc/radvd.conf
+    state: absent

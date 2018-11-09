@@ -6,6 +6,7 @@ Diese Ansible role installiert und konfiguriert den bird daemon.
 - aktiviert systemd units bird + bird6
 - schreibt bird.conf + bird6.conf
 - konfiguriert bird für iBGP mit allen anderen FFMWU-Servern
+- konfiguriert Router Advertisements für die Mesh Interfaces
 
 Im iBGP peeren wir mangels separatem Transfernetz (im Moment) im Mainzer Mesh Netz.
 
@@ -39,6 +40,13 @@ meshes:
     ipv4_network:
     ipv6_ula:
       - # IPv6-ULA Network
+    ipv6_public:
+      - # IPv6-Public Network
+    radvd:
+      maxrtradvinterval: <integer> # seconds
+      advvalidlifetime: <integer> # seconds
+      advpreferredlifetime: <integer> # seconds
+
 ```
 
 - Host Variable `magic`

@@ -1,0 +1,38 @@
+{% for mesh in meshes %}
+protocol radv radv_{{ mesh.id }} {
+	interface "{{ mesh.id }}br" {
+		max ra interval {{ mesh.radvd.maxrtradvinterval }};
+
+{% for prefix in mesh.ipv6_ula %}
+		prefix {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} {
+			valid lifetime {{ mesh.radvd.advvalidlifetime }};
+			preferred lifetime {{ mesh.radvd.advpreferredlifetime }};
+		};
+{% endfor %}
+
+{% for prefix in mesh.ipv6_public %}
+		prefix {{ prefix | ipaddr('net') | ipsubnet(56, magic) | ipsubnet(64, 0) | ipaddr('subnet') }} {
+			valid lifetime {{ mesh.radvd.advvalidlifetime }};
+			preferred lifetime {{ mesh.radvd.advpreferredlifetime }};
+		};
+{% endfor %}
+
+		rdnss {
+{% for prefix in mesh.ipv6_ula %}
+			ns {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('address') }};
+{% endfor %}
+		};
+
+		dnssl {
+{% for dnssl in mesh.dnssl %}
+			domain "{{ dnssl }}";
+{% endfor %}
+		};
+
+		link mtu {{ mesh.iface_mtu }};
+	};
+}
+{% if not loop.last %}
+
+{% endif %}
+{% endfor %}

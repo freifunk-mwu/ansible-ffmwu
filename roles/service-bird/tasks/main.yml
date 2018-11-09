@@ -51,6 +51,15 @@
   tags: sync-peers
   notify: reload systemd unit bird6
 
+- name: write radv.conf
+  template:
+    src: radv.conf.j2
+    dest: /etc/bird/radv.conf
+    mode: 0640
+    owner: bird
+    group: bird
+  notify: reload systemd unit bird6
+
 - name: enable + start systemd units bird + bird6
   systemd:
     name: bird{{ item }}
