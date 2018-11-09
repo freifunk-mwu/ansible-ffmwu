@@ -9,5 +9,6 @@ iface {{ item.id }}br
 {% endfor %}
 {% for prefix in item.ipv6_public %}
     address {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('ip/prefix') }}
+    address {{ prefix | ipaddr('net') | ipsubnet(56, magic)  | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('ip/prefix') }}
 {% endfor %}
     bridge-ports {{ item.id }}bat

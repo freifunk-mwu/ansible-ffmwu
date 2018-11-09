@@ -15,6 +15,10 @@ protocol radv radv_{{ mesh.id }} {
 			valid lifetime {{ mesh.radvd.advvalidlifetime }};
 			preferred lifetime {{ mesh.radvd.advpreferredlifetime }};
 		};
+
+		prefix {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} {
+			skip yes;
+		};
 {% endfor %}
 
 		rdnss {
