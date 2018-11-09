@@ -1,4 +1,5 @@
 ---
+ansible_version_minimum: "2.6"
 debug_fastd: False
 
 as_private_mwu: 65037

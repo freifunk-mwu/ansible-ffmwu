@@ -1,4 +1,9 @@
 ---
+- name: Check for minimal Ansible version
+  assert:
+    that: "ansible_version.full is version_compare(ansible_version_minimum, '>=')"
+    msg: "You must update Ansible to at least version {{ ansible_version_minimum }}."
+  run_once: True
 
 - name: Check basic DNS entries and target distribution
   assert:

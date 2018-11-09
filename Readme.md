@@ -18,7 +18,7 @@ Playbook eingebunden sein.
 Voraussetzungen für die Control Machine:
 
 - Python 2 (Versionen 2.6 oder 2.7) oder 3 (Versionen 3.5 oder höher)
-- Ansible Version >= 2.5
+- Ansible Version >= 2.6
 - Python Modul `netaddr`
 - Python Modul `dnspython`
 
