@@ -10,9 +10,7 @@ collect_interval = "1m"
 {% for mesh in meshes %}
 [respondd.sites.{{ mesh.site_code }}]
 {% if mesh.sites_virtual is defined %}
-{% for site, name in mesh.sites_virtual.items() %}
-[respondd.sites.{{ site }}]
-{% endfor %}
+domains = ["{{ mesh.site_code }}",{% for domain, name in mesh.sites_virtual.items() %}"{{ domain }}"{% if not loop.last %},{% endif %}{% endfor %}]
 {% endif %}
 {% endfor %}
 
