@@ -66,7 +66,7 @@ meshes:
       it: 10000
       gw: server 96mbit/96mbit
       mm: 0
-      dat: 0
+      dat: 1
       hop_penalty: 60
     radvd:
       maxrtradvinterval: 900
@@ -126,7 +126,7 @@ meshes:
       it: 10000
       gw: server 96mbit/96mbit
       mm: 0
-      dat: 0
+      dat: 1
       hop_penalty: 60
     radvd:
       maxrtradvinterval: 900
