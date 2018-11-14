@@ -5,7 +5,7 @@ routing_tables:
 common_repos:
   backend-scripts:
     repo_url: https://github.com/freifunk-mwu/backend-scripts.git
-    version: ansible
+    version: master
     force: no
 
 http_meshviewer_prefix: map

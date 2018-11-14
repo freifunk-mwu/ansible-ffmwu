@@ -7,7 +7,7 @@ routing_tables:
 common_repos:
   backend-scripts:
     repo_url: https://github.com/freifunk-mwu/backend-scripts.git
-    version: ansible
+    version: master
     force: no
   icvpn-meta:
     repo_url: https://github.com/freifunk/icvpn-meta.git
