@@ -20,6 +20,8 @@ server {
     listen [::]:443 ssl;
     server_name firmware.{{ http_domain_external }} firmware.{{ http_domain_internal }};
 
+    add_header 'Access-Control-Allow-Origin' '*';
+
     charset utf-8;
     server_tokens off;
 
@@ -57,6 +59,8 @@ server {
     listen 443 ssl;
     listen [::]:443 ssl;
     server_name firmware.{{ mesh.http_domain_external }} firmware.{{ mesh.http_domain_internal }};
+
+    add_header 'Access-Control-Allow-Origin' '*';
 
     charset utf-8;
     server_tokens off;
