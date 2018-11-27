@@ -24,14 +24,15 @@ server {
     allow {{ lookup('dig', inventory_hostname, 'qtype=A') }};
     allow {{ lookup('dig', inventory_hostname, 'qtype=AAAA') }};
 
-    auth_basic "Prometheus";
-    auth_basic_user_file /etc/nginx/htpasswd_prometheus;
-
     location /alertmanager {
       proxy_pass http://127.0.0.1:9093;
+      auth_basic "Prometheus";
+      auth_basic_user_file /etc/nginx/htpasswd_prometheus;
     }
 
     location / {
       proxy_pass http://127.0.0.1:9090;
+      auth_basic "Prometheus";
+      auth_basic_user_file /etc/nginx/htpasswd_prometheus;
     }
 }
