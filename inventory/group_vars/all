@@ -163,6 +163,7 @@ meshes:
         - name: user.ffwi.org
         - name: bb.ffwi.org
         - name: nodes.ffwi.org
+        - name: ffmwu.org
     http_domain_internal: ffwi.org
     http_domain_external: wiesbaden.freifunk.net
 
