@@ -98,7 +98,11 @@ protocol kernel kernel_mwu {
     scan time 30;
     import none;
     export filter {
+{% if ffmwu_server_type == "gateway" %}
         if is_mwu_anycast() then reject;
+{% else %}
+        if is_mwu_anycast() then accept;
+{% endif %}
         if is_mwu_loopback() then accept;
         reject;
     };
@@ -110,7 +114,9 @@ template bgp ibgp_mwu {
     local mwu_address as mwu_as;
     import keep filtered on;
     import filter {
+{% if ffmwu_server_type == "gateway" %}
         if is_mwu_anycast() then reject;
+{% endif %}
         if is_mwu_self_nets_loose() then accept;
         if is_freifunk() then accept;
         if is_chaosvpn() then accept;
@@ -118,7 +124,6 @@ template bgp ibgp_mwu {
         reject;
     };
     export filter {
-        if is_mwu_anycast() then reject;
         if is_mwu_self_nets_loose() then accept;
         if source = RTS_BGP then accept;
         reject;
