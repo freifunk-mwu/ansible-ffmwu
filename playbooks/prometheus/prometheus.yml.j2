@@ -37,6 +37,11 @@ scrape_configs:
         labels:
           group: '{{ group }}'
 {% endfor %}
+    relabel_configs:
+      - source_labels: [__address__]
+        regex: '([a-z]+)\..*'
+        replacement: '$1'
+        target_label: hostname
 
   - job_name: "fastd"
     scheme: "https"
@@ -45,6 +50,11 @@ scrape_configs:
 {% for host in groups['ffmwu-gateways'] %}
         - '{{ host }}:9281'
 {% endfor %}
+    relabel_configs:
+      - source_labels: [__address__]
+        regex: '([a-z]+)\..*'
+        replacement: '$1'
+        target_label: hostname
 
 {% for job in ['icmp4','icmp6'] %}
   - job_name: "{{ job }}"
@@ -74,5 +84,9 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: 127.0.0.1:9115
+      - source_labels: [__param_target]
+        regex: '([a-z]+)\..*'
+        replacement: '$1'
+        target_label: hostname
 
 {% endfor %}
