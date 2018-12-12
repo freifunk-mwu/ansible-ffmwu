@@ -79,13 +79,13 @@ meshes:
           - id: 0
             mtu: 1406
             peers:
-              repo: https://github.com/freifunk-mwu/peers-ffmz.git
+              repo: https://github.com/freifunk-mwu/peers-ffmwu.git
               version: master
             pass: fastd/mzvpn
           - id: 1
             mtu: 1312
             peers:
-              repo: https://github.com/freifunk-mwu/peers-ffmz.git
+              repo: https://github.com/freifunk-mwu/peers-ffmwu.git
               version: master
             pass: fastd/mzvpn
       backbone:
@@ -139,13 +139,13 @@ meshes:
           - id: 0
             mtu: 1406
             peers:
-              repo: https://github.com/freifunk-mwu/peers-ffwi.git
+              repo: https://github.com/freifunk-mwu/peers-ffmwu.git
               version: master
             pass: fastd/wivpn
           - id: 1
             mtu: 1312
             peers:
-              repo: https://github.com/freifunk-mwu/peers-ffwi.git
+              repo: https://github.com/freifunk-mwu/peers-ffmwu.git
               version: master
             pass: fastd/wivpn
       backbone:
