@@ -1,5 +1,7 @@
 [Unit]
 Description=respondd instance {{ item.id }}
+After={% for interface in item.fastd.nodes.instances %}fastd@{{ item.id }}vpn-{{ interface.mtu }}.service{% if not loop.last %} {% endif %}{% endfor %}
+
 
 [Service]
 ExecStart=/home/admin/clones/mesh-announce/respondd.py -i {{ item.id }}br {% for interface in item.fastd.nodes.instances %}-i {{ item.id }}vpn-{{ interface.mtu }}{% if not loop.last %} {% endif %}{% endfor %} -b {{ item.id }}bat -s {{ item.site_code }} -d {{ item.site_code }} --data-provider-directory /home/admin/clones/mesh-announce/
