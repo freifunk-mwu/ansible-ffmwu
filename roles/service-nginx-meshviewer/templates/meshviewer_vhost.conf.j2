@@ -58,7 +58,11 @@ server {
 server {
     listen 80;
     listen [::]:80;
+{% if mesh.http_domain_external is defined %}
     server_name {{ http_meshviewer_prefix }}.{{ mesh.http_domain_external }} {{ http_meshviewer_prefix }}.{{ mesh.http_domain_internal }};
+{% else %}
+    server_name {{ http_meshviewer_prefix }}.{{ mesh.http_domain_internal }};
+{% endif %}
     return 301 https://{{ http_meshviewer_external }}$request_uri;
 
     include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
@@ -67,7 +71,11 @@ server {
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
-    server_name {{ http_meshviewer_prefix }}.{{ mesh.http_domain_internal }} {{ http_meshviewer_prefix }}.{{ mesh.http_domain_external }};
+{% if mesh.http_domain_external is defined %}
+    server_name {{ http_meshviewer_prefix }}.{{ mesh.http_domain_external }} {{ http_meshviewer_prefix }}.{{ mesh.http_domain_internal }};
+{% else %}
+    server_name {{ http_meshviewer_prefix }}.{{ mesh.http_domain_internal }};
+{% endif %}
     return 301 https://{{ http_meshviewer_external }}$request_uri;
 
     include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
