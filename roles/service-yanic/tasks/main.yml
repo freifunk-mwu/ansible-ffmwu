@@ -33,8 +33,22 @@
     dest: "/etc/systemd/system/yanic.service"
   notify: reload systemd
 
+- name: create Yanic source directory
+  file:
+    path: "{{ gopath }}/src/{{ yanic_src }}"
+    state: directory
+
+- name: clone Yanic repository
+  git:
+    repo: "https://{{ yanic_src }}"
+    dest: "{{ gopath }}/src/{{ yanic_src }}"
+    force: true
+
+- name: get required library versions
+  shell: "cd {{ gopath }}/src/{{ yanic_src }} && GOPATH={{ gopath }} {{ gopath }}/bin/dep ensure"
+
 - name: build Yanic binary
-  shell: "GOPATH={{ gopath }} go get -v -u github.com/FreifunkBremen/yanic"
+  shell: 'GOPATH={{ gopath }} go install {{ gopath }}/src/{{ yanic_src }}'
   notify: restart yanic
 
 - name: configure Yanic systemd unit
