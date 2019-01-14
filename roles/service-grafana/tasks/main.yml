@@ -2,7 +2,7 @@
 - name: ensure apt key for grafana is present
   apt_key:
     state: present
-    id: D59097AB
+    id: 24098CB6
     url: "https://packages.grafana.com/gpg.key"
 
 - name: ensure grafana apt repo is present
