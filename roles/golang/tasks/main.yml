@@ -20,3 +20,6 @@
     owner: root
     group: root
     mode: 0644
+
+- name: build dep util
+  shell: "GOPATH={{ gopath }} go get -v -u github.com/golang/dep/cmd/dep"
