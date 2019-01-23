@@ -24,7 +24,6 @@
     group: admin
   loop:
     - 1406
-    - 1312
 
 - name: clone fastd peer mesh repos
   git:
@@ -43,7 +42,6 @@
     update: no
   loop:
     - 1406
-    - 1312
   become: false
 
 - name: template fastd mesh config
