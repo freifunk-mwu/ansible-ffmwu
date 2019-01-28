@@ -70,8 +70,8 @@ meshes:
       hop_penalty: 60
     radvd:
       maxrtradvinterval: 900
-      advvalidlifetime: 864000
-      advpreferredlifetime: 172800
+      advvalidlifetime: 86400
+      advpreferredlifetime: 14400
     iface_mtu: 1350
     fastd:
       nodes:
