@@ -9,10 +9,10 @@ prometheus_components:
 prometheus_user: prometheus
 prometheus_group: prometheus
 
-prometheus_version: 2.6.0
+prometheus_version: 2.7.0
 node_exporter_version: 0.17.0
 blackbox_exporter_version: 0.13.0
-alertmanager_version: 0.15.3
+alertmanager_version: 0.16.0
 
 gosu_version: "1.10"
 
