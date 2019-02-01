@@ -6,18 +6,8 @@ meshviewer_path: "/var/www/{{ http_meshviewer_external }}"
 meshviewer_src: "/home/admin/clones/meshviewer"
 
 map_layers:
-  - osm_mapnik_cached:
-    name: 'OpenStreetMap.Mapnik CACHED'
+  - osm_mapnik:
+    name: 'OpenStreetMap'
     url: 'https://{{ http_meshviewer_external }}/tiles/{z}/{x}/{y}.png'
     max_zoom: 19
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-  - osm_mapnik:
-    name: 'OpenStreetMap.Mapnik'
-    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-    max_zoom: 19
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-  - osm_hot:
-    name: 'OpenStreetMap.HOT'
-    url: 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
-    max_zoom: 19
-    attribution: '&copy; Openstreetmap France | &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
