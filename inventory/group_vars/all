@@ -98,7 +98,6 @@ meshes:
         - name: bb.ffmz.org
         - name: nodes.ffmz.org
         - name: ffbin
-          master: fd37:b4dc:4b1e::a25:10c
     http_domain_internal: ffmz.org
     http_domain_external: freifunk-mainz.de
 
