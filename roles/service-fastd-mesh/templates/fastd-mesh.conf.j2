@@ -22,9 +22,6 @@ mtu {{ item.1.mtu }};
 peer group "vpn_nodes" {
     include "peer_limit.conf";
     include peers from "peers";
-{% if item.0.id == "mz" %}
-    include peers from "peers_bingen";
-{% endif %}
 }
 
 on up "/bin/systemctl reload networking";

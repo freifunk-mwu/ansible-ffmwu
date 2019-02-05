@@ -8,7 +8,6 @@ Diese Ansible role konfiguriert die fastd-Instanz für die Knoten Kommunikation.
   - der private fastd Schlüssel wird aus dem Admin passwordstore gelesen (YAML key secret)
 - erstellt die erforderlichen peers Ordner
 - klont die fastd peer repos
-- klont bingener fastd peer repo (im Moment hardcoded)
 
 ## Instanz-Benamung
 - Node-Instanzen: _$mesh.id_ + vpn + '-' + _$mesh.fastd.nodes.instances.xx.mtu_, z.B. "mzvpn-1312"

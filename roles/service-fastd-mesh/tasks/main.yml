@@ -15,16 +15,6 @@
     group: admin
   loop: "{{ meshes | subelements('fastd.nodes.instances') }}"
 
-- name: create fastd peer mesh directories for ffbin
-  file:
-    path: "/etc/fastd/mzvpn-{{ item }}/peers_bingen"
-    state: directory
-    mode: 0755
-    owner: admin
-    group: admin
-  loop:
-    - 1406
-
 - name: clone fastd peer mesh repos
   git:
     repo: "{{ item.1.peers.repo }}"
@@ -32,16 +22,6 @@
     version: "{{ item.1.peers.version }}"
     update: no
   loop: "{{ meshes | subelements('fastd.nodes.instances') }}"
-  become: false
-
-- name: clone fastd peer mesh repo for ffbin
-  git:
-    repo: https://github.com/freifunk-bingen/peers-ffbin.git
-    dest: "/etc/fastd/mzvpn-{{ item }}/peers_bingen"
-    version: master
-    update: no
-  loop:
-    - 1406
   become: false
 
 - name: template fastd mesh config
