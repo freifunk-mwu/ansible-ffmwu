@@ -12,6 +12,7 @@ http_meshviewer_prefix: map
 http_grafana_prefix: stats
 http_lookingglass_prefix: lg
 http_prometheus_prefix: prom
+http_openlayers_prefix: ol
 
 prometheus_conf_main: prometheus/prometheus.yml.j2
 

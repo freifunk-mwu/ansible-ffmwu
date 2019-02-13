@@ -1,0 +1,42 @@
+---
+- name: create directory
+  file:
+    path: "{{ openlayers_path }}"
+    state: directory
+    mode: 0755
+    owner: www-data
+    group: www-data
+
+- name: download and extract
+  unarchive:
+    creates: "{{ openlayers_path }}/{{ openlayers_version }}"
+    src: "{{ openlayers_src }}"
+    dest: "{{ openlayers_path }}"
+    remote_src: yes
+    owner: www-data
+    group: www-data
+
+- name: create symlinks
+  file:
+    src: "{{ openlayers_version }}/{{ item }}"
+    dest: "{{ openlayers_path }}/{{ item }}"
+    state: link
+  loop:
+    - build
+    - css
+
+- name: write vhost
+  template:
+    src: openlayers_vhost.conf.j2
+    dest: /etc/nginx/conf.d/openlayers.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+
+- name: fix permissions
+  file:
+    path: "{{ openlayers_path }}"
+    owner: www-data
+    group: www-data
+    recurse: yes
