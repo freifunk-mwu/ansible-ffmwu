@@ -19,6 +19,7 @@
   - network-fastd
   - network-routing
   - service-nginx
+  - service-nginx-openlayers
   - service-prometheus
   - service-influxdb
   - service-yanic
