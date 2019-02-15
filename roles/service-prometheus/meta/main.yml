@@ -1,3 +1,4 @@
 ---
 dependencies:
   - { role: service-nginx }
+  - { role: service-cpthook }

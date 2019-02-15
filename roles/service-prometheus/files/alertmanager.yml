@@ -8,10 +8,13 @@ route:
   group_wait: 30s
   group_interval: 5m
   repeat_interval: 3h
-  receiver: 'email'
+  receiver: 'mail_irc'
 
 receivers:
-  - name: 'email'
+  - name: 'mail_irc'
     email_configs:
-    - send_resolved: true
-      to: "admin@lists.freifunk-mwu.de"
+      - send_resolved: true
+        to: "admin@lists.freifunk-mwu.de"
+    webhook_configs:
+      - send_resolved: true
+        url: http://127.0.0.1:8084/prometheus

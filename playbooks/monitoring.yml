@@ -20,6 +20,7 @@
   - network-routing
   - service-nginx
   - service-nginx-openlayers
+  - service-cpthook
   - service-prometheus
   - service-influxdb
   - service-yanic
