@@ -14,13 +14,6 @@ http_lookingglass_prefix: lg
 http_prometheus_prefix: prom
 http_openlayers_prefix: ol
 
-prometheus_conf_main: prometheus/prometheus.yml.j2
-
-prometheus_rule_files:
-  alert_rules:
-    src:  prometheus/alert.rules
-    dest: alert.rules
-
 prometheus_components:
   - prometheus
   - alertmanager

@@ -25,9 +25,6 @@
     - "{{ prometheus_install_path }}"
     - "{{ prometheus_config_path }}"
 
-- name: install helper utility "gosu"
-  include_tasks: install-gosu.yml
-
 - name: install and configure prometheus service
   include_tasks: prometheus.yml
   when: '"prometheus" in prometheus_components'
