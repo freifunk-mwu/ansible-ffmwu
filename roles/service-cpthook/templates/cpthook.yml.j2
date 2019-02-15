@@ -1,0 +1,18 @@
+#
+# {{ ansible_managed }}
+#
+
+http:
+    listen: "127.0.0.1:8084"
+
+irc:
+    host: "irc.hackint.eu"
+    port: 6697
+    ssl:
+        enabled: true
+    nickname: "ffmwu-prom"
+
+modules:
+    prometheus:
+        enabled: true
+        channel: "#ffmwu-feed"

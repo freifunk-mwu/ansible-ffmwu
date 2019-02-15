@@ -1,0 +1,22 @@
+---
+- name: write cpthook config
+  template:
+    src: "cpthook.yml.j2"
+    dest: "{{ cpthook_config }}"
+  notify: restart cpthook
+
+- name: create systemd unit for cpthook
+  template:
+    src: "cpthook.service.j2"
+    dest: "/etc/systemd/system/cpthook.service"
+  notify: reload systemd
+
+- name: build cpthook binary
+  shell: 'GOPATH={{ gopath }} go get -u {{ cpthook_src }}'
+  notify: restart cpthook
+
+- name: configure cpthook systemd unit
+  systemd:
+    name: "cpthook.service"
+    enabled: yes
+    state: started

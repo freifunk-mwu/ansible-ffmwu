@@ -1,0 +1,18 @@
+[Unit]
+Description=CptHook Webhook Gateway
+Documentation=https://{{ cpthook_src }}
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+
+User=nobody
+Group=nogroup
+
+ExecStart={{ cpthook_path }}
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
