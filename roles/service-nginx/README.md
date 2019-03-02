@@ -11,5 +11,5 @@ Diese Ansible role installiert und konfiguriert den Web Server nginx.
 ## Benötigte Variablen
 
 - Variable `acme_server`
-- Variable `ffmwu_server_type`
+- Variable `server_type`
 - Variable `inventory_hostname_short`

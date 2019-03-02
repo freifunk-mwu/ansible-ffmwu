@@ -13,7 +13,7 @@
     mode: 0755
     owner: admin
     group: admin
-  loop: "{{ meshes | subelements('fastd.backbone.instances') }}"
+  loop: "{{ meshes | selectattr('legacy', 'defined') | list | subelements('fastd.backbone.instances') }}"
 
 - name: clone fastd peer backbone repos
   git:
@@ -23,7 +23,7 @@
     update: yes
   tags: sync-peers
   notify: reload fastd backbone instances
-  loop: "{{ meshes | subelements('fastd.backbone.instances') }}"
+  loop: "{{ meshes | selectattr('legacy', 'defined') | list | subelements('fastd.backbone.instances') }}"
   become: false
 
 - name: template fastd backbone config

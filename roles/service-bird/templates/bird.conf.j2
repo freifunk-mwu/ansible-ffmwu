@@ -4,7 +4,7 @@
 
 # Variables
 define mwu_address = {{ bgp_ipv4_transfer_net | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
-define mwu_as = {{ as_private_mwu }};
+define mwu_as = {{ as_private }};
 define router_id = {{ bgp_loopback_net | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
 
 # General
@@ -38,7 +38,7 @@ function is_chaosvpn() {
 
 function is_mwu_self_nets_loose() {
     return net ~ [
-{% for prefix in ffmwu_internal_prefixes %}
+{% for prefix in internal_prefixes %}
         {{ prefix.ipv4 | ipaddr('net') }}+{{ "," if not loop.last else "" }}
 {% endfor %}
     ];
@@ -46,7 +46,7 @@ function is_mwu_self_nets_loose() {
 
 function is_mwu_self_nets_strict() {
     return net ~ [
-{% for prefix in ffmwu_internal_prefixes %}
+{% for prefix in internal_prefixes %}
         {{ prefix.ipv4 | ipaddr('net') }}{{ "," if not loop.last else "" }}
 {% endfor %}
     ];
@@ -54,13 +54,13 @@ function is_mwu_self_nets_strict() {
 
 function is_mwu_loopback() {
     return net ~ [
-        {{ ffmwu_loopback_net_ipv4 }}+
+        {{ loopback_net_ipv4 }}+
     ];
 }
 
 function is_mwu_anycast() {
     return net ~ [
-        {{ ffmwu_anycast_ipv4 }}
+        {{ anycast_ipv4 }}
     ];
 }
 
@@ -81,7 +81,7 @@ protocol direct mwu_loopback {
     import where is_mwu_loopback();
 };
 
-{% if ffmwu_server_type == "gateway" %}
+{% if server_type == "gateway" %}
 protocol direct mwu_anycast {
     interface "anycast";
     import where is_mwu_anycast();
@@ -89,7 +89,7 @@ protocol direct mwu_anycast {
 {% endif %}
 
 protocol static {
-{% for prefix in ffmwu_internal_prefixes %}
+{% for prefix in internal_prefixes %}
     route {{ prefix.ipv4 }} reject;
 {% endfor %}
 };
@@ -98,7 +98,7 @@ protocol kernel kernel_mwu {
     scan time 30;
     import none;
     export filter {
-{% if ffmwu_server_type == "gateway" %}
+{% if server_type == "gateway" %}
         if is_mwu_anycast() then reject;
 {% else %}
         if is_mwu_anycast() then accept;
@@ -114,7 +114,7 @@ template bgp ibgp_mwu {
     local mwu_address as mwu_as;
     import keep filtered on;
     import filter {
-{% if ffmwu_server_type == "gateway" %}
+{% if server_type == "gateway" %}
         if is_mwu_anycast() then reject;
 {% endif %}
         if is_mwu_self_nets_loose() then accept;
@@ -134,7 +134,7 @@ template bgp ibgp_mwu {
 
 # Include IPv4 MWU peers
 include "mwu_ipv4_peers.con?";
-{% if ffmwu_server_type == "gateway" %}
+{% if server_type == "gateway" %}
 
 # Include IPv4 ICVPN configuration
 include "icvpn_ipv4.con?";

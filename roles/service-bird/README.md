@@ -13,16 +13,16 @@ Im iBGP peeren wir mangels separatem Transfernetz (im Moment) im Mainzer Mesh Ne
 ## Benötigte Variablen
 
 - Variable `bgp_loopback_net` # IPv4-Range des Mainzer Meshes, hieraus werden die Loopback Adressen gewählt.
-- Variable `ffmwu_loopback_net_ipv4` # IPv4-Subnetz für Loopback-Adressen
-- Variable `ffmwu_loopback_net_ipv6` # IPv6-Subnetz für Loopback-Adressen
-- Variable `ffmwu_anycast_ipv4` # Anycast IPv4-Adresse
-- Variable `ffmwu_anycast_ipv6` # Anycast IPv6-Adresse
+- Variable `loopback_net_ipv4` # IPv4-Subnetz für Loopback-Adressen
+- Variable `loopback_net_ipv6` # IPv6-Subnetz für Loopback-Adressen
+- Variable `anycast_ipv4` # Anycast IPv4-Adresse
+- Variable `anycast_ipv6` # Anycast IPv6-Adresse
 - Variable `bgp_ipv4_transfer_net` # IPv4-Range des Mainzer Meshes, das aktuell als Transfernetz benutzt wird.
 - Variable `bgp_ipv6_transfer_net` # IPv6-Range des Mainzer Meshes, das aktuell als Transfernetz benutzt wird.
-- Variable `bgp_as_private_mwu` # Private ASN von Freifunk MWU
+- Variable `bgp_as_private` # Private ASN von Freifunk MWU
 - Liste `bgp_groups` # List von Hostgruppen zu denen eine Verbindung aufgebaut werden soll
-- Liste `ffmwu_internal_prefixes`
-- Dictionary `bgp_mwu_servers`
+- Liste `internal_prefixes`
+- Dictionary `bgp_legacy_servers`
 
 ```
   spinat: # kurzer Hostname des Peers

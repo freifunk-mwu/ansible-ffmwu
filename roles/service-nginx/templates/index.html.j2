@@ -19,10 +19,10 @@
     <header>
         <h1>Freifunk MWU Server <a href="./index.html">{{ inventory_hostname_short }}</a></h1>
     </header>
-{% if ffmwu_server_type == "firmware-build" or ffmwu_server_type == "gateway" %}
+{% if server_type == "firmware-build" or server_type == "gateway" %}
     <div class="block"><a href="firmware">Firmware</a></div>
 {% endif %}
-{% if ffmwu_server_type == "firmware-build" %}
+{% if server_type == "firmware-build" %}
     <div class="block"><a href="_archive">Firmware Archiv</a></div>
 {% endif %}
 </body>

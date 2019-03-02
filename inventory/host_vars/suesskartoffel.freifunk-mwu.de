@@ -1,4 +1,4 @@
 ---
-ffmwu_server_type: "monitoring"
+server_type: "monitoring"
 
 magic: 32

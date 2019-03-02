@@ -34,7 +34,7 @@ meshes:
 
 - Host Variable `magic`
 
-- Host Variable `ffmwu_server_type`
+- Host Variable `server_type`
 
 ## MAC-Adressen
 

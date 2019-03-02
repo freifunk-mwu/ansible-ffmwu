@@ -3,7 +3,7 @@
 #
 # {{ ansible_managed }}
 #
-auto {{ item.id }}0
-iface {{ item.id }}0
+auto {{ item.id }}
+iface {{ item.id }}
     link-type dummy
     hwaddress {{ mac | hwaddr('linux') }}

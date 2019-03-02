@@ -4,21 +4,25 @@
 #
 
 {% for mesh in meshes %}
-# static {{ mesh.site_name }} routes for rt_table mwu
+# static {{ mesh.domain_name }} routes for rt_table mwu
 /sbin/ip -4 route add {{ mesh.ipv4_network }} proto static dev {{ mesh.id }}br table mwu
 {% for ula in mesh.ipv6_ula %}
 /sbin/ip -6 route add {{ ula | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev {{ mesh.id }}br table mwu
 {% endfor %}
 {% for public in mesh.ipv6_public %}
 /sbin/ip -6 route add {{ public | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev {{ mesh.id }}br table mwu
-/sbin/ip -6 route add {{ public | ipaddr('net') | ipsubnet(56, magic) | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev {{ mesh.id }}br table mwu
 {% endfor %}
+{% if mesh_gw_prefixes is defined %}
+{% for public in mesh_gw_prefixes[mesh.id].ipv6_public %}
+/sbin/ip -6 route add {{ public | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev {{ mesh.id }}br table mwu
+{% endfor %}
+{% endif %}
 {% if not loop.last %}
 
 {% endif %}
 {% endfor %}
 
-{% if ffmwu_server_type == 'gateway' %}
+{% if server_type == 'gateway' %}
 # static blackhole routes for rt_table internet
 /sbin/ip -4 route add blackhole 0.0.0.0/8 table internet
 /sbin/ip -4 route add blackhole 10.0.0.0/8 table internet

@@ -11,9 +11,8 @@ table ffrl;
 # Functions
 function is_ffrl_public_nets() {
     return net ~ [
-{% for mesh in meshes %}
-{% for prefix in mesh.ipv6_public %}
-        {{ prefix }}{48,56}{{ "," if not loop.last else "" }}{% endfor %}{{ "," if not loop.last else "" }}
+{% for prefix in public_gw_prefixes %}
+        {{ prefix.ipv6 }}{48,56}{{ "," if not loop.last else "" }}
 {% endfor %}
     ];
 }
@@ -40,11 +39,11 @@ filter ebgp_ffrl_export_filter {
 # Protocols
 protocol static ffrl_public_routes {
     table ffrl;
-{% for mesh in meshes %}
-{% for prefix in mesh.ipv6_public %}
-    route {{ prefix }} reject;
-    route {{ prefix | ipaddr('net') | ipsubnet(56, magic) | ipaddr('network/prefix') }} reject;
+{% for prefix in public_prefixes %}
+    route {{ prefix.ipv6 }} reject;
 {% endfor %}
+{% for prefix in public_gw_prefixes %}
+    route {{ prefix.ipv6 }} reject;
 {% endfor %}
 }
 

@@ -61,7 +61,7 @@
   loop: "{{ sysctl_settings_routing_basic }}"
 
 - name: set gateway sysctl settings for routing
-  when: ffmwu_server_type == "gateway"
+  when: server_type == "gateway"
   sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"

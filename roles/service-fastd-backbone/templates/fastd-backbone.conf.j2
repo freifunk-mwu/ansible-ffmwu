@@ -13,15 +13,29 @@ method "aes128-ctr+umac";
 
 interface "{{ item.0.id }}igvpn-{{ item.1.mtu }}";
 
-bind {{ ansible_default_ipv4.address | ipaddr('public') }}:11{{ item.1.id }}{{ item.0.site_number }};
-bind {{ ansible_default_ipv6.address | ipaddr('public') | ipwrap }}:11{{ item.1.id }}{{ item.0.site_number }};
+bind {{ ansible_default_ipv4.address | ipaddr('public') }}:11{{ item.1.id }}{{ '%02d' % item.0.domain_number }};
+bind {{ ansible_default_ipv6.address | ipaddr('public') | ipwrap }}:11{{ item.1.id }}{{ '%02d' % item.0.domain_number }};
 
 include "secret.conf";
 mtu {{ item.1.mtu }};
 
 peer group "servers" {
+{% if item.0.legacy is defined %}
     include peers from "peers/gates";
     include peers from "peers/services";
+{% else %}
+{% for group in fastd_groups %}
+{% for host in groups[group] %}
+{% set peer = host.rsplit('.')[0] %}
+{% if host != inventory_hostname %}
+    peer "{{ peer }}" {
+        key "{{ lookup('passwordstore', item.1.pass + '/' + peer + ' subkey=public') }}";
+        remote ipv6 "{{ host }}" port 11{{ item.1.id }}{{ '%02d' % item.0.domain_number }};
+    }
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endif %}
 }
 
 on up "/bin/systemctl reload networking";

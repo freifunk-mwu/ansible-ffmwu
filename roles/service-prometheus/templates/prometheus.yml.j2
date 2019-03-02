@@ -71,7 +71,7 @@ scrape_configs:
 {% endif %}
 {% endfor %}
 {% endfor %}
-{% for host, _ in bgp_mwu_servers.items() %}
+{% for host, _ in bgp_legacy_servers.items() %}
 {% if host not in ['extrasahne'] %}
         - "{{ host }}.ffwi.org"
         - "{{ host }}.ffmz.org"

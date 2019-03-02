@@ -11,13 +11,15 @@ protocol radv radv_{{ mesh.id }} {
 {% endfor %}
 
 {% for prefix in mesh.ipv6_public %}
-		prefix {{ prefix | ipaddr('net') | ipsubnet(56, magic) | ipsubnet(64, 0) | ipaddr('subnet') }} {
-			valid lifetime {{ mesh.radvd.advvalidlifetime }};
-			preferred lifetime {{ mesh.radvd.advpreferredlifetime }};
-		};
-
 		prefix {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} {
 			skip yes;
+		};
+{% endfor %}
+
+{% for prefix in mesh_gw_prefixes[mesh.id].ipv6_public %}
+		prefix {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} {
+			valid lifetime {{ mesh.radvd.advvalidlifetime }};
+			preferred lifetime {{ mesh.radvd.advpreferredlifetime }};
 		};
 {% endfor %}
 
@@ -27,11 +29,13 @@ protocol radv radv_{{ mesh.id }} {
 {% endfor %}
 		};
 
+{% if mesh.dnssl is defined %}
 		dnssl {
 {% for dnssl in mesh.dnssl %}
 			domain "{{ dnssl }}";
 {% endfor %}
 		};
+{% endif %}
 
 		link mtu {{ mesh.iface_mtu }};
 	};

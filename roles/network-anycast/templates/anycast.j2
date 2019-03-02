@@ -4,5 +4,5 @@
 auto anycast
 iface anycast
     link-type dummy
-    address {{ ffmwu_anycast_ipv4 | ipaddr('network/prefix') }}
-    address {{ ffmwu_anycast_ipv6 | ipaddr('network/prefix') }}
+    address {{ anycast_ipv4 | ipaddr('network/prefix') }}
+    address {{ anycast_ipv6 | ipaddr('network/prefix') }}

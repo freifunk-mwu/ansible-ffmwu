@@ -38,7 +38,7 @@
 {% for mesh in meshes %}
     {
       "subnet": "{{ mesh.ipv4_network | ipaddr('network/prefix') }}",
-      "pools": [ { "pool": "{{ mesh.ipv4_network | ipsubnet(22, ipv4_dhcp_range) | ipaddr('net') | ipaddr('range_usable') }}" } ],
+      "pools": [ { "pool": "{{ mesh_gw_prefixes[mesh.id].ipv4_dhcp | ipaddr('net') | ipaddr('range_usable') }}" } ],
       "option-data": [
         {
           "name": "routers",
@@ -51,11 +51,12 @@
         {
           "name": "domain-name-servers",
           "data": "{{ mesh.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') }}"
-        },
+        }{% if mesh.dnssl is defined %},
         {
           "name": "domain-search",
           "data": "{% for dnssl in mesh.dnssl %}{{ dnssl }}{% if not loop.last %}, {% endif %}{% endfor %}"
         }
+{% endif %}
       ]
 {% if not loop.last %}
     },

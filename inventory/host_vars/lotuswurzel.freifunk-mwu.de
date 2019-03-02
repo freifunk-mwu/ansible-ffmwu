@@ -1,8 +1,21 @@
 ---
-ffmwu_server_type: "gateway"
+server_type: "gateway"
 
 magic: 23
-ipv4_dhcp_range: 4
+
+public_gw_prefixes:
+  - ipv6: 2a03:2260:11a:1700::/56
+  - ipv6: 2a03:2260:11b:1700::/56
+
+mesh_gw_prefixes:
+  mz:
+    ipv4_dhcp: 10.37.16.0/22
+    ipv6_public:
+      - 2a03:2260:11a:1700::/64
+  wi:
+    ipv4_dhcp: 10.56.16.0/22
+    ipv6_public:
+      - 2a03:2260:11b:1700::/64
 
 ffrl_public_ipv4_nat: 185.66.195.36/32
 

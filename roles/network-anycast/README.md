@@ -7,5 +7,5 @@ Diese Ansible role konfiguriert das FFMWU Anycast Interface.
 
 ## Benötigte Variablen
 
-- ffmwu_anycast_ipv4 # Anycast IPv4 Adresse
-- ffmwu_anycast_ipv6 # Anycast IPv6 Adresse
+- anycast_ipv4 # Anycast IPv4 Adresse
+- anycast_ipv6 # Anycast IPv6 Adresse

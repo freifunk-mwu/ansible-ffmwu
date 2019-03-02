@@ -7,12 +7,20 @@ enable           = true
 synchronize      = "1m"
 collect_interval = "1m"
 
+[respondd.sites.{{ site_code }}]
+domains = [
 {% for mesh in meshes %}
-[respondd.sites.{{ mesh.site_code }}]
-{% if mesh.sites_virtual is defined %}
-domains = ["{{ mesh.site_code }}",{% for domain, name in mesh.sites_virtual.items() %}"{{ domain }}"{% if not loop.last %},{% endif %}{% endfor %}]
+{% if mesh.aliases is defined %}
+{% for domain, name in mesh.aliases.items() %}
+  "{{ domain }}",
+{% endfor %}
+{% endif %}
+  "{{ mesh.domain_code }}"{% if not loop.last %},
+{% else %}
+
 {% endif %}
 {% endfor %}
+]
 
 {% for mesh in meshes %}
 [[respondd.interfaces]]

@@ -52,7 +52,7 @@
   notify: reload systemd unit bird6
 
 - name: write radv.conf
-  when: ffmwu_server_type == "gateway"
+  when: server_type == "gateway"
   template:
     src: radv.conf.j2
     dest: /etc/bird/radv.conf

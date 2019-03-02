@@ -35,9 +35,9 @@
     group: "{{ lg_user }}"
 
 - name: configure lg-proxy
-  when: ffmwu_server_type == "gateway"
+  when: server_type == "gateway"
   include_tasks: lg-proxy.yml
 
 - name: configure lg-webservice
-  when: ffmwu_server_type == "monitoring"
+  when: server_type == "monitoring"
   include_tasks: lg-webservice.yml

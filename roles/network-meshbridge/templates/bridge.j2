@@ -1,6 +1,7 @@
 #
 # {{ ansible_managed }}
 #
+
 auto {{ item.id }}br
 iface {{ item.id }}br
     address {{ item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('ip/prefix') }}
@@ -9,8 +10,10 @@ iface {{ item.id }}br
 {% endfor %}
 {% for prefix in item.ipv6_public %}
     address {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('ip/prefix') }}
-{% if ffmwu_server_type == "gateway" %}
-    address {{ prefix | ipaddr('net') | ipsubnet(56, magic)  | ipsubnet(64, 0) | ipaddr(1) | ipaddr('ip/prefix') }}
-{% endif %}
 {% endfor %}
+{% if mesh_gw_prefixes is defined %}
+{% for prefix in mesh_gw_prefixes[item.id].ipv6_public %}
+    address {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(1) | ipaddr('ip/prefix') }}
+{% endfor %}
+{% endif %}
     bridge-ports {{ item.id }}bat

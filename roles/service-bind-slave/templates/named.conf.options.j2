@@ -12,15 +12,15 @@ options {
 		127.0.0.1;
 		::1;
 {% for mesh in meshes %}
-		intern-{{ mesh.site_code }};
+		intern-{{ mesh.domain_code }};
 {% endfor %}
 	};
 	allow-transfer { any; };
 
 	listen-on {
 		127.0.0.1;
-		{{ ffmwu_anycast_ipv4 | ipaddr('address') }};
-		{{ ffmwu_loopback_net_ipv4 | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
+		{{ anycast_ipv4 | ipaddr('address') }};
+		{{ loopback_net_ipv4 | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
 {% for mesh in meshes %}
 		{{ mesh.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
 {% endfor %}
@@ -29,8 +29,8 @@ options {
 
 	listen-on-v6 {
 		::1;
-		{{ ffmwu_anycast_ipv6 | ipaddr('address') }};
-		{{ ffmwu_loopback_net_ipv6 | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
+		{{ anycast_ipv6 | ipaddr('address') }};
+		{{ loopback_net_ipv6 | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
 {% for mesh in meshes %}
 {% for ip in mesh.ipv6_ula %}
 		{{ ip | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('address') }};

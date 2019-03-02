@@ -55,6 +55,7 @@ server {
 }
 
 {% for mesh in meshes %}
+{% if mesh.http_domain_internal is defined %}
 server {
     listen 80;
     listen [::]:80;
@@ -82,5 +83,6 @@ server {
 }
 {% if not loop.last %}
 
+{% endif %}
 {% endif %}
 {% endfor %}

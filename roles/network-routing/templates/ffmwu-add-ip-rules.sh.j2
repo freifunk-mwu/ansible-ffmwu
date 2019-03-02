@@ -5,51 +5,51 @@
 
 # Priority 7 - lookup rt_table mwu for all incoming traffic of freifunk related interfaces
 {% for mesh in meshes %}
-ip -4 rule add from {{ mesh.ipv4_network | ipaddr('network') }}/16 lookup mwu priority 7
-ip -4 rule add to {{ mesh.ipv4_network | ipaddr('network') }}/16 lookup mwu priority 7
 ip -4 rule add from all oif {{ mesh.id }}br lookup mwu priority 7
-{% for ula in mesh.ipv6_ula %}
-ip -6 rule add from {{ ula }} lookup mwu priority 7
-ip -6 rule add to {{ ula }} lookup mwu priority 7
-{% endfor %}
-{% for public in mesh.ipv6_public %}
-ip -6 rule add from {{ public }} lookup mwu priority 7
-ip -6 rule add to {{ public }} lookup mwu priority 7
-{% endfor %}
 ip -6 rule add from all oif {{ mesh.id }}br lookup mwu priority 7
 {% endfor %}
+{% for prefix in internal_prefixes %}
+ip -4 rule add from {{ prefix.ipv4 }} lookup mwu priority 7
+ip -4 rule add to {{ prefix.ipv4 }} lookup mwu priority 7
+ip -6 rule add from {{ prefix.ipv6 }} lookup mwu priority 7
+ip -6 rule add to {{ prefix.ipv6 }} lookup mwu priority 7
+{% endfor %}
+{% for prefix in public_prefixes %}
+ip -6 rule add from {{ prefix.ipv6 }} lookup mwu priority 7
+ip -6 rule add to {{ prefix.ipv6 }} lookup mwu priority 7
+{% endfor %}
 
-{% if ffmwu_server_type == 'gateway' %}
+{% if server_type == 'gateway' %}
 # Priority 23 - lookup rt_table icvpn for all incoming traffic of freifunk bridges
 {% for mesh in meshes %}
-ip -4 rule add from {{ mesh.ipv4_network | ipaddr('network') }}/16 lookup icvpn priority 23
-ip -4 rule add to {{ mesh.ipv4_network | ipaddr('network') }}/16 lookup icvpn priority 23
 ip -4 rule add from all oif {{ mesh.id }}br lookup icvpn priority 23
-{% for ula in mesh.ipv6_ula %}
-ip -6 rule add from {{ ula }} lookup icvpn priority 23
-ip -6 rule add to {{ ula }} lookup icvpn priority 23
-{% endfor %}
-{% for public in mesh.ipv6_public %}
-ip -6 rule add from {{ public }} lookup icvpn priority 23
-ip -6 rule add to {{ public }} lookup icvpn priority 23
-{% endfor %}
 ip -6 rule add from all oif {{ mesh.id }}br lookup icvpn priority 23
+{% endfor %}
+{% for prefix in internal_prefixes %}
+ip -4 rule add from {{ prefix.ipv4 }} lookup icvpn priority 23
+ip -4 rule add to {{ prefix.ipv4 }} lookup icvpn priority 23
+ip -6 rule add from {{ prefix.ipv6 }} lookup icvpn priority 23
+ip -6 rule add to {{ prefix.ipv6 }} lookup icvpn priority 23
+{% endfor %}
+{% for prefix in public_prefixes %}
+ip -6 rule add from {{ prefix.ipv6 }} lookup icvpn priority 23
+ip -6 rule add to {{ prefix.ipv6 }} lookup icvpn priority 23
 {% endfor %}
 ip -4 rule add from all oif icvpn lookup icvpn priority 23
 ip -6 rule add from all oif icvpn lookup icvpn priority 23
 
 # Priority 41 - lookup rt_table internet for all incoming traffic of freifunk bridges
 {% for mesh in meshes %}
-ip -4 rule add from {{ mesh.ipv4_network | ipaddr('network') }}/16 lookup internet priority 41
-{% for ula in mesh.ipv6_ula %}
-ip -6 rule add from {{ ula }} lookup internet priority 41
-ip -6 rule add to {{ ula }} lookup internet priority 41
-{% endfor %}
-{% for public in mesh.ipv6_public %}
-ip -6 rule add from {{ public }} lookup internet priority 41
-ip -6 rule add to {{ public }} lookup internet priority 41
-{% endfor %}
 ip -6 rule add from all oif {{ mesh.id }}br lookup internet priority 41
+{% endfor %}
+{% for prefix in internal_prefixes %}
+ip -4 rule add from {{ prefix.ipv4 }} lookup internet priority 41
+ip -6 rule add from {{ prefix.ipv6 }} lookup internet priority 41
+ip -6 rule add to {{ prefix.ipv6 }} lookup internet priority 41
+{% endfor %}
+{% for prefix in public_prefixes %}
+ip -6 rule add from {{ prefix.ipv6 }} lookup internet priority 41
+ip -6 rule add to {{ prefix.ipv6 }} lookup internet priority 41
 {% endfor %}
 ip -4 rule add from {{ ffrl_public_ipv4_nat | ipaddr('host') }} lookup internet priority 41
 ip -4 rule add to {{ ffrl_public_ipv4_nat | ipaddr('host') }} lookup internet priority 41
@@ -67,11 +67,9 @@ ip -6 rule add from all iif {{ server_id }} type unreachable priority 61
 {% endfor %}
 ip -6 rule add from all iif icvpn type unreachable priority 61
 ip -6 rule add from all iif {{ ansible_default_ipv6.interface }} type unreachable priority 61
-{% for mesh in meshes %}
-{% for public in mesh.ipv6_public %}
-ip -6 rule add from {{ public }} type unreachable priority 61
-ip -6 rule add to {{ public }} type unreachable priority 61
-{% endfor %}
+{% for prefix in public_prefixes %}
+ip -6 rule add from {{ prefix.ipv6 }} type unreachable priority 61
+ip -6 rule add to {{ prefix.ipv6 }} type unreachable priority 61
 {% endfor %}
 
 # Priority 107 - lookup policies for the gateway host self originating traffic

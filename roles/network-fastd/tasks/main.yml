@@ -1,6 +1,6 @@
 ---
 - name: create fastd mesh interfaces
-  when: ffmwu_server_type == "gateway"
+  when: server_type == "gateway"
   template:
     src: fastd-mesh.j2
     dest: "/etc/network/interfaces.d/{{ item.0.id }}vpn-{{ item.1.mtu }}"

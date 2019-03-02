@@ -2,7 +2,10 @@
 ansible_version_minimum: "2.6"
 debug_fastd: False
 
-as_private_mwu: 65037
+site_code: ffmwu
+site_name: "Mainz, Wiesbaden und Umgebung"
+
+as_private: 65037
 as_public_ffrl: 201701
 
 internet_exit_tcp_mss_ipv4: 1240
@@ -11,21 +14,31 @@ internet_exit_tcp_mss_ipv6: 1220
 icvpn_ipv4_transfer_net: 10.207.0.0/16
 icvpn_ipv6_transfer_net: fec0::a:cf:0:0/96
 
-ffmwu_loopback_net_ipv4: 10.37.255.0/24
-ffmwu_loopback_net_ipv6: fd37:b4dc:4b1e:ffff::/64
-ffmwu_anycast_ipv4: 10.37.255.255/32
-ffmwu_anycast_ipv6: fd37:b4dc:4b1e:ffff:ffff:ffff:ffff:ffff/128
+loopback_net_ipv4: 10.37.255.0/24
+loopback_net_ipv6: fd37:b4dc:4b1e:ffff::/64
+anycast_ipv4: 10.37.255.255/32
+anycast_ipv6: fd37:b4dc:4b1e:ffff:ffff:ffff:ffff:ffff/128
 
-ffmwu_internal_prefixes:
+internal_prefixes:
   - ipv4: 10.37.0.0/16
     ipv6: fd37:b4dc:4b1e::/48
   - ipv4: 10.56.0.0/16
     ipv6: fd56:b4dc:4b1e::/48
+  - ipv4: 10.86.0.0/15
+    ipv6: fd86:b4dc:4b1e::/48
+
+public_prefixes:
+  - ipv6: 2a03:2260:11a::/48
+  - ipv6: 2a03:2260:11b::/48
 
 bgp_loopback_net: 10.37.0.0/18
 bgp_ipv4_transfer_net: 10.37.0.0/18
 bgp_ipv6_transfer_net: fd37:b4dc:4b1e::/64
 bgp_groups:
+  - ffmwu-gateways
+  - ffmwu-monitoring
+
+fastd_groups:
   - ffmwu-gateways
   - ffmwu-monitoring
 
@@ -48,17 +61,18 @@ gopath: "/opt/go"
 
 meshes:
   - id: mz
-    site_number: 37
-    site_code: ffmz
-    site_name: Mainz
-    sites_virtual:
+    legacy: true
+    domain_number: 37
+    domain_code: ffmz
+    domain_name: Mainz
+    aliases:
       ffbin: Bingen
       ffrhg: Rheingau
     ipv4_network: 10.37.0.0/18
     ipv6_ula:
-      - fd37:b4dc:4b1e::/48
+      - fd37:b4dc:4b1e::/64
     ipv6_public:
-      - 2a03:2260:11a::/48
+      - 2a03:2260:11a::/64
     dnssl:
       - ffmz.org
       - user.ffmz.org
@@ -102,16 +116,17 @@ meshes:
     http_domain_external: freifunk-mainz.de
 
   - id: wi
-    site_number: 56
-    site_code: ffwi
-    site_name: Wiesbaden
-    sites_virtual:
+    legacy: true
+    domain_number: 56
+    domain_code: ffwi
+    domain_name: Wiesbaden
+    aliases:
       ffta: Taunus
     ipv4_network: 10.56.0.0/18
     ipv6_ula:
-      - fd56:b4dc:4b1e::/48
+      - fd56:b4dc:4b1e::/64
     ipv6_public:
-      - 2a03:2260:11b::/48
+      - 2a03:2260:11b::/64
     dnssl:
       - ffwi.org
       - user.ffwi.org
@@ -159,7 +174,7 @@ icvpn:
   interface: icvpn
   icvpn_repo: https://github.com/freifunk/icvpn
 
-bgp_mwu_servers:
+bgp_legacy_servers:
   zuckerwatte:
     ipv4: 10.37.1.2
     ipv6: fd37:b4dc:4b1e::a25:102

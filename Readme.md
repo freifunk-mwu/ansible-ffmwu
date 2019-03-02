@@ -78,7 +78,7 @@ Weitere Gruppen-Variablen:
 
 |Name|Type|Value|Format|Comment|
 |----|----|-----|------|-------|
-|as_private_mwu|Variable|65037|integer|Privates AS von Freifunk MWU|
+|as_private|Variable|65037|integer|Privates AS von Freifunk MWU|
 |as_public_ffrl|Variable|201701|integer|Public AS von Freifunk Rheinland|
 |internet_exit_tcp_mss_ipv4|Variable|1240|integer|IPv4 TCP MSS|
 |internet_exit_tcp_mss_ipv6|Variable|1220|integer|IPv6 TCP MSS|
@@ -97,9 +97,9 @@ Weitere Gruppen-Variablen:
 |icvpn.prefix|Key|mwu|string|Prefix für MWU Gateways,  z.B. `mwu7` für Spinat|
 |icvpn.interface|Key|icvpn|string|Name für ICVPN Interface + tinc Instanz|
 |icvpn.icvpn_repo|Key|https://github.com/freifunk/icvpn|string|URL zum freifunk/icvpn Repository|
-|bgp_mwu_servers|Dictionary|||Enthält pro BGP MWU peer ein Dictionary - IP-Adressen aus bgp_ipvX_transfer_net|
-|bgp_mwu_servers.spinat|Dictionary||||
-|bgp_mwu_servers.spinat.ipv4|Variable|10.37.0.7|string - IPv4-Adresse||
+|bgp_legacy_servers|Dictionary|||Enthält pro BGP MWU peer ein Dictionary - IP-Adressen aus bgp_ipvX_transfer_net|
+|bgp_legacy_servers.spinat|Dictionary||||
+|bgp_legacy_servers.spinat.ipv4|Variable|10.37.0.7|string - IPv4-Adresse||
 |bgp_mwu_server.spinat.ipv6|Variable|fd37:b4dc:4b1e::a25:7|string - IPv6-Adresse||
 
 
@@ -109,7 +109,7 @@ Alle Server- bzw. Gateway-spezifischen Parameter werden als Host-Variablen abgeb
 |Name|Type|Value|Format|Comment|
 |----|----|-----|------|-------|
 |magic|Variable|7|integer|Muss eindeutig unter allen Servern sein|
-|ipv4_dhcp_range|Variable|6|integer|Wenn man das Mesh-Netz (/18) in /22er-Subnetze unterteilt und durchnummeriert, ist der Wert hier die Nummer des zu verwendenden /22er Subnetzes zwecks DHCP-Adress-Vergabe|
+|ipv4_dhcp|Variable|6|integer|Wenn man das Mesh-Netz (/18) in /22er-Subnetze unterteilt und durchnummeriert, ist der Wert hier die Nummer des zu verwendenden /22er Subnetzes zwecks DHCP-Adress-Vergabe|
 |ffrl_public_ipv4_nat|Variable|185.66.195.32/32|IP/Prefix|Öffentliche IPv4-NAT-Adresse|
 |ffrl_exit_server|Dictionary|||Enthält pro FFRL Tunnel ein Dictionary|
 |ffrl_exit_server.ffrl-a-ak-ber|Dictionary|||Name = Interface|
@@ -158,7 +158,7 @@ magic:
 
 # Die Nummer des /22er IPv4-Subnetzes, das per DHCP verteilt werden soll.
 # z.B. 5 für 10.X.16.0/22 (fünftes /22 Subnetz aus 10.X.0.0/18)
-ipv4_dhcp_range:
+ipv4_dhcp:
 
 # FFRL (muss vorher bereits zugewiesen worden sein)
 # Öffentliche IPv4 NAT Adresse, Format: IP/Prefix

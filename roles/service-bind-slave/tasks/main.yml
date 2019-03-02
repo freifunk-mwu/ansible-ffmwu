@@ -38,7 +38,7 @@
 - name: write named.conf for meshes
   template:
     src: named.conf.mesh.j2
-    dest: /etc/bind/named.conf.{{ item.site_code }}
+    dest: /etc/bind/named.conf.{{ item.domain_code }}
     owner: root
     group: bind
     mode: 0644

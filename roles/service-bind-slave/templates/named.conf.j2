@@ -6,6 +6,6 @@ include "/etc/bind/named.conf.options";
 include "/etc/bind/named.conf.default-zones";
 include "/etc/bind/named.conf.logging";
 {% for mesh in meshes %}
-include "/etc/bind/named.conf.{{ mesh.site_code }}";
+include "/etc/bind/named.conf.{{ mesh.domain_code }}";
 {% endfor %}
 include "/etc/bind/named.conf.icvpn";

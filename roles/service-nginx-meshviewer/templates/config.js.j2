@@ -88,13 +88,13 @@ module.exports = function () {
     'domainNames': [
 {% for mesh in meshes %}
       {
-        'domain': '{{ mesh.site_code }}',
-        'name': '{{ mesh.site_name }}'
+        'domain': '{{ mesh.domain_code }}',
+        'name': '{{ mesh.domain_name }}'
       },
-{% if mesh.sites_virtual is defined %}
-{% for site, name in mesh.sites_virtual.items() %}
+{% if mesh.aliases is defined %}
+{% for domain, name in mesh.aliases.items() %}
       {
-        'domain': '{{ site }}',
+        'domain': '{{ domain }}',
         'name': '{{ name }}'
       },
 {% endfor %}

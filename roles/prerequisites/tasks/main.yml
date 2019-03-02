@@ -14,7 +14,7 @@
       - "ansible_distribution_major_version == '9'"
 
 - name: Check gateway specific DNS entries
-  when: ffmwu_server_type == "gateway"
+  when: server_type == "gateway"
   assert:
     that:
       - "dns_gate_num_cname == inventory_hostname"
