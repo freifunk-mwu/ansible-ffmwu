@@ -8,6 +8,34 @@ public_gw_prefixes:
   - ipv6: 2a03:2260:11b:6500::/56
 
 mesh_gw_prefixes:
+  dom1:
+    ipv4_dhcp: 10.86.22.0/23
+    ipv6_public:
+      - 2a03:2260:11a:6501::/64
+  dom2:
+    ipv4_dhcp: 10.86.38.0/23
+    ipv6_public:
+      - 2a03:2260:11a:6502::/64
+  dom3:
+    ipv4_dhcp: 10.86.54.0/23
+    ipv6_public:
+      - 2a03:2260:11a:6503::/64
+  dom4:
+    ipv4_dhcp: 10.86.70.0/23
+    ipv6_public:
+      - 2a03:2260:11a:6504::/64
+  dom5:
+    ipv4_dhcp: 10.86.86.0/23
+    ipv6_public:
+      - 2a03:2260:11a:6505::/64
+  dom6:
+    ipv4_dhcp: 10.86.102.0/23
+    ipv6_public:
+      - 2a03:2260:11a:6506::/64
+  dom7:
+    ipv4_dhcp: 10.86.118.0/23
+    ipv6_public:
+      - 2a03:2260:11a:6507::/64
   mz:
     ipv4_dhcp: 10.37.32.0/22
     ipv6_public:

@@ -60,6 +60,279 @@ git_path: "/home/admin/clones"
 gopath: "/opt/go"
 
 meshes:
+  - id: dom1
+    domain_number: 1
+    domain_code: dom1
+    domain_name: Domain 1
+    aliases:
+      mainz: Mainz
+    ipv4_network: 10.86.16.0/20
+    ipv6_ula:
+      - fd86:b4dc:4b1e:1::/64
+    ipv6_public:
+      - 2a03:2260:11a:1::/64
+    batman:
+      it: 10000
+      gw: server 96mbit/96mbit
+      mm: 0
+      dat: 1
+      hop_penalty: 60
+    radvd:
+      maxrtradvinterval: 900
+      advvalidlifetime: 864000
+      advpreferredlifetime: 172800
+    iface_mtu: 1350
+    fastd:
+      nodes:
+        instances:
+          - id: 0
+            mtu: 1406
+            pass: fastd/dom1vpn
+            peers:
+              repo: https://github.com/freifunk-mwu/peers-ffmwu.git
+              version: master
+      backbone:
+        instances:
+          - id: 0
+            mtu: 1406
+            pass: fastd/dom1igvpn
+    dns:
+      master: fd37:b4dc:4b1e::a25:103
+
+  - id: dom2
+    domain_number: 2
+    domain_code: dom2
+    domain_name: Domain 2
+    aliases:
+      wiesbaden: Wiesbaden
+    ipv4_network: 10.86.32.0/20
+    ipv6_ula:
+      - fd86:b4dc:4b1e:2::/64
+    ipv6_public:
+      - 2a03:2260:11a:2::/64
+    batman:
+      it: 10000
+      gw: server 96mbit/96mbit
+      mm: 0
+      dat: 1
+      hop_penalty: 60
+    radvd:
+      maxrtradvinterval: 900
+      advvalidlifetime: 864000
+      advpreferredlifetime: 172800
+    iface_mtu: 1350
+    fastd:
+      nodes:
+        instances:
+          - id: 0
+            mtu: 1406
+            pass: fastd/dom2vpn
+            peers:
+              repo: https://github.com/freifunk-mwu/peers-ffmwu.git
+              version: master
+      backbone:
+        instances:
+          - id: 0
+            mtu: 1406
+            pass: fastd/dom2igvpn
+    dns:
+      master: fd37:b4dc:4b1e::a25:103
+
+  - id: dom3
+    domain_number: 3
+    domain_code: dom3
+    domain_name: Domain 3
+    aliases:
+      bingen: Bingen
+    ipv4_network: 10.86.48.0/20
+    ipv6_ula:
+      - fd86:b4dc:4b1e:3::/64
+    ipv6_public:
+      - 2a03:2260:11a:3::/64
+    batman:
+      it: 10000
+      gw: server 96mbit/96mbit
+      mm: 0
+      dat: 1
+      hop_penalty: 60
+    radvd:
+      maxrtradvinterval: 900
+      advvalidlifetime: 864000
+      advpreferredlifetime: 172800
+    iface_mtu: 1350
+    fastd:
+      nodes:
+        instances:
+          - id: 0
+            mtu: 1406
+            pass: fastd/dom3vpn
+            peers:
+              repo: https://github.com/freifunk-mwu/peers-ffmwu.git
+              version: master
+      backbone:
+        instances:
+          - id: 0
+            mtu: 1406
+            pass: fastd/dom3igvpn
+    dns:
+      master: fd37:b4dc:4b1e::a25:103
+
+  - id: dom4
+    domain_number: 4
+    domain_code: dom4
+    domain_name: Domain 4
+    aliases:
+      rheingau: Rheingau
+    ipv4_network: 10.86.64.0/20
+    ipv6_ula:
+      - fd86:b4dc:4b1e:4::/64
+    ipv6_public:
+      - 2a03:2260:11a:4::/64
+    batman:
+      it: 10000
+      gw: server 96mbit/96mbit
+      mm: 0
+      dat: 1
+      hop_penalty: 60
+    radvd:
+      maxrtradvinterval: 900
+      advvalidlifetime: 864000
+      advpreferredlifetime: 172800
+    iface_mtu: 1350
+    fastd:
+      nodes:
+        instances:
+          - id: 0
+            mtu: 1406
+            pass: fastd/dom4vpn
+            peers:
+              repo: https://github.com/freifunk-mwu/peers-ffmwu.git
+              version: master
+      backbone:
+        instances:
+          - id: 0
+            mtu: 1406
+            pass: fastd/dom4igvpn
+    dns:
+      master: fd37:b4dc:4b1e::a25:103
+
+  - id: dom5
+    domain_number: 5
+    domain_code: dom5
+    domain_name: Domain 5
+    aliases:
+      taunus: Taunus
+    ipv4_network: 10.86.80.0/20
+    ipv6_ula:
+      - fd86:b4dc:4b1e:5::/64
+    ipv6_public:
+      - 2a03:2260:11a:5::/64
+    batman:
+      it: 10000
+      gw: server 96mbit/96mbit
+      mm: 0
+      dat: 1
+      hop_penalty: 60
+    radvd:
+      maxrtradvinterval: 900
+      advvalidlifetime: 864000
+      advpreferredlifetime: 172800
+    iface_mtu: 1350
+    fastd:
+      nodes:
+        instances:
+          - id: 0
+            mtu: 1406
+            pass: fastd/dom5vpn
+            peers:
+              repo: https://github.com/freifunk-mwu/peers-ffmwu.git
+              version: master
+      backbone:
+        instances:
+          - id: 0
+            mtu: 1406
+            pass: fastd/dom5igvpn
+    dns:
+      master: fd37:b4dc:4b1e::a25:103
+
+  - id: dom6
+    domain_number: 6
+    domain_code: dom6
+    domain_name: Domain 6
+    aliases:
+      limburg: Limburg
+    ipv4_network: 10.86.96.0/20
+    ipv6_ula:
+      - fd86:b4dc:4b1e:6::/64
+    ipv6_public:
+      - 2a03:2260:11a:6::/64
+    batman:
+      it: 10000
+      gw: server 96mbit/96mbit
+      mm: 0
+      dat: 1
+      hop_penalty: 60
+    radvd:
+      maxrtradvinterval: 900
+      advvalidlifetime: 864000
+      advpreferredlifetime: 172800
+    iface_mtu: 1350
+    fastd:
+      nodes:
+        instances:
+          - id: 0
+            mtu: 1406
+            pass: fastd/dom6vpn
+            peers:
+              repo: https://github.com/freifunk-mwu/peers-ffmwu.git
+              version: master
+      backbone:
+        instances:
+          - id: 0
+            mtu: 1406
+            pass: fastd/dom6igvpn
+    dns:
+      master: fd37:b4dc:4b1e::a25:103
+
+  - id: dom7
+    domain_number: 7
+    domain_code: dom7
+    domain_name: Domain 7
+    aliases:
+      weilrod: Weilrod
+    ipv4_network: 10.86.112.0/20
+    ipv6_ula:
+      - fd86:b4dc:4b1e:7::/64
+    ipv6_public:
+      - 2a03:2260:11a:7::/64
+    batman:
+      it: 10000
+      gw: server 96mbit/96mbit
+      mm: 0
+      dat: 1
+      hop_penalty: 60
+    radvd:
+      maxrtradvinterval: 900
+      advvalidlifetime: 864000
+      advpreferredlifetime: 172800
+    iface_mtu: 1350
+    fastd:
+      nodes:
+        instances:
+          - id: 0
+            mtu: 1406
+            pass: fastd/dom7vpn
+            peers:
+              repo: https://github.com/freifunk-mwu/peers-ffmwu.git
+              version: master
+      backbone:
+        instances:
+          - id: 0
+            mtu: 1406
+            pass: fastd/dom7igvpn
+    dns:
+      master: fd37:b4dc:4b1e::a25:103
+
   - id: mz
     legacy: true
     domain_number: 37
