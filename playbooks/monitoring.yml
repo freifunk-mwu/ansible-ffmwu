@@ -21,6 +21,7 @@
   - service-nginx
   - service-nginx-openlayers
   - service-cpthook
+  - service-domain-director
   - service-prometheus
   - service-influxdb
   - service-yanic
