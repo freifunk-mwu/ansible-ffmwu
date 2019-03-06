@@ -1,0 +1,23 @@
+# listening socket
+host: "::1"
+port: 28530
+
+# data paths
+sqlite_path: "{{ director_data_dir }}/director.db"
+
+# mozilla location services
+mls_api_key: "test"
+
+# domain config
+geojson: "{{ director_conf_dir }}/domains.geojson"
+default_domain: ffmz
+
+# how often to update from meshviewer
+update_interval: 900
+meshviewer_json_url: "https://map.freifunk-mwu.de/data/meshviewer.json"
+
+# when to switch the domain
+domain_switch_time: -1
+
+# migrate meshes with only one node
+only_migrate_vpn: false

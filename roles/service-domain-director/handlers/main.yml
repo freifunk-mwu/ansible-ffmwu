@@ -1,0 +1,14 @@
+---
+- name: reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: restart domain-director
+  systemd:
+    name: domain-director
+    state: restarted
+
+- name: restart nginx
+  systemd:
+    name: nginx
+    state: restarted

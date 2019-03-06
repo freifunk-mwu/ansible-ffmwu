@@ -1,0 +1,6 @@
+---
+director_user: "director"
+director_conf_dir: "/etc/domain-director"
+director_data_dir: "/var/lib/domain-director"
+
+http_director_internal: "{{ http_director_prefix }}.{{ http_domain_internal }}"

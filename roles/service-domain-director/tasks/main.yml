@@ -1,0 +1,72 @@
+---
+- name: install dep libgeos-dev
+  package:
+    name: libgeos-dev
+    state: present
+
+- name: create system user
+  user:
+    name: "{{ director_user }}"
+    home: "{{ director_data_dir }}"
+    shell: /bin/false
+
+- name: create conf dir
+  file:
+    path: "{{ director_conf_dir }}"
+    state: directory
+    owner: "root"
+    group: "{{ director_user }}"
+    mode: 0755
+
+- name: create data dir
+  file:
+    path: "{{ director_data_dir }}"
+    state: directory
+    owner: "{{ director_user }}"
+    group: "{{ director_user }}"
+    mode: 0755
+
+- name: copy config.yml
+  template:
+    src: config.yml.j2
+    dest: "{{ director_conf_dir }}/config.yml"
+    owner: "root"
+    group: "{{ director_user }}"
+    mode: 0640
+  notify: restart domain-director
+
+- name: copy domains.geojson
+  copy:
+    src: domains.geojson
+    dest: "{{ director_conf_dir }}/domains.geojson"
+    owner: "root"
+    group: "{{ director_user }}"
+    mode: 0644
+  notify: restart domain-director
+
+- name: create systemd unit
+  template:
+    src: "domain-director.service.j2"
+    dest: "/etc/systemd/system/domain-director.service"
+  notify: reload systemd
+
+- name: install
+  pip:
+    name: git+https://github.com/freifunk-darmstadt/ffda-domain-director.git
+    executable: pip3
+  notify: restart domain-director
+
+- name: write vhost
+  template:
+    src: domain_director_vhost.conf.j2
+    dest: /etc/nginx/conf.d/domain_director.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+
+- name: enable systemd unit
+  systemd:
+    name: domain-director
+    enabled: yes
+    state: started

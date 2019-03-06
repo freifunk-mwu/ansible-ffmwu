@@ -1,0 +1,18 @@
+upstream director {
+  server [::1]:28530 fail_timeout=5;
+}
+
+server {
+  listen [::]:80;
+
+  server_name {{ http_director_internal }};
+
+  location / {
+    proxy_pass http://director;
+    proxy_set_header  X-Real-IP  $remote_addr;
+    proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header  X-Forwarded-Proto $scheme;
+    proxy_set_header  Host $http_host;
+
+  }
+}
