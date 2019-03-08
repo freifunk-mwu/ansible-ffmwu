@@ -19,11 +19,8 @@ bind {{ ansible_default_ipv6.address | ipaddr('public') | ipwrap }}:10{{ item.1.
 include "secret.conf";
 mtu {{ item.1.mtu }};
 
-peer group "vpn_nodes" {
-    include "peer_limit.conf";
-    include peers from "peers";
-}
-
 on up "/bin/systemctl reload networking";
+
+on verify "/home/admin/clones/backend-scripts/verify_fastd_peers_gw.py $PEER_KEY";
 
 status socket "/var/run/fastd-{{ item.0.id }}vpn-{{ item.1.mtu }}.status";

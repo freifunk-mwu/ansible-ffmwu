@@ -6,24 +6,6 @@
     mode: 0755
   loop: "{{ meshes | subelements('fastd.nodes.instances') }}"
 
-- name: create fastd peer mesh directories
-  file:
-    path: "/etc/fastd/{{ item.0.id }}vpn-{{ item.1.mtu }}/peers"
-    state: directory
-    mode: 0755
-    owner: admin
-    group: admin
-  loop: "{{ meshes | subelements('fastd.nodes.instances') }}"
-
-- name: clone fastd peer mesh repos
-  git:
-    repo: "{{ item.1.peers.repo }}"
-    dest: "/etc/fastd/{{ item.0.id }}vpn-{{ item.1.mtu }}/peers"
-    version: "{{ item.1.peers.version }}"
-    update: no
-  loop: "{{ meshes | subelements('fastd.nodes.instances') }}"
-  become: false
-
 - name: template fastd mesh config
   template:
     src: fastd-mesh.conf.j2
@@ -39,25 +21,21 @@
   notify: restart fastd mesh instances
   loop: "{{ meshes | subelements('fastd.nodes.instances') }}"
 
-- name: copy peer_limit.conf if not exist
+- name: create peer_limit.txt if not exist
   copy:
-    src: peer_limit.conf
-    dest: "/etc/fastd/{{ item.0.id }}vpn-{{ item.1.mtu }}/peer_limit.conf"
+    content: ""
+    dest: "/etc/fastd/peer_limit.txt"
     owner: admin
     group: admin
     mode: 0640
     force: no
-  notify: restart fastd mesh instances
-  loop: "{{ meshes | subelements('fastd.nodes.instances') }}"
 
-- name: set file attributes for peer_limit.conf
+- name: set file attributes for peer_limit.txt
   file:
-    path: "/etc/fastd/{{ item.0.id }}vpn-{{ item.1.mtu }}/peer_limit.conf"
+    path: "/etc/fastd/peer_limit.txt"
     mode: 0640
     owner: admin
     group: admin
-  notify: restart fastd mesh instances
-  loop: "{{ meshes | subelements('fastd.nodes.instances') }}"
 
 - name: write systemd unit fastd-sync-meshkeys.service
   template:
@@ -77,18 +55,10 @@
     mode: 0644
   notify: reload systemd
 
-- name: create fastd_status.json file
-  file:
-    path: /var/www/html/fastd_status.json
-    state: touch
-    owner: admin
-    group: admin
-    mode: 0644
-
 - name: write configuration for fastd-peer-limit-update script
   template:
-    src: fastd_peer_limit_config.yaml.j2
-    dest: /home/admin/.ffmwu-config/fastd_peer_limit_config.yaml
+    src: fastd_peer_limit.yaml.j2
+    dest: /home/admin/.ffmwu-config/fastd_peer_limit.yaml
     owner: admin
     group: admin
     mode: 0644
