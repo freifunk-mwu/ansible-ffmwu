@@ -111,7 +111,9 @@
   template:
     src: "fastd-exporter.service.j2"
     dest: "/etc/systemd/system/fastd-exporter.service"
-  notify: reload systemd
+  notify:
+    - reload systemd
+    - restart fastd-exporter
 
 - name: configure fastd-exporter systemd unit
   systemd:
