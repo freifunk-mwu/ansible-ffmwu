@@ -20,7 +20,7 @@ prometheus_components:
   - node_exporter
   - blackbox_exporter
 
-prometheus_opts: "--web.external-url=https://{{ http_prometheus_prefix }}.{{ http_domain_external }}"
+prometheus_opts: "--web.external-url=https://{{ http_prometheus_prefix }}.{{ http_domain_external }} --storage.tsdb.retention.time=30d"
 alertmanager_opts: "--web.external-url=https://{{ http_prometheus_prefix }}.{{ http_domain_external }}/alertmanager/"
 
 yanic_blacklist:
