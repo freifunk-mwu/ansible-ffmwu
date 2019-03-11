@@ -20,3 +20,5 @@ common_repos:
 
 prometheus_components:
   - node_exporter
+
+fastd_exporter_opts: '--metrics.perpeer'
