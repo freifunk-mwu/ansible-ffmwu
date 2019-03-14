@@ -339,8 +339,8 @@ meshes:
     domain_code: ffmz
     domain_name: Mainz
     aliases:
-      ffbin: Bingen
-      ffrhg: Rheingau
+      ffbin: "Bingen (legacy)"
+      ffrhg: "Rheingau (legacy)"
     ipv4_network: 10.37.0.0/18
     ipv6_ula:
       - fd37:b4dc:4b1e::/64
@@ -394,7 +394,7 @@ meshes:
     domain_code: ffwi
     domain_name: Wiesbaden
     aliases:
-      ffta: Taunus
+      ffta: "Taunus (legacy)"
     ipv4_network: 10.56.0.0/18
     ipv6_ula:
       - fd56:b4dc:4b1e::/64
