@@ -12,7 +12,9 @@
   notify: reload systemd
 
 - name: build cpthook binary
-  shell: 'GOPATH={{ gopath }} go get -u {{ cpthook_src }}'
+  shell: 'go get -u {{ cpthook_src }}'
+  environment:
+    GOPATH: "{{ gopath }}"
   notify: restart cpthook
 
 - name: configure cpthook systemd unit

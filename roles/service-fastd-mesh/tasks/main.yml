@@ -98,7 +98,9 @@
   loop: "{{ meshes | subelements('fastd.nodes.instances') }}"
 
 - name: build fastd-exporter binary
-  shell: "GOPATH={{ gopath }} go get -v -u github.com/freifunk-darmstadt/fastd-exporter"
+  shell: "go get -v -u github.com/freifunk-darmstadt/fastd-exporter"
+  environment:
+    GOPATH: "{{ gopath }}"
   notify: restart fastd-exporter
 
 - name: copy vhost fastd_exporter.conf

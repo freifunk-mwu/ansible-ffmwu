@@ -45,10 +45,14 @@
     force: true
 
 - name: get required library versions
-  shell: "cd {{ gopath }}/src/{{ yanic_src }} && GOPATH={{ gopath }} {{ gopath }}/bin/dep ensure"
+  shell: "cd {{ gopath }}/src/{{ yanic_src }} && {{ gopath }}/bin/dep ensure"
+  environment:
+    GOPATH: "{{ gopath }}"
 
 - name: build Yanic binary
-  shell: 'GOPATH={{ gopath }} go install {{ gopath }}/src/{{ yanic_src }}'
+  shell: 'go install {{ gopath }}/src/{{ yanic_src }}'
+  environment:
+    GOPATH: "{{ gopath }}"
   notify: restart yanic
 
 - name: configure Yanic systemd unit
