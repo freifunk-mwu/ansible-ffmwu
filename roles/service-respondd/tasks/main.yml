@@ -20,6 +20,13 @@
   notify:
     - restart respondd
 
+- name: set firmware version
+  copy:
+    content: "call(['lsb_release','-rs'])[0]"
+    dest: /home/admin/clones/mesh-announce/nodeinfo.d/software/firmware/release
+  notify:
+    - restart respondd
+
 - name: write systemd unit files
   template:
     src: respondd.service.j2
