@@ -104,7 +104,7 @@ groups:
 - name: fastd
   rules:
   - alert: FastdNoTraffic
-    expr: irate(fastd_tx_bytes[5m]) == 0 and on(hostname,interface) (fastd_uptime_seconds / 60) > 15
+    expr: irate(fastd_tx_bytes[5m]) == 0 and on(hostname, interface) fastd_peers_up_total > 0  and on(hostname, interface) (fastd_uptime_seconds / 60) > 15
     for: 5m
     annotations:
       description: 'No TX data was seen on a fastd interface for more than 5 minutes'
