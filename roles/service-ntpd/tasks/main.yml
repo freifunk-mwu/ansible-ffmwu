@@ -15,6 +15,14 @@
     - ntpdate
     - ntpstat
 
+- name: update if-up ntpdate script
+  template:
+    src: ntpdate.j2
+    dest: /etc/network/if-up.d/ntpdate
+    mode: 0755
+    owner: root
+    group: root
+
 - name: enable and start ntp daemon
   systemd:
     name: ntp
