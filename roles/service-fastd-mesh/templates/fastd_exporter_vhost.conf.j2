@@ -13,12 +13,10 @@ server {
 
       allow 127.0.0.0/8;
       allow ::1/128;
-{% for group in prometheus_groups %}
-{% for host in groups[group] %}
+{% for host in groups['ffmwu-monitoring'] %}
       allow {{ lookup('dig', host, 'qtype=A') }};
       allow {{ lookup('dig', host, 'qtype=AAAA') }};
-{% endfor %}
-{% endfor %}
       deny all;
+{% endfor %}
     }
 }
