@@ -60,6 +60,45 @@ git_path: "/home/admin/clones"
 gopath: "/opt/go"
 
 meshes:
+  - id: dom0
+    domain_number: 0
+    domain_code: dom0
+    domain_name: Domain 0
+    aliases:
+      umland: Umland
+    ipv4_network: 10.86.0.0/20
+    ipv6_ula:
+      - fd86:b4dc:4b1e::/64
+    ipv6_public:
+      - 2a03:2260:11a:ff::/64
+    batman:
+      it: 10000
+      gw: server 96mbit/96mbit
+      mm: 0
+      dat: 1
+      hop_penalty: 60
+    radvd:
+      maxrtradvinterval: 900
+      advvalidlifetime: 864000
+      advpreferredlifetime: 172800
+    iface_mtu: 1350
+    fastd:
+      nodes:
+        instances:
+          - id: 0
+            mtu: 1406
+            pass: fastd/dom0vpn
+            peers:
+              repo: https://github.com/freifunk-mwu/peers-ffmwu.git
+              version: master
+      backbone:
+        instances:
+          - id: 0
+            mtu: 1406
+            pass: fastd/dom0igvpn
+    dns:
+      master: fd37:b4dc:4b1e::a25:103
+
   - id: dom1
     domain_number: 1
     domain_code: dom1

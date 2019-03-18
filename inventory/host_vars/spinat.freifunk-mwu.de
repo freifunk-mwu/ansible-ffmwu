@@ -8,6 +8,10 @@ public_gw_prefixes:
   - ipv6: 2a03:2260:11b:0700::/56
 
 mesh_gw_prefixes:
+  dom0:
+    ipv4_dhcp: 10.86.2.0/23
+    ipv6_public:
+      - 2a03:2260:11a:7ff::/64
   dom1:
     ipv4_dhcp: 10.86.18.0/23
     ipv6_public:
