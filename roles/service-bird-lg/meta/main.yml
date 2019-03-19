@@ -1,4 +1,5 @@
 ---
 dependencies:
+  - { role: wireguard }
   - { role: service-bird }
   - { role: service-nginx }
