@@ -16,7 +16,7 @@ PROXY = {
 # Used for bgpmap
 ROUTER_IP = {
 {% for host in groups["ffmwu-gateways"] %}
-  "{{ host.rsplit('.freifunk-mwu.de')[0] }}" : [ "{{ bgp_ipv4_transfer_net | ipaddr('net') | ipaddr(hostvars[host]['magic']) | ipaddr('ip') }}", "{{ bgp_ipv6_transfer_net | ipaddr('net') | ipsubnet(64, 0) | ipaddr(hostvars[host]['magic']) | ipaddr('ip') }}" ],
+  "{{ host.rsplit('.freifunk-mwu.de')[0] }}" : [ "{{ loopback_net_ipv4 | ipsubnet(32, hostvars[host]['magic']) | ipaddr('address') }}", "{{ loopback_net_ipv6 | ipaddr(hostvars[host]['magic']) | ipaddr('address') }}" ],
 {% endfor %}
 }
 

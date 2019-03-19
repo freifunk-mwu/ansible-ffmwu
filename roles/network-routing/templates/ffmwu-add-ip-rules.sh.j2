@@ -4,9 +4,17 @@
 #
 
 # Priority 7 - lookup rt_table mwu for all incoming traffic of freifunk related interfaces
+{% if server_type == 'gateway' or server_type == 'monitoring' %}
 {% for mesh in meshes %}
 ip -4 rule add from all oif {{ mesh.id }}br lookup mwu priority 7
 ip -6 rule add from all oif {{ mesh.id }}br lookup mwu priority 7
+{% endfor %}
+{% endif %}
+{% for network in my_wireguard_networks %}
+ip -4 rule add from all iif wg-{{ network.remote[:11] }} lookup mwu priority 7
+ip -6 rule add from all iif wg-{{ network.remote[:11] }} lookup mwu priority 7
+ip -4 rule add from all oif wg-{{ network.remote[:11] }} lookup mwu priority 7
+ip -6 rule add from all oif wg-{{ network.remote[:11] }} lookup mwu priority 7
 {% endfor %}
 {% for prefix in internal_prefixes %}
 ip -4 rule add from {{ prefix.ipv4 }} lookup mwu priority 7

@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+#
+# {{ inventory_hostname }} wg_{{ item.remote[:13] }} configuration
+#
+[Interface]
+PrivateKey = {{ wireguard_private_key }}
+ListenPort = {{ item.port }}
+
+[Peer]
+Endpoint = {{ item.remote_hostname }}:{{ item.port }}
+PublicKey = {{ lookup('passwordstore', 'wireguard/' + item.remote + ' subkey=public') }}
+AllowedIPs = 0.0.0.0/0,::/0

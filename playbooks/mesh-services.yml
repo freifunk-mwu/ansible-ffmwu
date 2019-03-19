@@ -1,0 +1,20 @@
+#!/usr/bin/ansible-playbook
+
+- name: Manage Mesh Services Servers.
+  hosts: ffmwu-mesh-services
+
+  roles:
+  - server-apt-repos
+  - server-basic
+  - network-loopback
+  - users
+  - system-sysctl
+  - git-repos
+  - service-haveged
+  - service-ntpd
+  - wireguard
+  - network-routetables
+  - network-routing
+  - service-bird
+  - service-nginx
+  - service-nullmailer

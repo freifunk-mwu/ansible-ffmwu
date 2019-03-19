@@ -1,0 +1,80 @@
+---
+- name: Gather my own WireGuard networks.
+  set_fact:
+    my_wireguard_networks: "{% set _my_nets = [] %}{% for net in wireguard_networks %}{% if inventory_hostname_short in net.peers %}{% do _my_nets.append(net) %}{% set remote = net.peers | reject('equalto', inventory_hostname_short) | list () | first %}{% set remote_hostname = remote + '.freifunk-mwu.de' %}{% set remote_magic = hostvars[remote_hostname]['magic'] %}{% do net.update({'remote': remote, 'remote_hostname': remote_hostname, 'remote_magic': remote_magic}) %}{% endif %}{% endfor %}{{ _my_nets }}"
+
+- name: Set unstable pin priority.
+  blockinfile:
+    dest: "/etc/apt/preferences.d/limit-unstable"
+    block: |
+      Package: *
+      Pin: release a=unstable
+      Pin-Priority: -10
+    create: True
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: Raise WireGuard pin priority.
+  blockinfile:
+    dest: "/etc/apt/preferences.d/wireguard"
+    block: |
+      Package: wireguard*
+      Pin: release a=unstable
+      Pin-Priority: 500
+    create: "true"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: Add Debian unstable repository.
+  apt_repository:
+    repo: "deb http://deb.debian.org/debian/ unstable main"
+    state: "present"
+    filename: "unstable"
+    update_cache: True
+
+- name: Install WireGuard packages.
+  package:
+    name: "{{ wireguard_packages }}"
+    state: "present"
+
+- name: Ensure WireGuard directory exists.
+  file:
+    path: "/etc/wireguard"
+    state: "directory"
+    owner: "root"
+    group: "root"
+    mode: "0640"
+
+- name: Register the WireGuard public + private key.
+  set_fact:
+    wireguard_public_key: "{{ lookup('passwordstore', 'wireguard/' + inventory_hostname_short + ' subkey=public') }}"
+    wireguard_private_key: "{{ lookup('passwordstore', 'wireguard/' + inventory_hostname_short + ' subkey=private') }}"
+  no_log: True
+
+- name: Write the WireGuard private key.
+  copy:
+    content: "{{ wireguard_private_key }}"
+    dest: "/etc/wireguard/wg.priv"
+    owner: "root"
+    group: "root"
+    mode: "0600"
+
+- name: Write the WireGuard config.
+  template:
+    src: "wg.conf.j2"
+    dest: "/etc/wireguard/wg-{{ item.remote[:11] }}.conf"
+    owner: root
+    group: root
+    mode: 0640
+  loop: "{{ my_wireguard_networks }}"
+
+- name: Configure the WireGuard interface config.
+  template:
+    src: "wireguard.j2"
+    dest: "/etc/network/interfaces.d/wireguard"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  notify: reload network interfaces

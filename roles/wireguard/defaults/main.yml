@@ -1,0 +1,6 @@
+---
+# All WireGuard networks
+wireguard_networks: []
+
+# WireGuard networks for specific host, will be filtered automatically
+my_wireguard_networks: []

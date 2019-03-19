@@ -2,21 +2,27 @@
 # {{ ansible_managed }}
 #
 
-{% for group in bgp_groups %}
-{% for host in groups[group] %}
-{% if host != inventory_hostname %}
-protocol bgp mwu_{{ host.rsplit('.freifunk-mwu.de')[0] }} from ibgp_mwu {
-    neighbor {{ bgp_ipv4_transfer_net | ipaddr('net') | ipaddr(hostvars[host]['magic']) | ipaddr('ip') }} as mwu_as;
+{% for network in my_wireguard_networks %}
+protocol bgp mwu_{{ network.remote }} from ibgp_mwu {
+{% if magic < network.remote_magic %}
+    source address {{ network.ipv4 | ipaddr('address') }};
+    neighbor {{ network.ipv4 | ipaddr('1') | ipaddr('address') }} as mwu_as;
+{% else %}
+    source address {{ network.ipv4 | ipaddr('1') | ipaddr('address') }};
+    neighbor {{ network.ipv4 | ipaddr('address') }} as mwu_as;
+{% endif %}
 };
 
-{% endif %}
 {% endfor %}
-{% endfor %}
+
+{% if server_type == 'gateway' %}
 {% for item, value in bgp_legacy_servers.items() %}
 {% if item != inventory_hostname_short %}
-protocol bgp mwu_{{ item }} from ibgp_mwu {
+protocol bgp mwu_{{ item }}_legacy from ibgp_mwu {
+    source address mwu_address_legacy;
     neighbor {{ value.ipv4 }} as mwu_as;
 };
 
 {% endif %}
 {% endfor %}
+{% endif %}

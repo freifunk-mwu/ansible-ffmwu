@@ -14,10 +14,10 @@ internet_exit_tcp_mss_ipv6: 1220
 icvpn_ipv4_transfer_net: 10.207.0.0/16
 icvpn_ipv6_transfer_net: fec0::a:cf:0:0/96
 
-loopback_net_ipv4: 10.37.255.0/24
-loopback_net_ipv6: fd37:b4dc:4b1e:ffff::/64
-anycast_ipv4: 10.37.255.255/32
-anycast_ipv6: fd37:b4dc:4b1e:ffff:ffff:ffff:ffff:ffff/128
+loopback_net_ipv4: 10.87.255.0/24
+loopback_net_ipv6: fd86:b4dc:4b1e:00ff::/64
+anycast_ipv4: 10.87.255.255/32
+anycast_ipv6: fd86:b4dc:4b1e:00ff:ffff:ffff:ffff:ffff/128
 
 internal_prefixes:
   - ipv4: 10.37.0.0/16
@@ -31,12 +31,230 @@ public_prefixes:
   - ipv6: 2a03:2260:11a::/48
   - ipv6: 2a03:2260:11b::/48
 
-bgp_loopback_net: 10.37.0.0/18
-bgp_ipv4_transfer_net: 10.37.0.0/18
-bgp_ipv6_transfer_net: fd37:b4dc:4b1e::/64
+bgp_ipv4_transfer_net_legacy: 10.37.0.0/18
+bgp_ipv6_transfer_net_legacy: fd37:b4dc:4b1e::/64
 bgp_groups:
   - ffmwu-gateways
+  - ffmwu-mesh-services
   - ffmwu-monitoring
+
+wireguard_networks:
+  - ipv4: 10.87.253.0/31
+    ipv6: fd86:b4dc:4b1e:fd::/127
+    peers:
+      - lotuswurzel
+      - spinat
+    port: 50000
+  - ipv4: 10.87.253.2/31
+    ipv6: fd86:b4dc:4b1e:fd::2/127
+    peers:
+      - lotuswurzel
+      - wasserfloh
+    port: 50001
+  - ipv4: 10.87.253.4/31
+    ipv6: fd86:b4dc:4b1e:fd::4/127
+    peers:
+      - lotuswurzel
+      - uffschnitt
+    port: 50002
+  - ipv4: 10.87.253.6/31
+    ipv6: fd86:b4dc:4b1e:fd::6/127
+    peers:
+      - lotuswurzel
+      - ingwer
+    port: 50003
+  - ipv4: 10.87.253.8/31
+    ipv6: fd86:b4dc:4b1e:fd::8/127
+    peers:
+      - spinat
+      - wasserfloh
+    port: 50004
+  - ipv4: 10.87.253.10/31
+    ipv6: fd86:b4dc:4b1e:fd::a/127
+    peers:
+      - spinat
+      - uffschnitt
+    port: 50005
+  - ipv4: 10.87.253.12/31
+    ipv6: fd86:b4dc:4b1e:fd::c/127
+    peers:
+      - spinat
+      - ingwer
+    port: 50006
+  - ipv4: 10.87.253.14/31
+    ipv6: fd86:b4dc:4b1e:fd::e/127
+    peers:
+      - ingwer
+      - wasserfloh
+    port: 50007
+  - ipv4: 10.87.253.16/31
+    ipv6: fd86:b4dc:4b1e:fd::10/127
+    peers:
+      - wasserfloh
+      - uffschnitt
+    port: 50008
+  - ipv4: 10.87.253.18/31
+    ipv6: fd86:b4dc:4b1e:fd::12/127
+    peers:
+      - ingwer
+      - uffschnitt
+    port: 50009
+  - ipv4: 10.87.253.20/31
+    ipv6: fd86:b4dc:4b1e:fd::14/127
+    peers:
+      - lotuswurzel
+      - kichererbse
+    port: 50010
+#  - ipv4: 10.87.253.22/31
+#    ipv6: fd86:b4dc:4b1e:fd::16/127
+#    peers:
+#      - lotuswurzel
+#      - zuckerwatte
+#    port: 50011
+#  - ipv4: 10.87.253.24/31
+#    ipv6: fd86:b4dc:4b1e:fd::18/127
+#    peers:
+#      - lotuswurzel
+#      - glueckskeks
+#    port: 50012
+#  - ipv4: 10.87.253.26/31
+#    ipv6: fd86:b4dc:4b1e:fd::1a/127
+#    peers:
+#      - lotuswurzel
+#      - aubergine
+#    port: 50013
+  - ipv4: 10.87.253.28/31
+    ipv6: fd86:b4dc:4b1e:fd::1c/127
+    peers:
+      - spinat
+      - kichererbse
+    port: 50014
+#  - ipv4: 10.87.253.30/31
+#    ipv6: fd86:b4dc:4b1e:fd::1e/127
+#    peers:
+#      - spinat
+#      - zuckerwatte
+#    port: 50015
+#  - ipv4: 10.87.253.32/31
+#    ipv6: fd86:b4dc:4b1e:fd::20/127
+#    peers:
+#      - spinat
+#      - glueckskeks
+#    port: 50016
+#  - ipv4: 10.87.253.34/31
+#    ipv6: fd86:b4dc:4b1e:fd::22/127
+#    peers:
+#      - spinat
+#      - aubergine
+#    port: 50017
+  - ipv4: 10.87.253.36/31
+    ipv6: fd86:b4dc:4b1e:fd::24/127
+    peers:
+      - wasserfloh
+      - kichererbse
+    port: 50018
+#  - ipv4: 10.87.253.38/31
+#    ipv6: fd86:b4dc:4b1e:fd::26/127
+#    peers:
+#      - wasserfloh
+#      - zuckerwatte
+#    port: 50019
+#  - ipv4: 10.87.253.40/31
+#    ipv6: fd86:b4dc:4b1e:fd::28/127
+#    peers:
+#      - wasserfloh
+#      - glueckskeks
+#    port: 50020
+#  - ipv4: 10.87.253.42/31
+#    ipv6: fd86:b4dc:4b1e:fd::2a/127
+#    peers:
+#      - wasserfloh
+#      - aubergine
+#    port: 50021
+  - ipv4: 10.87.253.44/31
+    ipv6: fd86:b4dc:4b1e:fd::2c/127
+    peers:
+      - uffschnitt
+      - kichererbse
+    port: 50022
+#  - ipv4: 10.87.253.46/31
+#    ipv6: fd86:b4dc:4b1e:fd::2e/127
+#    peers:
+#      - uffschnitt
+#      - zuckerwatte
+#    port: 50023
+#  - ipv4: 10.87.253.48/31
+#    ipv6: fd86:b4dc:4b1e:fd::30/127
+#    peers:
+#      - uffschnitt
+#      - glueckskeks
+#    port: 50024
+#  - ipv4: 10.87.253.50/31
+#    ipv6: fd86:b4dc:4b1e:fd::32/127
+#    peers:
+#      - uffschnitt
+#      - aubergine
+#    port: 50025
+  - ipv4: 10.87.253.52/31
+    ipv6: fd86:b4dc:4b1e:fd::34/127
+    peers:
+      - ingwer
+      - kichererbse
+    port: 50026
+#  - ipv4: 10.87.253.54/31
+#    ipv6: fd86:b4dc:4b1e:fd::36/127
+#    peers:
+#      - ingwer
+#      - zuckerwatte
+#    port: 50027
+#  - ipv4: 10.87.253.56/31
+#    ipv6: fd86:b4dc:4b1e:fd::38/127
+#    peers:
+#      - ingwer
+#      - glueckskeks
+#    port: 50028
+#  - ipv4: 10.87.253.58/31
+#    ipv6: fd86:b4dc:4b1e:fd::3a/127
+#    peers:
+#      - ingwer
+#      - aubergine
+#    port: 50029
+  - ipv4: 10.87.253.60/31
+    ipv6: fd86:b4dc:4b1e:fd::34/127
+    peers:
+      - lotuswurzel
+      - suesskartoffel
+    port: 50030
+  - ipv4: 10.87.253.62/31
+    ipv6: fd86:b4dc:4b1e:fd::36/127
+    peers:
+      - spinat
+      - suesskartoffel
+    port: 50031
+  - ipv4: 10.87.253.64/31
+    ipv6: fd86:b4dc:4b1e:fd::38/127
+    peers:
+      - ingwer
+      - suesskartoffel
+    port: 50032
+  - ipv4: 10.87.253.66/31
+    ipv6: fd86:b4dc:4b1e:fd::3a/127
+    peers:
+      - wasserfloh
+      - suesskartoffel
+    port: 50033
+  - ipv4: 10.87.253.68/31
+    ipv6: fd86:b4dc:4b1e:fd::3c/127
+    peers:
+      - uffschnitt
+      - suesskartoffel
+    port: 50034
+  - ipv4: 10.87.253.70/31
+    ipv6: fd86:b4dc:4b1e:fd::3e/127
+    peers:
+      - kichererbse
+      - suesskartoffel
+    port: 50036
 
 fastd_groups:
   - ffmwu-gateways
@@ -44,6 +262,7 @@ fastd_groups:
 
 prometheus_groups:
   - ffmwu-gateways
+  - ffmwu-mesh-services
   - ffmwu-monitoring
 
 node_exporter_opts: "--collector.systemd"

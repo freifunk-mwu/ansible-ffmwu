@@ -1,0 +1,19 @@
+#
+# {{ ansible_managed }}
+#
+{% for network in my_wireguard_networks %}
+auto wg-{{ network.remote[:11] }}
+iface wg-{{ network.remote[:11] }}
+{% if magic < network.remote_magic %}
+   address {{ network.ipv4 | ipaddr('ip/prefix') }}
+   address {{ network.ipv6 | ipaddr('ip/prefix') }}
+{% else %}
+   address {{ network.ipv4 | ipaddr('1') | ipaddr('ip/prefix') }}
+   address {{ network.ipv6 | ipaddr('1') | ipaddr('ip/prefix') }}
+{% endif %}
+   pre-up ip link add dev $IFACE type wireguard
+   pre-up wg setconf $IFACE /etc/wireguard/$IFACE.conf
+   post-up ip link set up dev $IFACE
+   post-down ip link del $IFACE
+
+{% endfor %}

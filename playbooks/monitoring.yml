@@ -13,6 +13,7 @@
   - service-haveged
   - service-ntpd
   - kmod-batman
+  - wireguard
   - network-routetables
   - network-batman
   - network-meshbridge

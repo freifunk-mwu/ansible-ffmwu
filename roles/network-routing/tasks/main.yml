@@ -61,7 +61,7 @@
   loop: "{{ sysctl_settings_routing_basic }}"
 
 - name: set gateway sysctl settings for routing
-  when: server_type == "gateway"
+  when: server_type == "gateway" or server_type == "mesh-service"
   sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"

@@ -3,8 +3,8 @@
 #
 
 # Variables
-define router_id = {{ bgp_loopback_net | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
-define mwu_address = {{ bgp_ipv6_transfer_net | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
+define router_id = {{ loopback_net_ipv6 | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
+define mwu_address_legacy = {{ bgp_ipv6_transfer_net_legacy | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
 define mwu_as = {{ as_private }};
 
 # General
@@ -58,8 +58,13 @@ protocol device {
 };
 
 protocol direct mwu_subnets {
+{% if server_type == 'gateway' or server_type == 'monitoring' %}
 {% for mesh in meshes %}
     interface "{{ mesh.id }}br";
+{% endfor %}
+{% endif %}
+{% for network in my_wireguard_networks %}
+    interface "wg-{{ network.remote[:11] }}";
 {% endfor %}
     import where is_mwu_self_nets_loose();
 };
@@ -74,13 +79,13 @@ protocol direct mwu_anycast {
     interface "anycast";
     import where is_mwu_anycast();
 };
-{% endif %}
 
 protocol static {
 {% for prefix in internal_prefixes %}
     route {{ prefix.ipv6 }} reject;
 {% endfor %}
 };
+{% endif %}
 
 protocol kernel kernel_mwu {
     scan time 30;
@@ -91,15 +96,19 @@ protocol kernel kernel_mwu {
 {% else %}
         if is_mwu_anycast() then accept;
 {% endif %}
+{% if server_type == "mesh-service" %}
+        if is_ula() then accept;
+{% endif %}
         if is_mwu_loopback() then accept;
         reject;
     };
+    merge paths yes limit {{ groups['ffmwu-gateways'] | length }};
     kernel table ipt_mwu;
 };
 
 # Templates
 template bgp ibgp_mwu {
-    local mwu_address as mwu_as;
+    local as mwu_as;
     import keep filtered on;
     import filter {
 {% if server_type == "gateway" %}
@@ -110,8 +119,12 @@ template bgp ibgp_mwu {
         reject;
     };
     export filter {
+{% if server_type == "gateway" %}
         if is_mwu_self_nets_loose() then accept;
         if source = RTS_BGP then accept;
+{% else %}
+        if is_mwu_loopback() then accept;
+{% endif %}
         reject;
     };
     direct;
