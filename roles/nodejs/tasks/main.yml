@@ -8,7 +8,7 @@
 - name: ensure nodejs apt repo is present
   apt_repository:
     state: present
-    repo: "deb https://deb.nodesource.com/node_8.x stretch main"
+    repo: "deb https://deb.nodesource.com/node_{{ nodejs_major_version }}.x stretch main"
     update_cache: yes
     filename: nodesource
 
