@@ -11,9 +11,7 @@ options {
 	allow-recursion {
 		127.0.0.1;
 		::1;
-{% for mesh in meshes %}
-		intern-{{ mesh.domain_code }};
-{% endfor %}
+		internal;
 	};
 	allow-transfer { any; };
 

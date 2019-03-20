@@ -1,0 +1,5 @@
+---
+dependencies:
+  - yarn
+  - nodejs
+  - service-nginx

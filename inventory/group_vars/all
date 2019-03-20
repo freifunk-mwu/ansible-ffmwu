@@ -315,8 +315,6 @@ meshes:
           - id: 0
             mtu: 1406
             pass: fastd/dom0igvpn
-    dns:
-      master: fd37:b4dc:4b1e::a25:103
 
   - id: dom1
     domain_number: 1
@@ -354,8 +352,6 @@ meshes:
           - id: 0
             mtu: 1406
             pass: fastd/dom1igvpn
-    dns:
-      master: fd37:b4dc:4b1e::a25:103
 
   - id: dom2
     domain_number: 2
@@ -393,8 +389,6 @@ meshes:
           - id: 0
             mtu: 1406
             pass: fastd/dom2igvpn
-    dns:
-      master: fd37:b4dc:4b1e::a25:103
 
   - id: dom3
     domain_number: 3
@@ -432,8 +426,6 @@ meshes:
           - id: 0
             mtu: 1406
             pass: fastd/dom3igvpn
-    dns:
-      master: fd37:b4dc:4b1e::a25:103
 
   - id: dom4
     domain_number: 4
@@ -471,8 +463,6 @@ meshes:
           - id: 0
             mtu: 1406
             pass: fastd/dom4igvpn
-    dns:
-      master: fd37:b4dc:4b1e::a25:103
 
   - id: dom5
     domain_number: 5
@@ -510,8 +500,6 @@ meshes:
           - id: 0
             mtu: 1406
             pass: fastd/dom5igvpn
-    dns:
-      master: fd37:b4dc:4b1e::a25:103
 
   - id: dom6
     domain_number: 6
@@ -549,8 +537,6 @@ meshes:
           - id: 0
             mtu: 1406
             pass: fastd/dom6igvpn
-    dns:
-      master: fd37:b4dc:4b1e::a25:103
 
   - id: dom7
     domain_number: 7
@@ -588,8 +574,6 @@ meshes:
           - id: 0
             mtu: 1406
             pass: fastd/dom7igvpn
-    dns:
-      master: fd37:b4dc:4b1e::a25:103
 
   - id: mz
     legacy: true
@@ -635,14 +619,6 @@ meshes:
               repo: https://github.com/freifunk-mwu/ffmz-infrastructure-peers.git
               version: master
             pass: fastd/mzigvpn
-    dns:
-      master: fd37:b4dc:4b1e::a25:103
-      forward_zones:
-        - name: ffmz.org
-        - name: user.ffmz.org
-        - name: bb.ffmz.org
-        - name: nodes.ffmz.org
-        - name: ffbin
     http_domain_internal: ffmz.org
     http_domain_external: freifunk-mainz.de
 
@@ -689,14 +665,6 @@ meshes:
               repo: https://github.com/freifunk-mwu/ffwi-infrastructure-peers.git
               version: master
             pass: fastd/wiigvpn
-    dns:
-      master: fd56:b4dc:4b1e::a38:103
-      forward_zones:
-        - name: ffwi.org
-        - name: user.ffwi.org
-        - name: bb.ffwi.org
-        - name: nodes.ffwi.org
-        - name: ffmwu.org
     http_domain_internal: ffwi.org
     http_domain_external: wiesbaden.freifunk.net
 
@@ -718,3 +686,23 @@ bgp_legacy_servers:
   extrasahne:
     ipv4: 10.37.0.42
     ipv6: fd37:b4dc:4b1e::a25:2a
+
+dns_internal:
+  master_ipv4: 10.87.255.67
+  master_ipv6: fd86:b4dc:4b1e:ff::43
+  zones:
+    - ffmwu.org
+    - ffmz.org
+    - ffwi.org
+    - bb.ffmz.org
+    - bb.ffwi.org
+    - user.ffmz.org
+    - user.ffwi.org
+    - ffbin
+    - 37.10.in-addr.arpa
+    - 56.10.in-addr.arpa
+    - 86.10.in-addr.arpa
+    - 87.10.in-addr.arpa
+    - 0.0.0.0.e.1.b.4.c.d.4.b.7.3.d.f.ip6.arpa
+    - 0.0.0.0.e.1.b.4.c.d.4.b.6.5.d.f.ip6.arpa
+    - e.1.b.4.c.d.4.b.6.8.d.f.ip6.arpa

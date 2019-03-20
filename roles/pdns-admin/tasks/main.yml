@@ -1,0 +1,80 @@
+---
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_distribution }}.yml"
+
+- name: Install required packages for Debian.
+  package:
+    name: "{{ pdns_admin_packages }}"
+    state: "present"
+  when: ansible_distribution == 'Debian'
+
+- name: Create "{{ pdns_admin_root_path }}" directory.
+  file:
+    path: "{{ pdns_admin_root_path }}"
+    state: "directory"
+
+- name: Git clone PowerDNS Admin.
+  git:
+    repo: "{{ pdns_admin_git_repo_url }}"
+    dest: "{{ pdns_admin_path }}"
+    version: "{{ pdns_admin_git_repo_commit }}"
+
+- name: Install virtualenv.
+  pip:
+    name: "virtualenv"
+    executable: "pip3"
+
+- name: PIP install requirements for PowerDNS Admin.
+  pip:
+    requirements: "{{ pdns_admin_requirements_path }}"
+    virtualenv: "{{ pdns_admin_python_venv_path }}"
+    virtualenv_python: "python3"
+
+- name: PIP install python-dotenv.
+  pip:
+    name: "python-dotenv"
+    state: "present"
+    virtualenv: "{{ pdns_admin_python_venv_path }}"
+    virtualenv_python: "python3"
+
+- name: Template PowerDNS Admin systemd unit.
+  template:
+    src: "{{ pdns_admin_systemd_template_filename }}"
+    dest: "{{ pdns_admin_systemd_filepath }}"
+    owner: "root"
+    group: "root"
+  notify: Reload systemd
+
+- name: Copy {{ pdns_admin_conf_filename }}.
+  template:
+    src: "{{ pdns_admin_conf_template_filename }}"
+    dest: "{{ pdns_admin_conf_filepath }}"
+    owner: "root"
+    group: "root"
+  notify: Restart PowerDNS Admin Service
+
+- name: Run post hooks.
+  command: "{{ item }} chdir={{ pdns_admin_path }}"
+  environment:
+    PATH: "{{ pdns_admin_python_venv_path }}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    VIRTUAL_ENV: "{{ pdns_admin_python_venv_path }}"
+    FLASK_APP: "{{ pdns_admin_path }}/app/__init__.py"
+  loop:
+    - "flask db upgrade"
+    - "yarn install --pure-lockfile"
+    - "flask assets build"
+
+- name: Ensure PowerDNS Admin systemd unit is enabled and started.
+  service:
+    name: "{{ pdns_admin_systemd_filename }}"
+    state: "started"
+    enabled: "yes"
+
+- name: Template nginx configuration.
+  template:
+    src: "pdns_admin.conf.j2"
+    dest: "/etc/nginx/conf.d/pdns_admin.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  notify: Reload nginx

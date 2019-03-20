@@ -1,0 +1,14 @@
+---
+- name: Restart PowerDNS Admin Service
+  systemd:
+    name: "{{ pdns_admin_systemd_filename }}"
+    state: restarted
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: "yes"
+
+- name: Reload nginx
+  systemd:
+    name: "nginx"
+    state: "reloaded"

@@ -21,8 +21,15 @@ Voraussetzungen für die Control Machine:
 - Ansible Version >= 2.6
 - Python Modul `netaddr`
 - Python Modul `dnspython`
+- Ansible Galaxy Rollen müssen installiert sein
 
 Die Server werden mit ihren FQDNs im Ansible Inventory hinterlegt, bedenkt das für eure ssh-config.
+
+Ansible Galaxy Rollen installieren:
+
+```
+ansible-galaxy install -r requirements.yml
+```
 
 ## Gruppen-Variablen
 Viele Variablen sind Mesh-spezifisch und werden auf allen Gateways benötigt. Deshalb verwalten wir die Liste `meshes`. Jeder Listeneintrag ist ein Dictionary. Diese Liste befindet sich in der Sondergruppe `all` (inventory/group_vars/all) und steht damit allen Hosts im Inventory zur Verfügung.

@@ -1,0 +1,28 @@
+//
+// {{ ansible_managed }}
+//
+
+// ACLs
+masters "ns-master-ffmwu" {
+	{{ dns_internal.master_ipv4 | ipaddr('address') }};
+	{{ dns_internal.master_ipv6 | ipaddr('address') }};
+};
+
+acl "internal" {
+{% for network in internal_prefixes %}
+	{{ network.ipv4 | ipaddr('net') | ipaddr('network/prefix') }};
+	{{ network.ipv6 | ipaddr('net') | ipaddr('network/prefix') }};
+{% endfor %}
+};
+
+// DNS forward zones
+{% for zone in dns_internal.zones %}
+zone "{{ zone }}." {
+	type slave;
+	file "{{ zone }}.db";
+	masters { ns-master-ffmwu; };
+};
+{% if not loop.last %}
+
+{% endif %}
+{% endfor %}

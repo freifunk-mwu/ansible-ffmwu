@@ -35,15 +35,14 @@
     mode: 0644
   notify: restart bind9
 
-- name: write named.conf for meshes
+- name: write named.conf.ffmwu-zones
   template:
-    src: named.conf.mesh.j2
-    dest: /etc/bind/named.conf.{{ item.domain_code }}
+    src: named.conf.ffmwu-zones.j2
+    dest: /etc/bind/named.conf.ffmwu-zones
     owner: root
     group: bind
     mode: 0644
   notify: restart bind9
-  loop: "{{ meshes }}"
 
 - name: write initial icvpn bind config
   shell: /usr/bin/python3 /home/admin/clones/icvpn-scripts/mkdns -f bind -x mwu -x bingen -s /home/admin/clones/icvpn-meta > /etc/bind/named.conf.icvpn

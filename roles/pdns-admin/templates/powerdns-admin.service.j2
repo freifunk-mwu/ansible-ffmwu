@@ -1,0 +1,13 @@
+[Unit]
+Description=PowerDNS-Admin
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory={{ pdns_admin_path }}
+ExecStart={{ pdns_admin_python_venv_path }}/bin/gunicorn --workers 2 --bind unix:{{ pdns_admin_path }}/powerdns-admin.sock app:app
+Environment="PATH={{ pdns_admin_path }}"
+
+[Install]
+WantedBy=multi-user.target
