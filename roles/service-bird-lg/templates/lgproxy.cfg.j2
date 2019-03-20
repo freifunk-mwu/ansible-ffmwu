@@ -3,20 +3,14 @@ DEBUG=False
 LOG_FILE="/var/log/bird-lg/lg-proxy.log"
 LOG_LEVEL="WARNING"
 
-BIND_IP = "{{ loopback_net_ipv4 | ipaddr(magic) | ipaddr('address') }}"
+BIND_IP = "{{ loopback_net_ipv4 | ipsubnet(32, magic) | ipaddr('address') }}"
 BIND_PORT = 5000
 
-ACCESS_LIST = [
-{% for network in my_wireguard_networks %}
-{% if network.remote_hostname in groups["ffmwu-monitoring"] %}
-{% if magic > network.remote_magic %}
-   "{{ network.ipv4 | ipaddr(0) | ipaddr('address') }}",
-{% else %}
-   "{{ network.ipv4 | ipaddr(1) | ipaddr('address') }}",
-{% endif %}
-{% endif %}
-{% endfor %}
-]
+ACCESS_LIST = [ {% for host in groups["ffmwu-monitoring"] %}"{{ loopback_net_ipv4 | ipsubnet(32, hostvars[host]['magic']) | ipaddr('address') }}"{% if not loop.last %}, {% endif %}{% endfor %} ]
+
+# ???
+IPV4_SOURCE = "10.207.0.37"
+IPV6_SOURCE = "fec0::a:cf:0:25"
 
 BIRD_SOCKET="/var/run/bird/bird.ctl"
 BIRD6_SOCKET="/var/run/bird/bird6.ctl"
