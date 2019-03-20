@@ -3,7 +3,8 @@
 #
 
 # Variables
-define router_id = {{ loopback_net_ipv6 | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
+define router_id = {{ loopback_net_ipv4 | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
+define loopback_address = {{ loopback_net_ipv6 | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
 define mwu_address_legacy = {{ bgp_ipv6_transfer_net_legacy | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
 define mwu_as = {{ as_private }};
 
@@ -91,6 +92,7 @@ protocol kernel kernel_mwu {
     scan time 30;
     import none;
     export filter {
+        krt_prefsrc = loopback_address;
 {% if server_type == "gateway" %}
         if is_mwu_anycast() then reject;
 {% else %}
