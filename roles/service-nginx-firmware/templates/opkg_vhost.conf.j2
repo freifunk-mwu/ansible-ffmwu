@@ -1,0 +1,20 @@
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name opkg.{{ http_domain_internal }};
+
+    allow 127.0.0.0/8;
+    allow ::1;
+{% for prefix in internal_prefixes %}
+    allow {{ prefix.ipv4 }};
+    allow {{ prefix.ipv6 }};
+{% endfor%}
+    deny all;
+
+    location / {
+      proxy_pass https://downloads.openwrt.org/;
+      proxy_connect_timeout 6s;
+    }
+
+}
