@@ -17,4 +17,5 @@
   - network-routing
   - service-bird
   - service-nginx
+  - service-prometheus
   - service-nullmailer
