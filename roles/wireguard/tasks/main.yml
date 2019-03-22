@@ -78,3 +78,6 @@
     group: "root"
     mode: "0644"
   notify: reload network interfaces
+
+- name: flush handlers
+  meta: flush_handlers
