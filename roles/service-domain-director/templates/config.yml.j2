@@ -10,11 +10,13 @@ mls_api_key: "test"
 
 # domain config
 geojson: "{{ director_conf_dir }}/domains.geojson"
-default_domain: ffmz
+default_domain: "umland"
 
 # how often to update from meshviewer
 update_interval: 900
-meshviewer_json_url: "https://map.freifunk-mwu.de/data/meshviewer.json"
+
+meshviewer_url: "https://map.ffmwu.org/#!/de/map/%s"
+meshviewer_json_url: "https://map.ffmwu.org/data/meshviewer.json"
 
 # when to switch the domain
 domain_switch_time: -1
