@@ -1,19 +1,21 @@
 server {
     listen 80;
     listen [::]:80;
-    server_name dns-int.{{ http_domain_external }} dns-int.{{ http_domain_internal }};
+    server_name {{ http_dns_prefix }}.{{ http_domain_external }} {{ http_dns_prefix }}.{{ http_domain_internal }};
     return 301 https://$http_host$request_uri;
 }
 
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name dns-int.{{ http_domain_external }} dns-int.{{ http_domain_internal }};
+    server_name {{ http_dns_prefix }}.{{ http_domain_external }} {{ http_dns_prefix }}.{{ http_domain_internal }};
     index index.html index.htm;
 
     ssl_certificate /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
     ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;
     ssl_prefer_server_ciphers       on;
+
+    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
 
     client_max_body_size            10m;
     client_body_buffer_size         128k;

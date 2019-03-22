@@ -4,3 +4,5 @@ server_type: "mesh-service"
 magic: 67
 
 nodejs_major_version: "10"
+
+http_dns_prefix: "dns-int"
