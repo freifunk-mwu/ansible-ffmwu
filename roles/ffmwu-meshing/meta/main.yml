@@ -1,8 +1,0 @@
----
-
-dependencies:
-- { role: ffmwu-server }
-- { role: packages, pkg_repo_list: "{{meshing_pkg_repo_list}}",
-                    pkg_pkg_list: "{{meshing_pkg_pkg_list}}",
-                    pkg_pip_list: "{{meshing_pkg_pip_list}}",
-                    really_do: "{{ansible_managed_meshing}}" }
