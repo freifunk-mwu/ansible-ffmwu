@@ -1,7 +1,17 @@
 ---
 - name: Gather my own WireGuard networks.
   set_fact:
-    my_wireguard_networks: "{% set _my_nets = [] %}{% for net in wireguard_networks %}{% if inventory_hostname_short in net.peers %}{% do _my_nets.append(net) %}{% set remote = net.peers | reject('equalto', inventory_hostname_short) | list () | first %}{% set remote_hostname = remote + '.freifunk-mwu.de' %}{% set remote_magic = hostvars[remote_hostname]['magic'] %}{% do net.update({'remote': remote, 'remote_hostname': remote_hostname, 'remote_magic': remote_magic}) %}{% endif %}{% endfor %}{{ _my_nets }}"
+    my_wireguard_networks: "{% set _my_nets = [] %}\
+                            {% for net in wireguard_networks %}\
+                            {% if inventory_hostname_short in net.peers %}\
+                            {% do _my_nets.append(net) %}\
+                            {% set remote = net.peers | reject('equalto', inventory_hostname_short) | list () | first %}\
+                            {% set remote_hostname = remote + '.freifunk-mwu.de' %}\
+                            {% set remote_magic = hostvars[remote_hostname]['magic'] %}\
+                            {% do net.update({'remote': remote, 'remote_hostname': remote_hostname, 'remote_magic': remote_magic}) %}\
+                            {% endif %}\
+                            {% endfor %}\
+                            {{ _my_nets }}"
 
 - name: Set unstable pin priority.
   blockinfile:
