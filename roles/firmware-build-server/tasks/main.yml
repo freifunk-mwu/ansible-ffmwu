@@ -1,7 +1,7 @@
 ---
-- include: packages.yml
-- include: git-repos.yml
-- include: rsyncd.yml
+- import_tasks: packages.yml
+- import_tasks: git-repos.yml
+- import_tasks: rsyncd.yml
 
 - name: create user maesto
   user:
