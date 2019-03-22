@@ -1,0 +1,7 @@
+#!/usr/bin/ansible-playbook
+---
+- import_playbook: gateways.yml
+- import_playbook: monitoring.yml
+- import_playbook: mesh-services.yml
+- import_playbook: dns.yml
+- import_playbook: firmware-build-server.yml
