@@ -1,5 +1,2 @@
-[ffmwu-mesh-services:children]
-dns-master-internal
-
-[dns-master-internal]
+[ffmwu-mesh-services]
 kichererbse.freifunk-mwu.de
