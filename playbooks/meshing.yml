@@ -1,7 +1,0 @@
-#!/usr/bin/ansible-playbook
-
-- hosts: meshing-srv
-  remote_user: admin
-  roles:
-  - prerequisites
-  - ffmwu-meshing

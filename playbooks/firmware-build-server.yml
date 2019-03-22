@@ -1,7 +1,8 @@
 #!/usr/bin/ansible-playbook
+---
+- name: Manage firmware buid servers
+  hosts: ffmwu-build-servers
 
-- hosts: ffmwu-build-servers
-  remote_user: admin
   roles:
   - prerequisites
   - server-apt-repos

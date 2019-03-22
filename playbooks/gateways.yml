@@ -1,7 +1,8 @@
 #!/usr/bin/ansible-playbook
+---
+- name: Manage Freifunk Gateways
+  hosts: ffmwu-gateways
 
-- hosts: ffmwu-gateways
-  remote_user: admin
   roles:
   - prerequisites
   - server-apt-repos

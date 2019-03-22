@@ -1,7 +1,8 @@
 #!/usr/bin/ansible-playbook
+---
+- name: Manage Monitoring Server
+  hosts: ffmwu-monitoring
 
-- hosts: ffmwu-monitoring
-  remote_user: admin
   roles:
   - prerequisites
   - server-apt-repos
