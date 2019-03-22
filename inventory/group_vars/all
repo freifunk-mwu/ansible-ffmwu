@@ -165,6 +165,48 @@ wireguard_networks:
       - kichererbse
       - suesskartoffel
     port: 50020
+  - ipv4: 10.87.253.42/31
+    ipv6: fd86:b4dc:4b1e:fd::2a/127
+    peers:
+      - ingwer
+      - linse
+    port: 50021
+  - ipv4: 10.87.253.44/31
+    ipv6: fd86:b4dc:4b1e:fd::2c/127
+    peers:
+      - lotuswurzel
+      - linse
+    port: 50022
+  - ipv4: 10.87.253.46/31
+    ipv6: fd86:b4dc:4b1e:fd::2e/127
+    peers:
+      - spinat
+      - linse
+    port: 50023
+  - ipv4: 10.87.253.48/31
+    ipv6: fd86:b4dc:4b1e:fd::30/127
+    peers:
+      - uffschnitt
+      - linse
+    port: 50024
+  - ipv4: 10.87.253.50/31
+    ipv6: fd86:b4dc:4b1e:fd::32/127
+    peers:
+      - wasserfloh
+      - linse
+    port: 50025
+  - ipv4: 10.87.253.52/31
+    ipv6: fd86:b4dc:4b1e:fd::34/127
+    peers:
+      - suesskartoffel
+      - linse
+    port: 50026
+  - ipv4: 10.87.253.54/31
+    ipv6: fd86:b4dc:4b1e:fd::36/127
+    peers:
+      - kichererbse
+      - linse
+    port: 50027
 
 fastd_groups:
   - ffmwu-gateways
@@ -593,6 +635,12 @@ bgp_legacy_servers:
   extrasahne:
     ipv4: 10.37.0.42
     ipv6: fd37:b4dc:4b1e::a25:2a
+
+dns_external:
+  slaves:
+    - ns1.treck.de
+    - ns2.treck.de
+    - ns3.treck.de
 
 dns_internal:
   master_ipv4: 10.87.255.67

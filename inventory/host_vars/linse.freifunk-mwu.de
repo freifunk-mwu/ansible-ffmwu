@@ -1,0 +1,8 @@
+---
+server_type: "mesh-service"
+
+magic: 71
+
+nodejs_major_version: "10"
+
+http_dns_prefix: "dns-ext"
