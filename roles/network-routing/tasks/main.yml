@@ -60,10 +60,10 @@
     state: present
   loop: "{{ sysctl_settings_routing_basic }}"
 
-- name: set gateway sysctl settings for routing
-  when: server_type == "gateway" or server_type == "mesh-service"
+- name: set sysctl settings for ip forwarding
+  when: server_type == "gateway" or server_type == "mesh-service" or server_type == "monitoring"
   sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
     state: present
-  loop: "{{ sysctl_settings_routing_gateway }}"
+  loop: "{{ sysctl_settings_routing_forwarding }}"
