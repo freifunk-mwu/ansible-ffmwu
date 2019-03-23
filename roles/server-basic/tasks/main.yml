@@ -39,6 +39,22 @@
   timezone:
     name: Europe/Berlin
 
+- name: copy resolvconf if-up
+  copy:
+    src: resolvconf.if-up
+    dest: /etc/network/if-up.d/000resolvconf
+    owner: root
+    group: root
+    mode: 0755
+
+- name: copy resolvconf if-down
+  copy:
+    src: resolvconf.if-down
+    dest: /etc/network/if-down.d/resolvconf
+    owner: root
+    group: root
+    mode: 0755
+
 - name: create ffmwu custom config dir
   file:
     path: /home/admin/.ffmwu-config

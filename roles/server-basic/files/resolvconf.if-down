@@ -1,0 +1,8 @@
+#!/bin/sh
+# ifdown hook script for resolvconf
+# Written by Roy Marples <roy@marples.name> under the BSD-2 license
+
+[ -x /sbin/resolvconf ] || exit 0
+
+[ "$METHOD" = dhcp ] && /sbin/resolvconf -f -d "$IFACE"
+/sbin/resolvconf -f -d "$IFACE"

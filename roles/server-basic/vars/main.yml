@@ -9,6 +9,7 @@ packages:
   - mlocate
   - mosh
   - net-tools
+  - openresolv
   - python-pip
   - python3-yaml
   - sysfsutils
