@@ -1,0 +1,22 @@
+#!/bin/bash
+
+LOOPBACK="loopback"
+ANYCAST="{{ anycast_ipv4 | ipaddr('address') }}"
+
+ANYCAST_PRESENT=false
+if ping -c 1 "${ANYCAST}" > /dev/null 2>&1 ; then
+   ANYCAST_PRESENT=true
+fi
+
+DNS_PRESENT=false
+if /sbin/resolvconf -l "${LOOPBACK}" > /dev/null 2>&1 ; then
+    DNS_PRESENT=true
+fi
+
+if [[ ${ANYCAST_PRESENT} == true && ${DNS_PRESENT} == true ]] ; then
+    exit 0
+elif [[ ${ANYCAST_PRESENT} == true && ${DNS_PRESENT} == false ]] ; then
+    echo "nameserver ${ANYCAST}" | /sbin/resolvconf -a "${LOOPBACK}" -m 1
+elif [[ ${ANYCAST_PRESENT} == false && ${DNS_PRESENT} == true ]] ; then
+    /sbin/resolvconf -d "${LOOPBACK}"
+fi
