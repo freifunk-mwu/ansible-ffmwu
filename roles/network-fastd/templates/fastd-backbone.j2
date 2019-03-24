@@ -5,4 +5,5 @@
 #
 auto {{ item.0.id }}igvpn-{{ item.1.mtu }}
 iface {{ item.0.id }}igvpn-{{ item.1.mtu }}
+    mtu {{ item.1.mtu }}
     hwaddress {{ mac | hwaddr('linux') }}
