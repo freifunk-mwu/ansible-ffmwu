@@ -4,6 +4,7 @@
 {% for network in my_wireguard_networks %}
 auto wg-{{ network.remote[:11] }}
 iface wg-{{ network.remote[:11] }}
+   ipv6-addrgen off
 {% if magic < network.remote_magic %}
    address {{ network.ipv4 | ipaddr('ip/prefix') }}
    address {{ network.ipv6 | ipaddr('ip/prefix') }}
