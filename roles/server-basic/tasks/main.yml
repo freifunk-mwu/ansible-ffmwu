@@ -79,6 +79,14 @@
     group: root
     mode: 0644
 
+- name: configure bonding module options
+  template:
+    src: modprobe_bond.conf.j2
+    dest: /etc/modprobe.d/bond.conf
+    owner: root
+    group: root
+    mode: 0644
+
 - name: load dummy module
   modprobe:
     name: "dummy"
