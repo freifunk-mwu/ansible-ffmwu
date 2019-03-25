@@ -6,10 +6,8 @@
 {% for network in my_wireguard_networks %}
 {% if magic < network.remote_magic %}
 /sbin/ip -4 route add {{ network.ipv4 | ipaddr('network/prefix') }} dev wg-{{ network.remote[:11] }} scope link src {{ network.ipv4 | ipaddr('address') }} table mwu
-/sbin/ip -6 route add {{ network.ipv6 | ipaddr('network/prefix') }} dev wg-{{ network.remote[:11] }} scope link src {{ network.ipv6 | ipaddr('network') }} table mwu
 {% else %}
 /sbin/ip -4 route add {{ network.ipv4 | ipaddr('network/prefix') }} dev wg-{{ network.remote[:11] }} scope link src {{ network.ipv4 | ipaddr('1') | ipaddr('address') }} table mwu
-/sbin/ip -6 route add {{ network.ipv6 | ipaddr('network/prefix') }} dev wg-{{ network.remote[:11] }} scope link src {{ network.ipv6 | ipaddr('1') | ipaddr('address') }} table mwu
 {% endif %}
 {% endfor %}
 {% if server_type == 'gateway' or server_type == 'monitoring' %}

@@ -40,169 +40,141 @@ bgp_groups:
 
 wireguard_networks:
   - ipv4: 10.87.253.0/31
-    ipv6: fd86:b4dc:4b1e:fd::/127
     peers:
       - lotuswurzel
       - spinat
     port: 50000
   - ipv4: 10.87.253.2/31
-    ipv6: fd86:b4dc:4b1e:fd::2/127
     peers:
       - lotuswurzel
       - wasserfloh
     port: 50001
   - ipv4: 10.87.253.4/31
-    ipv6: fd86:b4dc:4b1e:fd::4/127
     peers:
       - lotuswurzel
       - uffschnitt
     port: 50002
   - ipv4: 10.87.253.6/31
-    ipv6: fd86:b4dc:4b1e:fd::6/127
     peers:
       - lotuswurzel
       - ingwer
     port: 50003
   - ipv4: 10.87.253.8/31
-    ipv6: fd86:b4dc:4b1e:fd::8/127
     peers:
       - spinat
       - wasserfloh
     port: 50004
   - ipv4: 10.87.253.10/31
-    ipv6: fd86:b4dc:4b1e:fd::a/127
     peers:
       - spinat
       - uffschnitt
     port: 50005
   - ipv4: 10.87.253.12/31
-    ipv6: fd86:b4dc:4b1e:fd::c/127
     peers:
       - spinat
       - ingwer
     port: 50006
   - ipv4: 10.87.253.14/31
-    ipv6: fd86:b4dc:4b1e:fd::e/127
     peers:
       - ingwer
       - wasserfloh
     port: 50007
   - ipv4: 10.87.253.16/31
-    ipv6: fd86:b4dc:4b1e:fd::10/127
     peers:
       - wasserfloh
       - uffschnitt
     port: 50008
   - ipv4: 10.87.253.18/31
-    ipv6: fd86:b4dc:4b1e:fd::12/127
     peers:
       - ingwer
       - uffschnitt
     port: 50009
   - ipv4: 10.87.253.20/31
-    ipv6: fd86:b4dc:4b1e:fd::14/127
     peers:
       - lotuswurzel
       - kichererbse
     port: 50010
   - ipv4: 10.87.253.22/31
-    ipv6: fd86:b4dc:4b1e:fd::16/127
     peers:
       - spinat
       - kichererbse
     port: 50011
   - ipv4: 10.87.253.24/31
-    ipv6: fd86:b4dc:4b1e:fd::18/127
     peers:
       - wasserfloh
       - kichererbse
     port: 50012
   - ipv4: 10.87.253.26/31
-    ipv6: fd86:b4dc:4b1e:fd::1a/127
     peers:
       - uffschnitt
       - kichererbse
     port: 50013
   - ipv4: 10.87.253.28/31
-    ipv6: fd86:b4dc:4b1e:fd::1c/127
     peers:
       - ingwer
       - kichererbse
     port: 50014
   - ipv4: 10.87.253.30/31
-    ipv6: fd86:b4dc:4b1e:fd::1e/127
     peers:
       - lotuswurzel
       - suesskartoffel
     port: 50015
   - ipv4: 10.87.253.32/31
-    ipv6: fd86:b4dc:4b1e:fd::20/127
     peers:
       - spinat
       - suesskartoffel
     port: 50016
   - ipv4: 10.87.253.34/31
-    ipv6: fd86:b4dc:4b1e:fd::22/127
     peers:
       - ingwer
       - suesskartoffel
     port: 50017
   - ipv4: 10.87.253.36/31
-    ipv6: fd86:b4dc:4b1e:fd::24/127
     peers:
       - wasserfloh
       - suesskartoffel
     port: 50018
   - ipv4: 10.87.253.38/31
-    ipv6: fd86:b4dc:4b1e:fd::26/127
     peers:
       - uffschnitt
       - suesskartoffel
     port: 50019
   - ipv4: 10.87.253.40/31
-    ipv6: fd86:b4dc:4b1e:fd::28/127
     peers:
       - kichererbse
       - suesskartoffel
     port: 50020
   - ipv4: 10.87.253.42/31
-    ipv6: fd86:b4dc:4b1e:fd::2a/127
     peers:
       - ingwer
       - linse
     port: 50021
   - ipv4: 10.87.253.44/31
-    ipv6: fd86:b4dc:4b1e:fd::2c/127
     peers:
       - lotuswurzel
       - linse
     port: 50022
   - ipv4: 10.87.253.46/31
-    ipv6: fd86:b4dc:4b1e:fd::2e/127
     peers:
       - spinat
       - linse
     port: 50023
   - ipv4: 10.87.253.48/31
-    ipv6: fd86:b4dc:4b1e:fd::30/127
     peers:
       - uffschnitt
       - linse
     port: 50024
   - ipv4: 10.87.253.50/31
-    ipv6: fd86:b4dc:4b1e:fd::32/127
     peers:
       - wasserfloh
       - linse
     port: 50025
   - ipv4: 10.87.253.52/31
-    ipv6: fd86:b4dc:4b1e:fd::34/127
     peers:
       - suesskartoffel
       - linse
     port: 50026
   - ipv4: 10.87.253.54/31
-    ipv6: fd86:b4dc:4b1e:fd::36/127
     peers:
       - kichererbse
       - linse

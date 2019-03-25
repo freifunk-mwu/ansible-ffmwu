@@ -4,13 +4,9 @@
 
 {% for network in my_wireguard_networks %}
 protocol bgp mwu_{{ network.remote }} from ibgp_mwu {
-{% if magic < network.remote_magic %}
-    source address {{ network.ipv6 | ipaddr('network') }};
-    neighbor {{ network.ipv6 | ipaddr('1') | ipaddr('address') }} as mwu_as;
-{% else %}
-    source address {{ network.ipv6 | ipaddr('1') | ipaddr('address') }};
-    neighbor {{ network.ipv6 | ipaddr('network') }} as mwu_as;
-{% endif %}
+    interface "wg-{{ network.remote[:11] }}";
+    source address {{ 'fe80::/64' | ipaddr(magic) | ipaddr('address') }};
+    neighbor {{ 'fe80::/64' | ipaddr(network.remote_magic) | ipaddr('address') }} as mwu_as;
 };
 
 {% endfor %}

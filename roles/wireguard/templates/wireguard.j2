@@ -12,10 +12,8 @@ iface wg-{{ network.remote[:11] }}
    ipv6-addrgen off
 {% if magic < network.remote_magic %}
    address {{ network.ipv4 | ipaddr('ip/prefix') }}
-   address {{ network.ipv6 | ipaddr('ip/prefix') }}
 {% else %}
    address {{ network.ipv4 | ipaddr('1') | ipaddr('ip/prefix') }}
-   address {{ network.ipv6 | ipaddr('1') | ipaddr('ip/prefix') }}
 {% endif %}
    address {{ 'fe80::/64' | ipaddr(magic) | ipaddr('ip/prefix') }}
    pre-up ip link add dev $IFACE type wireguard
