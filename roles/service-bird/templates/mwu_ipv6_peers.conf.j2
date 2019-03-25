@@ -14,7 +14,7 @@ protocol bgp mwu_{{ network.remote }} from ibgp_mwu {
 {% if server_type == 'gateway' %}
 {% for item, value in bgp_legacy_servers.items() %}
 {% if item != inventory_hostname_short %}
-protocol bgp mwu_{{ item }} from ibgp_mwu {
+protocol bgp mwu_{{ item }}_legacy from ibgp_mwu {
     source address mwu_address_legacy;
     neighbor {{ value.ipv6 }} as mwu_as;
 };
