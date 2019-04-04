@@ -59,6 +59,48 @@
   notify: restart fastd mesh instances
   loop: "{{ meshes | subelements('fastd.nodes.instances') }}"
 
+- name: install redis-server
+  apt:
+    name: redis-server
+    state: latest
+    default_release: stretch-backports
+
+- name: build fastd-limiter
+  shell: "go get -v -u github.com/freifunk-mwu/fastd-limiter"
+  environment:
+    GOPATH: "{{ gopath }}"
+
+- name: write fastd-limiter config
+  template:
+    src: fastd-limiter.yaml.j2
+    dest: /etc/fastd-limiter.yaml
+    owner: admin
+    group: admin
+    mode: 0644
+
+- name: write systemd units for fastd-limiter
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/systemd/system/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload systemd
+  loop:
+    - fastd-limiter-limit.service
+    - fastd-limiter-limit.timer
+    - fastd-limiter-peers.service
+    - fastd-limiter-peers.timer
+
+- name: configure systemd timers for fastd-limiter
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  loop:
+    - fastd-limiter-limit.timer
+    - fastd-limiter-peers.timer
+
 - name: write systemd unit fastd-sync-meshkeys.service
   template:
     src: fastd-sync-meshkeys.service.j2

@@ -1,0 +1,11 @@
+#
+# {{ ansible_managed }}
+#
+[Unit]
+Description=Update fastd peer limits
+
+[Service]
+Type=oneshot
+ExecStart={{ gopath }}/bin/fastd-limiter limit
+User=admin
+Group=admin

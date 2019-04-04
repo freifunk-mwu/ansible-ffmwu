@@ -1,0 +1,17 @@
+#
+# {{ ansible_managed }}
+#
+
+additional: 8
+
+redis_db: '127.0.0.1:6379'
+
+fastd_keys: '{{ git_path }}/peers-ffmwu'
+key_ttl: 900
+
+gateways:
+{% for gateway in groups['ffmwu-gateways'] %}
+  - {{ gateway.rsplit('.freifunk-mwu.de')[0] }}
+{% endfor %}
+
+metrics_url: 'https://%s.freifunk-mwu.de:9281/metrics'
