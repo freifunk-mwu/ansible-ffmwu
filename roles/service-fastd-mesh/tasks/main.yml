@@ -70,6 +70,12 @@
   environment:
     GOPATH: "{{ gopath }}"
 
+- name: configure systemd unit for redis-server
+  systemd:
+    name: redis-server.service
+    enabled: yes
+    state: started
+
 - name: write fastd-limiter config
   template:
     src: fastd-limiter.yaml.j2
