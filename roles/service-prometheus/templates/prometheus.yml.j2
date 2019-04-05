@@ -66,8 +66,7 @@ scrape_configs:
 {% for group in prometheus_groups %}
 {% for host in groups[group] %}
 {% if host != inventory_hostname %}
-        - "{{ host.rsplit('.')[0] }}.ffwi.org"
-        - "{{ host.rsplit('.')[0] }}.ffmz.org"
+        - "{{ host.rsplit('.')[0] }}.ffmwu.org"
 {% endif %}
 {% endfor %}
 {% endfor %}
