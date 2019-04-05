@@ -7,3 +7,8 @@
   systemd:
     name: bind9
     state: restarted
+
+- name: restart stunnel4
+  systemd:
+    name: stunnel4
+    state: restarted

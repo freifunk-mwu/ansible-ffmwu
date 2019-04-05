@@ -7,6 +7,7 @@
     - bind9
     - bind9-doc
     - bind9utils
+    - stunnel
 
 - name: write named.conf
   template:
@@ -43,6 +44,22 @@
     group: bind
     mode: 0644
   notify: restart bind9
+
+- name: write stunnel4 dnstls.conf
+  template:
+    src: dnstls.conf.j2
+    dest: /etc/stunnel/dnstls.conf
+    owner: root
+    group: stunnel4
+    mode: 0644
+  notify: restart stunnel4
+
+- name: enable stunnel4
+  lineinfile:
+    dest: "/etc/default/stunnel4"
+    regexp: '^ENABLED=0$'
+    line: 'ENABLED=1'
+  notify: restart stunnel4
 
 - name: write initial icvpn bind config
   shell: /usr/bin/python3 /home/admin/clones/icvpn-scripts/mkdns -f bind -x mwu -x bingen -s /home/admin/clones/icvpn-meta > /etc/bind/named.conf.icvpn
@@ -86,5 +103,11 @@
 - name: enable systemd unit bind9
   systemd:
     name: bind9
+    enabled: yes
+    state: started
+
+- name: enable systemd unit stunnel4
+  systemd:
+    name: stunnel4
     enabled: yes
     state: started

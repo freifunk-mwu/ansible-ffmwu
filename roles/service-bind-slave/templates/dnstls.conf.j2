@@ -1,0 +1,66 @@
+debug = warning
+
+pid = /var/run/stunnel4/dnstls.pid
+
+setuid = stunnel4
+setgid = stunnel4
+
+[dns-localhost]
+accept = 127.0.0.1:853
+connect = 127.0.0.1:53
+cert = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/cert.pem
+key = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem
+CAfile = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/chain.pem
+
+[dns-localhost-v6]
+accept = ::1:853
+connect = ::1:53
+cert = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/cert.pem
+key = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem
+CAfile = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/chain.pem
+
+[dns-anycast]
+accept = {{ anycast_ipv4 | ipaddr('address') }}:853
+connect = 127.0.0.1:53
+cert = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/cert.pem
+key = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem
+CAfile = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/chain.pem
+
+[dns-anycast-v6]
+accept = {{ anycast_ipv6 | ipaddr('address') }}:853
+connect = ::1:53
+cert = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/cert.pem
+key = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem
+CAfile = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/chain.pem
+
+[dns-loopback]
+accept = {{ loopback_net_ipv4 | ipaddr('net') | ipaddr(magic) | ipaddr('address') }}:853
+connect = 127.0.0.1:53
+cert = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/cert.pem
+key = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem
+CAfile = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/chain.pem
+
+[dns-loopback-v6]
+accept = {{ loopback_net_ipv6 | ipaddr('net') | ipaddr(magic) | ipaddr('address') }}:853
+connect = ::1:53
+cert = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/cert.pem
+key = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem
+CAfile = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/chain.pem
+
+{% for mesh in meshes %}
+[dns-{{ mesh.id }}]
+accept = {{ mesh.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') }}:853
+connect = 127.0.0.1:53
+cert = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/cert.pem
+key = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem
+CAfile = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/chain.pem
+
+{% for ip in mesh.ipv6_ula %}
+[dns-{{ mesh.id }}-v6-{{ loop.index }}]
+accept = {{ ip | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('address') }}:853
+connect = ::1:53
+cert = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/cert.pem
+key = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem
+CAfile = /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/chain.pem
+{% endfor %}
+{% endfor %}
