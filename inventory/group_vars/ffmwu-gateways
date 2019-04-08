@@ -17,6 +17,10 @@ common_repos:
     repo_url: https://github.com/freifunk/icvpn-scripts.git
     version: master
     force: no
+  peers-ffmwu:
+    repo_url: https://github.com/freifunk-mwu/peers-ffmwu.git
+    version: master
+    force: no
 
 prometheus_components:
   - node_exporter
