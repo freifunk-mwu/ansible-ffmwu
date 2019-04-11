@@ -37,6 +37,7 @@ Unattended-Upgrade::Origins-Pattern {
         "origin=Debian,codename=${distro_codename},archive=stable-updates";
         "origin=Debian,codename=${distro_codename},archive=proposed-updates";
         "origin=Debian,codename=${distro_codename},label=Debian-Security";
+        "origin=Debian,codename=sid,archive=unstable";
         "origin=Freifunk MWU,codename=${distro_codename},label=Freifunk MWU";
         "origin=nginx,codename=${distro_codename},label=nginx,archive=stable";
 {% if 'ffmwu-monitoring' in group_names %}
