@@ -1,0 +1,34 @@
+---
+- name: set facts
+  set_fact:
+    yanic_present: yes
+
+- name: create data dir
+  file:
+    path: "{{ yanic_home }}/data"
+    state: directory
+    owner: yanic
+    group: yanic
+    mode: 0755
+
+- name: create database
+  influxdb_database:
+      database_name: "{{ yanic_database }}"
+
+- name: write config
+  template:
+    src: "yanic.conf.j2"
+    dest: "{{ yanic_config }}"
+  notify: restart yanic
+
+- name: create systemd unit
+  template:
+    src: "yanic.service.j2"
+    dest: "/etc/systemd/system/yanic.service"
+  notify: reload systemd
+
+- name: configure systemd unit
+  systemd:
+    name: "yanic.service"
+    enabled: yes
+    state: started

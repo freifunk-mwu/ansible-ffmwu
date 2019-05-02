@@ -1,0 +1,18 @@
+---
+- name: write config
+  template:
+    src: "respondd.conf.j2"
+    dest: "{{ respondd_config }}"
+  notify: restart respondd
+
+- name: create systemd unit
+  template:
+    src: "respondd.service.j2"
+    dest: "/etc/systemd/system/respondd.service"
+  notify: reload systemd
+
+- name: configure systemd unit
+  systemd:
+    name: "respondd.service"
+    enabled: yes
+    state: started

@@ -1,62 +1,35 @@
 ---
-- name: set facts about Yanic
-  set_fact:
-    yanic_present: yes
-
-- name: create Yanic system user
+- name: create system user
   user:
     name: "{{ yanic_user }}"
     home: "{{ yanic_home }}"
     shell: /bin/false
 
-- name: create data dir
-  file:
-    path: "{{ yanic_home }}/data"
-    state: directory
-    owner: yanic
-    group: yanic
-    mode: 0755
-
-- name: create database
-  influxdb_database:
-      database_name: "{{ yanic_database }}"
-
-- name: write Yanic config
-  template:
-    src: "yanic.conf.j2"
-    dest: "{{ yanic_config }}"
-  notify: restart yanic
-
-- name: create systemd unit for Yanic
-  template:
-    src: "yanic.service.j2"
-    dest: "/etc/systemd/system/yanic.service"
-  notify: reload systemd
-
-- name: create Yanic source directory
+- name: create source directory
   file:
     path: "{{ gopath }}/src/{{ yanic_src }}"
     state: directory
 
-- name: clone Yanic repository
+- name: clone repository
   git:
     repo: "https://{{ yanic_src }}"
     dest: "{{ gopath }}/src/{{ yanic_src }}"
+    version: respondd
     force: true
 
-- name: get required library versions
+- name: ensure dependencies
   shell: "cd {{ gopath }}/src/{{ yanic_src }} && {{ gopath }}/bin/dep ensure"
   environment:
     GOPATH: "{{ gopath }}"
 
-- name: build Yanic binary
+- name: build binary
   shell: 'go install {{ gopath }}/src/{{ yanic_src }}'
   environment:
     GOPATH: "{{ gopath }}"
-  notify: restart yanic
 
-- name: configure Yanic systemd unit
-  systemd:
-    name: "yanic.service"
-    enabled: yes
-    state: started
+- name: configure yanic
+  include_tasks: yanic.yml
+  when: server_type == "monitoring"
+
+- name: configure respondd
+  include_tasks: respondd.yml

@@ -1,4 +1,3 @@
 ---
 dependencies:
-  - { role: golang }
-  - { role: service-influxdb }
+#  - { role: golang }

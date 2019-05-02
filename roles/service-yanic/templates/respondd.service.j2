@@ -1,0 +1,15 @@
+[Unit]
+Description=respondd
+Documentation=https://github.com/FreifunkBremen/yanic
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+
+ExecStart={{ yanic_path }}  respondd --config {{ respondd_config }}
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

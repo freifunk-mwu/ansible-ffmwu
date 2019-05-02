@@ -2,6 +2,7 @@
 yanic_user: "yanic"
 yanic_home: "/var/lib/yanic"
 yanic_path: "{{ gopath }}/bin/yanic"
-yanic_config: "/etc/yanic.conf"
 yanic_database: "yanic"
 yanic_src: "github.com/FreifunkBremen/yanic"
+yanic_config: "/etc/yanic.conf"
+respondd_config: "/etc/respondd.conf"

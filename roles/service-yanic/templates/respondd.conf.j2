@@ -1,0 +1,20 @@
+data_interval = "1m"
+
+batman = [ {% for mesh in meshes %}"{{mesh.id}}bat"{% if not loop.last %}, {% endif %}{% endfor %}]
+
+[[listen]]
+address   = "ff05::2:1001"
+interface = "dom0br"
+port      = 1001
+
+[defaults]
+node_id  = ""
+hostname = ""
+site_code = "ffmwu"
+domain_code = "servers"
+{% if server_type == "gateway" %}
+vpn = true
+{% else %}
+vpn = false
+{% endif %}
+traffic_interfaces = [ "{{ ansible_default_ipv4.interface }}" ]
