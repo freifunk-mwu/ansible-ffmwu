@@ -88,6 +88,10 @@ module.exports = function () {
     'domainNames': [
 {% for mesh in meshes %}
       {
+        'domain': 'servers',
+        'name': 'Server'
+      },
+      {
         'domain': '{{ mesh.domain_code }}',
         'name': '{{ mesh.domain_name }}'
       },
