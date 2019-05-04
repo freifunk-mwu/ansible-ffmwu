@@ -1,3 +1,4 @@
 ---
 dependencies:
-#  - { role: golang }
+  - { role: golang }
+  - { role: wireguard }

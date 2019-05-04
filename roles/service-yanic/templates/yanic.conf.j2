@@ -22,6 +22,14 @@ domains = [
 {% endfor %}
 ]
 
+[[respondd.interfaces]]
+ifname = "loopback"
+multicast_address = "ff02::2:1001"
+{% for network in my_wireguard_networks %}
+[[respondd.interfaces]]
+ifname = "wg-{{ network.remote[:11] }}"
+multicast_address = "ff02::2:1001"
+{% endfor %}
 {% for mesh in meshes %}
 [[respondd.interfaces]]
 ifname = "{{mesh.id}}br"
