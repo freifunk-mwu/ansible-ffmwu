@@ -7,23 +7,23 @@
 
 - name: create source directory
   file:
-    path: "{{ gopath }}/src/{{ yanic_src }}"
+    path: "{{ gopath }}/src/{{ yanic_dst }}"
     state: directory
 
 - name: clone repository
   git:
     repo: "https://{{ yanic_src }}"
-    dest: "{{ gopath }}/src/{{ yanic_src }}"
-    version: respondd
+    dest: "{{ gopath }}/src/{{ yanic_dst }}"
+    version: "{{ yanic_version }}"
     force: true
 
 - name: ensure dependencies
-  shell: "cd {{ gopath }}/src/{{ yanic_src }} && {{ gopath }}/bin/dep ensure"
+  shell: "cd {{ gopath }}/src/{{ yanic_dst }} && {{ gopath }}/bin/dep ensure"
   environment:
     GOPATH: "{{ gopath }}"
 
 - name: build binary
-  shell: 'go install {{ gopath }}/src/{{ yanic_src }}'
+  shell: 'go install {{ gopath }}/src/{{ yanic_dst }}'
   environment:
     GOPATH: "{{ gopath }}"
 
