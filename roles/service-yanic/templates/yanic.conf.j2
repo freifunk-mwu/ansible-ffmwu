@@ -25,12 +25,10 @@ domains = [
 {% for mesh in meshes %}
 [[respondd.interfaces]]
 ifname = "{{mesh.id}}br"
-{% if mesh.legacy is defined %}
-ip_address = "{{ 'fe80::1:aff:fe%02x:%02x' % (mesh.domain_number, magic) }}"
-{% else %}
-ip_address = "{{ 'fe80::1:aff:fe56:%0x%03x' % (mesh.domain_number, magic) }}"
-{% endif %}
 multicast_address = "ff05::2:1001"
+[[respondd.interfaces]]
+ifname = "{{mesh.id}}br"
+multicast_address = "ff02::2:1001"
 {% endfor %}
 
 [nodes]
