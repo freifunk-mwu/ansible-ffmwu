@@ -6,6 +6,22 @@ batman = [ {% for mesh in meshes %}"{{mesh.id}}bat"{% if not loop.last %}, {% en
 address   = "ff05::2:1001"
 interface = "dom0br"
 port      = 1001
+{% for mesh in meshes %}
+{% if server_type == 'gateway' %}
+{% for instance in mesh.fastd.nodes.instances %}
+[[listen]]
+address   = "ff02::2:1001"
+interface = "{{ mesh.id }}vpn-{{ instance.mtu }}"
+port      = 1001
+{% endfor %}
+{% endif %}
+{% for instance in mesh.fastd.backbone.instances %}
+[[listen]]
+address   = "ff02::2:1001"
+interface = "{{ mesh.id }}igvpn-{{ instance.mtu }}"
+port      = 1001
+{% endfor %}
+{% endfor %}
 
 [defaults]
 node_id  = ""
