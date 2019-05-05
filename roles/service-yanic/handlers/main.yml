@@ -4,6 +4,7 @@
     daemon_reload: yes
 
 - name: restart yanic
+  when: server_type == "monitoring"
   systemd:
     name: yanic
     state: restarted

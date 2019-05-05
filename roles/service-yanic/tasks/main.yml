@@ -26,6 +26,9 @@
   shell: 'go install {{ gopath }}/src/{{ yanic_dst }}'
   environment:
     GOPATH: "{{ gopath }}"
+  notify:
+    - restart respondd
+    - restart yanic
 
 - name: configure yanic
   include_tasks: yanic.yml
