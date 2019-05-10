@@ -13,14 +13,14 @@ geojson: "{{ director_conf_dir }}/domains.geojson"
 default_domain: "umland"
 
 # how often to update from meshviewer
-update_interval: 900
+update_interval: 300
 
 meshviewer_url: "https://map.ffmwu.org/#!/de/map/%s"
 meshviewer_json_url: "https://map.ffmwu.org/data/meshviewer.json"
 
 # when to switch the domain (unix epoch)
 # -1 to disable
-domain_switch_time: 1556780400
+domain_switch_time: -1
 
 # migrate meshes with only one node
 only_migrate_vpn: false
