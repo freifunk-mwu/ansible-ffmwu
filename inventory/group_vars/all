@@ -503,7 +503,7 @@ meshes:
     legacy: true
     domain_number: 37
     domain_code: ffmz
-    domain_name: Mainz
+    domain_name: "Mainz (legacy)"
     aliases:
       ffbin: "Bingen (legacy)"
       ffrhg: "Rheingau (legacy)"
@@ -550,7 +550,7 @@ meshes:
     legacy: true
     domain_number: 56
     domain_code: ffwi
-    domain_name: Wiesbaden
+    domain_name: "Wiesbaden (legacy)"
     aliases:
       ffta: "Taunus (legacy)"
     ipv4_network: 10.56.0.0/18
