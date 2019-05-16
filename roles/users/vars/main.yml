@@ -24,3 +24,5 @@ ssh_keys_admin_team:
     ssh_public_key: "{{ lookup('file', 'kokel.pub') }}"
   - name: belzebub
     ssh_public_key: "{{ lookup('file', 'belzebub.pub') }}"
+  - name: n0trax
+    ssh_public_key: "{{ lookup('file', 'n0trax.pub') }}"
