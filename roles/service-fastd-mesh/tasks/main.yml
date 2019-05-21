@@ -81,14 +81,11 @@
     mode: 0644
   notify: reload systemd
 
-- name: configure systemd timers for fastd-mesh instance
+- name: configure systemd timer for fastd-sync-meshkeys
   systemd:
-    name: "{{ item }}.timer"
+    name: "fastd-sync-meshkeys.timer"
     enabled: yes
     state: started
-  loop:
-    - fastd-sync-meshkeys
-    - fastd-peer-limit-update
 
 - name: configure systemd unit fastd@
   systemd:
