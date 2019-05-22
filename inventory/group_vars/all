@@ -34,9 +34,9 @@ public_prefixes:
 bgp_ipv4_transfer_net_legacy: 10.37.0.0/18
 bgp_ipv6_transfer_net_legacy: fd37:b4dc:4b1e::/64
 bgp_groups:
-  - ffmwu-gateways
-  - ffmwu-mesh-services
-  - ffmwu-monitoring
+  - gateways
+  - services
+  - monitoring
 
 wireguard_networks:
   - ipv4: 10.87.253.0/31
@@ -181,13 +181,13 @@ wireguard_networks:
     port: 50027
 
 fastd_groups:
-  - ffmwu-gateways
-  - ffmwu-monitoring
+  - gateways
+  - monitoring
 
 prometheus_groups:
-  - ffmwu-gateways
-  - ffmwu-mesh-services
-  - ffmwu-monitoring
+  - gateways
+  - services
+  - monitoring
 
 node_exporter_opts: "--collector.systemd"
 

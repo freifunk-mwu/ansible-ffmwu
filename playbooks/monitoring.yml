@@ -1,7 +1,7 @@
 #!/usr/bin/ansible-playbook
 ---
 - name: Manage Monitoring Server
-  hosts: ffmwu-monitoring
+  hosts: monitoring
 
   roles:
   - prerequisites

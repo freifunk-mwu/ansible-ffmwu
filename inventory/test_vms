@@ -1,2 +1,2 @@
-[test-vms]
+[test_vms]
 local-test-vm.ffmwu.local  ansible_host=192.168.137.7 require_dns=False

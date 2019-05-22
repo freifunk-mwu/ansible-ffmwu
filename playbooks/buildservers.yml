@@ -1,7 +1,7 @@
 #!/usr/bin/ansible-playbook
 ---
 - name: Manage firmware buid servers
-  hosts: ffmwu-build-servers
+  hosts: buildservers
 
   roles:
   - prerequisites

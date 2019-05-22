@@ -98,13 +98,13 @@ protocol kernel kernel_mwu {
 {% else %}
         if is_mwu_anycast() then accept;
 {% endif %}
-{% if server_type == "mesh-service" %}
+{% if server_type == "service" %}
         if is_ula() then accept;
 {% endif %}
         if is_mwu_loopback() then accept;
         reject;
     };
-    merge paths yes limit {{ groups['ffmwu-gateways'] | length }};
+    merge paths yes limit {{ groups['gateways'] | length }};
     kernel table ipt_mwu;
 };
 

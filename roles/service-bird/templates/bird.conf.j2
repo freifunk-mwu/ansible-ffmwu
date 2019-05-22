@@ -116,7 +116,7 @@ protocol kernel kernel_mwu {
         if is_mwu_loopback() then accept;
         reject;
     };
-    merge paths yes limit {{ groups['ffmwu-gateways'] | length }};
+    merge paths yes limit {{ groups['gateways'] | length }};
     kernel table ipt_mwu;
 };
 

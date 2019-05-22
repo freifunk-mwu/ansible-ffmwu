@@ -61,7 +61,7 @@
   loop: "{{ sysctl_settings_routing_basic }}"
 
 - name: set sysctl settings for ip forwarding
-  when: server_type == "gateway" or server_type == "mesh-service" or server_type == "monitoring"
+  when: server_type == "gateway" or server_type == "service" or server_type == "monitoring"
   sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"

@@ -13,7 +13,7 @@ server {
 
       allow 127.0.0.0/8;
       allow ::1/128;
-{% for group in ['ffmwu-monitoring', 'ffmwu-gateways'] %}
+{% for group in ['monitoring', 'gateways'] %}
 {% for host in groups[group] %}
       allow {{ lookup('dig', host, 'qtype=A') }};
       allow {{ lookup('dig', host, 'qtype=AAAA') }};

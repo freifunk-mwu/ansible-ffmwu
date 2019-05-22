@@ -10,7 +10,7 @@ fastd_keys: '{{ git_path }}/peers-ffmwu'
 key_ttl: 900
 
 gateways:
-{% for gateway in groups['ffmwu-gateways'] %}
+{% for gateway in groups['gateways'] %}
   - {{ gateway.rsplit('.freifunk-mwu.de')[0] }}
 {% endfor %}
 

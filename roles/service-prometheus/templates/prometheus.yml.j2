@@ -47,7 +47,7 @@ scrape_configs:
     scheme: "https"
     static_configs:
       - targets:
-{% for host in groups['ffmwu-gateways'] %}
+{% for host in groups['gateways'] %}
         - '{{ host }}:9281'
 {% endfor %}
     relabel_configs:

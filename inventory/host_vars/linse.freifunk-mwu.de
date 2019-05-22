@@ -1,5 +1,5 @@
 ---
-server_type: "mesh-service"
+server_type: "service"
 
 magic: 71
 

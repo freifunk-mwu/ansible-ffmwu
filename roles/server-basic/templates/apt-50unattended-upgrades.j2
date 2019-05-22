@@ -40,13 +40,13 @@ Unattended-Upgrade::Origins-Pattern {
         "origin=Debian,codename=sid,archive=unstable";
         "origin=Freifunk MWU,codename=${distro_codename},label=Freifunk MWU";
         "origin=nginx,codename=${distro_codename},label=nginx,archive=stable";
-{% if 'ffmwu-monitoring' in group_names %}
+{% if 'monitoring' in group_names %}
         "origin=yarn,codename=stable,archive=stable,label=yarn-stable";
         "origin=Node Source,codename=${distro_codename},label=Node Source";
         "origin=InfluxDB,codename=${distro_codename},label=InfluxDB";
         "origin=grafana stable,codename=stable,archive=stable,label=grafana stable";
 {% endif %}
-{% if 'ffmwu-dns' in group_names %}
+{% if 'dns' in group_names %}
         "origin=PowerDNS,label=PowerDNS";
 {% endif %}
 };

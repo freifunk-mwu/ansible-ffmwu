@@ -3,7 +3,7 @@
 Wir, die Freifunk MWU Community, nutzen Ansible um unsere Freifunk Server aufzusetzen und zu konfigurieren. In
 diesem Repository verwalten wir unsere Ansible Roles und Playbooks.
 
-Ein Server muss minimal vorbereitet sein, bevor dieser per Ansible z.B. zu einem Freifunk-Gateway gemacht werden 
+Ein Server muss minimal vorbereitet sein, bevor dieser per Ansible z.B. zu einem Freifunk-Gateway gemacht werden
 kann. Die folgenden Voraussetzungen müssen erfüllt sein:
 
 - Ein dedizierter (v)server muss existieren und unter einer IPv4- und einer IPv6-Adresse öffentlich erreichbar sein.
@@ -154,7 +154,7 @@ export PASSWORD_STORE_DIR=...
 
 ## Aufsetzen eines neuen Gateways
 
-- FQDN im Inventory zur Gruppe ffmwu-gateways hinzufügen
+- FQDN im Inventory zur Gruppe gateways hinzufügen
 - Host-Variablen setzen
   - inventory/host_vars/$FQDN
 

@@ -6,7 +6,7 @@ LOG_LEVEL="WARNING"
 BIND_IP = "{{ loopback_net_ipv4 | ipsubnet(32, magic) | ipaddr('address') }}"
 BIND_PORT = 5000
 
-ACCESS_LIST = [ {% for host in groups["ffmwu-monitoring"] %}"{{ loopback_net_ipv4 | ipsubnet(32, hostvars[host]['magic']) | ipaddr('address') }}"{% if not loop.last %}, {% endif %}{% endfor %} ]
+ACCESS_LIST = [ {% for host in groups["monitoring"] %}"{{ loopback_net_ipv4 | ipsubnet(32, hostvars[host]['magic']) | ipaddr('address') }}"{% if not loop.last %}, {% endif %}{% endfor %} ]
 
 # ???
 IPV4_SOURCE = "10.207.0.37"

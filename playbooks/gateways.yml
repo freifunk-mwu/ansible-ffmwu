@@ -1,7 +1,7 @@
 #!/usr/bin/ansible-playbook
 ---
 - name: Manage Freifunk Gateways
-  hosts: ffmwu-gateways
+  hosts: gateways
 
   roles:
   - prerequisites
