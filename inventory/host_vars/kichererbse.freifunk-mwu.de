@@ -50,7 +50,7 @@ pdns_config:
 
 pdns_backends:
   gmysql:
-    host: "127.0.0.1"
+    host: "localhost"
     user: "powerdns"
     password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_powerdns subkey=secret') }}"
     dbname: "powerdns"
