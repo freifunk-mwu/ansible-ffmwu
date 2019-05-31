@@ -56,6 +56,19 @@ scrape_configs:
         replacement: '$1'
         target_label: hostname
 
+  - job_name: "dhcpd"
+    scheme: "https"
+    static_configs:
+      - targets:
+{% for host in groups['gateways'] %}
+        - '{{ host }}:9547'
+{% endfor %}
+    relabel_configs:
+      - source_labels: [__address__]
+        regex: '([a-z]+)\..*'
+        replacement: '$1'
+        target_label: hostname
+
 {% for job in ['icmp4','icmp6'] %}
   - job_name: "{{ job }}"
     metrics_path: /probe
