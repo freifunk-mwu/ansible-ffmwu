@@ -35,8 +35,32 @@
     state: absent
   notify: reload systemd
 
-- name: enable systemd unit kea
+- name: install kea-exporter
+  pip:
+    name: kea-exporter
+    executable: pip3
+  notify: restart kea-exporter
+
+- name: create systemd unit for exporter
+  template:
+    src: "kea-exporter.service.j2"
+    dest: "/etc/systemd/system/kea-exporter.service"
+  notify: reload systemd
+
+- name: write vhost for exporter
+  template:
+    src: kea_exporter_vhost.conf.j2
+    dest: /etc/nginx/conf.d/kea_exporter.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+
+- name: enable systemd units
   systemd:
-    name: kea-dhcp4-server
+    name: "{{ item }}"
     enabled: yes
     state: started
+  loop:
+    - kea-dhcp4-server
+    - kea-exporter

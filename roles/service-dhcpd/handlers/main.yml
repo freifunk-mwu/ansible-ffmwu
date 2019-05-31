@@ -7,3 +7,13 @@
   systemd:
     name: kea-dhcp4-server
     state: restarted
+
+- name: restart kea-exporter
+  systemd:
+    name: kea-exporter
+    state: restarted
+
+- name: restart nginx
+  systemd:
+    name: nginx
+    state: restarted

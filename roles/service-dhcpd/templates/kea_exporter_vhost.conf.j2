@@ -1,0 +1,22 @@
+server {
+    listen {{ lookup('dig', inventory_hostname, 'qtype=A') }}:9547 ssl;
+    listen [{{ lookup('dig', inventory_hostname, 'qtype=AAAA') }}]:9547 ssl;
+    server_name {{ inventory_hostname_short }}.{{ http_domain_external }} {{ inventory_hostname_short }}.{{ http_domain_internal }};
+
+    ssl_certificate     /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;
+
+    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+
+    location / {
+      proxy_pass http://127.0.0.1:9547;
+
+      allow 127.0.0.0/8;
+      allow ::1/128;
+{% for host in groups['monitoring'] %}
+      allow {{ lookup('dig', host, 'qtype=A') }};
+      allow {{ lookup('dig', host, 'qtype=AAAA') }};
+      deny all;
+{% endfor %}
+    }
+}
