@@ -54,6 +54,7 @@
   pip:
     name: git+https://github.com/freifunk-darmstadt/ffda-domain-director.git
     executable: pip3
+    state: latest
   notify: restart domain-director
 
 - name: write vhost

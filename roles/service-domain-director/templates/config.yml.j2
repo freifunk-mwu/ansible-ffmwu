@@ -2,25 +2,30 @@
 host: "::1"
 port: 28530
 
-# data paths
-sqlite_path: "{{ director_data_dir }}/director.db"
+geo:
+    provider: "mozilla"
+    mozilla:
+        api_key: "test"
 
-# mozilla location services
-mls_api_key: "test"
+director:
+    enabled: true
 
-# domain config
-geojson: "{{ director_conf_dir }}/domains.geojson"
-default_domain: "umland"
+    sqlite_path: "{{ director_data_dir }}/director.db"
 
-# how often to update from meshviewer
-update_interval: 300
+    admin:
+        enabled: true
+        token: {{ lookup('passwordstore', 'suesskartoffel/domain_director_admin') }}
 
-meshviewer_url: "https://map.ffmwu.org/#!/de/map/%s"
-meshviewer_json_url: "https://map.ffmwu.org/data/meshviewer.json"
+    geojson: "{{ director_conf_dir }}/domains.geojson"
+    meshviewer_url: "https://map.ffmwu.org/#!/de/map/%s"
+    meshviewer_json_url: "https://map.ffmwu.org/data/meshviewer.json"
+    update_interval: 300
 
-# when to switch the domain (unix epoch)
-# -1 to disable
-domain_switch_time: -1
+    default_domain: umland
+    domain_switch_time: -1
+    only_migrate_vpn: false
+    tolerance_distance: 200
+    max_accuracy: 100
 
-# migrate meshes with only one node
-only_migrate_vpn: false
+locator:
+    enabled: true
