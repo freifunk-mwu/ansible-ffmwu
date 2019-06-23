@@ -40,4 +40,5 @@ vpn = true
 {% else %}
 vpn = false
 {% endif %}
-traffic_interfaces = [ "{{ ansible_default_ipv4.interface }}" ]
+interfaces_traffic = [ "{{ ansible_default_ipv4.interface }}" ]
+interfaces_address = [ "loopback" ]
