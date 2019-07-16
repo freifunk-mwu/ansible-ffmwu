@@ -86,3 +86,28 @@ server {
 {% endif %}
 {% endif %}
 {% endfor %}
+
+{% if meshviewer_additional_domains is defined %}
+{% for domain in meshviewer_additional_domains %}
+server {
+    listen 80;
+    listen [::]:80;
+    server_name {{ http_meshviewer_prefix }}.{{ domain }};
+    return 301 https://{{ http_meshviewer_external }}$request_uri;
+
+    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name {{ http_meshviewer_prefix }}.{{ domain }};
+    return 301 https://{{ http_meshviewer_external }}$request_uri;
+
+    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+}
+{% if not loop.last %}
+
+{% endif %}
+{% endfor %}
+{% endif %}

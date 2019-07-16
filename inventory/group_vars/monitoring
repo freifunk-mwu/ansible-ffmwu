@@ -25,3 +25,6 @@ alertmanager_opts: "--web.external-url=https://{{ http_prometheus_prefix }}.{{ h
 
 yanic_blacklist:
   - 98ded0c5e0c0
+
+meshviewer_additional_domains:
+  - freifunk-wiesbaden.de
