@@ -21,6 +21,11 @@
     name: "{{ packages }}"
     state: present
 
+- name: ensure ifupdown2 package is installed
+  package:
+    name: ifupdown2
+    state: present
+
 - name: ensure vim is default editor
   alternatives:
     name: editor
