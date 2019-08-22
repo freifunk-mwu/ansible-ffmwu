@@ -34,6 +34,44 @@
     "unwarned-reclaim-cycles": {{ kea_expired_leases_processing['unwarned_reclaim_cycles'] }}
   },
   "valid-lifetime": {{ kea_lease_time }},
+  "option-def": [
+    {
+      "name": "unifi-address",
+      "code": 1,
+      "type": "ipv4-address",
+      "space": "ubnt"
+    }
+  ],
+{% if unifi_server is defined %}
+  "client-classes": [
+    {
+      "name": "ubnt",
+      "test": "substring(option[vendor-class-identifier].text, 0, 4) == 'ubnt'",
+      "option-def": [
+        {
+          "name": "vendor-encapsulated-options",
+          "code": 43,
+          "type": "empty",
+          "encapsulate": "ubnt"
+        }
+      ],
+      "option-data": [
+        {
+          "name": "vendor-class-identifier",
+          "data": "ubnt"
+        },
+        {
+          "name": "unifi-address",
+          "space": "ubnt",
+          "data": "{{ loopback_net_ipv4 | ipaddr(hostvars[unifi_server + '.' + http_domain_external ]['magic']) | ipaddr('address') }}"
+        },
+        {
+          "name": "vendor-encapsulated-options"
+        }
+      ]
+    }
+  ],
+{% endif %}
   "subnet4": [
 {% for mesh in meshes %}
     {
