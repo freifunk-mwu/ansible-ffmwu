@@ -179,6 +179,46 @@ wireguard_networks:
       - kichererbse
       - linse
     port: 50027
+  - ipv4: 10.87.253.56/31
+    peers:
+      - unifi
+      - ingwer
+    port: 50028
+  - ipv4: 10.87.253.58/31
+    peers:
+      - unifi
+      - spinat
+    port: 50029
+  - ipv4: 10.87.253.60/31
+    peers:
+      - unifi
+      - uffschnitt
+    port: 50030
+  - ipv4: 10.87.253.62/31
+    peers:
+      - unifi
+      - lotuswurzel
+    port: 50031
+  - ipv4: 10.87.253.64/31
+    peers:
+      - unifi
+      - wasserfloh
+    port: 50032
+  - ipv4: 10.87.253.66/31
+    peers:
+      - unifi
+      - linse
+    port: 50033
+  - ipv4: 10.87.253.68/31
+    peers:
+      - unifi
+      - kichererbse
+    port: 50034
+  - ipv4: 10.87.253.70/31
+    peers:
+      - unifi
+      - suesskartoffel
+    port: 50035
 
 fastd_groups:
   - gateways
