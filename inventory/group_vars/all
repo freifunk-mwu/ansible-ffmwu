@@ -238,6 +238,8 @@ mail_domain: freifunk-mwu.de
 
 acme_server: zuckerwatte
 
+unifi_server: unifi
+
 git_path: "/home/admin/clones"
 
 gopath: "/opt/go"
