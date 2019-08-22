@@ -1,0 +1,8 @@
+#!/usr/bin/ansible-playbook
+---
+- name: Unifi Controller.
+  hosts: unifi
+
+  roles:
+  - service-unifi
+  - service-nginx-unms

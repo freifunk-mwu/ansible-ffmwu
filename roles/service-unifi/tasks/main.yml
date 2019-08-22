@@ -1,0 +1,13 @@
+---
+
+- name: get java-home
+  shell: ls /etc/alternatives/java -l | cut -d' ' -f11| sed 's/bin\/java//g'
+  register: unifi_raw_java_home
+  when: unifi_java_home is not defined
+
+- name: set java-home
+  set_fact:
+    unifi_java_home: "{{ unifi_raw_java_home.stdout }}"
+  when: unifi_java_home is not defined
+
+- include: install.yml

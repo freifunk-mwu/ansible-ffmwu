@@ -1,0 +1,85 @@
+---
+
+- name: check for systemd
+  command: systemctl --version
+  register: unifi_controller_systemctl_version
+  ignore_errors: yes
+
+- name: add apt-key unifi
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 06E85760C0A52C50
+  become: yes
+
+- name: add apt-repo unifi
+  apt_repository:
+    repo: deb [trusted=yes arch=amd64] http://apt.lecomte.at/repacks/debian/ buster ubiquiti
+    state: present
+  become: yes
+
+- name: add apt-key mongodb
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 58712A2291FA4AD5
+  become: yes
+
+- name: add apt-repo mongodb
+  apt_repository:
+    repo: deb [arch=amd64] https://repo.mongodb.org/apt/debian stretch/mongodb-org/3.6 main
+    state: present
+  become: yes
+
+- name: install unifi-controller
+  apt:
+    name: unifi
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  become: yes
+
+- name: create unifi user
+  user:
+    name: "{{ unifi_user }}"
+    shell: /usr/sbin/nologin
+    home: /var/lib/unifi
+    system: yes
+  become: yes
+  when: unifi_user != 'root'
+
+- name: fix perms
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    owner: "{{ unifi_user }}"
+  with_items:
+    - /var/log/unifi
+    - /var/lib/unifi
+    - /var/run/unifi
+  become: yes
+  notify: restart_unifi
+
+- name: perma run folder
+  template:
+    src: tmpfiles.conf
+    dest: /etc/tmpfiles.d/unifi.conf
+    mode: 0644
+  become: yes
+  when: unifi_controller_systemctl_version is success
+
+- name: add default-conf
+  template:
+    src: default.conf
+    dest: /etc/default/unifi
+    mode: 0644
+  become: yes
+  notify: restart_unifi
+
+- name: write unifi.conf
+  template:
+    src: unifi_vhost.conf.j2
+    dest: /etc/nginx/conf.d/unifi.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload nginx

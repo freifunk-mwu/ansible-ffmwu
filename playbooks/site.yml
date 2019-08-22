@@ -5,3 +5,4 @@
 - import_playbook: services.yml
 - import_playbook: dns.yml
 - import_playbook: buildservers.yml
+- import_playbook: unifi.yml

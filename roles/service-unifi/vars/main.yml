@@ -1,0 +1,9 @@
+---
+
+unifi_controller_jvm_xms: "{{ unifi_controller_jvm_xmx }}"
+
+# JAVA Variables
+java_package: jre
+java_major_version: 8
+java_distribution: adoptopenjdk
+transport: adoptopenjdk-fallback

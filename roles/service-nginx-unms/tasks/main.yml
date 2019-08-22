@@ -1,0 +1,10 @@
+---
+
+- name: write unifi.conf
+  template:
+    src: unms_vhost.conf.j2
+    dest: /etc/nginx/conf.d/unms.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload nginx
