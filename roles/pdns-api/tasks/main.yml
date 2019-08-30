@@ -1,0 +1,9 @@
+---
+- name: Template nginx configuration.
+  template:
+    src: "pdns_api.conf.j2"
+    dest: "/etc/nginx/conf.d/pdns_api.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  notify: Reload nginx

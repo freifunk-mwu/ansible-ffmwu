@@ -1,0 +1,35 @@
+---
+pdns_admin_service_name: "powerdns"
+pdns_admin_git_repo_url: "https://github.com/ngoduykhanh/PowerDNS-Admin.git"
+pdns_admin_git_repo_commit: "f95adf3ea372863b52eaa81e635ceaecafc1e242"
+pdns_admin_pip_packages:
+  - mysql-python
+
+pdns_admin_root_path: "/var/www"
+pdns_admin_path: "{{ pdns_admin_root_path }}/powerdns-admin"
+pdns_admin_requirements_path: "{{ pdns_admin_path }}/requirements.txt"
+
+pdns_admin_conf_filename: "config.py"
+pdns_admin_conf_template_filename: "{{ pdns_admin_conf_filename }}.j2"
+pdns_admin_conf_filepath: "{{ pdns_admin_path }}/{{ pdns_admin_conf_filename }}"
+
+pdns_admin_systemd_filename: "powerdns-admin.service"
+pdns_admin_systemd_template_filename: "{{ pdns_admin_systemd_filename }}.j2"
+pdns_admin_systemd_filepath: "/etc/systemd/system/{{ pdns_admin_systemd_filename }}"
+
+pdns_admin_python_venv_path: "/opt/venvs/powerdns"
+pdns_admin_python_path: "{{ pdns_admin_python_venv_path }}/bin/python"
+
+pdns_admin_global_config:
+  secret_key: CHANGEME
+  login_title: PowerDNS
+  log_level: DEBUG
+  log_file: pdns-admin.log
+  #log_file: ''
+
+pdns_admin_database_config:
+  sqla_db_user: pdns-admin
+  sqla_db_password: CHANGEME
+  sqla_db_host: your-db-server
+  sqla_db_name: pdns-admin
+  sqlalchemy_track_modifications: True
