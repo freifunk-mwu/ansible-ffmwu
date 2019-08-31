@@ -21,3 +21,4 @@
   - geerlingguy.mysql
   - powerdns.pdns
   - pdns-admin
+  - pdns-api

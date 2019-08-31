@@ -6,6 +6,8 @@ magic: 71
 nodejs_major_version: "10"
 
 http_dns_prefix: "dns-ext"
+pdns_limit_api_access:
+  - 94.130.21.214
 
 mysql_root_password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_root subkey=secret') }}"
 mysql_databases:
