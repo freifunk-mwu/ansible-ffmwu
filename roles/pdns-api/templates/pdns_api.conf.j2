@@ -17,12 +17,13 @@ server {
     include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
 
     location / {
-        {% if pdns_limit_api_access is defined %}
         # allow defined addresses to access
-        allow   {{ pdns_limit_api_access }};
+        {% for host in pdns_limit_api_access %}
+        allow   {{ host }};
+        {% endfor %}
         # drop rest of the world
         deny    all;
-        {% endif %}
+
         proxy_set_header        Host $host;
         proxy_set_header        X-Real-IP $remote_addr;
         proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
