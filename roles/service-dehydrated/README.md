@@ -1,11 +1,11 @@
 # service-dehydrated
 
-## based upon clutterbox.dehydrated (https://github.com/clutterbox/ansible-dehydrated) by Alexander Zielke
+Install, configure and run dehydrated Let's Encrypt client using powerdns api hook
 
-## Striped down for simplicity: removed http-01 challenge, hooks
-## Added pdns_api.sh (https://github.com/silkeh/pdns_api.sh) for powerdns api handling
+- Based upon clutterbox.dehydrated (https://github.com/clutterbox/ansible-dehydrated) by Alexander Zielke
+- Stripped down for simplicity: removed http-01 challenge, hooks
+- Added pdns_api.sh (https://github.com/silkeh/pdns_api.sh) for powerdns api handling
 
-Install, configure and run dehydrated Let's Encrypt client
 
 - [service-dehydrated](#clutterboxdehydrated)
   * [Role Variables](#role-variables)
@@ -44,7 +44,7 @@ dehydrated_cert_config | Override configuration for certificates | []
 dehydrated_repo_url | Specify URL to git repository of dehydrated | https://github.com/lukas2511/dehydrated.git
 pdns_api_repo_url | Specify URL to git repository of pdns_api.sh | https://github.com/silkeh/pdns_api.sh
 pdns_api_update | Update pdns_api.sh sources on ansible run | yes
-pdns_api_version | Powerdns api version (v>4 ? 1 : 0) | 1
+pdns_api_version | Powerdns api version (v>=4 ? 1 : 0) | 1
 
 ## Using dns-01 challenges
 
