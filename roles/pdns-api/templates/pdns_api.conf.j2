@@ -18,9 +18,11 @@ server {
 
     location / {
         # allow defined addresses to access
-        {% for host in pdns_limit_api_access %}
+        allow   127.0.0.0/8;
+        allow   ::1/128;
+{% for host in pdns_limit_api_access %}
         allow   {{ host }};
-        {% endfor %}
+{% endfor %}
         # drop rest of the world
         deny    all;
 
