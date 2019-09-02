@@ -1,0 +1,9 @@
+#jinja2: trim_blocks: True, lstrip_blocks: True
+CA="{{ dehydrated_ca }}"
+CHALLENGETYPE="dns-01"
+CONTACT_EMAIL="{{ dehydrated_contactemail | mandatory }}"
+KEY_ALGO={{ dehydrated_key_algo }}
+KEYSIZE={{ dehydrated_keysize }}
+HOOK={{ dehydrated_install_root }}/pdns_api/pdns_api.sh
+PDNS_HOST={{ pdns_host}}
+PDNS_KEY={{ lookup('passwordstore', 'linse/pdns_apikey') }}
