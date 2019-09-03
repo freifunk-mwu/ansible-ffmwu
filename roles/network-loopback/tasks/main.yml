@@ -13,7 +13,7 @@
     group: root
     mode: 0755
 
-- name: create cronjob for check-anycast.sh"
+- name: create cronjob for check-anycast.sh
   cron:
     name: "check anycast availability"
     minute: "*/1"
