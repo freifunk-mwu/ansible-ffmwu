@@ -1,7 +1,0 @@
-#!/usr/bin/ansible-playbook
----
-- name: Zuckerwatte - Main Webserver.
-  hosts: zuckerwatte
-
-  roles:
-  - service-dehydrated
