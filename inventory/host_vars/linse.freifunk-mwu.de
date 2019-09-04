@@ -6,9 +6,12 @@ magic: 71
 nodejs_major_version: "10"
 
 http_dns_prefix: "dns-ext"
-pdns_limit_api_access:
-  - 94.130.21.214
-  - 2a01:4f8:10b:1b29::1
+
+dehydrated_accept_letsencrypt_terms: yes
+dehydrated_contactemail: hostmaster@freifunk-mwu.de
+dehydrated_challengetype: dns-01
+dehydrated_domains: freifunk-mwu.de
+pdns_host: http://localhost:8081
 
 mysql_root_password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_root subkey=secret') }}"
 mysql_databases:

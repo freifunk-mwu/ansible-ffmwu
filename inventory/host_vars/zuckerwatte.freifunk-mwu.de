@@ -2,12 +2,3 @@
 server_type: "service"
 
 magic: 162
-
-dehydrated_accept_letsencrypt_terms: yes
-dehydrated_contactemail: hostmaster@freifunk-mwu.de
-dehydrated_challengetype: dns-01
-dehydrated_domains: freifunk-mwu.de
-pdns_host: https://dns-ext-api.freifunk-mwu.de
-dehydrated_deploycert:
-  freifunk-mwu.de: |
-    service nginx reload
