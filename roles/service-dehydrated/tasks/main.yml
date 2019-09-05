@@ -80,3 +80,48 @@
   when: "not ca_stat.stat.exists or (ca_stat.stat.isdir is defined and not ca_stat.stat.isdir)"
 
 - meta: flush_handlers
+
+
+- name: Add the cert user for distributing certs
+  user:
+    name: cert
+
+- name: Create cert/bin directory if it does not exist
+  file:
+    path: /home/cert/bin
+    state: directory
+    owner: cert
+    group: cert
+    mode: '0700'
+
+- name: Create certificates directory if it does not exist
+  file:
+    path: /home/cert/certificates
+    state: directory
+    owner: cert
+    group: cert
+    mode: '0700'
+
+- name: Create .ssh directory if it does not exist
+  file:
+    path: /home/cert/.ssh
+    state: directory
+    owner: cert
+    group: cert
+    mode: '0700'
+
+- name: copy authorized_keys
+  copy:
+    src: authorized_keys
+    dest: /home/cert/.ssh/authorized_keys
+    owner: cert
+    group: cert
+    mode: 0700
+
+- name: Download rrsync
+  get_url:
+    url: http://ftp.samba.org/pub/unpacked/rsync/support/rrsync
+    dest: /home/cert/bin/rrsync
+    owner: cert
+    group: cert
+    mode: '0700'
