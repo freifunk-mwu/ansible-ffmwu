@@ -13,6 +13,18 @@ dehydrated_challengetype: dns-01
 dehydrated_domains: ffmwu.org *.ffmwu.org freifunk-mwu.de *.freifunk-mwu.de  freifunk-wiesbaden.de *.freifunk-wiesbaden.de mainz.freifunk.net *.mainz.freifunk.net wiesbaden.freifunk.net *.wiesbaden.freifunk.net
 pdns_host: http://localhost:8081
 dehydrated_install_root: "{{ git_path }}/dehydrated"
+dehydrated_deploycert:
+  ffmwu.org: |
+    mkdir -p /home/cert/certificates/$DOMAIN/
+    cp $KEYFILE /home/cert/certificates/$DOMAIN/
+    cp $CERTFILE /home/cert/certificates/$DOMAIN/
+    cp $CHAINFILE /home/cert/certificates/$DOMAIN/
+    cp $FULLCHAINFILE /home/cert/certificates/$DOMAIN/
+    chmod 750 $(find /home/cert/certificates -mindepth 1 -type d )
+    chmod 740 $(find /home/cert/certificates -mindepth 1 -type f )
+    chown root.cert -R /home/cert/certificates/*
+dehydrated_authorized_keys:
+  - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDNc9gBojtHVhiM6EdM8xnejqjUP/JMhDMubRupbkYH7Y/gTF6URdwTStYeWcVpuAvRXp9yp8Gswu44TPPfYvoW5/TXdBAecHrdlag07bo5T+W16Kr6NrShJu7igkBFNt1wyV9Klbuku3FYW5N9WKYoCD7gic6lX2go2zEtUUB1AZs+nPe7rmg6faVkikhUkCchSmzuL1WndGc18zADHkA7XQomjhtAPcKTulh6kq16LKIFGSmA7+wsZcfF4f8JsJ0uhBhH0KtXdJr+DbpqShiVEW0XyctorumDtod1wx/YuAOcetw0ouuIt762u2B24nMXlniN6T72sPr764J9du69 kumpir"
 
 mysql_root_password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_root subkey=secret') }}"
 mysql_databases:

@@ -110,13 +110,13 @@
     group: cert
     mode: '0700'
 
-- name: copy authorized_keys
-  copy:
-    src: authorized_keys
-    dest: /home/cert/.ssh/authorized_keys
-    owner: cert
-    group: cert
-    mode: 0700
+- name: generate authorized_keys
+  authorized_key:
+    key: "{{ item }}"
+    key_options: command="$HOME/bin/rrsync -ro ~/certificates",no-agent-forwarding,no-port-forwarding,no-pty,no-user-rc,no-X11-forwarding
+    user: cert
+    exclusive: trueß
+  with_items: "{{ dehydrated_authorized_keys }}"
 
 - name: Download rrsync
   get_url:
