@@ -102,14 +102,6 @@
     group: cert
     mode: '0700'
 
-- name: Create .ssh directory if it does not exist
-  file:
-    path: /home/cert/.ssh
-    state: directory
-    owner: cert
-    group: cert
-    mode: '0700'
-
 - name: generate authorized_keys
   authorized_key:
     key: "{{ dehydrated_authorized_keys }}"
