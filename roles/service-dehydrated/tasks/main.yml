@@ -112,11 +112,10 @@
 
 - name: generate authorized_keys
   authorized_key:
-    key: "{{ item }}"
+    key: "{{ dehydrated_authorized_keys }}"
     key_options: command="$HOME/bin/rrsync -ro ~/certificates",no-agent-forwarding,no-port-forwarding,no-pty,no-user-rc,no-X11-forwarding
     user: cert
-    exclusive: trueß
-  with_items: "{{ dehydrated_authorized_keys }}"
+    exclusive: true
 
 - name: Download rrsync
   get_url:
