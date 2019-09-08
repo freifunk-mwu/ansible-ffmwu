@@ -7,7 +7,6 @@ dehydrated_repo_url: https://github.com/lukas2511/dehydrated.git
 dehydrated_install_root: /opt/dehydrated
 dehydrated_update: yes
 dehydrated_version: HEAD
-dehydrated_challengetype: http-01
 dehydrated_key_algo: rsa
 dehydrated_keysize: 4096
 dehydrated_ca: "https://acme-v02.api.letsencrypt.org/directory"

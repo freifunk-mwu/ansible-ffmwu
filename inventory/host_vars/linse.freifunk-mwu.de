@@ -9,7 +9,6 @@ http_dns_prefix: "dns-ext"
 
 dehydrated_accept_letsencrypt_terms: yes
 dehydrated_contactemail: hostmaster@freifunk-mwu.de
-dehydrated_challengetype: dns-01
 dehydrated_domains: ffmwu.org *.ffmwu.org freifunk-mwu.de *.freifunk-mwu.de  freifunk-wiesbaden.de *.freifunk-wiesbaden.de mainz.freifunk.net *.mainz.freifunk.net wiesbaden.freifunk.net *.wiesbaden.freifunk.net
 pdns_host: http://localhost:8081
 dehydrated_install_root: "{{ git_path }}/dehydrated"

@@ -74,7 +74,6 @@ Format is as follows:
 dehydrated_cert_config:
  - name: # certificate name or alias (mandatory)
    state: present # present or absent (optional)
-   challengetype: # override CHALLENGE (optional)
    wellknown: # override WELLKNOWN (optional)
    key_algo: # override KEY_ALGO (optional)
    keysize: # override KEYSIZE (optional)
@@ -121,7 +120,6 @@ TIMESTAMP | Timestamp when the  certificate was created.
   vars:
     dehydrated_accept_letsencrypt_terms: yes
     dehydrated_contactemail: hostmaster@example.com
-    dehydrated_challengetype: dns-01
     dehydrated_domains: example.com
     pdns_host: https://powerdns-api.url.com:port
 
