@@ -38,14 +38,13 @@
 
 - import_tasks: domain_config.yml
 
-- name: Generate deploycert.sh
+- name: Generate hook.sh
   template:
-    src: deploycert.j2
-    dest: /etc/dehydrated/deploycert.sh
+    src: hook.j2
+    dest: /etc/dehydrated/hook.sh
     owner: root
     group: root
     mode: "0700"
-  when: dehydrated_deploycert is defined
 
 - name: Remove deploycert.sh
   file: dest=/etc/dehydrated/deploycert.sh state=absent
