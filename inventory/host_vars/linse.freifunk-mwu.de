@@ -6,9 +6,23 @@ magic: 71
 nodejs_major_version: "10"
 
 http_dns_prefix: "dns-ext"
-pdns_limit_api_access:
-  - 94.130.21.214
-  - 2a01:4f8:10b:1b29::1
+
+dehydrated_accept_letsencrypt_terms: yes
+dehydrated_contactemail: hostmaster@freifunk-mwu.de
+dehydrated_domains: ffmwu.org *.ffmwu.org freifunk-mwu.de *.freifunk-mwu.de freifunk-mainz.de *.freifunk-mainz.de freifunk-wiesbaden.de *.freifunk-wiesbaden.de mainz.freifunk.net *.mainz.freifunk.net wiesbaden.freifunk.net *.wiesbaden.freifunk.net
+pdns_host: http://localhost:8081
+dehydrated_install_root: "{{ git_path }}/dehydrated"
+dehydrated_deploycert:
+  ffmwu.org: |
+    mkdir -p /home/cert/certificates/$DOMAIN/
+    cp $KEYFILE /home/cert/certificates/$DOMAIN/
+    cp $CERTFILE /home/cert/certificates/$DOMAIN/
+    cp $CHAINFILE /home/cert/certificates/$DOMAIN/
+    cp $FULLCHAINFILE /home/cert/certificates/$DOMAIN/
+    chmod 750 $(find /home/cert/certificates -mindepth 1 -type d )
+    chmod 740 $(find /home/cert/certificates -mindepth 1 -type f )
+    chown root.cert -R /home/cert/certificates/*
+dehydrated_authorized_keys: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHC4MutFCH6xgzwiarEjnASS5PpG3b3UEYDa8XNxCpy8 kumpir\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDzIaCJpcNlrwKAt+XAQEPOKvfV2xK5rhzyFez42rdmY84pMvAIbogI+HYZCgwUklcRA8/cpzX93sGFC9Gg/7drtRIL/3wQwf55UdeY+W+PVUkLGC/v+D6vSsxoYBn3eiHrbkZJOIJfLfiPrEUkQEAW98KRheySyhXAHpF+71jd/ZlD3DJtinXrexeHthX8APbgzoP6lQCQsH/XtqlO3bqSchTSj3MEl2ylRVWZHdgfc8+daX3s78T8C/zsue9AbXlWyjtL6n9fkYQ2kPkA+/0ymbHCFxq/rBnTq0CaIu/kiQjkI8oTi/tk3SpgNKnY2CKnTj1X62lEuAKgk2WfsjaVqH4K3xNJ4Ugl9kWCUPjJm+EMQ4rLhyi6lH10r2yYG1oBKGGOa+jYevHRqWmHmKuYTiHSFIQoPvd59MXE/3cQslt1RtcoxVl4E2U/S+s3ph8J4nGDa980oE+VMRKG4RsJs9H/1XvWSUVo14xWBufbJR/PnxNicjOhImbfN2rPL1YmwllaqQovRoE4BuwU05iVlT5KwKErHcBO+tz8Gm9IjBuUk6pbUNAi/8Of7/g4BUIvL78/JiAaWBlrGxA169L+r+d9urDibdfVbILrWGI61MX7S2v7KCu5yXT3+UOS2p6oJoahO1mWOMQXcwn1Yf1OlHg5RNUFqcNvw8u119H08Q== wasserfloh"
 
 mysql_root_password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_root subkey=secret') }}"
 mysql_databases:

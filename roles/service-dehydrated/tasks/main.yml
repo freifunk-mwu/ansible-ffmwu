@@ -1,0 +1,131 @@
+---
+- name: Install dehydrated dependencies
+  apt: name={{ dehydrated_dependencies }}
+
+- name: Checkout dehydrated from github
+  git:
+    repo: "{{ dehydrated_repo_url }}"
+    update: "{{ dehydrated_update }}"
+    dest: "{{ dehydrated_install_root }}"
+    version: "{{ dehydrated_version }}"
+
+- name: Checkout pdns_api.sh from github
+  git:
+    repo: "{{ pdns_api_repo_url }}"
+    update: "{{ pdns_api_update }}"
+    dest: "{{ dehydrated_install_root }}/pdns_api"
+    version: "{{ pdns_api_version }}"
+
+- name: Create /etc/dehydrated
+  file: dest=/etc/dehydrated state=directory owner=root group=root mode=0700
+
+- name: Generate dehydrated config
+  template:
+    dest: /etc/dehydrated/config
+    src: config.j2
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Generate dehydrated domains.txt
+  copy:
+    dest: /etc/dehydrated/domains.txt
+    content: "{{ dehydrated_domains }}"
+    owner: root
+    group: root
+    mode: 0600
+  notify: run dehydrated
+
+- import_tasks: domain_config.yml
+
+- name: Generate hookwrapper.sh
+  template:
+    src: hookwrapper.j2
+    dest: /etc/dehydrated/hookwrapper.sh
+    owner: root
+    group: root
+    mode: "0700"
+  when: dehydrated_deploycert is defined
+
+- name: Generate deploycert.sh
+  template:
+    src: deploycert.j2
+    dest: /etc/dehydrated/deploycert.sh
+    owner: root
+    group: root
+    mode: "0700"
+  when: dehydrated_deploycert is defined
+
+- name: Remove deploycert.sh
+  file: dest=/etc/dehydrated/deploycert.sh state=absent
+  when: dehydrated_deploycert is not defined
+
+- name: Remove hookwrapper.sh
+  file: dest=/etc/dehydrated/hookwrapper.sh state=absent
+  when: dehydrated_deploycert is not defined
+
+- name: Install cronjob
+  cron:
+    name: dehydrated-renew
+    minute: "{{ 59|random(seed=inventory_hostname) }}"
+    hour: "{{ 4|random(seed=inventory_hostname) }}"
+    user: root
+    job: "{{ dehydrated_install_root }}/dehydrated -c > /dev/null"
+    cron_file: dehydrated
+    state: "{{ 'present' if dehydrated_cronjob else 'absent' }}"
+
+- import_tasks: systemd.yml
+
+# /opt/dehydrated/dehydrated --register --accept-terms
+- name: Check if already registered
+  stat:
+    path: "/etc/dehydrated/accounts/{{ ((dehydrated_ca + '\n')|b64encode).rstrip('=').replace('+', '-').replace('/', '_') }}"
+  register: ca_stat
+
+- block:
+    - name: "assert dehydrated_accept_letsencrypt_terms is true"
+      assert:
+        that: dehydrated_accept_letsencrypt_terms
+
+    - name: Register to CA
+      command: "{{ dehydrated_install_root }}/dehydrated --register --accept-terms"
+  # \end block register
+  when: "not ca_stat.stat.exists or (ca_stat.stat.isdir is defined and not ca_stat.stat.isdir)"
+
+- meta: flush_handlers
+
+
+- name: Add the cert user for distributing certs
+  user:
+    name: cert
+
+- name: Create cert/bin directory if it does not exist
+  file:
+    path: /home/cert/bin
+    state: directory
+    owner: cert
+    group: cert
+    mode: '0700'
+
+- name: Create certificates directory if it does not exist
+  file:
+    path: /home/cert/certificates
+    state: directory
+    owner: cert
+    group: cert
+    mode: '0700'
+
+- name: generate authorized_keys
+  authorized_key:
+    key: "{{ dehydrated_authorized_keys }}"
+    key_options: command="$HOME/bin/rrsync -ro ~/certificates",no-agent-forwarding,no-port-forwarding,no-pty,no-user-rc,no-X11-forwarding
+    user: cert
+    exclusive: true
+
+- name: Download rrsync
+  get_url:
+    url: http://ftp.samba.org/pub/unpacked/rsync/support/rrsync
+    dest: /home/cert/bin/rrsync
+    owner: cert
+    group: cert
+    mode: '0700'
