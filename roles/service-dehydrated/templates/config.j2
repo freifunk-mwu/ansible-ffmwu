@@ -4,7 +4,11 @@ CHALLENGETYPE="dns-01"
 CONTACT_EMAIL="{{ dehydrated_contactemail | mandatory }}"
 KEY_ALGO={{ dehydrated_key_algo }}
 KEYSIZE={{ dehydrated_keysize }}
-HOOK=/etc/dehydrated/hook.sh
+{% if dehydrated_deploycert is defined %}
+HOOK=/etc/dehydrated/hookwrapper.sh
+{% else %}
+HOOK={{ dehydrated_install_root }}/pdns_api/pdns_api.sh
+{% endif %}
 HOOK_CHAIN="yes"
 PDNS_HOST={{ pdns_host}}
 PDNS_KEY={{ lookup('passwordstore', 'linse/pdns_apikey') }}
