@@ -13,7 +13,7 @@ dehydrated_domains: freifunk-mwu.de *.freifunk-mwu.de freifunk-mainz.de *.freifu
 pdns_host: http://localhost:8081
 dehydrated_install_root: "{{ git_path }}/dehydrated"
 dehydrated_deploycert:
-  ffmwu.org: |
+  freifunk-mwu.de: |
     mkdir -p /home/cert/certificates/$DOMAIN/
     cp $KEYFILE /home/cert/certificates/$DOMAIN/
     cp $CERTFILE /home/cert/certificates/$DOMAIN/
