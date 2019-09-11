@@ -96,16 +96,8 @@
         }
 {% endif %}
       ]
-{% if not loop.last %}
     },
-{% else %}
-    }
-  ]
-{% endif %}
 {% endfor %}
-},
-"Logging":
-{
   "loggers": [
     {
       "name": "kea-dhcp4",

@@ -1,9 +1,9 @@
 ---
 kea_packages:
-  - kea-admin
-  - kea-common
-  - kea-dhcp4-server
-  - kea-doc
+  - isc-kea-admin
+  - isc-kea-common
+  - isc-kea-dhcp4-server
+  - isc-kea-doc
 
 kea_lease_database:
   lfc_interval: 900

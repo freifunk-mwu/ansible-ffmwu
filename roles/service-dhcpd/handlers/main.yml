@@ -3,9 +3,9 @@
   systemd:
     daemon_reload: yes
 
-- name: restart kea-dhcp4-server
+- name: restart isc-kea-dhcp4-server
   systemd:
-    name: kea-dhcp4-server
+    name: isc-kea-dhcp4-server
     state: restarted
 
 - name: restart kea-exporter
