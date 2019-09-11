@@ -1,0 +1,5 @@
+---
+dependencies:
+  - service-nginx
+  - geerlingguy.php
+  - geerlingguy.mysql

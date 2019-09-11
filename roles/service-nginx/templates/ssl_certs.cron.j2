@@ -1,13 +1,20 @@
 #!/bin/sh
-
+{% if inventory_hostname_short == 'kumpir' %}
+DOMAINS={{ http_domain_external }}
+{% else %}
 DOMAINS="{{ inventory_hostname_short }}.{{ http_domain_external }}"
+{% endif %}
 LOCAL_DIR="/etc/nginx/ssl"
 
 for DOMAIN in $DOMAINS;
 do
  #Get Certs
+ {% if inventory_hostname_short == 'kumpir' %}
+ rsync --delete -rz -e  'ssh -i /home/admin/.ssh/id_ed25519 -p 23' cert@{{ acme_server }}.{{ http_domain_internal }}:$DOMAIN/ $LOCAL_DIR/$DOMAIN
+ {% else %}
  rsync --delete -rz -e  'ssh -i /home/admin/.ssh/id_rsa -p 23' cert@{{ acme_server }}.{{ http_domain_internal }}:$DOMAIN/ $LOCAL_DIR/$DOMAIN
-  
+ {% endif %}
+
  #Fix Permissions
  chmod 0550 $LOCAL_DIR/$DOMAIN
  chmod 0440 $LOCAL_DIR/$DOMAIN/*
