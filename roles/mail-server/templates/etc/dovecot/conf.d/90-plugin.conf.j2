@@ -1,0 +1,20 @@
+##
+## Plugin settings
+##
+
+# All wanted plugins must be listed in mail_plugins setting before any of the
+# settings take effect. See <doc/wiki/Plugins.txt> for list of plugins and
+# their configuration. Note that %variable expansion is done for all values.
+
+plugin {
+  #setting_name = value
+}
+
+plugin {
+  #setting_name = value
+  # how often to session statistics
+  stats_refresh = 30 secs
+  # track per-IMAP command statistics
+  stats_track_cmds = yes
+  stats_memory_limit = 16 M
+}

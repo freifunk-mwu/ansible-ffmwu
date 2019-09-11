@@ -1,0 +1,3 @@
+/^{{ inventory_hostname | replace(".", "\.") }}$/            550 Don't use my hostname
+/^{{ ansible_default_ipv4.address | replace(".", "\.") }}$/  550 Don't use my IPv4 address
+/^{{ ansible_default_ipv6.address | replace(":", "\:") }}$/  550 Don't use my IPv6 address

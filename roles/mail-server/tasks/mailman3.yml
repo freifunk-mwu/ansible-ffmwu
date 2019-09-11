@@ -1,0 +1,224 @@
+---
+- name: Mailman3 create user.
+  user:
+    name: "{{ mailman3_user }}"
+    comment: "System User for Mailman3"
+    state: "present"
+
+- name: Mailman3 create root dir.
+  file:
+    path: "{{ mailman3_root_dir }}"
+    state: "directory"
+
+- name: Mailman3 core create directories.
+  file:
+    path: "{{ item }}"
+    state: "directory"
+    owner: "{{ mailman3_user }}"
+    group: "{{ mailman3_group }}"
+    mode: 0755
+  loop:
+    - "{{ mailman3_core_dir }}"
+    - "{{ mailman3_etc_dir }}"
+    - "{{ mailman3_var_dir }}"
+    - "{{ mailman3_var_dir }}/data"
+    - "{{ mailman3_log_dir }}"
+
+- name: Mailman3 create postfix lookup tables.
+  file:
+    path: "{{ item }}"
+    owner: "{{ mailman3_user }}"
+    group: "{{ mailman3_user }}"
+    mode: "0644"
+    state: "touch"
+  loop:
+    - "{{ mailman3_var_dir }}/data/postfix_domains"
+    - "{{ mailman3_var_dir }}/data/postfix_lmtp"
+  notify: postmap mailman3 lookup maps
+
+- name: Mailman3 django create directories.
+  file:
+    path: "{{ item }}"
+    state: "directory"
+    owner: "{{ mailman3_web_user }}"
+    group: "{{ mailman3_web_group }}"
+    mode: 0750
+  loop:
+    - "{{ mailman3_django_dir }}"
+    - "{{ mailman3_django_project_dir }}"
+    - "{{ mailman3_django_project_dir }}/db"
+    - "{{ mailman3_django_project_dir }}/emails"
+    - "{{ mailman3_django_project_dir }}/fulltext_index"
+    - "{{ mailman3_django_project_dir }}/run"
+    - "{{ mailman3_django_project_log_dir }}"
+    - "{{ mailman3_django_project_static_dir }}"
+
+- name: Mailman3 install Mailman in a virtualenv.
+  pip:
+    name: "{{ mailman3_pip_packages }}"
+    virtualenv: "{{ mailman3_venv_dir }}"
+    virtualenv_python: "python3"
+
+- name: Mailman template Django project.
+  template:
+    src: "{{ item.name }}.j2"
+    group: "{{ mailman3_web_group }}"
+    mode: "{{ item.mode }}"
+    dest: "/{{ item.name }}"
+  loop:
+    - name: "opt/mailman3/web/project/manage.py"
+      mode: "0750"
+    - name: "opt/mailman3/web/project/settings.py"
+      mode: "0640"
+    - name: "opt/mailman3/web/project/urls.py"
+      mode: "0640"
+    - name: "opt/mailman3/web/project/wsgi.py"
+      mode: "0640"
+  notify: restart mailman3-web service
+
+- name: Mailman run post tasks.
+  django_manage:
+    command: "{{ item }}"
+    app_path: "{{ mailman3_django_project_dir }}"
+    virtualenv: "{{ mailman3_venv_dir }}"
+    pythonpath: "{{ mailman3_django_project_dir }}"
+  loop:
+    - "migrate --no-input"
+    - "collectstatic --no-input"
+  become_user: "{{ mailman3_web_user }}"
+
+- name: Mailman3 template Mailman Core configuration.
+  template:
+    src: "opt/mailman3/core/etc/mailman.cfg.j2"
+    dest: "{{ mailman3_etc_dir }}/mailman.cfg"
+    owner: "{{ mailman3_user }}"
+    group: "{{ mailman3_group }}"
+    mode: "0640"
+  notify: restart mailman3-core service
+
+- name: Mailman3 template Hyperkitty configuration.
+  template:
+    src: "opt/mailman3/core/etc/hyperkitty.cfg.j2"
+    dest: "{{ mailman3_etc_dir }}/hyperkitty.cfg"
+    owner: "{{ mailman3_user }}"
+    group: "{{ mailman3_group }}"
+    mode: "0640"
+  notify: restart mailman3-core service
+
+- name: Check Django superusers
+  django_manage:
+    command: >-
+      shell -c 'import sys;
+      from django.contrib.auth.models import User;
+      sys.stdout.write("exists") if User.objects.filter(username="{{ item.name }}").count() > 0 else sys.stdout.write("missing")'
+    app_path: "{{ mailman3_django_project_dir }}"
+    virtualenv: "{{ mailman3_venv_dir }}"
+  with_items: "{{ mailman3_django_superusers }}"
+  register: __mailman3_checksuperuser_result
+  changed_when: __mailman3_checksuperuser_result.out == "missing"
+  loop_control:
+    label: "{{ item.name }}"
+  become_user: "{{ mailman3_web_user }}"
+
+- name: Create Django superusers
+  django_manage:
+    command: >-
+      shell -c 'import sys;
+      from django.contrib.auth.models import User;
+      User.objects.create_superuser("{{ item.item.name }}", "{{ item.item.email }}", "{{ item.item.pass }}")'
+    #command: "createsuperuser --noinput --username={{ item.item.name }} --email={{ item.item.email }}"
+    app_path: "{{ mailman3_django_project_dir }}"
+    virtualenv: "{{ mailman3_venv_dir }}"
+  when: item is changed
+  with_items: "{{ __mailman3_checksuperuser_result.results }}"
+  register: __mailman3_createsuperuser_result
+  changed_when: true
+  loop_control:
+    label: "{{ item.item.name }}"
+  become_user: "{{ mailman3_web_user }}"
+
+- name: Check Django sites
+  django_manage:
+    command: >-
+      shell -c 'import sys;
+      from django.contrib.sites.models import Site;
+      sys.stdout.write("exists") if Site.objects.filter(domain="example.com").count() > 0 else sys.stdout.write("missing")'
+    app_path: "{{ mailman3_django_project_dir }}"
+    virtualenv: "{{ mailman3_venv_dir }}"
+  register: __mailman3_checkexamplesite_result
+  changed_when: __mailman3_checkexamplesite_result.out == "exists"
+  become_user: "{{ mailman3_web_user }}"
+
+- name: Correct default Django site
+  django_manage:
+    command: >-
+      shell -c 'from django.contrib.sites.models import Site;
+      Site.objects.filter(domain="example.com").update(
+      domain="{{ mailman3_site_domain }}",
+      name="{{ mailman3_site_domain }}"
+      )'
+    app_path: "{{ mailman3_django_project_dir }}"
+    virtualenv: "{{ mailman3_venv_dir }}"
+  when: __mailman3_checkexamplesite_result is changed
+  changed_when: true
+  become_user: "{{ mailman3_web_user }}"
+
+- name: Mailman3 template uWSGI configuration file.
+  template:
+    src: "opt/mailman3/core/etc/uwsgi.ini.j2"
+    dest: "{{ mailman3_etc_dir }}/uwsgi.ini"
+  notify: restart mailman3-web service
+
+- name: Mailman3 compress CSS.
+  django_manage:
+    command: "compress"
+    app_path: "{{ mailman3_django_project_dir }}"
+    virtualenv: "{{ mailman3_venv_dir }}"
+    pythonpath: "{{ mailman3_django_project_dir }}"
+  become_user: "{{ mailman3_web_user }}"
+
+- name: Mailman3 template mailman3 core systemd service.
+  template:
+    src: "etc/systemd/system/mailman3-core.service.j2"
+    dest: "/etc/systemd/system/mailman3-core.service"
+    owner: "root"
+    group: "root"
+    mode: 0640
+  notify:
+    - reload systemd
+    - restart mailman3-core service
+
+- name: Mailman3 template mailman3 web systemd service.
+  template:
+    src: "etc/systemd/system/mailman3-web.service.j2"
+    dest: "/etc/systemd/system/mailman3-web.service"
+    owner: "root"
+    group: "root"
+    mode: 0640
+  notify:
+    - reload systemd
+    - restart mailman3-web service
+
+- name: Mailman3 ensure mailman3-core service is enabled and started.
+  service:
+    name: "mailman3-core.service"
+    state: "started"
+    enabled: "yes"
+
+- name: Mailman3 ensure mailman3-web service is enabled and started.
+  service:
+    name: "mailman3-web.service"
+    state: "started"
+    enabled: "yes"
+
+- name: flush handlers
+  meta: flush_handlers
+
+- name: Mailman template Nginx Configuration.
+  template:
+    src: "etc/nginx/conf.d/mailman3.conf.j2"
+    dest: "/etc/nginx/conf.d/mailman3.conf"
+    owner: "root"
+    group: "root"
+    mode: 0644
+  notify: reload nginx

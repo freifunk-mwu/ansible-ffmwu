@@ -1,0 +1,70 @@
+---
+- name: Rspamd add clamav user to rspamd group.
+  user:
+    name: "clamav"
+    system: "yes"
+    append: "yes"
+    groups: "{{ rspamd_user }}"
+
+- name: Rspamd create dkim directory.
+  file:
+    path: "/var/lib/rspamd/dkim"
+    state: "directory"
+    owner: "{{ rspamd_user }}"
+    group: "{{ rspamd_group }}"
+    mode: 0750
+
+- name: Rspamd template configuration files.
+  template:
+    src: "etc/rspamd/local.d/{{ item }}.j2"
+    dest: "/etc/rspamd/local.d/{{ item }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
+  loop:
+    - "arc.conf"
+    - "actions.conf"
+    - "antivirus.conf"
+    - "classifier-bayes.conf"
+    - "dkim_signing.conf"
+    - "dmarc.conf"
+    - "greylist.conf"
+    - "logging.inc"
+    - "milter_headers.conf"
+    - "mx_check.conf"
+    - "options.inc"
+    - "redis.conf"
+    - "replies.conf"
+    - "surbl.conf"
+    - "url_redirector.conf"
+    - "worker-controller.inc"
+    - "worker-normal.inc"
+    - "worker-proxy.inc"
+  notify: reload rspamd
+
+- name: Rspamd template DKIM keys.
+  copy:
+    content: "{{ lookup('passwordstore', 'glueckskeks/dkim/' + item + ' returnall=true') }}"
+    dest: "/var/lib/rspamd/dkim/{{ item }}.key"
+    owner: "{{ rspamd_user }}"
+    group: "{{ rspamd_group }}"
+    mode: 0640
+  loop:
+    - "2019.freifunk-mwu.de"
+    - "2019.freifunk-mainz.de"
+    - "2019.freifunk-wiesbaden.de"
+
+- name: Rspamd ensure rspamd is started and enabled.
+  service:
+    name: "rspamd"
+    state: "started"
+    enabled: "yes"
+
+- name: Rspamd template Nginx Configuration.
+  template:
+    src: "etc/nginx/conf.d/rspamd.conf.j2"
+    dest: "/etc/nginx/conf.d/rspamd.conf"
+    owner: "root"
+    group: "root"
+    mode: 0644
+  notify: reload nginx

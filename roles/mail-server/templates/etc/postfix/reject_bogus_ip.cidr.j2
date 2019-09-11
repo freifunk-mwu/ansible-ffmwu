@@ -1,0 +1,21 @@
+# Quellen: http://www.iana.org/assignments/ipv4-address-space/
+# Quellen: http://www.iana.org/assignments/ipv6-address-space/
+#
+# IPv4
+#
+0.0.0.0/8       REJECT Bogus NS/MX in broadcast network
+10.0.0.0/8      REJECT Bogus NS/MX in RFC 1918 private network
+127.0.0.0/8     REJECT Bogus NS/MX in loopback network
+169.254.0.0/16  REJECT Bogus NS/MX in link lokal network
+172.16.0.0/12   REJECT Bogus NS/MX in RFC 1918 private network
+192.0.2.0/24    REJECT Bogus NS/MX in TEST-NET network
+192.168.0.0/16  REJECT Bogus NS/MX in RFC 1918 private network
+198.18.0.0/15   REJECT Bogus NS/MX in RFC 2544 benchmark network
+224.0.0.0/4     REJECT Bogus NS/MX in class D multicast network
+240.0.0.0/5     REJECT Bogus NS/MX in class E reserved network
+248.0.0.0/5     REJECT Bogus NS/MX in reserved network
+#
+# IPv6 ( sehr übersichtlich ... )
+#
+2000::/3        DUNNO
+::/0            REJECT Bogus NS/MX not in 2000::/3
