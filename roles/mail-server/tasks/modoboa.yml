@@ -1,0 +1,140 @@
+---
+- name: Modoboa create user.
+  user:
+    name: "{{ modoboa_user }}"
+    comment: "System User for Modoboa"
+    state: "present"
+
+- name: Modoboa install Modoboa in a virtualenv.
+  pip:
+    name: "{{ modoboa_pip_packages }}"
+    virtualenv: "{{ modoboa_venv_dir }}"
+    virtualenv_python: "python3"
+
+- name: Modoboa create root directory.
+  file:
+    path: "{{ item }}"
+    state: "directory"
+    owner: "{{ modoboa_user }}"
+    group: "{{ modoboa_group }}"
+    mode: 0755
+  loop:
+    - "{{ modoboa_root_dir }}"
+
+- name: Modoboa create instance.
+  command: "{{ modoboa_venv_dir }}/bin/python3 {{ modoboa_venv_dir }}/bin/modoboa-admin.py deploy --dburl default:mysql://{{ dbuser_modoboa }}:{{ dbuser_modoboa_password }}@127.0.0.1:3306/{{ db_modoboa }} --lang en-us --domain {{ inventory_hostname }} --admin-username admin --timezone Europe/Berlin --extensions modoboa-dmarc modoboa-stats modoboa-webmail --collectstatic {{ modoboa_instance_name }}"
+  args:
+    chdir: "{{ modoboa_root_dir }}"
+    creates: "{{ modoboa_instance_dir }}"
+  environment:
+    PATH: "{{ modoboa_venv_dir }}/bin"
+    VIRTUAL_ENV: "{{ modoboa_venv_dir }}"
+  become_user: "{{ modoboa_user }}"
+
+- name: Modoboa template project settings.
+  template:
+    src: "modoboa/project_settings.py.j2"
+    dest: "{{ modoboa_instance_dir }}/{{ modoboa_instance_name }}/settings.py"
+    owner: "{{ modoboa_user }}"
+    group: "{{ modoboa_group }}"
+    mode: 0644
+  notify: restart modoboa socket
+
+- name: Modoboa run post tasks.
+  django_manage:
+    command: "{{ item }}"
+    app_path: "{{ modoboa_instance_dir }}"
+    virtualenv: "{{ modoboa_venv_dir }}"
+    pythonpath: "{{ modoboa_instance_dir }}/{{ modoboa_instance_name }}"
+  loop:
+    - "migrate --no-input"
+    - "collectstatic --no-input"
+  become_user: "{{ modoboa_user }}"
+
+- name: Modoboa create modoboa postfix map directory.
+  file:
+    name: "{{ modoboa_instance_dir }}/postfix-sql"
+    state: "directory"
+    owner: "{{ modoboa_user }}"
+    group: "{{ modoboa_group }}"
+    mode: 0750
+
+- name: Modoboa create postfix map directory.
+  file:
+    name: "/etc/postfix/sql"
+    state: "directory"
+    owner: "root"
+    group: "postfix"
+    mode: 0750
+
+- name: Modoboa generate postfix map files.
+  django_manage:
+    command: "generate_postfix_maps --destdir {{ modoboa_instance_dir }}/postfix-sql --dburl mysql://{{ dbuser_postfix }}:{{ dbuser_postfix_password }}@127.0.0.1:3306/{{ db_modoboa }}"
+    app_path: "{{ modoboa_instance_dir }}"
+    virtualenv: "{{ modoboa_venv_dir }}"
+    pythonpath: "{{ modoboa_instance_dir }}/{{ modoboa_instance_name }}"
+  become_user: "{{ modoboa_user }}"
+
+- name: Modoboa copy postfix map files.
+  copy:
+    src: "{{ modoboa_instance_dir }}/postfix-sql/"
+    dest: "/etc/postfix/sql/"
+    owner: "root"
+    group: "postfix"
+    mode: 0640
+    remote_src: "yes"
+  changed_when: False
+
+- name: Modoboa fix permissions on postfix sql dir.
+  file:
+    name: "/etc/postfix/sql"
+    state: "directory"
+    owner: "root"
+    group: "postfix"
+    mode: 0750
+
+- name: Modoboa template tmpfile for Modoboa Socket.
+  template:
+    src: "etc/tmpfiles.d/modoboa.conf.j2"
+    dest: "/etc/tmpfiles.d/modoboa.conf"
+    owner: "root"
+    group: "root"
+
+- name: Modoboa template Gunicorn systemd service.
+  template:
+    src: "etc/systemd/system/modoboa.service.j2"
+    dest: "/etc/systemd/system/modoboa.service"
+    owner: "root"
+    group: "root"
+    mode: 0640
+  notify:
+    - reload systemd
+    - restart modoboa socket
+
+- name: Modoboa template Gunicorn systemd socket.
+  template:
+    src: "etc/systemd/system/modoboa.socket.j2"
+    dest: "/etc/systemd/system/modoboa.socket"
+    owner: "root"
+    group: "root"
+  notify:
+    - reload systemd
+    - restart modoboa socket
+
+- name: flush handlers
+  meta: flush_handlers
+
+- name: Modoboa enable and start Gunicorn systemd socket.
+  service:
+    name: "modoboa.socket"
+    enabled: "yes"
+    state: "started"
+
+- name: Modoboa template Nginx Configuration.
+  template:
+    src: "etc/nginx/conf.d/modoboa.conf.j2"
+    dest: "/etc/nginx/conf.d/modoboa.conf"
+    owner: "root"
+    group: "root"
+    mode: 0644
+  notify: reload nginx

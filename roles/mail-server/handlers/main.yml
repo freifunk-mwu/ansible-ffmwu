@@ -1,0 +1,53 @@
+---
+- name: reload systemd
+  systemd:
+    daemon_reload: "yes"
+
+- name: restart modoboa socket
+  service:
+    name: "modoboa.socket"
+    state: "restarted"
+
+- name: restart mailman3-core service
+  service:
+    name: "mailman3-core.service"
+    state: "restarted"
+
+- name: restart mailman3-web service
+  service:
+    name: "mailman3-web.service"
+    state: "restarted"
+
+- name: reload nginx
+  service:
+    name: "nginx"
+    state: "reloaded"
+
+- name: reload rspamd
+  service:
+    name: "rspamd"
+    state: "reloaded"
+
+- name: restart redis-server
+  service:
+    name: "redis-server"
+    state: "restarted"
+
+- name: restart postfix
+  service:
+    name: "postfix"
+    state: "restarted"
+
+- name: restart dovecot
+  service:
+    name: "dovecot"
+    state: "restarted"
+
+- name: postalias /etc/aliases
+  command: "/usr/sbin/postalias /etc/aliases"
+
+- name: postmap mailman3 lookup maps
+  command: "/usr/sbin/postmap {{ mailman3_var_dir }}/data/{{ item }}"
+  loop:
+    - "postfix_domains"
+    - "postfix_lmtp"

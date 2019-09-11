@@ -1,0 +1,16 @@
+#
+# {{ ansible_managed }}
+#
+use = ["x-spamd-bar", "x-spam-level", "authentication-results", "x-spam-status"];
+extended_spam_headers = true;
+
+routines {
+  x-spamd-bar {
+    # effectively disables negative spambar
+    negative = "";
+  }
+  x-spam-status {
+    header = "X-Spam-Status";
+    remove = 0;
+  }
+}
