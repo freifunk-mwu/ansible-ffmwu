@@ -1,0 +1,79 @@
+---
+- name: Dovecot create virtual mail user.
+  user:
+    name: "{{ dovecot_virtual_user_name }}"
+    comment: "Virtual Mail User"
+    home: "{{ dovecot_virtual_user_home }}"
+    uid: "{{ dovecot_virtual_user_uid }}"
+    shell: "/bin/false"
+    state: "present"
+
+- name: Dovecot generate dh2048 params.
+  openssl_dhparam:
+    path: "/etc/dovecot/dh2048.pem"
+    size: 2048
+    owner: "root"
+    group: "root"
+    mode: 0640
+
+- name: Dovecot template configuration files.
+  template:
+    src: "etc/dovecot/{{ item.name }}.j2"
+    dest: "/etc/dovecot/{{ item.name }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  loop:
+    - name: "dovecot.conf"
+      owner: "root"
+      group: "root"
+      mode: "0644"
+    - name: "dovecot-dict-auth.conf.ext"
+      owner: "root"
+      group: "dovecot"
+      mode: "0640"
+    - name: "dovecot-dict-sql.conf.ext"
+      owner: "root"
+      group: "dovecot"
+      mode: "0640"
+    - name: "dovecot-sql.conf.ext"
+      owner: "root"
+      group: "dovecot"
+      mode: "0640"
+  notify: restart dovecot
+ 
+- name: Dovecot template conf.d files.
+  template:
+    src: "etc/dovecot/conf.d/{{ item }}.j2"
+    dest: "/etc/dovecot/conf.d/{{ item }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
+  loop:
+    - "10-auth.conf"
+    - "10-logging.conf"
+    - "10-mail.conf"
+    - "10-master.conf"
+    - "10-ssl.conf"
+    - "15-mailboxes.conf"
+    - "20-imap.conf"
+    - "20-lmtp.conf"
+    - "20-managesieve.conf"
+    - "90-acl.conf"
+    - "90-plugin.conf"
+    - "90-sieve.conf"
+    - "auth-sql.conf.ext"
+  notify: restart dovecot
+
+- name: Dovecot create shared-mailboxes file.
+  file:
+    path: "/var/lib/dovecot/shared-mailboxes"
+    owner: "dovecot"
+    group: "dovecot"
+    state: "touch"
+
+- name: Dovecot ensure dovecot is started and enabled.
+  service:
+    name: "dovecot"
+    state: "started"
+    enabled: "yes"

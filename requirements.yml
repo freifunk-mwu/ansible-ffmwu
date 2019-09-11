@@ -1,5 +1,6 @@
 - src: geerlingguy.mysql
 - src: powerdns.pdns
+- src: powerdns.pdns_recursor
 - src: lean_delivery.java
 - src: geerlingguy.php
 - src: systemli.etherpad

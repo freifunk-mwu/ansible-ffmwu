@@ -45,6 +45,9 @@ Unattended-Upgrade::Origins-Pattern {
 {% if 'dns' in group_names %}
         "origin=PowerDNS,label=PowerDNS";
 {% endif %}
+{% if 'ffmwu-mail' in group_names %}
+        "origin=Rspamd,codename=${distro_codename},label=Rspamd";
+{% endif %}
 };
 
 // List of packages to not update (regexp are supported)

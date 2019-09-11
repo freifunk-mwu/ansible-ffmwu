@@ -1,0 +1,18 @@
+[Unit]
+Description=Mailman 3 Core service
+After=network.target
+Documentation=https://mailman.readthedocs.io/
+ConditionPathExists={{ mailman3_etc_dir }}/mailman.cfg
+
+[Service]
+ExecStart={{ mailman3_venv_dir }}/bin/mailman -C {{ mailman3_etc_dir }}/mailman.cfg start
+ExecReload={{ mailman3_venv_dir }}/bin/mailman -C {{ mailman3_etc_dir }}/mailman.cfg restart
+ExecStop={{ mailman3_venv_dir }}/bin/mailman -C {{ mailman3_etc_dir }}/mailman.cfg stop
+Type=forking
+PIDFile={{ mailman3_var_dir }}/master.pid
+SyslogIdentifier=mailman3
+User={{ mailman3_user }}
+Group={{ mailman3_group }}
+
+[Install]
+WantedBy=multi-user.target
