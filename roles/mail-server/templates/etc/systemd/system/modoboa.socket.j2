@@ -1,0 +1,14 @@
+#
+# {{ ansible_managed }}
+#
+[Unit]
+Description=Modoboa socket
+
+[Socket]
+ListenStream=/run/modoboa/socket
+SocketUser={{ modoboa_user }}
+SocketGroup=nginx
+SocketMode=660
+
+[Install]
+WantedBy=sockets.target

@@ -1,0 +1,22 @@
+#
+# {{ ansible_managed }}
+#
+server {
+      listen 443 ssl http2;
+
+      server_name rspamd.{{ mail_domain }};
+
+      access_log  /var/log/nginx/rspamd.access.log;
+      error_log /var/log/nginx/rspamd.error.log;
+
+      ssl_certificate     /etc/nginx/ssl/{{ inventory_hostname }}/fullchain.pem;
+      ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname }}/privkey.pem;
+
+      location / {
+          proxy_pass http://localhost:11334/;
+          proxy_set_header Host $host;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Protocol ssl;
+          proxy_set_header X-Forwarded-Proto $scheme;
+      }
+}

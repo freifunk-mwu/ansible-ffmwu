@@ -1,0 +1,18 @@
+[Unit]
+Description=Mailman 3 Django/uWSGI service
+After=network.target
+Documentation=https://mailman.readthedocs.io/
+ConditionPathExists={{ mailman3_etc_dir }}/uwsgi.ini
+
+[Service]
+ExecStart={{ mailman3_venv_dir }}/bin/uwsgi --ini {{ mailman3_etc_dir }}/uwsgi.ini
+Restart=on-failure
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,22 @@
+#
+# {{ ansible_managed }}
+#
+[Unit]
+Description=Modoboa Gunicorn Daemon.
+Requires=modoboa.socket
+After=network.target
+
+[Service]
+User=root
+Group=root
+PIDFile=/run/modoboa/pid
+WorkingDirectory={{ modoboa_instance_dir }}
+ExecStart={{ modoboa_venv_dir }}/bin/python3 {{ modoboa_venv_dir }}/bin/gunicorn --pid {{ modoboa_instance_dir }}/modoboa.pid --bind unix:/run/modoboa/socket --workers 2 --user {{ modoboa_user }} --group nginx --chdir {{ modoboa_instance_dir }} --backlog 2048 --log-syslog {{ modoboa_instance_name }}.wsgi:application
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStop=/bin/kill -TERM $MAINPID
+Type=notify
+Environment="PATH={{ modoboa_venv_dir }}/bin"
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

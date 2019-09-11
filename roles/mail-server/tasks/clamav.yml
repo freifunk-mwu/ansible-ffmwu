@@ -1,0 +1,12 @@
+---
+- name: Clamav ensure daemon is enabled + started.
+  service:
+    name: "clamav-daemon"
+    state: "started"
+    enabled: "yes"
+
+- name: Clamav ensure freshclam is enabled + started.
+  service:
+    name: "clamav-freshclam"
+    state: "started"
+    enabled: "yes"
