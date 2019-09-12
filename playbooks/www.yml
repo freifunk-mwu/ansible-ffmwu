@@ -3,19 +3,4 @@
 - name: Webservers
   hosts: www
 
-  roles:
-  - server-apt-repos
-  - server-basic
-  - network-loopback
-  - users
-  - system-sysctl
-  - git-repos
-  - service-haveged
-  - service-ntpd
-  - wireguard
-  - network-routetables
-  - network-routing
-  - service-bird
-  - service-nginx
-  - service-nullmailer
-  - service-wordpress
+  - service-nginx-wordpress
