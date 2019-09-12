@@ -121,9 +121,6 @@
     - reload systemd
     - restart modoboa socket
 
-- name: flush handlers
-  meta: flush_handlers
-
 - name: Modoboa enable and start Gunicorn systemd socket.
   service:
     name: "modoboa.socket"

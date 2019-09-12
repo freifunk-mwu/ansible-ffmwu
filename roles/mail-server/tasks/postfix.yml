@@ -79,6 +79,7 @@
 - name: Postfix postmap.
   command: "/usr/sbin/postmap /etc/postfix/{{ item }}"
   loop: "{{ postfix_map_tables }}"
+  changed_when: False
 
 - name: Ensure postfix is running and enabled.
   service:

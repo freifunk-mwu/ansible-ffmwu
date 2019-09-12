@@ -34,6 +34,7 @@ modoboa_pip_packages:
   - "gunicorn"
   - "modoboa=={{ modoboa_version }}"
   - "modoboa-dmarc=={{ modoboa_dmarc_version }}"
+  - "modoboa-sievefilters=={{ modoboa_sievefilters_version }}"
   - "modoboa-stats=={{ modoboa_stats_version }}"
   - "modoboa-webmail=={{ modoboa_webmail_version }}"
   - "mysqlclient"

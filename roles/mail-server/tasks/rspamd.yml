@@ -26,6 +26,8 @@
     - "actions.conf"
     - "antivirus.conf"
     - "classifier-bayes.conf"
+    - "dkim_paths.map"
+    - "dkim_selectors.map"
     - "dkim_signing.conf"
     - "dmarc.conf"
     - "greylist.conf"
@@ -42,17 +44,23 @@
     - "worker-proxy.inc"
   notify: reload rspamd
 
-- name: Rspamd template DKIM keys.
-  copy:
-    content: "{{ lookup('passwordstore', 'glueckskeks/dkim/' + item + ' returnall=true') }}"
-    dest: "/var/lib/rspamd/dkim/{{ item }}.key"
+- name: Rspamd create dmarc_reports_last_sent
+  file:
+    path: "/var/lib/rspamd/dmarc_reports_last_sent"
     owner: "{{ rspamd_user }}"
     group: "{{ rspamd_group }}"
     mode: 0640
-  loop:
-    - "2019.freifunk-mwu.de"
-    - "2019.freifunk-mainz.de"
-    - "2019.freifunk-wiesbaden.de"
+    state: "touch"
+  changed_when: False
+
+- name: Rspamd template DKIM keys.
+  copy:
+    content: "{{ lookup('passwordstore', 'glueckskeks/dkim/' + dkim_selector + '.' + item + ' returnall=true') }}"
+    dest: "/var/lib/rspamd/dkim/{{ dkim_selector }}.{{ item }}.key"
+    owner: "{{ rspamd_user }}"
+    group: "{{ rspamd_group }}"
+    mode: 0640
+  loop: "{{ mail_domains }}"
 
 - name: Rspamd ensure rspamd is started and enabled.
   service:
