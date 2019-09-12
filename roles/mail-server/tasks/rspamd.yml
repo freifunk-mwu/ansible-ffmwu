@@ -55,7 +55,7 @@
 
 - name: Rspamd template DKIM keys.
   copy:
-    content: "{{ lookup('passwordstore', 'glueckskeks/dkim/' + dkim_selector + '.' + item + ' returnall=true') }}"
+    content: "{{ lookup('passwordstore', 'morchel/dkim/' + dkim_selector + '.' + item + ' returnall=true') }}"
     dest: "/var/lib/rspamd/dkim/{{ dkim_selector }}.{{ item }}.key"
     owner: "{{ rspamd_user }}"
     group: "{{ rspamd_group }}"

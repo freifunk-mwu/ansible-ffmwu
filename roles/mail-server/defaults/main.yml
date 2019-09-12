@@ -10,7 +10,7 @@ dkim_selector: "2019"
 
 virtualenv_root: "/opt/venvs"
 
-dbuser_root_password: "{{ lookup('passwordstore', 'glueckskeks/mysql/root subkey=secret') }}"
+dbuser_root_password: "{{ lookup('passwordstore', 'morchel/mysql/root subkey=secret') }}"
 
 apt_repo_gpg_rspamd: "https://rspamd.com/apt-stable/gpg.key"
 apt_repo_url_rspamd:
@@ -31,7 +31,7 @@ modoboa_instance_dir: "{{ modoboa_root_dir }}/{{ modoboa_instance_name }}"
 
 db_modoboa: "modoboa"
 dbuser_modoboa: "modoboa"
-dbuser_modoboa_password: "{{ lookup('passwordstore', 'glueckskeks/mysql/modoboa subkey=secret') }}"
+dbuser_modoboa_password: "{{ lookup('passwordstore', 'morchel/mysql/modoboa subkey=secret') }}"
 
 modoboa_version: "1.13.1"
 modoboa_dmarc_version: "1.1.0"
@@ -39,7 +39,7 @@ modoboa_sievefilters_version: "1.4.2"
 modoboa_stats_version: "1.4.1"
 modoboa_webmail_version: "1.5.0"
 
-modoboa_secret_key: "{{ lookup('passwordstore', 'glueckskeks/modoboa/secret_key subkey=secret') }}"
+modoboa_secret_key: "{{ lookup('passwordstore', 'morchel/modoboa/secret_key subkey=secret') }}"
 modoboa_debug_mode: False
 
 # Rspamd Variables
@@ -53,7 +53,7 @@ rspamd_action_threshold_rewritesubject: "null"
 
 # Postfix Variables
 dbuser_postfix: "postfix"
-dbuser_postfix_password: "{{ lookup('passwordstore', 'glueckskeks/mysql/postfix subkey=secret') }}"
+dbuser_postfix_password: "{{ lookup('passwordstore', 'morchel/mysql/postfix subkey=secret') }}"
 
 postfix_map_tables:
   - "access_helo.btree"
@@ -72,7 +72,7 @@ dovecot_virtual_user_uid: 4242
 dovecot_virtual_group_gid: 4242
 dovecot_virtual_user_home: "/srv/imap"
 dbuser_dovecot: "dovecot"
-dbuser_dovecot_password: "{{ lookup('passwordstore', 'glueckskeks/mysql/dovecot subkey=secret') }}"
+dbuser_dovecot_password: "{{ lookup('passwordstore', 'morchel/mysql/dovecot subkey=secret') }}"
 
 # Mailman3 Variables
 mailman3_debug_mode: False
@@ -104,12 +104,12 @@ mailman3_core_api_port: "8001"
 mailman3_postorius_root: "postorius/"
 mailman3_hyperkitty_root: "hyperkitty/"
 
-mailman3_secret_key: "{{ lookup('passwordstore', 'glueckskeks/mailman/secret_key subkey=secret') }}"
+mailman3_secret_key: "{{ lookup('passwordstore', 'morchel/mailman/secret_key subkey=secret') }}"
 mailman3_core_api_admin_user: "restadmin"
-mailman3_core_api_admin_pass: "{{ lookup('passwordstore', 'glueckskeks/mailman/restapi_pass subkey=secret') }}"
-mailman3_archiver_key: "{{ lookup('passwordstore', 'glueckskeks/mailman/archiver_key subkey=secret') }}"
+mailman3_core_api_admin_pass: "{{ lookup('passwordstore', 'morchel/mailman/restapi_pass subkey=secret') }}"
+mailman3_archiver_key: "{{ lookup('passwordstore', 'morchel/mailman/archiver_key subkey=secret') }}"
 
 mailman3_django_superusers:
   - name: "Freifunk MWU Admins"
     email: "mailman@{{ mail_domain }}"
-    pass: "{{ lookup('passwordstore', 'glueckskeks/mailman/django_superuser subkey=secret') }}"
+    pass: "{{ lookup('passwordstore', 'morchel/mailman/django_superuser subkey=secret') }}"
