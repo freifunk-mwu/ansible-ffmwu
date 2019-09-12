@@ -219,6 +219,51 @@ wireguard_networks:
       - unifi
       - suesskartoffel
     port: 50035
+  - ipv4: 10.87.253.72/31
+    peers:
+      - morchel
+      - ingwer
+    port: 50036
+  - ipv4: 10.87.253.74/31
+    peers:
+      - morchel
+      - spinat
+    port: 50037
+  - ipv4: 10.87.253.76/31
+    peers:
+      - morchel
+      - uffschnitt
+    port: 50038
+  - ipv4: 10.87.253.78/31
+    peers:
+      - morchel
+      - lotuswurzel
+    port: 50039
+  - ipv4: 10.87.253.80/31
+    peers:
+      - morchel
+      - wasserfloh
+    port: 50040
+  - ipv4: 10.87.253.82/31
+    peers:
+      - morchel
+      - linse
+    port: 50041
+  - ipv4: 10.87.253.84/31
+    peers:
+      - morchel
+      - kichererbse
+    port: 50042
+  - ipv4: 10.87.253.86/31
+    peers:
+      - morchel
+      - suesskartoffel
+    port: 50043
+  - ipv4: 10.87.253.88/31
+    peers:
+      - morchel
+      - unifi
+    port: 50044
 
 fastd_groups:
   - gateways
