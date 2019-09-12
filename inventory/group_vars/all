@@ -1,5 +1,5 @@
 ---
-ansible_version_minimum: "2.6"
+ansible_version_minimum: "2.8"
 debug_fastd: False
 
 site_code: ffmwu
