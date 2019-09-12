@@ -1,5 +1,5 @@
 ---
-server_type: "www"
+server_type: "services"
 
 magic: 162
 
