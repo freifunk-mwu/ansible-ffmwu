@@ -6,6 +6,14 @@ upstream mailman3 {
 }
 
 server {
+    listen 80;
+    listen [::]:80;
+    server_name {{ mailman3_site_domain }};
+
+    include /etc/nginx/snippets/redirect-to-ssl.conf;
+}
+
+server {
       listen 443 ssl http2;
       keepalive_timeout 70;
 

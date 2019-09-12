@@ -45,9 +45,3 @@
 
 - name: postalias /etc/aliases
   command: "/usr/sbin/postalias /etc/aliases"
-
-- name: postmap mailman3 lookup maps
-  command: "/usr/sbin/postmap {{ mailman3_var_dir }}/data/{{ item }}"
-  loop:
-    - "postfix_domains"
-    - "postfix_lmtp"

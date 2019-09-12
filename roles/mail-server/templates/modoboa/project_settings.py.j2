@@ -81,6 +81,7 @@ MODOBOA_APPS = (
     'modoboa.dnstools',
     # Modoboa extensions here.
     'modoboa_dmarc',
+    'modoboa_sievefilters',
     'modoboa_stats',
     'modoboa_webmail',
 )
@@ -157,7 +158,7 @@ DATABASES = {
         'PORT': '3306',
         'ATOMIC_REQUESTS': True,
         'OPTIONS' : {
-            "init_command" : 'SET foreign_key_checks = 0;',
+            "init_command" : 'SET foreign_key_checks = 0; SET sql_mode=STRICT_TRANS_TABLES',
         },
     },
 
