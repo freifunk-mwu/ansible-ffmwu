@@ -264,6 +264,56 @@ wireguard_networks:
       - kumpir
       - unifi
     port: 50044
+  - ipv4: 10.87.253.90/31
+    peers:
+      - morchel
+      - ingwer
+    port: 50045
+  - ipv4: 10.87.253.92/31
+    peers:
+      - morchel
+      - spinat
+    port: 50046
+  - ipv4: 10.87.253.94/31
+    peers:
+      - morchel
+      - uffschnitt
+    port: 50047
+  - ipv4: 10.87.253.96/31
+    peers:
+      - morchel
+      - lotuswurzel
+    port: 50048
+  - ipv4: 10.87.253.98/31
+    peers:
+      - morchel
+      - wasserfloh
+    port: 50049
+  - ipv4: 10.87.253.100/31
+    peers:
+      - morchel
+      - linse
+    port: 50050
+  - ipv4: 10.87.253.102/31
+    peers:
+      - morchel
+      - kichererbse
+    port: 50051
+  - ipv4: 10.87.253.104/31
+    peers:
+      - morchel
+      - suesskartoffel
+    port: 50052
+  - ipv4: 10.87.253.106/31
+    peers:
+      - morchel
+      - unifi
+    port: 50053
+  - ipv4: 10.87.253.108/31
+    peers:
+      - morchel
+      - kumpir
+    port: 50054
 
 fastd_groups:
   - gateways
