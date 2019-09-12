@@ -55,6 +55,7 @@
     - "10-mail.conf"
     - "10-master.conf"
     - "10-ssl.conf"
+    - "15-lda.conf"
     - "15-mailboxes.conf"
     - "20-imap.conf"
     - "20-lmtp.conf"
@@ -71,6 +72,7 @@
     owner: "dovecot"
     group: "dovecot"
     state: "touch"
+  changed_when: False
 
 - name: Dovecot ensure dovecot is started and enabled.
   service:

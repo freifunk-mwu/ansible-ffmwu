@@ -54,10 +54,10 @@ use_redis = false;
 key_prefix = "DKIM_KEYS";
 
 # map of domains -> names of selectors (since rspamd 1.5.3)
-#selector_map = "/etc/rspamd/dkim_selectors.map";
+selector_map = "/etc/rspamd/local.d/dkim_selectors.map";
 
 # map of domains -> paths to keys (since rspamd 1.5.3)
-#path_map = "/etc/rspamd/dkim_paths.map";
+path_map = "/etc/rspamd/local.d/dkim_paths.map";
 
 # If `true` get pubkey from DNS record and check if it matches private key
 check_pubkey = false;
