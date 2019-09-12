@@ -24,7 +24,7 @@
     - "{{ mailman3_var_dir }}/data"
     - "{{ mailman3_log_dir }}"
 
-- name: Mailman3 create postfix lookup tables.
+- name: Mailman3 create postfix lookup maps.
   file:
     path: "{{ item }}"
     owner: "{{ mailman3_user }}"
@@ -34,7 +34,14 @@
   loop:
     - "{{ mailman3_var_dir }}/data/postfix_domains"
     - "{{ mailman3_var_dir }}/data/postfix_lmtp"
-  notify: postmap mailman3 lookup maps
+  changed_when: False
+
+- name: Mailman3 postmap postfix lookup maps
+  command: "/usr/sbin/postmap {{ mailman3_var_dir }}/data/{{ item }}"
+  loop:
+    - "postfix_domains"
+    - "postfix_lmtp"
+  changed_when: False
 
 - name: Mailman3 django create directories.
   file:
@@ -105,7 +112,7 @@
     mode: "0640"
   notify: restart mailman3-core service
 
-- name: Check Django superusers
+- name: Mailman3 check Django superusers.
   django_manage:
     command: >-
       shell -c 'import sys;
@@ -120,7 +127,7 @@
     label: "{{ item.name }}"
   become_user: "{{ mailman3_web_user }}"
 
-- name: Create Django superusers
+- name: Mailman3 create Django superusers.
   django_manage:
     command: >-
       shell -c 'import sys;
@@ -137,7 +144,7 @@
     label: "{{ item.item.name }}"
   become_user: "{{ mailman3_web_user }}"
 
-- name: Check Django sites
+- name: Mailman3 check Django sites.
   django_manage:
     command: >-
       shell -c 'import sys;
@@ -149,7 +156,7 @@
   changed_when: __mailman3_checkexamplesite_result.out == "exists"
   become_user: "{{ mailman3_web_user }}"
 
-- name: Correct default Django site
+- name: Mailman3 correct default Django site.
   django_manage:
     command: >-
       shell -c 'from django.contrib.sites.models import Site;
@@ -210,9 +217,6 @@
     name: "mailman3-web.service"
     state: "started"
     enabled: "yes"
-
-- name: flush handlers
-  meta: flush_handlers
 
 - name: Mailman template Nginx Configuration.
   template:

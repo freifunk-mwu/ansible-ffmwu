@@ -1,16 +1,8 @@
 ---
 - name: Manage Mail Server.
-  hosts: ffmwu-mail
+  hosts: mail
 
   roles:
-  - users
-  - server-apt-repos
-  - server-basic
-  - network-loopback
-  - git-repos
-  - service-haveged
-  - service-ntpd
-  - service-nginx
   - powerdns.pdns_recursor
   - geerlingguy.mysql
   - mail-server
