@@ -1,6 +1,0 @@
-#
-# {{ ansible_managed }}
-#
-bind_socket = "localhost:11334";
-password = {{ lookup('passwordstore', 'morchel/rspamd/controller_password') }}
-enable_password = {{ lookup('passwordstore', 'morchel/rspamd/controller_password') }}
