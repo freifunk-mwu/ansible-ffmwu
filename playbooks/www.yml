@@ -5,3 +5,4 @@
 
   roles:
   - service-nginx-wordpress
+  - service-nginx-etherpad
