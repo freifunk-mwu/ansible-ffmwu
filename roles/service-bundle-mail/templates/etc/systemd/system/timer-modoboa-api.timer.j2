@@ -1,0 +1,12 @@
+#
+# {{ ansible_managed }}
+#
+[Unit]
+Description=Timer which schedules timer-modoboa-api.service
+
+[Timer]
+OnBootSec=2h
+OnUnitActiveSec=1h
+
+[Install]
+WantedBy=timers.target

@@ -136,3 +136,38 @@
     group: "root"
     mode: 0644
   notify: reload nginx
+
+- name: Modoboa template systemd timer.
+  template:
+    src: "{{ item }}.j2"
+    dest: "/{{ item }}"
+    owner: "root"
+    group: "root"
+  notify:
+    - reload systemd
+  loop:
+    - "etc/systemd/system/timer-modoboa-api.service"
+    - "etc/systemd/system/timer-modoboa-api.timer"
+    - "etc/systemd/system/timer-modoboa-dnsbl.service"
+    - "etc/systemd/system/timer-modoboa-dnsbl.timer"
+    - "etc/systemd/system/timer-modoboa-logparser.service"
+    - "etc/systemd/system/timer-modoboa-logparser.timer"
+    - "etc/systemd/system/timer-modoboa-logs-table-cleanup.service"
+    - "etc/systemd/system/timer-modoboa-logs-table-cleanup.timer"
+    - "etc/systemd/system/timer-modoboa-session-table-cleanup.service"
+    - "etc/systemd/system/timer-modoboa-session-table-cleanup.timer"
+    - "etc/systemd/system/timer-modoboa-statsupdate.service"
+    - "etc/systemd/system/timer-modoboa-statsupdate.timer"
+
+- name: Modoboa enable and start systemd timer.
+  systemd:
+    name: "{{ item }}.timer"
+    enabled: "yes"
+    state: "started"
+  loop:
+    - "timer-modoboa-api"
+    - "timer-modoboa-dnsbl"
+    - "timer-modoboa-logparser"
+    - "timer-modoboa-logs-table-cleanup"
+    - "timer-modoboa-session-table-cleanup"
+    - "timer-modoboa-statsupdate"
