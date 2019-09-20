@@ -1,0 +1,11 @@
+#
+# {{ ansible_managed }}
+#
+[Unit]
+Description=Check DNS Blacklists for modoboa
+
+[Service]
+Type=oneshot
+ExecStart={{ modoboa_venv_dir }}/bin/python3 {{ modoboa_instance_dir }}/manage.py modo check_mx
+User={{ modoboa_user }}
+Group={{ modoboa_user }}

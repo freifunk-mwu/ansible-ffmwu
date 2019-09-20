@@ -1,0 +1,12 @@
+#
+# {{ ansible_managed }}
+#
+[Unit]
+Description=Timer which schedules timer-modoboa-statsupdate.service
+
+[Timer]
+OnBootSec=45m
+OnUnitActiveSec=1h
+
+[Install]
+WantedBy=timers.target

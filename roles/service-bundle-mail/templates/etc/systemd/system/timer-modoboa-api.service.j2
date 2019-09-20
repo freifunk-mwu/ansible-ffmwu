@@ -1,0 +1,11 @@
+#
+# {{ ansible_managed }}
+#
+[Unit]
+Description=Public API communication for modoboa
+
+[Service]
+Type=oneshot
+ExecStart={{ modoboa_venv_dir }}/bin/python3 {{ modoboa_instance_dir }}/manage.py communicate_with_public_api
+User={{ modoboa_user }}
+Group={{ modoboa_user }}
