@@ -10,11 +10,11 @@ After=network.target
 User=root
 Group=root
 PIDFile=/run/modoboa/pid
+RuntimeDirectory=modoboa
 WorkingDirectory={{ modoboa_instance_dir }}
-ExecStart={{ modoboa_venv_dir }}/bin/python3 {{ modoboa_venv_dir }}/bin/gunicorn --pid {{ modoboa_instance_dir }}/modoboa.pid --bind unix:/run/modoboa/socket --workers 2 --user {{ modoboa_user }} --group nginx --chdir {{ modoboa_instance_dir }} --backlog 2048 --log-syslog {{ modoboa_instance_name }}.wsgi:application
+ExecStart={{ modoboa_venv_dir }}/bin/python3 {{ modoboa_venv_dir }}/bin/gunicorn --pid {{ modoboa_run_dir }}/pid --bind unix:/run/modoboa/socket --workers 2 --user {{ modoboa_user }} --group nginx --chdir {{ modoboa_instance_dir }} --backlog 2048 --log-syslog {{ modoboa_instance_name }}.wsgi:application
 ExecReload=/bin/kill -HUP $MAINPID
 ExecStop=/bin/kill -TERM $MAINPID
-Type=notify
 Environment="PATH={{ modoboa_venv_dir }}/bin"
 PrivateTmp=true
 

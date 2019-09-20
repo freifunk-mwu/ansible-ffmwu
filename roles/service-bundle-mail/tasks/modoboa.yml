@@ -11,7 +11,7 @@
     virtualenv: "{{ modoboa_venv_dir }}"
     virtualenv_python: "python3"
 
-- name: Modoboa create root directory.
+- name: Modoboa create directories.
   file:
     path: "{{ item }}"
     state: "directory"
@@ -20,6 +20,7 @@
     mode: 0755
   loop:
     - "{{ modoboa_root_dir }}"
+    - "{{ modoboa_run_dir }}"
 
 - name: Modoboa create instance.
   command: "{{ modoboa_venv_dir }}/bin/python3 {{ modoboa_venv_dir }}/bin/modoboa-admin.py deploy --dburl default:mysql://{{ dbuser_modoboa }}:{{ dbuser_modoboa_password }}@127.0.0.1:3306/{{ db_modoboa }} --lang en-us --domain {{ inventory_hostname }} --admin-username admin --timezone Europe/Berlin --extensions modoboa-dmarc modoboa-stats modoboa-webmail --collectstatic {{ modoboa_instance_name }}"
