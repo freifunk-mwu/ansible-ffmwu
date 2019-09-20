@@ -15,6 +15,15 @@
     state: "{{ item.state }}"
   loop: "{{ system_users }}"
 
+- name: add ed25519 key for system users when supported
+  openssh_keypair:
+    path: "{{ item.home }}/.ssh/id_ed25519"
+    type: ed25519
+    group: "{{ item.name }}"
+    owner: "{{ item.name }}"
+  loop: "{{ system_users }}"
+  when: acme_server == "linse"
+
 - name: ensure ssh config directory is present
   file:
     path: "{{ item.home }}/.ssh"
