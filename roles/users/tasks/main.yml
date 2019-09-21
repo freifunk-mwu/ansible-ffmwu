@@ -11,7 +11,7 @@
     shell: "{{ item.shell }}"
     home: "{{ item.home }}"
     generate_ssh_key: "{{ item.generate_ssh_key }}"
-    ssh_key_bits: "{{ item.ssh_key_bits }}"
+    ssh_key_type: "{{ item.ssh_key_type }}"
     state: "{{ item.state }}"
   loop: "{{ system_users }}"
 
