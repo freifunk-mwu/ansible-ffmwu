@@ -9,17 +9,9 @@
   unarchive:
     src: "http://wordpress.org/wordpress-{{ wp_version }}.tar.gz"
     dest: "{{ wp_install_dir }}"
+    extra_opts:
+    -  --strip-components=1
     remote_src: yes
-
-- name: Wordpress | Move files from {{ wp_install_dir }}/wordpress to {{ wp_install_dir }}
-  command: cp -rf . "{{ wp_install_dir }}"
-  args:
-    chdir: "{{ wp_install_dir }}/wordpress/"
-
-- name: Wordpress | Remove wordpress dir
-  file:
-    path: "{{ wp_install_dir }}/wordpress/"
-    state: absent
 
 - name: Wordpress | Fetch random salts for wp-config.php
   delegate_to: localhost
@@ -41,17 +33,6 @@
     group: www-data
     state: directory
     recurse: yes
-
-#- name: Create mysql database
-#  mysql_db:
-#    name: "{{ wp_mysql_db }}"
-#    state: present
-
-#- name: Create mysql user
-#  mysql_user:
-#    name: "{{ wp_mysql_user }}"
-#    password: "{{ wp_mysql_password }}"
-#    priv: '*.*:ALL'
 
 - name: Wordpress | Nginx | Copy virtual host configuration file
   template:
