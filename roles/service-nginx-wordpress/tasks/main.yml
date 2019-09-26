@@ -1,0 +1,45 @@
+---
+- name: Wordpress | Create directory
+  file:
+    path: "{{ wp_install_dir }}"
+    state: directory
+    mode: 0755
+
+- name: Wordpress | Extract archive in {{ wp_install_dir }}
+  unarchive:
+    src: "http://wordpress.org/wordpress-{{ wp_version }}.tar.gz"
+    dest: "{{ wp_install_dir }}"
+    extra_opts:
+    -  --strip-components=1
+    remote_src: yes
+
+- name: Wordpress | Fetch random salts for wp-config.php
+  delegate_to: localhost
+  command: curl https://api.wordpress.org/secret-key/1.1/salt/
+  become: False
+  args:
+    warn: false
+  register: 'wp_salt'
+
+- name: Wordpress | Copy wp-config.php file
+  template:
+    src: wp-config.php.j2
+    dest: "{{ wp_install_dir }}/wp-config.php"
+
+- name: Wordpress | Change ownership of installation directory
+  file:
+    path: "{{ wp_install_dir }}"
+    owner: www-data
+    group: www-data
+    state: directory
+    recurse: yes
+
+- name: Wordpress | Nginx | Copy virtual host configuration file
+  template:
+    src: "nginx-vhost.j2"
+    dest: /etc/nginx/conf.d/{{ wp_service_name.split(".")[0] }}.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart nginx

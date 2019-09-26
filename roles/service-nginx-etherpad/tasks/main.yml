@@ -1,0 +1,10 @@
+---
+- name: Etherpad | Nginx | Copy virtual host configuration file
+  template:
+    src: "nginx-vhost.j2"
+    dest: /etc/nginx/conf.d/{{ nginx_etherpad_url.split(".")[0] }}.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart nginx

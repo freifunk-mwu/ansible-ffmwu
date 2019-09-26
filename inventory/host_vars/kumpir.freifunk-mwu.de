@@ -1,0 +1,63 @@
+---
+server_type: "services"
+
+magic: 162
+
+acme_server: linse
+
+
+php_packages:
+  - php
+  - php-fpm
+  - php-cli
+  - php-gd
+  - php-mysql
+  - php-mbstring
+  - php-xml
+php_webserver_daemon: "nginx"
+php_default_version_debian: "7.3"
+php_enable_php_fpm: true
+php_use_managed_ini: true
+php_upload_max_filesize: "512M"
+php_post_max_size: "512M"
+
+wp_install_dir: "/var/www/wordpress"
+wp_mysql_db: "wordpress"
+wp_mysql_user: "wordpress"
+wp_mysql_password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_wordpress') }}"
+wp_service_name: "blog.freifunk-mainz.de"
+
+
+mysql_root_password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_root') }}"
+mysql_databases:
+  - name: "wordpress"
+    encoding: "utf8mb4"
+    collation: "utf8mb4_unicode_ci"
+  - name: "etherpad"
+    encoding: "utf8mb4"
+    collation: "utf8mb4_unicode_ci"
+mysql_users:
+  - name: "wordpress"
+    host: "localhost"
+    password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_wordpress') }}"
+    priv: "wordpress.*:ALL"
+  - name: "etherpad"
+    host: "localhost"
+    password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_etherpad') }}"
+    priv: "etherpad.*:ALL"
+mysql_max_binlog_size: "100M"
+mysql_expire_logs_days: "10"
+mysql_bind_address: "127.0.0.1"
+
+nginx_ssl_directory: /etc/nginx/ssl/freifunk-mwu.de/
+
+nginx_etherpad_url: "pad.freifunk-mwu.de"
+
+etherpad_db_type: mysql
+etherpad_ip: 127.0.0.1
+etherpad_port: 9002
+etherpad_mysql_database_host: localhost
+etherpad_mysql_database_name: etherpad
+etherpad_mysql_database_user: etherpad
+etherpad_mysql_database_password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_etherpad') }}"
+etherpad_mysql_database_port: 3306

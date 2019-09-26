@@ -1,0 +1,8 @@
+#!/usr/bin/ansible-playbook
+---
+- name: Webservers
+  hosts: www
+
+  roles:
+  - service-nginx-wordpress
+  - service-nginx-etherpad
