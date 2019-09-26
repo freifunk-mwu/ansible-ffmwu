@@ -61,3 +61,4 @@ etherpad_mysql_database_name: etherpad
 etherpad_mysql_database_user: etherpad
 etherpad_mysql_database_password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_etherpad') }}"
 etherpad_mysql_database_port: 3306
+etherpad_plugins: [ep_list_pads,ep_public_view,ep_search]
