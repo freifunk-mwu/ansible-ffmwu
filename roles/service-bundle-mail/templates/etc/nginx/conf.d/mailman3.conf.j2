@@ -1,10 +1,6 @@
 #
 # {{ ansible_managed }}
 #
-upstream mailman3 {
-      server unix://{{ mailman3_django_project_dir }}/run/uwsgi.sock fail_timeout=0;
-}
-
 server {
     listen 80;
     listen [::]:80;
@@ -31,6 +27,6 @@ server {
 
       location / {
               include uwsgi_params;
-              uwsgi_pass mailman3;
+              uwsgi_pass 127.0.0.1:8000;
       }
 }
