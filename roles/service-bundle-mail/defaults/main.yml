@@ -34,7 +34,7 @@ db_modoboa: "modoboa"
 dbuser_modoboa: "modoboa"
 dbuser_modoboa_password: "{{ lookup('passwordstore', 'morchel/mysql/modoboa subkey=secret') }}"
 
-modoboa_version: "1.13.1"
+modoboa_version: "1.14.0"
 modoboa_dmarc_version: "1.1.0"
 modoboa_sievefilters_version: "1.4.2"
 modoboa_stats_version: "1.4.1"
