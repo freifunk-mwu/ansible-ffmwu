@@ -53,7 +53,6 @@
   loop:
     - "{{ mailman3_django_dir }}"
     - "{{ mailman3_django_project_dir }}"
-    - "{{ mailman3_django_project_dir }}/db"
     - "{{ mailman3_django_project_dir }}/emails"
     - "{{ mailman3_django_project_dir }}/fulltext_index"
     - "{{ mailman3_django_project_dir }}/run"
@@ -68,6 +67,7 @@
     mode: 0750
     recurse: "yes"
   loop:
+    - "{{ mailman3_django_project_dir }}/db"
     - "{{ mailman3_django_project_static_dir }}"
 
 - name: Mailman3 create log files.
@@ -89,7 +89,7 @@
 - name: Mailman template Django project.
   template:
     src: "{{ item.name }}.j2"
-    user: "{{ mailman3_user }}"
+    owner: "{{ mailman3_user }}"
     group: "{{ mailman3_web_group }}"
     mode: "{{ item.mode }}"
     dest: "/{{ item.name }}"
