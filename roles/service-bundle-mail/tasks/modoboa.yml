@@ -20,6 +20,7 @@
     mode: 0755
   loop:
     - "{{ modoboa_root_dir }}"
+    - "{{ modoboa_rrd_dir }}"
     - "{{ modoboa_run_dir }}"
 
 - name: Modoboa create instance.
