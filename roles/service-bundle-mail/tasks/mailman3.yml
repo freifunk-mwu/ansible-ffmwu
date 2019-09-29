@@ -56,7 +56,6 @@
     - "{{ mailman3_django_project_dir }}/emails"
     - "{{ mailman3_django_project_dir }}/fulltext_index"
     - "{{ mailman3_django_project_dir }}/run"
-    - "{{ mailman3_django_project_log_dir }}"
 
 - name: Mailman3 django create static directory.
   file:
@@ -68,17 +67,8 @@
     recurse: "yes"
   loop:
     - "{{ mailman3_django_project_dir }}/db"
+    - "{{ mailman3_django_project_log_dir }}"
     - "{{ mailman3_django_project_static_dir }}"
-
-- name: Mailman3 create log files.
-  file:
-    path: "{{ item }}"
-    owner: "{{ mailman3_user }}"
-    group: "{{ mailman3_web_group }}"
-    mode: "0664"
-    state: "touch"
-  loop:
-    - "{{ mailman3_django_project_log_dir }}/mailmansuite.log"
 
 - name: Mailman3 install Mailman in a virtualenv.
   pip:
@@ -89,7 +79,7 @@
 - name: Mailman template Django project.
   template:
     src: "{{ item.name }}.j2"
-    owner: "{{ mailman3_user }}"
+    owner: "root"
     group: "{{ mailman3_web_group }}"
     mode: "{{ item.mode }}"
     dest: "/{{ item.name }}"

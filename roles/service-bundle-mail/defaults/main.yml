@@ -26,6 +26,7 @@ modoboa_user: "modoboa"
 modoboa_group: "modoboa"
 modoboa_venv_dir: "{{ virtualenv_root }}/modoboa"
 modoboa_root_dir: "/opt/modoboa"
+modoboa_rrd_dir: "{{ modoboa_root_dir }}/rrd"
 modoboa_instance_name: "ffmwu"
 modoboa_instance_dir: "{{ modoboa_root_dir }}/{{ modoboa_instance_name }}"
 modoboa_run_dir: "/run/modoboa"
@@ -51,6 +52,8 @@ rspamd_action_threshold_reject: 13
 rspamd_action_threshold_addheader: 6
 rspamd_action_threshold_greylist: 3
 rspamd_action_threshold_rewritesubject: "null"
+
+rspamd_loglevel: "notice"
 
 # Postfix Variables
 dbuser_postfix: "postfix"
