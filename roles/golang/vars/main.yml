@@ -1,0 +1,1 @@
+debian_repo: "{{ 'stretch-backports' if ansible_distribution_release == 'stretch' else ansible_distribution_release }}"

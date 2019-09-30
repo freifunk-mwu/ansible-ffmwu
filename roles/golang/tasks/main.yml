@@ -3,7 +3,7 @@
   apt:
     name: golang
     state: latest
-    default_release: stretch-backports
+    default_release: "{{ debian_repo }}"
 
 - name: create GOPATH directory
   file:

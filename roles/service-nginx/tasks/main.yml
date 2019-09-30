@@ -12,8 +12,8 @@
     update_cache: yes
     filename: nginx
   loop:
-    - deb http://nginx.org/packages/debian/ stretch nginx
-    - deb-src http://nginx.org/packages/debian/ stretch nginx
+    - deb http://nginx.org/packages/debian/ {{ ansible_distribution_release }} nginx
+    - deb-src http://nginx.org/packages/debian/ {{ ansible_distribution_release }} nginx
 
 - name: install nginx packages
   package:

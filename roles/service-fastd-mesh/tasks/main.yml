@@ -19,7 +19,7 @@
   apt:
     name: redis-server
     state: latest
-    default_release: stretch-backports
+    default_release: "{{ debian_repo }}"
 
 - name: build fastd-limiter
   shell: "go get -v -u github.com/freifunk-mwu/fastd-limiter"

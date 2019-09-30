@@ -7,7 +7,7 @@ Diese Ansible role prüft ob die Voraussetzungen für ein Freifunk Gateway erfü
 - CNAME Eintrag gate$magic.freifunk-mwu.de == $FQDN
 - CNAME Eintrag icvpn$magic.freifunk-mwu.de == $FQDN
 - Linux Distribution == Debian
-- Debian Version == 9
+- Debian Version == 9 oder 10
 
 ## Benötigte Variablen
 
