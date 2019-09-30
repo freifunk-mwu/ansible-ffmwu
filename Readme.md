@@ -8,7 +8,7 @@ kann. Die folgenden Voraussetzungen müssen erfüllt sein:
 
 - Ein dedizierter (v)server muss existieren und unter einer IPv4- und einer IPv6-Adresse öffentlich erreichbar sein.
 - Die Adressen müssen im MWU-DNS eingetragen sein.
-- Als Betriebssystem muss Debian Stretch installiert sein.
+- Als Betriebssystem muss Debian Stretch oder Buster installiert sein.
 - Für Ansible muss Python 2.6 oder höher installiert sein.
 - Es muss einen User admin geben, auf den die Admins Zugriff haben; dieser muss Root-Zugang über sudo haben.
 

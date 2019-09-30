@@ -24,19 +24,15 @@ Unattended-Upgrade::Origins-Pattern {
         // Codename based matching:
         // This will follow the migration of a release through different
         // archives (e.g. from testing to stable and later oldstable).
-//      "o=Debian,n=jessie";
-//      "o=Debian,n=jessie-updates";
-//      "o=Debian,n=jessie-proposed-updates";
-//      "o=Debian,n=jessie,l=Debian-Security";
+        "origin=Debian,codename=${distro_codename}";
+        "origin=Debian,codename=${distro_codename}-updates";
+        "origin=Debian,codename=${distro_codename}-proposed-updates";
+        "origin=Debian,codename=${distro_codename},label=Debian-Security";
 
         // Archive or Suite based matching:
         // Note that this will silently match a different release after
         // migration to the specified archive (e.g. testing becomes the
         // new stable).
-        "origin=Debian,codename=${distro_codename},archive=stable";
-        "origin=Debian,codename=${distro_codename},archive=stable-updates";
-        "origin=Debian,codename=${distro_codename},archive=proposed-updates";
-        "origin=Debian,codename=${distro_codename},label=Debian-Security";
         "origin=Debian,codename=sid,archive=unstable";
         "origin=Freifunk MWU,codename=${distro_codename},label=Freifunk MWU";
         "origin=nginx,codename=${distro_codename},label=nginx,archive=stable";

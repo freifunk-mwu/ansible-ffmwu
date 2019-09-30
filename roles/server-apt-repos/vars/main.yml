@@ -1,8 +1,8 @@
 ---
 repos:
   - name: freifunk
-    repo: 'deb http://repo.freifunk-mwu.de/debian stretch main'
+    repo: 'deb [arch=amd64] http://repo.freifunk-mwu.de/debian {{ ansible_distribution_release }} main'
     update_cache: yes
   - name: freifunk
-    repo: 'deb-src http://repo.freifunk-mwu.de/debian stretch main'
+    repo: 'deb-src http://repo.freifunk-mwu.de/debian {{ ansible_distribution_release }} main'
     update_cache: yes
