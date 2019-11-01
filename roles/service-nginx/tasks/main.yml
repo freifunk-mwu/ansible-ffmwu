@@ -28,8 +28,8 @@
 - name: Add remote server to known_hosts
   known_hosts:
     path: /etc/ssh/ssh_known_hosts
-    name: zuckerwatte.ffmwu.org
-    key: "{{ lookup('file', 'known_hosts') }}"
+    name: "{{ acme_server }}.{{ http_domain_internal }}"
+    key: "{{ lookup('file', acme_server + '.pub') }}"
 
 - name: create cronjob to sync ssl certs
   template:
