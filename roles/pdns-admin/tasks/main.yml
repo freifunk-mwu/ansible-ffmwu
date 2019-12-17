@@ -43,7 +43,9 @@
     dest: "{{ pdns_admin_systemd_filepath }}"
     owner: "root"
     group: "root"
-  notify: Reload systemd
+  notify:
+    - Reload systemd
+    - Restart PowerDNS Admin Service
 
 - name: Copy {{ pdns_admin_conf_filename }}.
   template:
