@@ -739,12 +739,6 @@ bgp_legacy_servers:
   zuckerwatte:
     ipv4: 10.37.1.2
     ipv6: fd37:b4dc:4b1e::a25:102
-  glueckskeks:
-    ipv4: 10.37.1.1
-    ipv6: fd37:b4dc:4b1e::a25:101
-  extrasahne:
-    ipv4: 10.37.0.42
-    ipv6: fd37:b4dc:4b1e::a25:2a
 
 dns_external:
   slaves:

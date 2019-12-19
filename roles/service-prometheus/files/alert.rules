@@ -2,14 +2,14 @@ groups:
 - name: blackbox
   rules:
   - alert: Icmp4Timeout
-    expr: (probe_success{job="icmp4"} == 0 and on(hostname) ALERTS{alertname="InstanceDown"} == 0) or (probe_success{job="icmp4",hostname=~"zuckerwatte|aubergine|glueckskeks"} == 0)
+    expr: (probe_success{job="icmp4"} == 0 and on(hostname) ALERTS{alertname="InstanceDown"} == 0) or (probe_success{job="icmp4",hostname=~"zuckerwatte"} == 0)
     for: 5m
     annotations:
       description: 'ICMP requests to the primary IPv4 address timed out'
       summary: 'Instance {{ $labels.instance }} does not respond to ICMPv4 echo requests'
 
   - alert: Icmp6Timeout
-    expr: (probe_success{job="icmp6"} == 0 and on(hostname) ALERTS{alertname="InstanceDown"} == 0) or (probe_success{job="icmp6",hostname=~"zuckerwatte|aubergine|glueckskeks"} == 0)
+    expr: (probe_success{job="icmp6"} == 0 and on(hostname) ALERTS{alertname="InstanceDown"} == 0) or (probe_success{job="icmp6",hostname=~"zuckerwatte"} == 0)
     for: 5m
     annotations:
       description: 'ICMP requests to the primary IPv6 address timed out'
