@@ -6,8 +6,10 @@ After=network.target
 User=root
 Group=root
 WorkingDirectory={{ pdns_admin_path }}
-ExecStart={{ pdns_admin_python_venv_path }}/bin/gunicorn --workers 2 --bind unix:{{ pdns_admin_path }}/powerdns-admin.sock app:app
+ExecStart={{ pdns_admin_python_venv_path }}/bin/gunicorn --workers 2 --bind unix:{{ pdns_admin_path }}/powerdns-admin.sock powerdnsadmin:create_app()
 Environment="PATH={{ pdns_admin_path }}"
+Environment="FLASK_APP={{ pdns_admin_path }}/powerdnsadmin/__init__.py"
+Environment="FLASK_CONF={{ pdns_admin_path }}/config.py"
 
 [Install]
 WantedBy=multi-user.target

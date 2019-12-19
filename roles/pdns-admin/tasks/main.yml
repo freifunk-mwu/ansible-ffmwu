@@ -43,7 +43,9 @@
     dest: "{{ pdns_admin_systemd_filepath }}"
     owner: "root"
     group: "root"
-  notify: Reload systemd
+  notify:
+    - Reload systemd
+    - Restart PowerDNS Admin Service
 
 - name: Copy {{ pdns_admin_conf_filename }}.
   template:
@@ -58,7 +60,8 @@
   environment:
     PATH: "{{ pdns_admin_python_venv_path }}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
     VIRTUAL_ENV: "{{ pdns_admin_python_venv_path }}"
-    FLASK_APP: "{{ pdns_admin_path }}/app/__init__.py"
+    FLASK_APP: "{{ pdns_admin_path }}/powerdnsadmin/__init__.py"
+    FLASK_CONF: "{{ pdns_admin_path }}/config.py"
   loop:
     - "flask db upgrade"
     - "yarn install --pure-lockfile"

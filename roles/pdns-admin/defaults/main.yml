@@ -1,7 +1,7 @@
 ---
 pdns_admin_service_name: "powerdns"
 pdns_admin_git_repo_url: "https://github.com/ngoduykhanh/PowerDNS-Admin.git"
-pdns_admin_git_repo_commit: "f95adf3ea372863b52eaa81e635ceaecafc1e242"
+pdns_admin_git_repo_commit: "ea8531dd3cc36bb15edb6e7b65d17e97121b6b3f"
 pdns_admin_pip_packages:
   - mysql-python
 

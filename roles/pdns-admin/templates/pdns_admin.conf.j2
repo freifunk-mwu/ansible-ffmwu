@@ -33,7 +33,7 @@ server {
 
     location ~ ^/static/  {
         include     mime.types;
-        root        {{ pdns_admin_path }}/app;
+        root        {{ pdns_admin_path }}/powerdnsadmin;
         location    ~* \.(jpg|jpeg|png|gif)$ { expires 365d; }
         location    ~* ^.+.(css|js)$ { expires 7d; }
     }
