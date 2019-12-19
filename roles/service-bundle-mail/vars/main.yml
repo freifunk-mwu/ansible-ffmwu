@@ -15,20 +15,9 @@ dovecot_packages:
   - "dovecot-sieve"
   - "dovecot-solr"
 
-mailman3_pip_packages:
-  - "Django>={{ django_minimum_version }}"
-  - "django-haystack"
-  - "libsass"
-  - "mailman=={{ mailman3_core_version }}"
-  - "mailmanclient"
-  - "mailman-hyperkitty=={{ mailman3_hyperkitty_version }}"
-  - "postorius=={{ postorius_version }}"
-  - "hyperkitty=={{ hyperkitty_version }}"
-  - "whoosh"
-  - "uwsgi"
-
-mailman3_packages:
-  - "ruby-sass"
+mailman_packages:
+  - "mailman"
+  - "fcgiwrap"
 
 modoboa_pip_packages:
   - "gunicorn"
@@ -74,4 +63,4 @@ rspamd_packages:
   - "redis-server"
   - "redis-tools"
 
-_mail_packages: "{{ postfix_packages }} + {{ rspamd_packages }} + {{ dovecot_packages }} + {{ mailman3_packages }} + {{ modoboa_packages }} + {{ clamav_packages }}"
+_mail_packages: "{{ postfix_packages }} + {{ rspamd_packages }} + {{ dovecot_packages }} + {{ modoboa_packages }} + {{ clamav_packages }}"

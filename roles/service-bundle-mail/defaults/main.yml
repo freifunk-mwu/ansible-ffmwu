@@ -6,6 +6,8 @@ mail_domains:
   - "freifunk-wiesbaden.de"
   - "freifunk-mainz.de"
 
+mail_list_domain: "lists.freifunk-mwu.de"
+
 dkim_selector: "2019"
 
 virtualenv_root: "/opt/venvs"
@@ -78,42 +80,9 @@ dovecot_virtual_user_home: "/srv/imap"
 dbuser_dovecot: "dovecot"
 dbuser_dovecot_password: "{{ lookup('passwordstore', 'morchel/mysql/dovecot subkey=secret') }}"
 
-# Mailman3 Variables
-mailman3_debug_mode: False
-mailman3_core_version: "3.3.0"
-mailman3_hyperkitty_version: "1.1.0"
-postorius_version: "1.3.0"
-hyperkitty_version: "1.3.0"
-django_minimum_version: "1.11"
-
-mailman3_site_domain: "lists.{{ mail_domain }}"
-mailman3_root_dir: "/opt/mailman3"
-mailman3_core_dir: "{{ mailman3_root_dir }}/core"
-mailman3_venv_dir: "{{ virtualenv_root }}/mailman3"
-mailman3_etc_dir: "{{ mailman3_core_dir }}/etc"
-mailman3_var_dir: "{{ mailman3_core_dir }}/var"
-mailman3_log_dir: "{{ mailman3_core_dir }}/log"
-mailman3_django_dir: "{{ mailman3_root_dir }}/web"
-mailman3_django_project_dir: "{{ mailman3_django_dir }}/project"
-mailman3_django_project_static_dir: "{{ mailman3_django_project_dir }}/static"
-mailman3_django_project_log_dir: "{{ mailman3_django_project_dir }}/logs"
-mailman3_user: "mailman3"
-mailman3_group: "mailman3"
-mailman3_web_user: "nginx"
-mailman3_web_group: "nginx"
-
-mailman3_core_api_hostname: "localhost"
-mailman3_core_api_port: "8001"
-
-mailman3_postorius_root: "postorius/"
-mailman3_hyperkitty_root: "hyperkitty/"
-
-mailman3_secret_key: "{{ lookup('passwordstore', 'morchel/mailman/secret_key subkey=secret') }}"
-mailman3_core_api_admin_user: "restadmin"
-mailman3_core_api_admin_pass: "{{ lookup('passwordstore', 'morchel/mailman/restapi_pass subkey=secret') }}"
-mailman3_archiver_key: "{{ lookup('passwordstore', 'morchel/mailman/archiver_key subkey=secret') }}"
-
-mailman3_django_superusers:
-  - name: "Freifunk MWU Admins"
-    email: "mailman@{{ mail_domain }}"
-    pass: "{{ lookup('passwordstore', 'morchel/mailman/django_superuser subkey=secret') }}"
+# Mailman Variables
+mailman_mail_host: "{{ mail_list_domain }}"
+mailman_url_host: "{{ mail_list_domain }}"
+mailman_sitepass: "{{ lookup('passwordstore', 'morchel/mailman/sitepass subkey=secret') }}"
+mailman_listcreator_password: "{{ lookup('passwordstore', 'morchel/mailman/listcreator subkey=secret') }}"
+mailman_subscribe_form_secret: "{{ lookup('passwordstore', 'morchel/mailman/subscribe_form_secret subkey=secret') }}"

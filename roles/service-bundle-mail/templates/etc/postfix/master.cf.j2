@@ -12,7 +12,17 @@
 # service type  private unpriv  chroot  wakeup  maxproc command + args
 #               (yes)   (yes)   (no)    (never) (100)
 # ==========================================================================
-smtp      inet  n       -       y       -       -       smtpd
+{{ ansible_default_ipv4.address }}:smtp      inet  n       -       y       -       -       smtpd
+[{{ ansible_default_ipv6.address }}]:smtp      inet  n       -       y       -       -       smtpd
+localhost:smtp inet n   -       y       -       15       smtpd
+  -o smtpd_client_connection_count_limit=15
+  -o smtpd_client_restrictions=
+  -o smtpd_helo_restrictions=
+  -o smtpd_sender_restrictions=
+  -o smtpd_recipient_restrictions=permit_mynetworks,reject
+  -o smtpd_data_restrictions=
+  -o mynetworks_style=subnet
+  -o mynetworks=cidr:/etc/postfix/mynetworks_table_intern.cidr
 #smtp      inet  n       -       y       -       1       postscreen
 #smtpd     pass  -       -       y       -       -       smtpd
 #dnsblog   unix  -       -       y       -       0       dnsblog

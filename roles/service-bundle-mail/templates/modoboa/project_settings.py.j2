@@ -31,6 +31,7 @@ DEBUG = {{ modoboa_debug_mode }}
 
 ALLOWED_HOSTS = [
     'mailadmin.{{ mail_domain }}',
+    'webmail.{{ mail_domain }}',
 ]
 
 SITE_ID = 1
@@ -183,7 +184,7 @@ USE_TZ = True
 STATIC_URL = '/sitestatic/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'sitestatic')
 STATICFILES_DIRS = (
-    '{{ modoboa_venv_dir }}/lib/python3.5/site-packages/modoboa/bower_components',
+    '{{ modoboa_venv_dir }}/lib/python3.7/site-packages/modoboa/bower_components',
 )
 
 MEDIA_URL = '/media/'

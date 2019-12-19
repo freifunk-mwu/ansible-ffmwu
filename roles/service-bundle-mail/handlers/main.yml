@@ -8,14 +8,9 @@
     name: "modoboa.socket"
     state: "restarted"
 
-- name: restart mailman3-core service
+- name: restart mailman
   service:
-    name: "mailman3-core.service"
-    state: "restarted"
-
-- name: restart mailman3-web service
-  service:
-    name: "mailman3-web.service"
+    name: "mailman.service"
     state: "restarted"
 
 - name: reload nginx
@@ -45,3 +40,8 @@
 
 - name: postalias /etc/aliases
   command: "/usr/sbin/postalias /etc/aliases"
+
+- name: restart fcgiwrap
+  service:
+    name: "fcgiwrap.service"
+    state: "restarted"

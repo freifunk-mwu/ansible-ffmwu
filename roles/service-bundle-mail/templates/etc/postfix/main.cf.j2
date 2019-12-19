@@ -12,8 +12,8 @@ append_dot_mydomain = no
 # Uncomment the next line to generate "delayed mail" warnings
 delay_warning_time = 24h
 
-alias_maps = proxy:btree:/etc/aliases
-alias_database = proxy:btree:/etc/aliases
+alias_maps = btree:/etc/aliases btree:/var/lib/mailman/data/aliases
+alias_database = btree:/etc/aliases
 
 recipient_delimiter = +
 default_database_type = btree
@@ -31,7 +31,7 @@ myhostname = {{ inventory_hostname }}
 mydomain = {{ mail_domain }}
 myorigin = $mydomain
 mynetworks = cidr:/etc/postfix/mynetworks_table.cidr
-mydestination =  $myhostname, localhost.$mydomain, localhost
+mydestination = lists.$mydomain, $myhostname, localhost.$mydomain, localhost
 
 inet_protocols = ipv4, ipv6
 
@@ -44,7 +44,7 @@ message_size_limit = 102400000
 relayhost =
 
 relocated_maps = btree:/etc/postfix/relocated_maps.btree
-local_recipient_maps = proxy:unix:passwd.byname $alias_maps $relocated_maps proxy:btree:{{ mailman3_var_dir }}/data/postfix_lmtp
+local_recipient_maps = proxy:unix:passwd.byname $alias_maps $relocated_maps
 
 unverified_recipient_reject_code = 560
 unverified_recipient_reject_reason = The recipient-address is not valid! Maybe wrong syntax or prescribed?
@@ -68,8 +68,8 @@ smtp_tls_loglevel = 0
 smtpd_tls_loglevel = 0
 
 # relay domains and transport map
-relay_domains = btree:/etc/postfix/relay_domains.btree btree:{{ mailman3_var_dir }}/data/postfix_domains
-transport_maps = btree:/etc/postfix/relay_domains.btree btree:{{ mailman3_var_dir }}/data/postfix_lmtp
+relay_domains = btree:/etc/postfix/relay_domains.btree
+transport_maps = btree:/etc/postfix/relay_domains.btree
 
 # use new long queue ids
 enable_long_queue_ids = yes
@@ -96,13 +96,12 @@ virtual_transport = lmtp:unix:private/dovecot-lmtp
 tls_preempt_cipherlist = yes
 
 # SMTP Daemon TLS parameters
-smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
-smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+smtpd_tls_cert_file=/etc/nginx/ssl/{{ inventory_hostname }}/fullchain.pem
+smtpd_tls_key_file=/etc/nginx/ssl/{{ inventory_hostname }}/privkey.pem
 smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
 smtpd_tls_exclude_ciphers = aNULL, eNULL, EXPORT, DES, RC4, MD5, PSK, aECDH, EDH-DSS-DES-CBC3-SHA, EDH-RSA-DES-CDB3-SHA, KRB5-DES, CBC3-SHA
 smtpd_use_tls=yes
 smtpd_tls_security_level = may
-#smtpd_tls_received_header = yes
 smtpd_tls_auth_only = yes
 smtpd_tls_dh1024_param_file = /etc/postfix/dh2048.pem
 smtpd_tls_dh512_param_file = /etc/postfix/dh512.pem
