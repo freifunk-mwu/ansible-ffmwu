@@ -1,0 +1,11 @@
+#
+# {{ ansible_managed }}
+#
+[Unit]
+Description=Timer which schedules timer-modoboa-session-table-cleanup.service
+
+[Timer]
+OnCalendar= *-*-* *:00:00 
+
+[Install]
+WantedBy=timers.target

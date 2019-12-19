@@ -1,0 +1,5 @@
+127.0.0.1/32                            v4-localhost
+[::1]/128                               v6-localhost
+
+{{ loopback_net_ipv4 | ipaddr('network/prefix') }}	Freifunk MWU Loopback Network IPv4
+[{{ loopback_net_ipv6 | ipaddr('network') }}]/{{ loopback_net_ipv6 | ipaddr('prefix') }}	Freifunk MWU Loopback Network IPv6

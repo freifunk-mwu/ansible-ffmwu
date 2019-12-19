@@ -1,0 +1,47 @@
+---
+- name: reload systemd
+  systemd:
+    daemon_reload: "yes"
+
+- name: restart modoboa socket
+  service:
+    name: "modoboa.socket"
+    state: "restarted"
+
+- name: restart mailman
+  service:
+    name: "mailman.service"
+    state: "restarted"
+
+- name: reload nginx
+  service:
+    name: "nginx"
+    state: "reloaded"
+
+- name: reload rspamd
+  service:
+    name: "rspamd"
+    state: "reloaded"
+
+- name: restart redis-server
+  service:
+    name: "redis-server"
+    state: "restarted"
+
+- name: restart postfix
+  service:
+    name: "postfix"
+    state: "restarted"
+
+- name: restart dovecot
+  service:
+    name: "dovecot"
+    state: "restarted"
+
+- name: postalias /etc/aliases
+  command: "/usr/sbin/postalias /etc/aliases"
+
+- name: restart fcgiwrap
+  service:
+    name: "fcgiwrap.service"
+    state: "restarted"

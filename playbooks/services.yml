@@ -19,4 +19,4 @@
   - service-bird
   - service-nginx
   - service-prometheus
-  - service-nullmailer
+  - { role: service-nullmailer, when: "'mail' is not in group_names" }

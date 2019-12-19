@@ -1,0 +1,88 @@
+---
+# General Variables
+mail_domains:
+  - "freifunk-mwu.de"
+  - "lists.freifunk-mwu.de"
+  - "freifunk-wiesbaden.de"
+  - "freifunk-mainz.de"
+
+mail_list_domain: "lists.freifunk-mwu.de"
+
+dkim_selector: "2019"
+
+virtualenv_root: "/opt/venvs"
+
+dbuser_root_password: "{{ lookup('passwordstore', 'morchel/mysql/root subkey=secret') }}"
+
+apt_repo_gpg_rspamd: "https://rspamd.com/apt-stable/gpg.key"
+apt_repo_url_rspamd:
+  - "deb [arch=amd64] http://rspamd.com/apt-stable/ {{ ansible_distribution_release }} main"
+  - "deb-src [arch=amd64] http://rspamd.com/apt-stable/ {{ ansible_distribution_release }} main"
+
+apt_repo_gpg_dovecot: "https://repo.dovecot.org/DOVECOT-REPO-GPG"
+apt_repo_url_dovecot:
+  - "deb https://repo.dovecot.org/ce-2.3-latest/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main"
+
+# Modoboa Variables
+modoboa_user: "modoboa"
+modoboa_group: "modoboa"
+modoboa_venv_dir: "{{ virtualenv_root }}/modoboa"
+modoboa_root_dir: "/opt/modoboa"
+modoboa_rrd_dir: "{{ modoboa_root_dir }}/rrd"
+modoboa_instance_name: "ffmwu"
+modoboa_instance_dir: "{{ modoboa_root_dir }}/{{ modoboa_instance_name }}"
+modoboa_run_dir: "/run/modoboa"
+
+db_modoboa: "modoboa"
+dbuser_modoboa: "modoboa"
+dbuser_modoboa_password: "{{ lookup('passwordstore', 'morchel/mysql/modoboa subkey=secret') }}"
+
+modoboa_version: "1.14.0"
+modoboa_dmarc_version: "1.1.0"
+modoboa_sievefilters_version: "1.4.2"
+modoboa_stats_version: "1.4.1"
+modoboa_webmail_version: "1.5.0"
+
+modoboa_secret_key: "{{ lookup('passwordstore', 'morchel/modoboa/secret_key subkey=secret') }}"
+modoboa_debug_mode: False
+
+# Rspamd Variables
+rspamd_user: "_rspamd"
+rspamd_group: "_rspamd"
+
+rspamd_action_threshold_reject: 13
+rspamd_action_threshold_addheader: 6
+rspamd_action_threshold_greylist: 3
+rspamd_action_threshold_rewritesubject: "null"
+
+rspamd_loglevel: "notice"
+
+# Postfix Variables
+dbuser_postfix: "postfix"
+dbuser_postfix_password: "{{ lookup('passwordstore', 'morchel/mysql/postfix subkey=secret') }}"
+
+postfix_map_tables:
+  - "access_helo.btree"
+  - "access_recipient.btree"
+  - "access_recipient-rfc.btree"
+  - "access_sender.btree"
+  - "relay_domains.btree"
+  - "relocated_maps.btree"
+  - "transport_maps.btree"
+  - "virtualdomain_maps.btree"
+
+# Dovecot Variables
+dovecot_virtual_user_name: "vmail"
+dovecot_virtual_group_name: "vmail"
+dovecot_virtual_user_uid: 4242
+dovecot_virtual_group_gid: 4242
+dovecot_virtual_user_home: "/srv/imap"
+dbuser_dovecot: "dovecot"
+dbuser_dovecot_password: "{{ lookup('passwordstore', 'morchel/mysql/dovecot subkey=secret') }}"
+
+# Mailman Variables
+mailman_mail_host: "{{ mail_list_domain }}"
+mailman_url_host: "{{ mail_list_domain }}"
+mailman_sitepass: "{{ lookup('passwordstore', 'morchel/mailman/sitepass subkey=secret') }}"
+mailman_listcreator_password: "{{ lookup('passwordstore', 'morchel/mailman/listcreator subkey=secret') }}"
+mailman_subscribe_form_secret: "{{ lookup('passwordstore', 'morchel/mailman/subscribe_form_secret subkey=secret') }}"

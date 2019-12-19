@@ -1,0 +1,8 @@
+---
+- name: Manage Mail Server.
+  hosts: mail
+
+  roles:
+  - powerdns.pdns_recursor
+  - geerlingguy.mysql
+  - service-bundle-mail

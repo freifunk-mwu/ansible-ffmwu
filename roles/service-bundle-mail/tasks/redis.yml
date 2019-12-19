@@ -1,0 +1,20 @@
+---
+- name: Redis configure maxmemory.
+  lineinfile:
+    path: /etc/redis/redis.conf
+    regexp: '^maxmemory '
+    line: 'maxmemory 500mb'
+  notify: restart redis-server
+
+- name: Redis configure maxmemory-policy.
+  lineinfile:
+    path: /etc/redis/redis.conf
+    regexp: '^maxmemory-policy '
+    line: 'maxmemory-policy volatile-ttl'
+  notify: restart redis-server
+
+- name: Redis ensure redis-server systemd unit is enabled + started.
+  service:
+    name: "redis-server"
+    state: "started"
+    enabled: "yes"

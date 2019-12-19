@@ -1,0 +1,83 @@
+---
+- name: Mailman preconfigure package.
+  debconf:
+    name: "mailman"
+    question: "{{ item.question }}"
+    value: "{{ item.value }}"
+    vtype: "{{ item.vtype }}"
+  loop:
+    - question: "mailman/site_languages"
+      value: "de (German), en (English)"
+      vtype: "multiselect"
+    - question: "mailman/default_server_language"
+      value: "en (English)"
+      vtype: "select"
+  register: mailman_reconfigure
+
+- name: Mailman install packages.
+  package:
+    name: "{{ mailman_packages }}"
+    state: "present"
+
+- name: Mailman configure mailman.
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0640') }}"
+  loop:
+    - src: "etc/mailman/mm_cfg.py.j2"
+      dest: "/etc/mailman/mm_cfg.py"
+  notify: restart mailman
+
+- name: Mailman reconfigure package.
+  shell: dpkg-reconfigure --frontend noninteractive mailman
+  when: mailman_reconfigure.changed | bool
+
+- name: Mailman set site administrator password.
+  command: mmsitepass {{ mailman_sitepass }}
+  no_log: True
+
+- name: Mailman set list creator password.
+  command: mmsitepass -c {{ mailman_listcreator_password }}
+  no_log: True
+
+- name: Mailman copy ffmwu logo.
+  copy:
+    src: "fflogo_red.png"
+    dest: "/usr/share/images/mailman/fflogo_red.png"
+
+- name: Mailman ensure service is running and enabled.
+  service:
+    name: "mailman"
+    state: "started"
+    enabled: "yes"
+
+- name: Mailman create systemd override dir for fcgiwrap.service.
+  file:
+    path: "/etc/systemd/system/fcgiwrap.service.d"
+    state: "directory"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+
+- name: Mailman configure systemd unit overrides for fcgiwrap.service.
+  template:
+    src: "etc/systemd/system/fcgiwrap.service.d/override.conf.j2"
+    dest: "/etc/systemd/system/fcgiwrap.service.d/override.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  notify:
+    - reload systemd
+    - restart fcgiwrap
+
+- name: Mailman configure vhost for nginx.
+  template:
+    src: "etc/nginx/conf.d/mailman.conf.j2"
+    dest: "/etc/nginx/conf.d/mailman.conf"
+    owner: "root"
+    group: "root"
+    mode: "0640"
+  notify: reload nginx

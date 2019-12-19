@@ -1,0 +1,61 @@
+[mailman]
+layout: custom
+site_owner: mailman@{{ mail_domain }}
+noreply_address: noreply
+default_language: de
+sender_headers: from from_ reply-to sender
+email_commands_max_lines: 10
+pending_request_life: 3d
+cache_life: 7d
+filtered_messages_are_preservable: no
+html_to_plain_text_command: /usr/bin/lynx -dump $filename
+listname_chars: [-_.0-9a-z]
+
+[paths.custom]
+var_dir: {{ mailman3_var_dir }}
+bin_dir: $argv
+log_dir: {{ mailman3_log_dir }}
+lock_dir: {{ mailman3_var_dir }}/locks
+data_dir: {{ mailman3_var_dir }}/data
+cache_dir: {{ mailman3_var_dir }}/cache
+etc_dir: {{ mailman3_etc_dir }}
+messages_dir: {{ mailman3_var_dir }}/message"
+archives_dir: {{ mailman3_var_dir }}/archives
+template_dir: {{ mailman3_var_dir }}/templates
+pid_file: {{ mailman3_var_dir }}/master.pid
+lock_file: {{ mailman3_var_dir }}/master.lck
+
+[webservice]
+hostname: {{ mailman3_core_api_hostname }}
+port: {{ mailman3_core_api_port }}
+use_https: no
+admin_user: {{ mailman3_core_api_admin_user }}
+admin_pass: {{ mailman3_core_api_admin_pass }}
+api_version: 3.1
+
+[ARC]
+authserv_id: {{ mailman3_site_domain }}
+trusted_authserv_ids: {{ mailman3_site_domain }}
+
+[mta]
+incoming: mailman.mta.postfix.LMTP
+outgoing: mailman.mta.deliver.deliver
+smtp_host: localhost
+smtp_port: 25
+smtp_user:
+smtp_pass:
+smtp_secure_mode: smtp
+lmtp_host: 127.0.0.1
+lmtp_port: 8024
+max_recipients: 500
+max_sessions_per_connection: 0
+max_delivery_threads: 0
+delivery_retry_period: 5d
+verp_confirmations: yes
+remove_dkim_headers: no
+configuration: python:mailman.config.postfix
+
+[archiver.hyperkitty]
+class: mailman_hyperkitty.Archiver
+enable: yes
+configuration: {{ mailman3_etc_dir }}/hyperkitty.cfg
