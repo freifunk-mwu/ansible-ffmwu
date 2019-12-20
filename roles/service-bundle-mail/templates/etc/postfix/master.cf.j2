@@ -14,7 +14,17 @@
 # ==========================================================================
 {{ ansible_default_ipv4.address }}:smtp      inet  n       -       y       -       -       smtpd
 [{{ ansible_default_ipv6.address }}]:smtp      inet  n       -       y       -       -       smtpd
-localhost:smtp inet n   -       y       -       15       smtpd
+localhost:smtp inet n   -       y       -       -       smtpd
+  -o milter_macro_daemon_name=ORIGINATING
+  -o smtpd_client_restrictions=
+  -o smtpd_helo_restrictions=
+  -o smtpd_sender_restrictions=
+  -o smtpd_recipient_restrictions=permit_mynetworks,reject
+  -o smtpd_data_restrictions=
+  -o mynetworks_style=subnet
+  -o mynetworks=cidr:/etc/postfix/mynetworks_table_intern.cidr
+{{ loopback_net_ipv4 | ipsubnet(32, magic) | ipaddr('address') }}:smtp inet n   -       y       -       -       smtpd
+  -o milter_macro_daemon_name=ORIGINATING
   -o smtpd_client_connection_count_limit=15
   -o smtpd_client_restrictions=
   -o smtpd_helo_restrictions=
@@ -23,17 +33,8 @@ localhost:smtp inet n   -       y       -       15       smtpd
   -o smtpd_data_restrictions=
   -o mynetworks_style=subnet
   -o mynetworks=cidr:/etc/postfix/mynetworks_table_intern.cidr
-{{ loopback_net_ipv4 | ipsubnet(32, magic) | ipaddr('address') }}:smtp inet n   -       y       -       15       smtpd
-  -o smtpd_client_connection_count_limit=15
-  -o smtpd_client_restrictions=
-  -o smtpd_helo_restrictions=
-  -o smtpd_sender_restrictions=
-  -o smtpd_recipient_restrictions=permit_mynetworks,reject
-  -o smtpd_data_restrictions=
-  -o mynetworks_style=subnet
-  -o mynetworks=cidr:/etc/postfix/mynetworks_table_intern.cidr
-[{{ loopback_net_ipv6 | ipaddr(magic) | ipaddr('address') }}]:smtp inet n   -       y       -       15       smtpd
-  -o smtpd_client_connection_count_limit=15
+[{{ loopback_net_ipv6 | ipaddr(magic) | ipaddr('address') }}]:smtp inet n   -       y       -       -       smtpd
+  -o milter_macro_daemon_name=ORIGINATING
   -o smtpd_client_restrictions=
   -o smtpd_helo_restrictions=
   -o smtpd_sender_restrictions=
@@ -56,7 +57,7 @@ localhost:smtp inet n   -       y       -       15       smtpd
 #  -o smtpd_recipient_restrictions=
 #  -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
 #  -o milter_macro_daemon_name=ORIGINATING
-submission inet n       -       y       -       15       smtpd
+submission inet n       -       y       -       -       smtpd
   -o milter_macro_daemon_name=ORIGINATING
   -o syslog_name=postfix/submission
   -o smtpd_tls_security_level=encrypt
