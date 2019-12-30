@@ -12,11 +12,9 @@
     owner: root
     group: root
     mode: 0755
-  when: "'mail' not in group_names"
 
 - name: create cronjob for check-anycast.sh
   cron:
     name: "check anycast availability"
     minute: "*/1"
     job: "/usr/local/bin/check-anycast.sh > /dev/null 2>&1"
-  when: "'mail' not in group_names"
