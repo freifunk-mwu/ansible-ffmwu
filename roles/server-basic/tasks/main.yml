@@ -125,3 +125,20 @@
     mode: 0644
   notify:
     - reload systemd
+
+- name: configure local nameserver check
+  when: "'mail' in group_names or 'gateways' in group_names"
+  block:
+  - name: create check-local-nameserver.sh
+    template:
+      src: "check-local-nameserver.sh.j2"
+      dest: "/usr/local/bin/check-local-nameserver.sh"
+      owner: "root"
+      group: "root"
+      mode: "0755"
+
+  - name: create cronjob for check-local-nameserver.sh
+    cron:
+      name: "check local nameserver functionality"
+      minute: "*/1"
+      job: "/usr/local/bin/check-local-nameserver.sh > /dev/null 2>&1"

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+INTERFACE="lo0"
+IP="127.0.0.1"
+
+DNS_WORKING=false
+if /usr/bin/dig +short {{ inventory_hostname }} @${IP} > /dev/null 2>&1 ; then
+    DNS_WORKING=true
+fi
+
+DNS_PRESENT=false
+if /sbin/resolvconf -l "${INTERFACE}" > /dev/null 2>&1 ; then
+    DNS_PRESENT=true
+fi
+
+if [[ ${DNS_WORKING} == true && ${DNS_PRESENT} == true ]] ; then
+    exit 0
+elif [[ ${DNS_WORKING} == true && ${DNS_PRESENT} == false ]] ; then
+    echo "nameserver ${IP}" | /sbin/resolvconf -a "${INTERFACE}" -m 1
+elif [[ ${DNS_WORKING} == false && ${DNS_PRESENT} == true ]] ; then
+    /sbin/resolvconf -d "${INTERFACE}"
+fi
