@@ -9,8 +9,8 @@ ssl = required
 # dropping root privileges, so keep the key file unreadable by anyone but
 # root. Included doc/mkcert.sh can be used to easily generate self-signed
 # certificate, just make sure to update the domains in dovecot-openssl.cnf
-ssl_cert = </etc/nginx/ssl/{{ inventory_hostname }}/fullchain.pem
-ssl_key = </etc/nginx/ssl/{{ inventory_hostname }}/privkey.pem
+ssl_cert = </etc/nginx/ssl/{{ http_domain_external }}/fullchain.pem
+ssl_key = </etc/nginx/ssl/{{ http_domain_external }}/privkey.pem
 
 # If key file is password protected, give the password here. Alternatively
 # give it when starting dovecot with -p parameter. Since this file is often

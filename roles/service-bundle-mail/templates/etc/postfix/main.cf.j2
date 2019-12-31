@@ -96,8 +96,8 @@ virtual_transport = lmtp:unix:private/dovecot-lmtp
 tls_preempt_cipherlist = yes
 
 # SMTP Daemon TLS parameters
-smtpd_tls_cert_file=/etc/nginx/ssl/{{ inventory_hostname }}/fullchain.pem
-smtpd_tls_key_file=/etc/nginx/ssl/{{ inventory_hostname }}/privkey.pem
+smtpd_tls_cert_file=/etc/nginx/ssl/{{ http_domain_external }}/fullchain.pem
+smtpd_tls_key_file=/etc/nginx/ssl/{{ http_domain_external }}/privkey.pem
 smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
 smtpd_tls_exclude_ciphers = aNULL, eNULL, EXPORT, DES, RC4, MD5, PSK, aECDH, EDH-DSS-DES-CBC3-SHA, EDH-RSA-DES-CDB3-SHA, KRB5-DES, CBC3-SHA
 smtpd_use_tls=yes
