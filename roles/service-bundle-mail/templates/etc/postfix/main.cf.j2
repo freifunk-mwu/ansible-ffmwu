@@ -69,7 +69,9 @@ smtpd_tls_loglevel = 0
 
 # relay domains and transport map
 relay_domains = btree:/etc/postfix/relay_domains.btree
-transport_maps = btree:/etc/postfix/relay_domains.btree
+transport_maps =
+    btree:/etc/postfix/relay_domains.btree
+    btree:/etc/postfix/transport_maps.btree
 
 # use new long queue ids
 enable_long_queue_ids = yes

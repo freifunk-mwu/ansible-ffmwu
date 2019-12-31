@@ -166,3 +166,6 @@ scalemail-backend unix  -       n       n       -       2       pipe
 #mailman   unix  -       n       n       -       -       pipe
 #  flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py
 #  ${nexthop} ${user}
+
+dmarc-rua-parser unix  -       n       n       -       -       pipe
+  flags= user={{ modoboa_user }}:{{ modoboa_group }} argv={{ modoboa_venv_dir }}/bin/python {{ modoboa_instance_dir }}/manage.py import_aggregated_report --pipe
