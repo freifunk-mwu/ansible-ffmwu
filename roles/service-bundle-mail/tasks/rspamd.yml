@@ -35,6 +35,8 @@
     - "milter_headers.conf"
     - "mx_check.conf"
     - "options.inc"
+    - "rbl.conf"
+    - "rbl_group.conf"
     - "redis.conf"
     - "replies.conf"
     - "url_redirector.conf"
