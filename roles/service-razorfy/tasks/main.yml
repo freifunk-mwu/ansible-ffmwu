@@ -1,0 +1,47 @@
+---
+- name: Install razorfy packages.
+  apt:
+    name: "{{ razorfy_packages }}"
+    state: "present"
+
+- name: Create razorfy user.
+  user:
+    name: "{{ razorfy_user }}"
+    comment: "Razorfy user"
+    system: "yes"
+    state: "present"
+
+- name: Clone razorfy repo.
+  git:
+    repo: "{{ razorfy_git_repo_url }}"
+    dest: "{{ razorfy_git_deploy_path }}"
+
+- name: Copy razorfy daemon to /usr/local/bin.
+  copy:
+    src: "{{ razorfy_git_deploy_path }}/razorfy.pl"
+    dest: "/usr/local/bin/"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+    remote_src: "yes"
+  notify: restart razorfy
+
+- name: Template razorfy configuration.
+  template:
+    src: "razorfy.conf.j2"
+    dest: "/etc/razorfy.conf"
+  notify: restart razorfy
+
+- name: Copy razorfy systemd unit.
+  copy:
+    src: "{{ razorfy_git_deploy_path }}/razorfy.service"
+    dest: "/etc/systemd/system/"
+    remote_src: "yes"
+  notify:
+    - reload systemd
+    - restart razorfy
+
+- name: Ensure razorfy is enabled.
+  service:
+    name: "razorfy"
+    enabled: "yes"

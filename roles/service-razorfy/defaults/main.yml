@@ -1,0 +1,14 @@
+---
+razorfy_packages:
+  - "git"
+  - "razor"
+
+razorfy_user: "razorfy"
+razorfy_git_repo_url: "https://github.com/HeinleinSupport/razorfy.git"
+razorfy_git_deploy_path: "/opt/gitclones/razorfy"
+
+# Razorfy configuration parameters
+razorfy_conf_debug: 0
+razorfy_conf_maxthreads: 2000
+razorfy_conf_bindaddress: "127.0.0.1"
+razorfy_conf_bindport: 11342

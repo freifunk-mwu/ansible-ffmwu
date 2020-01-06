@@ -5,4 +5,5 @@
   roles:
   - powerdns.pdns_recursor
   - geerlingguy.mysql
+  - service-razorfy
   - service-bundle-mail

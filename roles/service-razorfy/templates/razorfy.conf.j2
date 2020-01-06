@@ -1,0 +1,16 @@
+#
+# {{ ansible_managed }}
+#
+# Razorfy Configuration file
+
+# set to 1 to enable debug logging (Default 0)
+RAZORFY_DEBUG = {{ razorfy_conf_debug }}
+
+# max number of threads to use  (Default 2000)
+RAZORFY_MAXTHREADS = {{ razorfy_conf_maxthreads }}
+
+# bind razorsocket to a local ip address - use 0.0.0.0 for all  (Default 127.0.0.1)
+RAZORFY_BINDADDRESS = {{ razorfy_conf_bindaddress }}
+
+# tcp port to use
+RAZORFY_BINDPORT = {{ razorfy_conf_bindport }}
