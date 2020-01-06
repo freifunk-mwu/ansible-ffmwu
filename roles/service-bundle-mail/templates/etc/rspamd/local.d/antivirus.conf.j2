@@ -9,7 +9,7 @@ clamav {
   #attachments_only = true; # Before 1.8.1
   scan_mime_parts = true; # After 1.8.1
   # Scanning Text is suitable for some av scanner databases (e.g. Sanesecurity)
-  #scan_text_mime = false; # 1.8.1 +
+  scan_text_mime = true; # 1.8.1 +
   #scan_image_mime = false; # 1.8.1 +
   # If `max_size` is set, messages > n bytes in size are not scanned
   #max_size = 20000000;
@@ -18,7 +18,7 @@ clamav {
   # type of scanner: "clamav", "fprot", "sophos" or "savapi"
   type = "clamav";
   # If set true, log message is emitted for clean messages
-  #log_clean = false;
+  log_clean = true;
   # Prefix used for caching in Redis: scanner-specific defaults are used. If Redis is enabled and
   # multiple scanners of the same type are present, it is important to set prefix to something unique.
   prefix = "rs_cl_";
@@ -33,6 +33,37 @@ clamav {
   patterns {
     # symbol_name = "pattern";
     JUST_EICAR = '^Eicar-Test-Signature$';
+    CLAM_DOC_MALWARE = "^Doc\.Malware\..*";
+    CLAM_HTML_PHISH = "^Html\.Phishing\..*";
+    CLAM_HTML_EXPLOIT = "^Html\.Exploit\..*";
+    CLAM_BROKEN_EXEC = "^Broken\.Executable.*";
+    CLAM_WIN_WORM = "^Win.Worm.Mydoom-*";
+    # Heuristics
+    CLAM_HEUR_PHISHING =  "^Heuristics\.Phishing\.Email\.SpoofedDomain";
+    CLAM_HEUR_OLE2_VBA_MACRO = "^Heuristics\.OLE2\.ContainsMacros$";
+    CLAM_HEUR_ENCRYPTED = "^Heuristics\.Encrypted\..*";
+    CLAM_HEUR_STRUCT_CC = "^Heuristics.Structured.CreditCardNumber$";
+    CLAM_PUA_WIN = "^PUA\.Win\..*";
+    CLAM_PUA_DOC = "^PUA\.Doc\..*";
+    # ERROR not virus
+    CLAM_LIMITS_EXCEEDED = "^Heuristics\.Limits\.Exceeded";
+    # Extra Signatures
+    CLAM_G_SAFEBROWSING = "^Heuristics.Safebrowsing.*";
+    CLAM_PORCUPINE_JUNK = "^Porcupine\.Junk.*";
+    CLAM_SANESEC_JURBL = "^Sanesecurity\.Jurlbl.*";
+    CLAM_SANESEC_JUNK = "^Sanesecurity\.Junk.*";
+    CLAM_SANESEC_BLURL = "^Sanesecurity\.Blurl.*";
+    CLAM_SANESEC_SCAM = "^Sanesecurity\.Scam.*";
+    CLAM_WINNOW_SPAM = "^winnow\.spam.*";
+    CLAM_SECI_JS_PUA = "^PUA\.SecuriteInfo\.com\.JS\.Malware.*";
+    CLAM_SECI_JS_AD = "^SecuriteInfo\.com\.JS\.AdInject.*";
+    CLAM_SECI_JS_REDIR = "^SecuriteInfo\.com\.JS\.Redir.*";
+    CLAM_SECI_SUSPICIOUS = "^SecuriteInfo\.com\.Suspicious.*"
+    CLAM_SECI_HTML = "^SecuriteInfo\.com\.HTML.*";
+    CLAM_SECI_PHIS = "^SecuriteInfo\.com\.Phish.*";
+    CLAM_SECI_JPG = "^SecuriteInfo\.com\.JPG.*";
+    CLAM_MP_EVILMACRO = "^MiscreantPunch.EvilMacro\..*";
+    CLAM_YARA = "^YARA\..*\.UNOFFICIAL$";
   }
   # In version 1.7.0+ patterns could be extended
   #patterns = {SANE_MAL = 'Sanesecurity\.Malware\.*', CLAM_UNOFFICIAL = 'UNOFFICIAL$'};
