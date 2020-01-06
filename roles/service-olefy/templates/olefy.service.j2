@@ -1,0 +1,36 @@
+#
+# {{ ansible_managed }}
+#
+[Unit]
+Description=olefy Socket Service
+Requires=network.target local-fs.target time-sync.target
+
+[Service]
+Type=simple
+User={{ olefy_user }}
+Group={{ olefy_group }}
+
+Environment="PATH={{ olefy_venv_dir }}/bin"
+EnvironmentFile=/etc/olefy.conf
+ExecStart={{ olefy_venv_dir }}/bin/python3 {{ olefy_git_deploy_path }}/olefy.py
+ExecReload=/bin/kill -HUP $MAINPID
+
+PIDFile=/run/olefy.pid
+TimeoutStopSec=30
+
+Restart=always
+RestartSec=3
+RuntimeMaxSec=4h
+
+NoNewPrivileges=true
+PrivateDevices=true
+PrivateTmp=true
+PrivateUsers=true
+ProtectControlGroups=true
+ProtectHome=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectSystem=strict
+
+[Install]
+WantedBy=multi-user.target

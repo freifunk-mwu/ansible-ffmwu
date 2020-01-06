@@ -1,0 +1,42 @@
+---
+- name: Install olefy packages.
+  apt:
+    name: "{{ olefy_packages }}"
+    state: "present"
+
+- name: Create olefy user.
+  user:
+    name: "{{ olefy_user }}"
+    comment: "Olefy user"
+    system: "yes"
+    state: "present"
+
+- name: Create virtualenv for olefy.
+  pip:
+    name: "{{ olefy_pip_packages }}"
+    virtualenv: "{{ olefy_venv_dir }}"
+    virtualenv_python: "python3"
+
+- name: Clone olefy repo.
+  git:
+    repo: "{{ olefy_git_repo_url }}"
+    dest: "{{ olefy_git_deploy_path }}"
+
+- name: Template olefy configuration.
+  template:
+    src: "olefy.conf.j2"
+    dest: "/etc/olefy.conf"
+  notify: restart olefy
+
+- name: Template olefy systemd unit.
+  template:
+    src: "olefy.service.j2"
+    dest: "/etc/systemd/system/olefy.service"
+  notify:
+    - reload systemd
+    - restart olefy
+
+- name: Ensure olefy is enabled.
+  service:
+    name: "olefy"
+    enabled: "yes"

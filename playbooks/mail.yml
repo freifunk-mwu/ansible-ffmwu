@@ -6,4 +6,5 @@
   - powerdns.pdns_recursor
   - geerlingguy.mysql
   - service-razorfy
+  - service-olefy
   - service-bundle-mail

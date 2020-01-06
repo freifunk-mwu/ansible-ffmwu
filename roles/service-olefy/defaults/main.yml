@@ -1,0 +1,21 @@
+---
+olefy_packages:
+  - "git"
+
+olefy_pip_packages:
+  - "python-magic"
+  - "oletools"
+
+olefy_venv_dir: "/opt/venvs/olefy"
+
+olefy_user: "olefy"
+olefy_group: "olefy"
+olefy_git_repo_url: "https://github.com/HeinleinSupport/olefy.git"
+olefy_git_deploy_path: "/opt/gitclones/olefy"
+
+olefy_conf_bindaddress: "127.0.0.1"
+olefy_conf_bindport: 10050
+olefy_conf_loglvl: 30
+olefy_conf_minlength: 500
+olefy_conf_deltmp: 1
+olefy_conf_deltmpfailed: 1
