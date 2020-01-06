@@ -1,0 +1,14 @@
+razor {
+  servers = "127.0.0.1:11342";
+  log_clean = true;
+  retransmits = 2;
+  cache_expire = 7200;
+  message = '${SCANNER}: spam message found: "${VIRUS}"';
+  detection_category = "hash";
+  default_score = 2;
+  action = false;
+  dynamic_scan = false;
+  symbol_fail = 'RAZOR_FAIL';
+  symbol = 'RAZOR';
+  type = "razor";
+}
