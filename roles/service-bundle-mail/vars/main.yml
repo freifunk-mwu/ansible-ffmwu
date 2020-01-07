@@ -1,9 +1,4 @@
 ---
-clamav_packages:
-  - "clamav"
-  - "clamav-daemon"
-  - "clamav-docs"
-
 dovecot_packages:
   - "dovecot-core"
   - "dovecot-imapd"
@@ -63,4 +58,4 @@ rspamd_packages:
   - "redis-server"
   - "redis-tools"
 
-_mail_packages: "{{ postfix_packages }} + {{ rspamd_packages }} + {{ dovecot_packages }} + {{ modoboa_packages }} + {{ clamav_packages }}"
+_mail_packages: "{{ postfix_packages }} + {{ rspamd_packages }} + {{ dovecot_packages }} + {{ modoboa_packages }}"
