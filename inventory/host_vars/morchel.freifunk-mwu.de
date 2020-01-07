@@ -53,7 +53,7 @@ clamav_daemon_configuration_changes:
   - regexp: '^.*AlertOLE2Macros .*$'
     line: 'AlertOLE2Macros yes'
   - regexp: '^.*StructuredDataDetection .*$'
-    line: 'StructuredDataProtection yes'
+    line: 'StructuredDataDetection yes'
   - regexp: '^.*AlertExceedsMax .*$'
     line: 'AlertExceedsMax yes'
 
