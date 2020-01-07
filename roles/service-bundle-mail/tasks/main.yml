@@ -30,7 +30,6 @@
     name: "{{ _mail_packages }}"
     state: "present"
 
-- import_tasks: redis.yml
 - import_tasks: rspamd.yml
 - import_tasks: modoboa.yml
 - import_tasks: postfix.yml

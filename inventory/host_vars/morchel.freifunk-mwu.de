@@ -56,3 +56,7 @@ clamav_daemon_configuration_changes:
     line: 'StructuredDataProtection yes'
   - regexp: '^.*AlertExceedsMax .*$'
     line: 'AlertExceedsMax yes'
+
+# Variables for Galaxy Role geerlingguy.redis
+redis_maxmemory: "500mb"
+redis_maxmemory_policy: "volatile-ttl"

@@ -1,6 +1,7 @@
 playbooks/test.yml
 roles/geerlingguy.clamav
 roles/geerlingguy.mysql
+roles/geerlingguy.redis
 roles/powerdns.pdns
 roles/powerdns.pdns_recursor
 roles/lean_delivery.java

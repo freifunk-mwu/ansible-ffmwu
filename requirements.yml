@@ -1,5 +1,6 @@
 - src: geerlingguy.clamav
 - src: geerlingguy.mysql
+- src: geerlingguy.redis
 - src: powerdns.pdns
 - src: powerdns.pdns_recursor
 - src: lean_delivery.java

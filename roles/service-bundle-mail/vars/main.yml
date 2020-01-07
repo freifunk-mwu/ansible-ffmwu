@@ -55,7 +55,5 @@ postfix_packages:
 
 rspamd_packages:
   - "rspamd"
-  - "redis-server"
-  - "redis-tools"
 
 _mail_packages: "{{ postfix_packages }} + {{ rspamd_packages }} + {{ dovecot_packages }} + {{ modoboa_packages }}"
