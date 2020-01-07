@@ -1,7 +1,13 @@
+#
+# {{ ansible_managed }}
+#
 oletools {
   # default olefy settings
-  servers = "127.0.0.1:10050"
-  dynamic_scan = true;
+  servers = "127.0.0.1:10050";
+  dynamic_scan = false;
+  action = "reject";
+  extended = true;
+  log_clean = true;
 
   # needs to be set explicitly for Rspamd < 1.9.5
   scan_mime_parts = true;
