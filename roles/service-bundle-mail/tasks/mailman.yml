@@ -29,6 +29,7 @@
   loop:
     - src: "etc/mailman/mm_cfg.py.j2"
       dest: "/etc/mailman/mm_cfg.py"
+      mode: "0644"
   notify: restart mailman
 
 - name: Mailman reconfigure package.
