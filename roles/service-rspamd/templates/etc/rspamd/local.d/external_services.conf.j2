@@ -1,13 +1,14 @@
 #
 # {{ ansible_managed }}
 #
+{% if rspamd_oletools_enabled %}
 oletools {
   # default olefy settings
-  servers = "127.0.0.1:10050";
+  servers = "{{ rspamd_oletools_server }}:{{ rspamd_oletools_port }}";
   dynamic_scan = false;
-  action = "reject";
+  action = "{{ rspamd_oletools_action }}";
   extended = true;
-  log_clean = true;
+  log_clean = {% if rspamd_oletools_log_clean %}true{% else %}false{% endif %};
 
   # needs to be set explicitly for Rspamd < 1.9.5
   scan_mime_parts = true;
@@ -52,10 +53,12 @@ oletools {
     ppsm = "ppsm";
   }
 }
+{% endif %}
 
+{% if rspamd_razor_enabled %}
 razor {
-  servers = "127.0.0.1:11342";
-  log_clean = true;
+  servers = "{{ rspamd_razor_server }}:{{ rspamd_razor_port }}";
+  log_clean = {% if rspamd_razor_log_clean %}true{% else %}false{% endif %};
   retransmits = 2;
   cache_expire = 7200;
   message = '${SCANNER}: spam message found: "${VIRUS}"';
@@ -67,3 +70,4 @@ razor {
   symbol = 'RAZOR';
   type = "razor";
 }
+{% endif %}

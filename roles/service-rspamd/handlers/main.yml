@@ -1,0 +1,14 @@
+---
+- name: reload systemd
+  systemd:
+    daemon_reload: "yes"
+
+- name: reload rspamd
+  service:
+    name: "rspamd"
+    state: "reloaded"
+
+- name: reload nginx
+  service:
+    name: "nginx"
+    state: "reloaded"

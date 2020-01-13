@@ -18,11 +18,6 @@
     name: "nginx"
     state: "reloaded"
 
-- name: reload rspamd
-  service:
-    name: "rspamd"
-    state: "reloaded"
-
 - name: restart redis-server
   service:
     name: "redis-server"

@@ -8,16 +8,9 @@ mail_domains:
 
 mail_list_domain: "lists.freifunk-mwu.de"
 
-dkim_selector: "2019"
-
 virtualenv_root: "/opt/venvs"
 
 dbuser_root_password: "{{ lookup('passwordstore', 'morchel/mysql/root subkey=secret') }}"
-
-apt_repo_gpg_rspamd: "https://rspamd.com/apt-stable/gpg.key"
-apt_repo_url_rspamd:
-  - "deb [arch=amd64] http://rspamd.com/apt-stable/ {{ ansible_distribution_release }} main"
-  - "deb-src [arch=amd64] http://rspamd.com/apt-stable/ {{ ansible_distribution_release }} main"
 
 apt_repo_gpg_dovecot: "https://repo.dovecot.org/DOVECOT-REPO-GPG"
 apt_repo_url_dovecot:
@@ -45,17 +38,6 @@ modoboa_webmail_version: "1.5.0"
 
 modoboa_secret_key: "{{ lookup('passwordstore', 'morchel/modoboa/secret_key subkey=secret') }}"
 modoboa_debug_mode: False
-
-# Rspamd Variables
-rspamd_user: "_rspamd"
-rspamd_group: "_rspamd"
-
-rspamd_action_threshold_reject: 13
-rspamd_action_threshold_addheader: 6
-rspamd_action_threshold_greylist: 3
-rspamd_action_threshold_rewritesubject: "null"
-
-rspamd_loglevel: "notice"
 
 # Postfix Variables
 dbuser_postfix: "postfix"

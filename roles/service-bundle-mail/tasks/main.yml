@@ -1,18 +1,8 @@
 ---
-- name: Add rspamd + dovecot gpg key.
+- name: Add dovecot gpg key.
   apt_key:
-    url: "{{ item }}"
+    url: "{{ apt_repo_gpg_dovecot }}"
     state: "present"
-  loop:
-    - "{{ apt_repo_gpg_dovecot }}"
-    - "{{ apt_repo_gpg_rspamd }}"
-
-- name: Add rspamd apt repository.
-  apt_repository:
-    repo: "{{ item }}"
-    state: "present"
-    filename: rspamd
-  loop: "{{ apt_repo_url_rspamd }}"
 
 - name: Add dovecot apt repository.
   apt_repository:
@@ -30,7 +20,6 @@
     name: "{{ _mail_packages }}"
     state: "present"
 
-- import_tasks: rspamd.yml
 - import_tasks: modoboa.yml
 - import_tasks: postfix.yml
 - import_tasks: dovecot.yml

@@ -9,24 +9,28 @@ send_reports = true;
 report_settings {
   # The following elements MUST be present
   # organisation name to use for reports
-  org_name = "Freifunk MWU";
+  org_name = "{{ rspamd_dmarc_org }}";
   # organisation domain
-  domain = "{{ mail_domain }}";
+  domain = "{{ rspamd_dmarc_domain }}";
   # sender address to use for reports
-  email = "postmaster@{{ mail_domain }}";
+  email = "{{ rspamd_dmarc_address }}";
   # The following elements MAY be present
   # sender name to use for reports ("Rspamd" if unset)
-  from_name = "Rspamd Freifunk MWU";
+  from_name = "{{ rspamd_dmarc_from }}";
   # SMTP host to send reports to ("127.0.0.1" if unset)
-  # smtp = "127.0.0.1";
+  smtp = "127.0.0.1";
   # TCP port to use for SMTP (25 if unset)
-  # smtp_port = 25;
+  smtp_port = 25;
   # HELO to use for SMTP ("rspamd" if unset)
   helo = "{{ inventory_hostname }}";
   # Number of retries on temporary errors (2 if unset)
   # retries = 2;
   # Send DMARC reports here instead of domain owners
-  override_address = "postmaster@{{ mail_domain }}";
+{% if rspamd_dmarc_override %}
+  override_address = "{{ rspamd_dmarc_address }}";
+{% else %}
+  # override_address = "{{ rspamd_dmarc_address }}";
+{% endif %}
   # Send DMARC reports here in addition to domain owners
   # additional_address = "postmaster@example.net";
   # Number of records to request with HSCAN

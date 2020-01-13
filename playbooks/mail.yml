@@ -9,4 +9,5 @@
   - geerlingguy.redis
   - service-razorfy
   - service-olefy
+  - service-rspamd
   - service-bundle-mail

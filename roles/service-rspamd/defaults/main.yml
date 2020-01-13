@@ -1,0 +1,72 @@
+---
+rspamd_dkim_keys_per_domain_list:
+  - "example.com"
+
+rspamd_dkim_selector: "2019"
+
+rspamd_apt_repo_gpg: "https://rspamd.com/apt-stable/gpg.key"
+rspamd_apt_repo_url:
+  - "deb [arch=amd64] http://rspamd.com/apt-stable/ {{ ansible_distribution_release }} main"
+  - "deb-src [arch=amd64] http://rspamd.com/apt-stable/ {{ ansible_distribution_release }} main"
+
+rspamd_user: "_rspamd"
+rspamd_group: "_rspamd"
+
+rspamd_config_files_local:
+  - "arc.conf"
+  - "actions.conf"
+  - "antivirus.conf"
+  - "antivirus_group.conf"
+  - "classifier-bayes.conf"
+  - "dkim_paths.map"
+  - "dkim_selectors.map"
+  - "dkim_signing.conf"
+  - "dmarc.conf"
+  - "external_services.conf"
+  - "greylist.conf"
+  - "logging.inc"
+  - "milter_headers.conf"
+  - "mx_check.conf"
+  - "neural.conf"
+  - "neural_group.conf"
+  - "options.inc"
+  - "rbl.conf"
+  - "rbl_group.conf"
+  - "redis.conf"
+  - "replies.conf"
+  - "url_redirector.conf"
+  - "worker-controller.inc"
+  - "worker-normal.inc"
+  - "worker-proxy.inc"
+
+rspamd_action_threshold_reject: 13
+rspamd_action_threshold_addheader: 6
+rspamd_action_threshold_greylist: 3
+rspamd_action_threshold_rewritesubject: "null"
+
+rspamd_loglevel: "notice"
+
+rspamd_packages:
+  - "rspamd"
+
+rspamd_dmarc_address: "postmaster@example.com"
+rspamd_dmarc_domain: "example.com"
+rspamd_dmarc_org: "Example Org"
+rspamd_dmarc_from: "Rspamd Example Org"
+rspamd_dmarc_override: True
+
+rspamd_oletools_enabled: True
+rspamd_oletools_server: "127.0.0.1"
+rspamd_oletools_port: "10050"
+rspamd_oletools_log_clean: False
+rspamd_oletools_action: "reject"
+
+rspamd_razor_enabled: True
+rspamd_razor_server: "127.0.0.1"
+rspamd_razor_port: "11342"
+rspamd_razor_log_clean: False
+
+rspamd_local_addrs: "127.0.0.0/8, ::1"
+rspamd_local_networks: ""
+
+rspamd_dns_nameserver: "127.0.0.1:53:10"

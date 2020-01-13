@@ -1,0 +1,11 @@
+#
+# {{ ansible_managed }}
+#
+local_addrs = "{{ rspamd_local_addrs }}";
+local_networks = "{{ rspamd_local_networks }}";
+
+dns {
+    nameserver = ["{{ rspamd_dns_nameserver }}"];
+}
+
+strict_auth = no

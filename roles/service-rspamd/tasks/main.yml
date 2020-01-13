@@ -1,0 +1,79 @@
+---
+- name: Add rspamd gpg key.
+  apt_key:
+    url: "{{ rspamd_apt_repo_gpg }}"
+    state: "present"
+
+- name: Add rspamd apt repository.
+  apt_repository:
+    repo: "{{ item }}"
+    state: "present"
+    filename: rspamd
+  loop: "{{ rspamd_apt_repo_url }}"
+
+- name: Update apt cache.
+  apt:
+    update_cache: "yes"
+
+- name: Install rspamd packages.
+  apt:
+    name: "{{ rspamd_packages }}"
+    state: "present"
+
+- name: Add clamav user to rspamd group.
+  user:
+    name: "clamav"
+    system: "yes"
+    append: "yes"
+    groups: "{{ rspamd_user }}"
+
+- name: Create dkim directory.
+  file:
+    path: "/var/lib/rspamd/dkim"
+    state: "directory"
+    owner: "{{ rspamd_user }}"
+    group: "{{ rspamd_group }}"
+    mode: 0750
+
+- name: Template configuration files.
+  template:
+    src: "etc/rspamd/local.d/{{ item }}.j2"
+    dest: "/etc/rspamd/local.d/{{ item }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
+  loop: "{{ rspamd_config_files_local }}"
+  notify: reload rspamd
+
+- name: Create dmarc_reports_last_sent
+  file:
+    path: "/var/lib/rspamd/dmarc_reports_last_sent"
+    owner: "{{ rspamd_user }}"
+    group: "{{ rspamd_group }}"
+    mode: 0640
+    state: "touch"
+  changed_when: False
+
+- name: Template DKIM keys.
+  copy:
+    content: "{{ lookup('passwordstore', 'morchel/dkim/' + rspamd_dkim_selector + '.' + item + ' returnall=true') }}"
+    dest: "/var/lib/rspamd/dkim/{{ rspamd_dkim_selector }}.{{ item }}.key"
+    owner: "{{ rspamd_user }}"
+    group: "{{ rspamd_group }}"
+    mode: 0640
+  loop: "{{ rspamd_dkim_keys_per_domain_list }}"
+
+- name: Ensure rspamd is started and enabled.
+  service:
+    name: "rspamd"
+    state: "started"
+    enabled: "yes"
+
+- name: Template Nginx Configuration.
+  template:
+    src: "etc/nginx/conf.d/rspamd.conf.j2"
+    dest: "/etc/nginx/conf.d/rspamd.conf"
+    owner: "root"
+    group: "root"
+    mode: 0644
+  notify: reload nginx

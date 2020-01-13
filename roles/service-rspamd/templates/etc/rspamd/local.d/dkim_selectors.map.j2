@@ -1,0 +1,3 @@
+{% for domain in rspamd_dkim_keys_per_domain_list %}
+{{ domain }} {{ rspamd_dkim_selector }}
+{% endfor %}
