@@ -18,11 +18,6 @@
     name: "nginx"
     state: "reloaded"
 
-- name: restart redis-server
-  service:
-    name: "redis-server"
-    state: "restarted"
-
 - name: restart postfix
   service:
     name: "postfix"
