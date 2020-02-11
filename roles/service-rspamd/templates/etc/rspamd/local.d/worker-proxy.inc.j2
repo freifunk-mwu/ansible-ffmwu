@@ -9,6 +9,7 @@ upstream "local" {
   self_scan = yes;
 }
 
+bind_socket = "[::1]:11332";
 count = 4; # Spawn more processes in self-scan mode
 max_retries = 5; # How many times master is queried in case of failure
 discard_on_reject = false; # Discard message instead of rejection
