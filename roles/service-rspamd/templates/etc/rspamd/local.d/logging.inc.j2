@@ -1,8 +1,8 @@
 #
 # {{ ansible_managed }}
 #
-type = "syslog";
-systemd = true
+type = "file";
+systemd = false
 filename = "/var/log/rspamd/rspamd.log";
 level = "{{ rspamd_loglevel }}";
 debug_modules = [];
