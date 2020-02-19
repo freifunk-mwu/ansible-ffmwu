@@ -21,7 +21,7 @@ server {
 {% for host in groups['monitoring'] %}
       allow {{ lookup('dig', host, 'qtype=A') }};
       allow {{ lookup('dig', host, 'qtype=AAAA') }};
-      deny all;
 {% endfor %}
+      deny all;
     }
 }
