@@ -314,6 +314,61 @@ wireguard_networks:
       - morchel
       - kumpir
     port: 50054
+  - ipv4: 10.87.253.110/31
+    peers:
+      - gurke
+      - ingwer
+    port: 50055
+  - ipv4: 10.87.253.112/31
+    peers:
+      - gurke
+      - spinat
+    port: 50056
+  - ipv4: 10.87.253.114/31
+    peers:
+      - gurke
+      - uffschnitt
+    port: 50057
+  - ipv4: 10.87.253.116/31
+    peers:
+      - gurke
+      - lotuswurzel
+    port: 50058
+  - ipv4: 10.87.253.118/31
+    peers:
+      - gurke
+      - wasserfloh
+    port: 50059
+  - ipv4: 10.87.253.120/31
+    peers:
+      - gurke
+      - linse
+    port: 50060
+  - ipv4: 10.87.253.122/31
+    peers:
+      - gurke
+      - kichererbse
+    port: 50061
+  - ipv4: 10.87.253.124/31
+    peers:
+      - gurke
+      - suesskartoffel
+    port: 50062
+  - ipv4: 10.87.253.126/31
+    peers:
+      - gurke
+      - unifi
+    port: 50063
+  - ipv4: 10.87.253.128/31
+    peers:
+      - gurke
+      - kumpir
+    port: 50064
+  - ipv4: 10.87.253.130/31
+    peers:
+      - gurke
+      - morchel
+    port: 50065
 
 fastd_groups:
   - gateways
