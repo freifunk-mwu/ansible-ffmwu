@@ -2,17 +2,15 @@ data_interval = "1m"
 
 batman = [ {% for mesh in meshes %}"{{mesh.id}}bat"{% if not loop.last %}, {% endif %}{% endfor %} ]
 
-{% if server_type == 'monitoring' %}
+{% for host in groups['monitoring'] %}
 [[listen]]
 address   = "ff02::2:1001"
+{% if host == inventory_hostname %}
 interface = "loopback"
-port      = 1001
 {% else %}
-[[listen]]
-address   = "ff02::2:1001"
-interface = "wg-suesskartof"
-port      = 1001
+interface = "wg-{{ host.rsplit('.')[0][:11] }}"
 {% endif%}
+{% endfor %}
 {% for mesh in meshes %}
 {% if server_type == 'gateway' %}
 {% for instance in mesh.fastd.nodes.instances %}
