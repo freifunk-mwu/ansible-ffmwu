@@ -1,0 +1,8 @@
+---
+- name: Manage libvirt servers.
+  hosts: libvirt
+
+  roles:
+    - users
+    - stackhpc.libvirt-host
+    - stackhpc.libvirt-vm
