@@ -14,7 +14,7 @@ director:
 
     admin:
         enabled: true
-        token: {{ lookup('passwordstore', 'suesskartoffel/domain_director_admin') }}
+        token: {{ lookup('passwordstore', 'domain_director/admin') }}
 
     geojson: "{{ director_conf_dir }}/domains.geojson"
     meshviewer_url: "https://map.ffmwu.org/#!/de/map/%s"
