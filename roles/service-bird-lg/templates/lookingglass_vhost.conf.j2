@@ -12,8 +12,13 @@ server {
     listen [::]:443 ssl;
     server_name {{ lg_url_external }} {{ lg_url_internal }};
 
-    ssl_certificate     /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
-    ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;
+    {% if acme_server == 'zuckerwatte' %}
+        ssl_certificate     /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
+        ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;
+    {% else %}
+        ssl_certificate     /etc/nginx/ssl/{{ http_domain_external }}/fullchain.pem;
+        ssl_certificate_key /etc/nginx/ssl/{{ http_domain_external }}/privkey.pem;
+    {% endif %}
 
     include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
 
