@@ -114,36 +114,6 @@ wireguard_networks:
       - ingwer
       - kichererbse
     port: 50014
-  - ipv4: 10.87.253.30/31
-    peers:
-      - lotuswurzel
-      - suesskartoffel
-    port: 50015
-  - ipv4: 10.87.253.32/31
-    peers:
-      - spinat
-      - suesskartoffel
-    port: 50016
-  - ipv4: 10.87.253.34/31
-    peers:
-      - ingwer
-      - suesskartoffel
-    port: 50017
-  - ipv4: 10.87.253.36/31
-    peers:
-      - wasserfloh
-      - suesskartoffel
-    port: 50018
-  - ipv4: 10.87.253.38/31
-    peers:
-      - uffschnitt
-      - suesskartoffel
-    port: 50019
-  - ipv4: 10.87.253.40/31
-    peers:
-      - kichererbse
-      - suesskartoffel
-    port: 50020
   - ipv4: 10.87.253.42/31
     peers:
       - ingwer
@@ -169,11 +139,6 @@ wireguard_networks:
       - wasserfloh
       - linse
     port: 50025
-  - ipv4: 10.87.253.52/31
-    peers:
-      - suesskartoffel
-      - linse
-    port: 50026
   - ipv4: 10.87.253.54/31
     peers:
       - kichererbse
@@ -214,11 +179,6 @@ wireguard_networks:
       - unifi
       - kichererbse
     port: 50034
-  - ipv4: 10.87.253.70/31
-    peers:
-      - unifi
-      - suesskartoffel
-    port: 50035
   - ipv4: 10.87.253.72/31
     peers:
       - kumpir
@@ -254,11 +214,6 @@ wireguard_networks:
       - kumpir
       - kichererbse
     port: 50042
-  - ipv4: 10.87.253.86/31
-    peers:
-      - kumpir
-      - suesskartoffel
-    port: 50043
   - ipv4: 10.87.253.88/31
     peers:
       - kumpir
@@ -299,11 +254,6 @@ wireguard_networks:
       - morchel
       - kichererbse
     port: 50051
-  - ipv4: 10.87.253.104/31
-    peers:
-      - morchel
-      - suesskartoffel
-    port: 50052
   - ipv4: 10.87.253.106/31
     peers:
       - morchel
@@ -349,10 +299,6 @@ wireguard_networks:
       - gurke
       - kichererbse
     port: 50061
-  - ipv4: 10.87.253.124/31
-    peers:
-      - gurke
-      - suesskartoffel
     port: 50062
   - ipv4: 10.87.253.126/31
     peers:
