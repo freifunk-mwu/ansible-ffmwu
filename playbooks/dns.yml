@@ -1,9 +1,7 @@
 #!/usr/bin/ansible-playbook
 ---
 - name: Manage DNS Master Servers.
-  hosts:
-    - kichererbse.freifunk-mwu.de
-    - linse.freifunk-mwu.de
+  hosts: dns
 
   roles:
   - service-nginx
