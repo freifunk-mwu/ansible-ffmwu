@@ -20,12 +20,12 @@
     name: "{{ rspamd_packages }}"
     state: "present"
 
-- name: Add clamav user to rspamd group.
+- name: Add rspamd user to clamav group.
   user:
-    name: "clamav"
+    name: "{{ rspamd_user }}"
     system: "yes"
     append: "yes"
-    groups: "{{ rspamd_user }}"
+    groups: "clamav"
 
 - name: Create dkim directory.
   file:
