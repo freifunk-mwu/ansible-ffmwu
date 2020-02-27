@@ -299,22 +299,76 @@ wireguard_networks:
       - gurke
       - kichererbse
     port: 50061
-    port: 50062
   - ipv4: 10.87.253.126/31
     peers:
       - gurke
       - unifi
-    port: 50063
+    port: 50062
   - ipv4: 10.87.253.128/31
     peers:
       - gurke
       - kumpir
-    port: 50064
+    port: 50063
   - ipv4: 10.87.253.130/31
     peers:
       - gurke
       - morchel
+    port: 50064
+  - ipv4: 10.87.253.132/31
+    peers:
+      - reis
+      - ingwer
     port: 50065
+  - ipv4: 10.87.253.134/31
+    peers:
+      - reis
+      - spinat
+    port: 50066
+  - ipv4: 10.87.253.136/31
+    peers:
+      - reis
+      - uffschnitt
+    port: 50067
+  - ipv4: 10.87.253.138/31
+    peers:
+      - reis
+      - lotuswurzel
+    port: 50068
+  - ipv4: 10.87.253.140/31
+    peers:
+      - reis
+      - wasserfloh
+    port: 50069
+  - ipv4: 10.87.253.142/31
+    peers:
+      - reis
+      - linse
+    port: 50070
+  - ipv4: 10.87.253.144/31
+    peers:
+      - reis
+      - kichererbse
+    port: 50071
+  - ipv4: 10.87.253.146/31
+    peers:
+      - reis
+      - unifi
+    port: 50072
+  - ipv4: 10.87.253.148/31
+    peers:
+      - reis
+      - kumpir
+    port: 50073
+  - ipv4: 10.87.253.150/31
+    peers:
+      - reis
+      - morchel
+    port: 50074
+  - ipv4: 10.87.253.152/31
+    peers:
+      - reis
+      - gurke
+    port: 50075
 
 fastd_groups:
   - gateways

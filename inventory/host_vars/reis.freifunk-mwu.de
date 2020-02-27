@@ -1,0 +1,85 @@
+---
+server_type: "service"
+
+magic: 113
+
+nodejs_major_version: "10"
+
+http_dns_prefix: "dns-ext"
+
+dehydrated_accept_letsencrypt_terms: yes
+dehydrated_contactemail: hostmaster@freifunk-mwu.de
+dehydrated_domains: freifunk-mwu.de *.freifunk-mwu.de freifunk-mainz.de *.freifunk-mainz.de freifunk-wiesbaden.de *.freifunk-wiesbaden.de mainz.freifunk.net *.mainz.freifunk.net wiesbaden.freifunk.net *.wiesbaden.freifunk.net ffmwu.org *.ffmwu.org ffmz.org *.ffmz.org ffwi.org *.ffwi.org
+dehydrated_install_root: "{{ git_path }}/dehydrated"
+dehydrated_deploycert:
+  freifunk-mwu.de: |
+    mkdir -p /home/cert/certificates/$DOMAIN/
+    cp $KEYFILE /home/cert/certificates/$DOMAIN/
+    cp $CERTFILE /home/cert/certificates/$DOMAIN/
+    cp $CHAINFILE /home/cert/certificates/$DOMAIN/
+    cp $FULLCHAINFILE /home/cert/certificates/$DOMAIN/
+    chmod 750 $(find /home/cert/certificates -mindepth 1 -type d )
+    chmod 740 $(find /home/cert/certificates -mindepth 1 -type f )
+    chown root.cert -R /home/cert/certificates/*
+dehydrated_authorized_keys: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHC4MutFCH6xgzwiarEjnASS5PpG3b3UEYDa8XNxCpy8 kumpir\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDzIaCJpcNlrwKAt+XAQEPOKvfV2xK5rhzyFez42rdmY84pMvAIbogI+HYZCgwUklcRA8/cpzX93sGFC9Gg/7drtRIL/3wQwf55UdeY+W+PVUkLGC/v+D6vSsxoYBn3eiHrbkZJOIJfLfiPrEUkQEAW98KRheySyhXAHpF+71jd/ZlD3DJtinXrexeHthX8APbgzoP6lQCQsH/XtqlO3bqSchTSj3MEl2ylRVWZHdgfc8+daX3s78T8C/zsue9AbXlWyjtL6n9fkYQ2kPkA+/0ymbHCFxq/rBnTq0CaIu/kiQjkI8oTi/tk3SpgNKnY2CKnTj1X62lEuAKgk2WfsjaVqH4K3xNJ4Ugl9kWCUPjJm+EMQ4rLhyi6lH10r2yYG1oBKGGOa+jYevHRqWmHmKuYTiHSFIQoPvd59MXE/3cQslt1RtcoxVl4E2U/S+s3ph8J4nGDa980oE+VMRKG4RsJs9H/1XvWSUVo14xWBufbJR/PnxNicjOhImbfN2rPL1YmwllaqQovRoE4BuwU05iVlT5KwKErHcBO+tz8Gm9IjBuUk6pbUNAi/8Of7/g4BUIvL78/JiAaWBlrGxA169L+r+d9urDibdfVbILrWGI61MX7S2v7KCu5yXT3+UOS2p6oJoahO1mWOMQXcwn1Yf1OlHg5RNUFqcNvw8u119H08Q== wasserfloh"
+
+mysql_root_password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_root subkey=secret') }}"
+mysql_databases:
+  - name: "pdns-admin"
+    encoding: "utf8"
+    collation: "utf8_general_ci"
+mysql_users:
+  - name: "pdns-admin"
+    host: "localhost"
+    password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_pdns-admin subkey=secret') }}"
+    priv: "pdns-admin.*:ALL"
+mysql_max_binlog_size: "100M"
+mysql_expire_logs_days: "10"
+mysql_bind_address: "127.0.0.1"
+
+pdns_host: http://localhost:8081
+pdns_install_repo: "{{ pdns_auth_powerdns_repo_41 }}"
+
+pdns_mysql_databases_credentials:
+  gmysql:
+    priv_user: root
+    priv_password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_root subkey=secret') }}"
+    priv_host:
+      - "localhost"
+
+pdns_config:
+  allow-axfr-ips: "{% for slave in dns_external.slaves %}{{ lookup('dig', slave, 'qtype=A') | ipaddr('address') }}{% if not loop.last %},{% endif %}{% endfor %}"
+  api: "yes"
+  api-key: "{{ lookup('passwordstore', inventory_hostname_short + '/pdns_apikey') }}"
+  default-soa-name: "{{ inventory_hostname }}"
+  default-soa-mail: "admin.freifunk-mwu.de"
+  local-port: "53"
+  local-address: "127.0.0.1,{{ loopback_net_ipv4 | ipaddr(magic) | ipaddr('address') }},{{ ansible_default_ipv4.address | ipaddr('address') }}"
+  local-ipv6: "::1,{{ loopback_net_ipv6 | ipaddr(magic) | ipaddr('address') }},{{ ansible_default_ipv6.address | ipaddr('address') }}"
+  master: True
+  tcp-fast-open: "50"
+  version-string: "anonymous"
+  webserver: "yes"
+  webserver-address: "127.0.0.1"
+  webserver-allow-from: "0.0.0.0/0,::/0"
+  webserver-password: "{{ lookup('passwordstore', inventory_hostname_short + '/pdns_webserver') }}"
+
+pdns_backends:
+  gmysql:
+    host: "localhost"
+    user: "powerdns"
+    password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_powerdns subkey=secret') }}"
+    dbname: "powerdns"
+
+pdns_admin_global_config:
+  secret_key: "{{ lookup('passwordstore', inventory_hostname_short + '/pdnsadmin_secretkey') }}"
+  login_title: "Freifunk MWU DNS Management"
+  log_level: "INFO"
+  log_file: "pdns-admin.log"
+
+pdns_admin_database_config:
+  sqla_db_user: "pdns-admin"
+  sqla_db_password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_pdns-admin subkey=secret') }}"
+  sqla_db_host: "127.0.0.1"
+  sqla_db_name: "pdns-admin"
+  sqlalchemy_track_modifications: True
