@@ -1,6 +1,9 @@
 ---
-- name: Include OS-specific variables.
+- name: Include Distribution-specific variables.
   include_vars: "{{ ansible_distribution }}.yml"
+
+- name: Include Release-specific variables.
+  include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
 
 - name: Install required packages for Debian.
   package:
@@ -18,6 +21,7 @@
     repo: "{{ pdns_admin_git_repo_url }}"
     dest: "{{ pdns_admin_path }}"
     version: "{{ pdns_admin_git_repo_commit }}"
+  notify: Restart PowerDNS Admin Service
 
 - name: Install virtualenv.
   pip:
