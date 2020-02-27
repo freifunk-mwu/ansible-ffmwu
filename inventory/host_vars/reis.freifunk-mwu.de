@@ -38,7 +38,7 @@ mysql_expire_logs_days: "10"
 mysql_bind_address: "127.0.0.1"
 
 pdns_host: http://localhost:8081
-pdns_install_repo: "{{ pdns_auth_powerdns_repo_41 }}"
+pdns_install_repo: "{{ pdns_auth_powerdns_repo_42 }}"
 
 pdns_mysql_databases_credentials:
   gmysql:
