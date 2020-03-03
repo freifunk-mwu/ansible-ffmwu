@@ -1,0 +1,27 @@
+---
+- name: clone repo
+  git:
+    repo: "{{ firmware_selector_src }}"
+    dest: "{{ firmware_selector_path }}"
+
+- name: create config
+  copy:
+    src: config.js
+    dest: "{{ firmware_selector_path }}/config.js"
+
+- name: fix permissions
+  file:
+    path: "{{ firmware_selector_path }}"
+    state: directory
+    recurse: yes
+    owner: www-data
+    group: www-data
+
+- name: write vhost
+  template:
+    src: firmware_selector_vhost.conf.j2
+    dest: /etc/nginx/conf.d/firmware_selector.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
