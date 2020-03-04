@@ -117,32 +117,32 @@ wireguard_networks:
   - ipv4: 10.87.253.42/31
     peers:
       - ingwer
-      - linse
+      - reis
     port: 50021
   - ipv4: 10.87.253.44/31
     peers:
       - lotuswurzel
-      - linse
+      - reis
     port: 50022
   - ipv4: 10.87.253.46/31
     peers:
       - spinat
-      - linse
+      - reis
     port: 50023
   - ipv4: 10.87.253.48/31
     peers:
       - uffschnitt
-      - linse
+      - reis
     port: 50024
   - ipv4: 10.87.253.50/31
     peers:
       - wasserfloh
-      - linse
+      - reis
     port: 50025
   - ipv4: 10.87.253.54/31
     peers:
       - kichererbse
-      - linse
+      - reis
     port: 50027
   - ipv4: 10.87.253.56/31
     peers:
@@ -172,7 +172,7 @@ wireguard_networks:
   - ipv4: 10.87.253.66/31
     peers:
       - unifi
-      - linse
+      - reis
     port: 50033
   - ipv4: 10.87.253.68/31
     peers:
@@ -207,7 +207,7 @@ wireguard_networks:
   - ipv4: 10.87.253.82/31
     peers:
       - kumpir
-      - linse
+      - reis
     port: 50041
   - ipv4: 10.87.253.84/31
     peers:
@@ -247,7 +247,7 @@ wireguard_networks:
   - ipv4: 10.87.253.100/31
     peers:
       - morchel
-      - linse
+      - reis
     port: 50050
   - ipv4: 10.87.253.102/31
     peers:
@@ -292,7 +292,7 @@ wireguard_networks:
   - ipv4: 10.87.253.120/31
     peers:
       - gurke
-      - linse
+      - reis
     port: 50060
   - ipv4: 10.87.253.122/31
     peers:
@@ -314,61 +314,6 @@ wireguard_networks:
       - gurke
       - morchel
     port: 50064
-  - ipv4: 10.87.253.132/31
-    peers:
-      - reis
-      - ingwer
-    port: 50065
-  - ipv4: 10.87.253.134/31
-    peers:
-      - reis
-      - spinat
-    port: 50066
-  - ipv4: 10.87.253.136/31
-    peers:
-      - reis
-      - uffschnitt
-    port: 50067
-  - ipv4: 10.87.253.138/31
-    peers:
-      - reis
-      - lotuswurzel
-    port: 50068
-  - ipv4: 10.87.253.140/31
-    peers:
-      - reis
-      - wasserfloh
-    port: 50069
-  - ipv4: 10.87.253.142/31
-    peers:
-      - reis
-      - linse
-    port: 50070
-  - ipv4: 10.87.253.144/31
-    peers:
-      - reis
-      - kichererbse
-    port: 50071
-  - ipv4: 10.87.253.146/31
-    peers:
-      - reis
-      - unifi
-    port: 50072
-  - ipv4: 10.87.253.148/31
-    peers:
-      - reis
-      - kumpir
-    port: 50073
-  - ipv4: 10.87.253.150/31
-    peers:
-      - reis
-      - morchel
-    port: 50074
-  - ipv4: 10.87.253.152/31
-    peers:
-      - reis
-      - gurke
-    port: 50075
 
 fastd_groups:
   - gateways
