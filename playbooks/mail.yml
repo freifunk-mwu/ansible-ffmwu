@@ -1,3 +1,4 @@
+#!/usr/bin/ansible-playbook
 ---
 - name: Manage Mail Server.
   hosts: mail
