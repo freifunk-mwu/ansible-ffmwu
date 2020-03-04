@@ -12,7 +12,7 @@
   - pdns-admin
 
 - name: Manage DNS External Master Server.
-  hosts: linse.freifunk-mwu.de
+  hosts: reis.freifunk-mwu.de
 
   roles:
   - service-dehydrated
