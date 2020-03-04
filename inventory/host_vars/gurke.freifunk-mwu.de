@@ -5,4 +5,4 @@ magic: 64
 
 nodejs_major_version: "13"
 
-acme_server: linse
+acme_server: "reis"

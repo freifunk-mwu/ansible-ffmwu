@@ -7,6 +7,8 @@ nodejs_major_version: "10"
 
 http_dns_prefix: "dns-ext"
 
+acme_server: "reis"
+
 dehydrated_accept_letsencrypt_terms: yes
 dehydrated_contactemail: hostmaster@freifunk-mwu.de
 dehydrated_domains: freifunk-mwu.de *.freifunk-mwu.de freifunk-mainz.de *.freifunk-mainz.de freifunk-wiesbaden.de *.freifunk-wiesbaden.de mainz.freifunk.net *.mainz.freifunk.net wiesbaden.freifunk.net *.wiesbaden.freifunk.net ffmwu.org *.ffmwu.org ffmz.org *.ffmz.org ffwi.org *.ffwi.org
