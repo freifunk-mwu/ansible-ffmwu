@@ -11,4 +11,4 @@ HOOK={{ dehydrated_install_root }}/pdns_api/pdns_api.sh
 {% endif %}
 HOOK_CHAIN="yes"
 PDNS_HOST={{ pdns_host}}
-PDNS_KEY={{ lookup('passwordstore', 'linse/pdns_apikey') }}
+PDNS_KEY={{ lookup('passwordstore', acme_server + '/pdns_apikey') }}
