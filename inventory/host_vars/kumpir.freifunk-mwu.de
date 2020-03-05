@@ -49,8 +49,6 @@ mysql_max_binlog_size: "100M"
 mysql_expire_logs_days: "10"
 mysql_bind_address: "127.0.0.1"
 
-nginx_ssl_directory: /etc/nginx/ssl/freifunk-mwu.de/
-
 nginx_etherpad_url: "pad.freifunk-mwu.de"
 
 etherpad_db_type: mysql
