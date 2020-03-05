@@ -11,10 +11,7 @@ server {
     server_name {{ http_dns_prefix }}-api.{{ http_domain_external }} ;
     index index.html index.htm;
 
-    ssl_certificate /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
-    ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;
-    ssl_prefer_server_ciphers       on;
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+    include /etc/nginx/snippets/ssl.conf;
 
     location / {
         # allow defined addresses to access

@@ -13,7 +13,6 @@ server {
     server_name {{ http_meshviewer_external }} {{ http_meshviewer_internal }};
 
     include /etc/nginx/snippets/redirect-to-ssl.conf;
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
 }
 
 server {
@@ -21,16 +20,8 @@ server {
     listen [::]:443 ssl http2;
     server_name {{ http_meshviewer_external }} {{ http_meshviewer_internal }};
 
-    {% if acme_server == 'zuckerwatte' %}
-        ssl_certificate     /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
-        ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;
-    {% else %}
-        ssl_certificate     /etc/nginx/ssl/{{ http_domain_external }}/fullchain.pem;
-        ssl_certificate_key /etc/nginx/ssl/{{ http_domain_external }}/privkey.pem;
-    {% endif %}
-
     include /etc/nginx/snippets/gzip.conf;
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+    include /etc/nginx/snippets/ssl.conf;
 
     root {{ meshviewer_path }};
     index index.html index.htm;
@@ -70,8 +61,6 @@ server {
     server_name {{ http_meshviewer_prefix }}.{{ mesh.http_domain_internal }};
 {% endif %}
     return 301 https://{{ http_meshviewer_external }}$request_uri;
-
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
 }
 
 server {
@@ -84,7 +73,7 @@ server {
 {% endif %}
     return 301 https://{{ http_meshviewer_external }}$request_uri;
 
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+    include /etc/nginx/snippets/ssl.conf;
 }
 {% if not loop.last %}
 
@@ -99,8 +88,6 @@ server {
     listen [::]:80;
     server_name {{ http_meshviewer_prefix }}.{{ domain }};
     return 301 https://{{ http_meshviewer_external }}$request_uri;
-
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
 }
 
 server {
@@ -109,7 +96,7 @@ server {
     server_name {{ http_meshviewer_prefix }}.{{ domain }};
     return 301 https://{{ http_meshviewer_external }}$request_uri;
 
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+    include /etc/nginx/snippets/ssl.conf;
 }
 {% if not loop.last %}
 

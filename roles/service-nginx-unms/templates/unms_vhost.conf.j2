@@ -23,10 +23,7 @@ server {
     server_tokens off;
     proxy_ssl_verify off;
 
-    ssl_certificate     /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
-    ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;
-
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+    include /etc/nginx/snippets/ssl.conf;
 
     set $upstream 127.0.0.1:9443; # The UNMS Controller Port
 

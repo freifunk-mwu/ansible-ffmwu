@@ -12,5 +12,4 @@ Ansible role that installs and configures Nginx for Etherpad.
 
 ```yaml
 etherpad_service_name: www.example.com (required)
-nginx_ssl_directory: /etc/nginx/ssl/freifunk-mwu.de/ (required)
 ```

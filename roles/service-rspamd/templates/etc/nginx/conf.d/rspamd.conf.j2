@@ -18,8 +18,7 @@ server {
       access_log  /var/log/nginx/rspamd.access.log;
       error_log /var/log/nginx/rspamd.error.log;
 
-      ssl_certificate     /etc/nginx/ssl/{{ http_domain_external }}/fullchain.pem;
-      ssl_certificate_key /etc/nginx/ssl/{{ http_domain_external }}/privkey.pem;
+      include /etc/nginx/snippets/ssl.conf;
 
       location / {
           proxy_pass http://localhost:11334/;

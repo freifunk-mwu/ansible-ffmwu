@@ -11,11 +11,7 @@ server {
     server_name {{ http_dns_prefix }}.{{ http_domain_external }} {{ http_dns_prefix }}.{{ http_domain_internal }};
     index index.html index.htm;
 
-    ssl_certificate /etc/nginx/ssl/{{ http_domain_external }}/fullchain.pem;
-    ssl_certificate_key /etc/nginx/ssl/{{ http_domain_external }}/privkey.pem;
-    ssl_prefer_server_ciphers       on;
-
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+    include /etc/nginx/snippets/ssl.conf;
 
     client_max_body_size            10m;
     client_body_buffer_size         128k;

@@ -4,7 +4,6 @@ server {
     server_name {{ prometheus_url_external }} {{ prometheus_url_internal }};
 
     include /etc/nginx/snippets/redirect-to-ssl.conf;
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
 }
 
 server {
@@ -12,15 +11,7 @@ server {
     listen [::]:443 ssl;
     server_name {{ prometheus_url_external }} {{ prometheus_url_internal }};
 
-    {% if acme_server == 'zuckerwatte' %}
-        ssl_certificate     /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
-        ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;
-    {% else %}
-        ssl_certificate     /etc/nginx/ssl/{{ http_domain_external }}/fullchain.pem;
-        ssl_certificate_key /etc/nginx/ssl/{{ http_domain_external }}/privkey.pem;
-    {% endif %}
-
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+    include /etc/nginx/snippets/ssl.conf;
 
     satisfy  any;
 

@@ -6,8 +6,6 @@ server {
     charset utf-8;
     server_tokens off;
 
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
-
     root /var/www/html/firmware;
     location / {
         autoindex on;
@@ -25,10 +23,7 @@ server {
     charset utf-8;
     server_tokens off;
 
-    ssl_certificate     /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
-    ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;
-
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+    include /etc/nginx/snippets/ssl.conf;
 
     root /var/www/html/firmware;
     location / {
@@ -51,8 +46,6 @@ server {
     charset utf-8;
     server_tokens off;
 
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
-
     root /var/www/html/firmware/{{ mesh.domain_name.lower().rsplit(' ')[0] }};
     location / {
         autoindex on;
@@ -74,10 +67,7 @@ server {
     charset utf-8;
     server_tokens off;
 
-    ssl_certificate     /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
-    ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;
-
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+    include /etc/nginx/snippets/ssl.conf;
 
     root /var/www/html/firmware/{{ mesh.domain_name.lower().rsplit(' ')[0] }};
     location / {

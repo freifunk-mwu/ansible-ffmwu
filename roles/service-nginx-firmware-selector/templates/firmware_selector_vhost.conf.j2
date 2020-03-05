@@ -4,7 +4,6 @@ server {
     server_name {{ http_firmware_selector_external }} {{ http_firmware_selector_internal }};
 
     include /etc/nginx/snippets/redirect-to-ssl.conf;
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
 }
 
 server {
@@ -12,16 +11,8 @@ server {
     listen [::]:443 ssl http2;
     server_name {{ http_firmware_selector_external }} {{ http_firmware_selector_internal }};
 
-    {% if acme_server == 'zuckerwatte' %}
-        ssl_certificate     /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
-        ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;
-    {% else %}
-        ssl_certificate     /etc/nginx/ssl/{{ http_domain_external }}/fullchain.pem;
-        ssl_certificate_key /etc/nginx/ssl/{{ http_domain_external }}/privkey.pem;
-    {% endif %}
-
+    include /etc/nginx/snippets/ssl.conf;
     include /etc/nginx/snippets/gzip.conf;
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
 
     root {{ firmware_selector_path }};
     index index.html index.htm;
@@ -38,8 +29,6 @@ server {
     server_name {{ http_firmware_selector_prefix }}.{{ mesh.http_domain_internal }};
 {% endif %}
     return 301 https://{{ http_firmware_selector_external }}$request_uri;
-
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
 }
 
 server {
@@ -51,8 +40,6 @@ server {
     server_name {{ http_firmware_selector_prefix }}.{{ mesh.http_domain_internal }};
 {% endif %}
     return 301 https://{{ http_firmware_selector_external }}$request_uri;
-
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
 }
 {% if not loop.last %}
 

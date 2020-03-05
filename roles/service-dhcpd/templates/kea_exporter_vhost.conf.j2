@@ -3,15 +3,7 @@ server {
     listen [{{ lookup('dig', inventory_hostname, 'qtype=AAAA') }}]:9547 ssl;
     server_name {{ inventory_hostname_short }}.{{ http_domain_external }} {{ inventory_hostname_short }}.{{ http_domain_internal }};
 
-    {% if acme_server == 'zuckerwatte' %}
-        ssl_certificate     /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
-        ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;
-    {% else %}
-        ssl_certificate     /etc/nginx/ssl/{{ http_domain_external }}/fullchain.pem;
-        ssl_certificate_key /etc/nginx/ssl/{{ http_domain_external }}/privkey.pem;
-    {% endif %}
-
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+    include /etc/nginx/snippets/ssl.conf;
 
     location / {
       proxy_pass http://127.0.0.1:9547;
