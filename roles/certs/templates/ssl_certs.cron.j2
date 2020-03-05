@@ -1,0 +1,18 @@
+#!/bin/sh
+DOMAINS={{ ssl_cert_name }}
+LOCAL_DIR="{{ ssl_directory }}"
+
+for DOMAIN in $DOMAINS; do
+  #Get Certs
+  rsync --delete -rz -e  'ssh -i /home/admin/.ssh/id_ed25519 -p 23' cert@{{ acme_server }}.{{ http_domain_internal }}:$DOMAIN/ $LOCAL_DIR/$DOMAIN
+
+  #Fix Permissions
+  chmod 0550 $LOCAL_DIR/$DOMAIN
+  chmod 0440 $LOCAL_DIR/$DOMAIN/*
+done
+
+#Fix owners
+chown -R www-data:admin $LOCAL_DIR
+
+#restart
+systemctl reload nginx.service || systemctl start nginx.service

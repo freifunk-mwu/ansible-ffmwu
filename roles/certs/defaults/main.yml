@@ -1,0 +1,5 @@
+---
+ssl_directory: "/etc/certs"
+ssl_cert_name: "{{ http_domain_external }}"
+ssl_cert_path: "{{ ssl_directory }}/{{ ssl_cert_name }}/fullchain.pem"
+ssl_key_path: "{{ ssl_directory }}/{{ ssl_cert_name }}/privkey.pem"
