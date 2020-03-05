@@ -6,8 +6,6 @@ server {
     charset utf-8;
     server_tokens off;
 
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
-
     root /var/www/html;
     location / {
         index index.html;
@@ -23,15 +21,8 @@ server {
 
     charset utf-8;
     server_tokens off;
-{% if acme_server == 'zuckerwatte' %}
-    ssl_certificate     /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/fullchain.pem;
-    ssl_certificate_key /etc/nginx/ssl/{{ inventory_hostname_short }}.{{ http_domain_external }}/privkey.pem;
-{% else %}
-    ssl_certificate     /etc/nginx/ssl/{{ http_domain_external }}/fullchain.pem;
-    ssl_certificate_key /etc/nginx/ssl/{{ http_domain_external }}/privkey.pem;
-{% endif %}
 
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+    include /etc/nginx/snippets/ssl.conf;
 
     root /var/www/html;
     location / {
