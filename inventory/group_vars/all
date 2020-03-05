@@ -332,7 +332,7 @@ http_domain_external: freifunk-mwu.de
 mail_domain: freifunk-mwu.de
 mail_server: morchel.freifunk-mwu.de
 
-acme_server: zuckerwatte
+acme_server: reis
 
 unifi_server: unifi
 

@@ -3,9 +3,6 @@ server_type: "service"
 
 magic: 162
 
-acme_server: "reis"
-
-
 php_packages:
   - php
   - php-fpm

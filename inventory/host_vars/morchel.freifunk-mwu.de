@@ -2,8 +2,6 @@
 server_type: "service"
 magic: 89
 
-acme_server: "reis"
-
 # Variables for Galaxy Role powerdns.pdns_recursor
 pdns_rec_install_repo: "{{ pdns_rec_powerdns_repo_42 }}"
 pdns_rec_flush_handlers: True
