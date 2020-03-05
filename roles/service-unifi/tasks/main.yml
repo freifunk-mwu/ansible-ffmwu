@@ -1,7 +1,7 @@
 ---
 
 - name: get java-home
-  shell: ls /etc/alternatives/java -l | cut -d' ' -f11| sed 's/bin\/java//g'
+  shell: readlink /etc/alternatives/java | sed 's/bin\/java//g'
   register: unifi_raw_java_home
   when: unifi_java_home is not defined
 
