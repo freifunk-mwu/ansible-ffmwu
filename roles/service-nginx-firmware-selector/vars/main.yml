@@ -2,7 +2,7 @@
 http_firmware_selector_external: "{{ http_firmware_selector_prefix }}.{{ http_domain_external }}"
 http_firmware_selector_internal: "{{ http_firmware_selector_prefix }}.{{ http_domain_internal }}"
 
-firmware_selector_src: "https://github.com/freifunk-mwu/www.freifunk-mwu.de.git"
+firmware_selector_src: "https://github.com/freifunk-darmstadt/gluon-firmware-selector.git"
 firmware_selector_path: "/var/www/firmware_selector"
 
 map_layers:
