@@ -40,6 +40,7 @@
     mode: 0644
     owner: root
     group: root
+  notify: restart nginx
 
 - name: copy redirect-to-ssl.conf to snippets
   copy:
@@ -48,14 +49,16 @@
     mode: 0644
     owner: root
     group: root
+  notify: restart nginx
 
-- name: write letsencrypt-acme-challenge.conf to snippets
+- name: write ssl.conf to snippets
   template:
     src: ssl.conf.j2
     dest: /etc/nginx/snippets/ssl.conf
     mode: 0644
     owner: root
     group: root
+  notify: restart nginx
 
 - name: write nginx configuration nginx.conf
   template:
