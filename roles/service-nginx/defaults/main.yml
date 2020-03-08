@@ -1,2 +1,3 @@
 ---
 server_names_hash_bucket_size: 64
+nginx_dhparams: "/etc/nginx/dhparams.pem"
