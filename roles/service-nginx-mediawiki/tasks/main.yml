@@ -1,0 +1,52 @@
+---
+- name: download and extract
+  unarchive:
+    creates: "{{ mediawiki_path }}-{{ mediawiki_version }}"
+    src: "{{ mediawiki_src }}"
+    dest: "{{ www_path }}"
+    remote_src: yes
+    owner: www-data
+    group: www-data
+
+- name: download and extract extensions
+  unarchive:
+    creates: "{{ mediawiki_path }}-{{ mediawiki_version }}/extensions/{{ item.name }}"
+    src: "{{ item.url }}"
+    dest: "{{ mediawiki_path }}-{{ mediawiki_version }}/extensions/"
+    remote_src: yes
+    owner: www-data
+    group: www-data
+  loop: "{{ mediawiki_extensions }}"
+
+- name: create symlinks
+  file:
+    src: "{{ mediawiki_path }}-{{ mediawiki_version }}"
+    dest: "{{ mediawiki_path }}"
+    state: link
+
+- name: write settings
+  template:
+    src: "LocalSettings.php.j2"
+    dest: "{{ mediawiki_path }}/LocalSettings.php"
+    mode: 0644
+
+- name: copy logo
+  copy:
+    src: "{{ mediawiki_logo }}"
+    dest: "{{ mediawiki_path }}/resources/assets/{{ mediawiki_logo }}"
+
+- name: fix permissions
+  file:
+    path: "{{ mediawiki_path }}-{{ mediawiki_version }}"
+    owner: www-data
+    group: www-data
+    recurse: yes
+
+- name: write vhost
+  template:
+    src: mediawiki_vhost.conf.j2
+    dest: /etc/nginx/conf.d/mediawiki.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx

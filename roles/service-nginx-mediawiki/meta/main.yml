@@ -1,0 +1,5 @@
+---
+dependencies:
+  - { role: service-nginx }
+  - { role: geerlingguy.php }
+  - { role: geerlingguy.mysql }

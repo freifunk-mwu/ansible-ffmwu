@@ -1,0 +1,8 @@
+---
+http_mediawiki_external: "{{ http_mediawiki_prefix }}.{{ http_domain_external }}"
+http_mediawiki_internal: "{{ http_mediawiki_prefix }}.{{ http_domain_internal }}"
+
+mediawiki_version: "{{ mediawiki_version_major }}.{{ mediawiki_version_minor }}"
+
+mediawiki_path: "/var/www/mediawiki"
+mediawiki_src: "https://releases.wikimedia.org/mediawiki/{{ mediawiki_version_major }}/mediawiki-{{ mediawiki_version }}.tar.gz"
