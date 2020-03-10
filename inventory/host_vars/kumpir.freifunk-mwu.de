@@ -35,6 +35,9 @@ mysql_databases:
   - name: "etherpad"
     encoding: "utf8mb4"
     collation: "utf8mb4_unicode_ci"
+  - name: "mediawiki"
+    encoding: "utf8mb4"
+    collation: "utf8mb4_unicode_ci"
 mysql_users:
   - name: "wordpress"
     host: "localhost"
@@ -44,6 +47,10 @@ mysql_users:
     host: "localhost"
     password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_etherpad') }}"
     priv: "etherpad.*:ALL"
+  - name: "mediawiki"
+    host: "localhost"
+    password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_mediawiki') }}"
+    priv: "mediawiki.*:ALL"
 mysql_max_binlog_size: "100M"
 mysql_expire_logs_days: "10"
 mysql_bind_address: "127.0.0.1"
@@ -60,5 +67,32 @@ etherpad_mysql_database_user: etherpad
 etherpad_mysql_database_password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_etherpad') }}"
 etherpad_mysql_database_port: 3306
 etherpad_plugins: [ep_list_pads,ep_public_view,ep_search]
+
+http_mediawiki_prefix: wiki2
+mediawiki_version_major: "1.34"
+mediawiki_version_minor: "0"
+mediawiki_name: "Freifunk MWU Wiki"
+mediawiki_namespace: "Freifunk"
+mediawiki_logo: "mwu_logo.png"
+mediawiki_contact: "webmaster@freifunk-mwu.de"
+mediawiki_sender: "wiki@freifunk-mwu.de"
+mediawiki_mysql_server: "127.0.0.1"
+mediawiki_mysql_db: "mediawiki"
+mediawiki_mysql_user: "mediawiki"
+mediawiki_extensions:
+  - name: "AdminLinks"
+    url: "https://extdist.wmflabs.org/dist/extensions/AdminLinks-REL1_34-e8532ad.tar.gz"
+  - name: "ConfirmAccount"
+    url: "https://extdist.wmflabs.org/dist/extensions/ConfirmAccount-REL1_34-3ffa446.tar.gz"
+    legacy: true
+  - name: "PageForms"
+    url: "https://extdist.wmflabs.org/dist/extensions/PageForms-REL1_34-95fc81e.tar.gz"
+  - name: "UserMerge"
+    url: "https://extdist.wmflabs.org/dist/extensions/UserMerge-REL1_34-3517022.tar.gz"
+  - name: "RegexFunctions"
+    url: "https://extdist.wmflabs.org/dist/extensions/RegexFunctions-REL1_34-4c21ab2.tar.gz"
+    legacy: true
+  - name: "Variables"
+    url: "https://extdist.wmflabs.org/dist/extensions/Variables-REL1_34-d6ce860.tar.gz"
 
 http_firmware_selector_prefix: wizard
