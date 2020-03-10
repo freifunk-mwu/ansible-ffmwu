@@ -18,7 +18,9 @@ php_use_managed_ini: true
 php_upload_max_filesize: "512M"
 php_post_max_size: "512M"
 
-wp_install_dir: "/var/www/wordpress"
+www_path: "/var/www"
+
+wp_install_dir: "{{ www_path }}/wordpress"
 wp_mysql_db: "wordpress"
 wp_mysql_user: "wordpress"
 wp_mysql_password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_wordpress') }}"
