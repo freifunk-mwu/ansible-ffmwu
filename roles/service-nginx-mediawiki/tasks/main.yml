@@ -41,45 +41,53 @@
     state: started
     enabled: yes
 
+- name: "create {{ mediawiki_path }}"
+  file:
+    path: "{{ mediawiki_path }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+
 - name: download and extract mediawiki
   unarchive:
-    creates: "{{ mediawiki_path }}-{{ mediawiki_version }}"
+    creates: "{{ mediawiki_path }}/mediawiki-{{ mediawiki_version }}"
     src: "{{ mediawiki_src }}"
-    dest: "{{ www_path }}"
+    dest: "{{ mediawiki_path }}"
     remote_src: yes
     owner: www-data
     group: www-data
 
+- name: create mediawiki symlinks
+  file:
+    src: "mediawiki-{{ mediawiki_version }}"
+    dest: "{{ mediawiki_path }}/current"
+    state: link
+
 - name: download and extract mediawiki extensions
   unarchive:
-    creates: "{{ mediawiki_path }}-{{ mediawiki_version }}/extensions/{{ item.name }}"
+    creates: "{{ mediawiki_path }}/current/extensions/{{ item.name }}"
     src: "{{ item.url }}"
-    dest: "{{ mediawiki_path }}-{{ mediawiki_version }}/extensions/"
+    dest: "{{ mediawiki_path }}/current/extensions/"
     remote_src: yes
     owner: www-data
     group: www-data
   loop: "{{ mediawiki_extensions }}"
 
-- name: create mediawiki symlinks
-  file:
-    src: "{{ mediawiki_path }}-{{ mediawiki_version }}"
-    dest: "{{ mediawiki_path }}"
-    state: link
-
 - name: write mediawiki settings
   template:
     src: "LocalSettings.php.j2"
-    dest: "{{ mediawiki_path }}/LocalSettings.php"
+    dest: "{{ mediawiki_path }}/current/LocalSettings.php"
     mode: 0644
 
 - name: copy mwu logo
   copy:
     src: "{{ mediawiki_logo }}"
-    dest: "{{ mediawiki_path }}/resources/assets/{{ mediawiki_logo }}"
+    dest: "{{ mediawiki_path }}/current/resources/assets/{{ mediawiki_logo }}"
 
 - name: fix mediawiki permissions
   file:
-    path: "{{ mediawiki_path }}-{{ mediawiki_version }}"
+    path: "{{ mediawiki_path }}/mediawiki-{{ mediawiki_version }}"
     owner: www-data
     group: www-data
     recurse: yes
