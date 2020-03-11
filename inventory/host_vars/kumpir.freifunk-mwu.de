@@ -68,7 +68,7 @@ etherpad_mysql_database_password: "{{ lookup('passwordstore', inventory_hostname
 etherpad_mysql_database_port: 3306
 etherpad_plugins: [ep_list_pads,ep_public_view,ep_search]
 
-http_mediawiki_prefix: wiki2
+http_mediawiki_prefix: wiki
 mediawiki_name: "Freifunk MWU Wiki"
 mediawiki_namespace: "Freifunk"
 mediawiki_logo: "mwu_logo.png"
