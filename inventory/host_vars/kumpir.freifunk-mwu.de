@@ -85,6 +85,8 @@ mediawiki_extensions: # IMPORTANT: update links when changing major version!
   - name: "ConfirmAccount"
     url: "https://extdist.wmflabs.org/dist/extensions/ConfirmAccount-REL1_34-3ffa446.tar.gz"
     legacy: true
+  - name: "DeletePagesForGood"
+    url: "https://extdist.wmflabs.org/dist/extensions/DeletePagesForGood-REL1_34-7475b63.tar.gz"
   - name: "PageForms"
     url: "https://extdist.wmflabs.org/dist/extensions/PageForms-REL1_34-95fc81e.tar.gz"
   - name: "UserMerge"
