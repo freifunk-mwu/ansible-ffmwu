@@ -15,6 +15,9 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	exit;
 }
 
+## Uncomment for debug output
+# error_reporting( -1 );
+# ini_set( 'display_errors', 1 );
 
 ## Uncomment this to disable output compression
 # $wgDisableOutputCompression = true;
@@ -166,16 +169,14 @@ $wgVirtualRestConfig['modules']['parsoid'] = array(
 # Enabled extensions. Most of the extensions are enabled by adding
 # wfLoadExtensions('ExtensionName');
 # to LocalSettings.php. Check specific extension documentation for more details.
-# The following extensions were automatically enabled:
-wfLoadExtension( 'ConfirmEdit' );
-wfLoadExtension( 'ParserFunctions' );
-wfLoadExtension( 'SyntaxHighlight_GeSHi' );
-wfLoadExtension( 'WikiEditor' );
 
 {% for extension in mediawiki_extensions %}
-{% if extension.legacy | default(false) %}
+{% if extension.type == "require" %}
 require_once( "$IP/extensions/{{ extension.name }}/{{ extension.name }}.php" );
-{% else %}
+{% elif extension.type == "load" %}
 wfLoadExtension( '{{ extension.name }}' );
+{% endif %}
+{% if extension.conf is defined %}
+{{ extension.conf }}
 {% endif %}
 {% endfor %}
