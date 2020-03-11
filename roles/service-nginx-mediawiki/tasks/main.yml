@@ -80,6 +80,11 @@
     dest: "{{ mediawiki_path }}/current/LocalSettings.php"
     mode: 0644
 
+- name: copy favicon
+  copy:
+    src: "favicon.ico"
+    dest: "{{ mediawiki_path }}/current/favicon.ico"
+
 - name: copy mwu logo
   copy:
     src: "{{ mediawiki_logo }}"
