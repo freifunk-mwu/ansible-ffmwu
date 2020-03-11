@@ -12,10 +12,13 @@
     update_cache: yes
     filename: parsoid
 
-- name: install parsoid package
+- name: install packages
   package:
-    name: parsoid
+    name: "{{ item }}"
     state: present
+  loop:
+    - composer
+    - parsoid
 
 - name: write parsoid config
   template:
@@ -64,7 +67,7 @@
     dest: "{{ mediawiki_path }}/current"
     state: link
 
-- name: download and extract mediawiki extensions
+- name: install mediawiki extensions (tarballs)
   unarchive:
     creates: "{{ mediawiki_path }}/current/extensions/{{ item.name }}"
     src: "{{ item.url }}"
@@ -72,7 +75,20 @@
     remote_src: yes
     owner: www-data
     group: www-data
+  when: item.url is defined
   loop: "{{ mediawiki_extensions }}"
+
+- name: write composer.local.json
+  template:
+    src: "composer.local.json.j2"
+    dest: "{{ mediawiki_path }}/current/composer.local.json"
+    mode: 0644
+
+- name: install mediawiki extensions (composer)
+  composer:
+    command: update
+    no_dev: true
+    working_dir: "{{ mediawiki_path }}/current"
 
 - name: write mediawiki settings
   template:
@@ -105,3 +121,11 @@
     group: root
     mode: 0644
   notify: restart nginx
+
+- name: add maintenance cronjob
+  cron:
+    name: "mediawiki maintenance"
+    cron_file: "mediawiki"
+    user: "www-data"
+    special_time: daily
+    job: "/usr/bin/php {{ mediawiki_path }}/current/maintenance/runJobs.php"

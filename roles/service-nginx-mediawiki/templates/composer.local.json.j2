@@ -1,0 +1,9 @@
+{
+  "require": {
+{% for extension in mediawiki_extensions %}
+{% if extension.type == "composer" %}
+    "{{ extension.pkg }}": "~{{ extension.ver }}"
+{% endif %}
+{% endfor %}
+  }
+}
