@@ -69,8 +69,6 @@ etherpad_mysql_database_port: 3306
 etherpad_plugins: [ep_list_pads,ep_public_view,ep_search]
 
 http_mediawiki_prefix: wiki2
-mediawiki_version_major: "1.34"
-mediawiki_version_minor: "0"
 mediawiki_name: "Freifunk MWU Wiki"
 mediawiki_namespace: "Freifunk"
 mediawiki_logo: "mwu_logo.png"
@@ -79,7 +77,9 @@ mediawiki_sender: "wiki@freifunk-mwu.de"
 mediawiki_mysql_server: "127.0.0.1"
 mediawiki_mysql_db: "mediawiki"
 mediawiki_mysql_user: "mediawiki"
-mediawiki_extensions:
+mediawiki_version_major: "1.34"
+mediawiki_version_minor: "0"
+mediawiki_extensions: # IMPORTANT: update links when changing major version!
   - name: "AdminLinks"
     url: "https://extdist.wmflabs.org/dist/extensions/AdminLinks-REL1_34-e8532ad.tar.gz"
   - name: "ConfirmAccount"
