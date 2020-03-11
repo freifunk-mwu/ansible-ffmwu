@@ -152,6 +152,17 @@ $wgNamespacesWithSubpages = array_fill( 0, 200, true );
 # Enable RegexFunctions
 $wgPFEnableStringFunctions = true;
 
+# Enable VisualEditor
+$wgDefaultUserOptions['visualeditor-enable'] = true;
+$wgVirtualRestConfig['modules']['parsoid'] = array(
+    // URL to the Parsoid instance
+    'url' => 'http://localhost:8142',
+		// Parsoid "domain", see below (optional)
+    'domain' => '{{ http_mediawiki_external }}',
+    // Parsoid "prefix", see below (optional)
+    //'prefix' => 'mediawiki'
+);
+
 # Enabled extensions. Most of the extensions are enabled by adding
 # wfLoadExtensions('ExtensionName');
 # to LocalSettings.php. Check specific extension documentation for more details.

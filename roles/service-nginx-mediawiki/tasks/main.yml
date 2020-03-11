@@ -1,5 +1,47 @@
 ---
-- name: download and extract
+- name: ensure parsoid apt key is present
+  apt_key:
+    state: present
+    id: AF380A3036A03444
+    url: "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3b49082883588699e29b866baf380a3036a03444"
+
+- name: ensure parsoid apt repo is present
+  apt_repository:
+    state: present
+    repo: "deb https://releases.wikimedia.org/debian jessie-mediawiki main"
+    update_cache: yes
+    filename: parsoid
+
+- name: install parsoid package
+  package:
+    name: parsoid
+    state: present
+
+- name: write parsoid config
+  template:
+    src: "parsoid.conf.j2"
+    dest: "/etc/mediawiki/parsoid/config.yaml"
+    mode: 0644
+    owner: root
+    group: root
+  notify: restart parsoid
+
+- name: write /etc/default/parsoid
+  template:
+    src: "defaults_parsoid.j2"
+    dest: "/etc/default/parsoid"
+    mode: 0644
+    owner: root
+    group: root
+  notify: restart parsoid
+
+- name: configure systemd unit parsoid
+  systemd:
+    name: parsoid
+    state: started
+    enabled: yes
+
+- name: download and extract mediawiki
   unarchive:
     creates: "{{ mediawiki_path }}-{{ mediawiki_version }}"
     src: "{{ mediawiki_src }}"
@@ -8,7 +50,7 @@
     owner: www-data
     group: www-data
 
-- name: download and extract extensions
+- name: download and extract mediawiki extensions
   unarchive:
     creates: "{{ mediawiki_path }}-{{ mediawiki_version }}/extensions/{{ item.name }}"
     src: "{{ item.url }}"
@@ -18,31 +60,31 @@
     group: www-data
   loop: "{{ mediawiki_extensions }}"
 
-- name: create symlinks
+- name: create mediawiki symlinks
   file:
     src: "{{ mediawiki_path }}-{{ mediawiki_version }}"
     dest: "{{ mediawiki_path }}"
     state: link
 
-- name: write settings
+- name: write mediawiki settings
   template:
     src: "LocalSettings.php.j2"
     dest: "{{ mediawiki_path }}/LocalSettings.php"
     mode: 0644
 
-- name: copy logo
+- name: copy mwu logo
   copy:
     src: "{{ mediawiki_logo }}"
     dest: "{{ mediawiki_path }}/resources/assets/{{ mediawiki_logo }}"
 
-- name: fix permissions
+- name: fix mediawiki permissions
   file:
     path: "{{ mediawiki_path }}-{{ mediawiki_version }}"
     owner: www-data
     group: www-data
     recurse: yes
 
-- name: write vhost
+- name: write mediawiki vhost
   template:
     src: mediawiki_vhost.conf.j2
     dest: /etc/nginx/conf.d/mediawiki.conf

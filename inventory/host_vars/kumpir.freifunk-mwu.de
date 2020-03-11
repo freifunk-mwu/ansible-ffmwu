@@ -94,5 +94,7 @@ mediawiki_extensions:
     legacy: true
   - name: "Variables"
     url: "https://extdist.wmflabs.org/dist/extensions/Variables-REL1_34-d6ce860.tar.gz"
+  - name: "VisualEditor"
+    url: "https://extdist.wmflabs.org/dist/extensions/VisualEditor-REL1_34-74116a7.tar.gz"
 
 http_firmware_selector_prefix: wizard

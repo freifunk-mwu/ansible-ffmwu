@@ -3,3 +3,8 @@
   systemd:
     name: nginx
     state: restarted
+
+- name: restart parsoid
+  systemd:
+    name: parsoid
+    state: restarted

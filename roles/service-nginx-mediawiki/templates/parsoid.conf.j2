@@ -1,0 +1,14 @@
+worker_heartbeat_timeout: 300000
+
+logging:
+    level: info
+
+services:
+  - module: ../src/lib/index.js
+    entrypoint: apiServiceWorker
+    conf:
+        mwApis:
+        - uri: 'https://{{ http_mediawiki_external }}/api.php'
+          domain: '{{ http_mediawiki_external }}'
+
+        #debug: true
