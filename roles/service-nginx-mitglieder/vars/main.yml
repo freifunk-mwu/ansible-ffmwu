@@ -1,0 +1,3 @@
+---
+
+mitglieder_php_obfuscator_password: "{{ lookup('password', '/dev/null length=20') }}"

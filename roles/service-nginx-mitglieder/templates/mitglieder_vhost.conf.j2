@@ -1,0 +1,54 @@
+server {
+  listen 80;
+  listen [::]:80;
+  server_name {{ mitglieder_url }} ;
+  return 301 https://$http_host$request_uri;
+}
+
+server {
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
+  server_name {{ mitglieder_url }} ;
+
+  include /etc/nginx/snippets/gzip.conf;
+  include /etc/nginx/snippets/ssl.conf;
+
+  root {{ mitglieder_path }};
+
+  index index.php index.html index.htm;
+
+  autoindex off;
+
+  access_log /var/log/nginx/access.log;
+  error_log /var/log/nginx/error.log;
+
+  # Location for the root
+  location / {
+    # Do this inside of a location so it can be negated
+    location ~ \.php$ {
+      try_files $uri $uri/ =404; # Don't let php execute non-existent php files
+      include /etc/nginx/fastcgi_params;
+			fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+      fastcgi_pass 127.0.0.1:9000;
+    }
+  }
+
+  # Block access to various folders
+  location  /pending_members {deny  all;}
+  location  /templates {deny  all;}
+  location  /templates_c {deny  all;}
+  location  /include {deny  all;}
+
+  location /new_members {
+    auth_basic           "Restricetd Content";
+    auth_basic_user_file {{ mitglieder_path }}/new_members/.htpasswd;
+    autoindex on;
+  }
+
+  # Just in case, hide .svn and .git too
+  location ~ /.(svn|git)(/|$) { deny all; }
+
+  # Hide any .htaccess files
+  location ~ /.htaccess { deny all; }
+
+}

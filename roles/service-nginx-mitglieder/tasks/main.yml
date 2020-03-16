@@ -1,0 +1,120 @@
+---
+
+# Ensure dependencies
+
+- name: install packages
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - smarty3
+    - smarty-validate
+    - php-mail-mime
+
+- name: get latest liberation fonts release
+  uri:
+    url: https://api.github.com/repos/liberationfonts/liberation-fonts/releases/latest
+    return_content: true
+  register: json_reponse
+
+
+- name: ensure directory for liberation fonts is there
+  file:
+    path: "{{ mitglieder_path }}/include/fonts"
+    state: directory
+    owner: www-data
+    group: www-data
+
+- name: download and extract liberation fonts
+  unarchive:
+    src: "{{ json_reponse.json.body | regex_search('https://github.com/.*ttf[^)]*') }}"
+    dest: "{{ mitglieder_path }}/include/fonts"
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+    owner: www-data
+    group: www-data
+
+# get php-iban for iban checking
+- git:
+    repo: 'https://github.com/globalcitizen/php-iban.git'
+    dest: "{{ mitglieder_path }}/include/php-iban"
+  become: yes
+  become_user: www-data
+
+- name: Copy php form obfuscator class
+  copy:
+    src: "{{ role_path }}/files/class_obfuscator.php"
+    dest: "{{ mitglieder_path }}/include/"
+    owner: www-data
+    group: www-data
+
+- name: Copy smarty templates
+  copy:
+    src: "{{ role_path }}/files/smarty-templates/"
+    dest: "{{ mitglieder_path }}/templates/"
+    owner: www-data
+    group: www-data
+
+- name: Copy style.css templates
+  copy:
+    src: "{{ role_path }}/files/style.css"
+    dest: "{{ mitglieder_path }}/styles/"
+    owner: www-data
+    group: www-data
+
+- name: Copy confirm.php
+  copy:
+    src: "{{ role_path }}/files/confirm.php"
+    dest: "{{ mitglieder_path }}"
+    owner: www-data
+    group: www-data
+
+- name: write index.php
+  template:
+    src: "index.php.j2"
+    dest: "{{ mitglieder_path }}/index.php"
+    owner: www-data
+    group: www-data
+
+- name: ensure directories for new members are there
+  file:
+    path: "{{ mitglieder_path }}/new_members"
+    state: directory
+    owner: www-data
+    group: www-data
+
+- name: ensure directories for pending members are there
+  file:
+    path: "{{ mitglieder_path }}/pending_members"
+    state: directory
+    owner: www-data
+    group: www-data
+
+# install passlib for htaccess generation
+- pip:
+    name: passlib>=1.6
+
+- htpasswd:
+    path: "{{ mitglieder_path }}/new_members/.htpasswd"
+    name: vorstand
+    password: "{{ mitglieder_vorstand_htaccess_password }}"
+    owner: root
+    group: www-data
+    mode: 0644
+
+- name: write mitglieder vhost
+  template:
+    src: mitglieder_vhost.conf.j2
+    dest: /etc/nginx/conf.d/mitglieder.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+
+- name: add cronjob to clean old pending (non confirmed) members
+  cron:
+    name: "Mitglieder aufräumen"
+    cron_file: "mitglieder_clean_pending"
+    user: "www-data"
+    special_time: daily
+    job: "find {{ mitglieder_path }}/pending_members -mindepth 1 -mtime +2 -exec rm {} \\;"

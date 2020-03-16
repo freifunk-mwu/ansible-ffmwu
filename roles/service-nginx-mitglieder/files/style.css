@@ -1,0 +1,496 @@
+@charset "UTF-8";
+/* Fonts */
+
+@font-face {
+    font-family: 'LiberationSansRegular';
+    src: url('../include/fonts/LiberationSans-Regular-webfont.eot');
+    src: url('../include/fonts/LiberationSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../include/fonts/LiberationSans-Regular-webfont.woff') format('woff'),
+         url('../include/fonts/LiberationSans-Regular-webfont.ttf') format('truetype'),
+         url('../include/fonts/LiberationSans-Regular-webfont.svg#LiberationSansRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LiberationSansItalic';
+    src: url('../include/fonts/LiberationSans-Italic-webfont.eot');
+    src: url('../include/fonts/LiberationSans-Italic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../include/fonts/LiberationSans-Italic-webfont.woff') format('woff'),
+         url('../include/fonts/LiberationSans-Italic-webfont.ttf') format('truetype'),
+         url('../include/fonts/LiberationSans-Italic-webfont.svg#LiberationSansItalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LiberationSansBold';
+    src: url('../include/fonts/LiberationSans-Bold-webfont.eot');
+    src: url('../include/fonts/LiberationSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../include/fonts/LiberationSans-Bold-webfont.woff') format('woff'),
+         url('../include/fonts/LiberationSans-Bold-webfont.ttf') format('truetype'),
+         url('../include/fonts/LiberationSans-Bold-webfont.svg#LiberationSansBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LiberationMonoRegular';
+    src: url('../include/fonts/LiberationMono-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LiberationMonoItalic';
+    src: url('../include/fonts/LiberationMono-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LiberationMonoBold';
+    src: url('../include/fonts/LiberationMono-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Style */
+
+html,body {
+    font-family: 'LiberationMonoRegular';
+    color: #181818;
+    padding:0;
+    margin:0;
+    background:white;
+    font-size: 15px;
+    line-height: 19px;
+}
+
+i {
+    font-family: 'LiberationMonoItalic';
+    font-style: normal;
+}
+
+
+a:link { color:#181818; text-decoration: underline; }
+a:visited { color:#181818; text-decoration: underline; }
+a:focus { color:#181818; text-decoration:underline; }
+a:hover { color:#fe2836; text-decoration:underline; }
+a:active { color:#181818; text-decoration:underline; }
+
+
+#largetype a:link { color:#181818; text-decoration: none; }
+#largetype a:visited { color:#181818; text-decoration: none; }
+#largetype a:focus { color:#181818; text-decoration:none; }
+#largetype a:hover { color:#fe2836; text-decoration:none; }
+#largetype a:active { color:#181818; text-decoration:none; }
+
+#mediumtype a:link { color:#181818; text-decoration: none; }
+#mediumtype a:visited { color:#181818; text-decoration: none; }
+#mediumtype a:focus { color:#181818; text-decoration:none; }
+#mediumtype a:hover { color:#fe2836; text-decoration:none; }
+#mediumtype a:active { color:#181818; text-decoration:none; }
+
+
+h1 {
+    font: 34px/34px 'LiberationSansBold', Arial, sans-serif;
+    letter-spacing: 0;
+    margin: 0;
+    padding: 20px 0 0 30px;
+    font-weight: normal;
+}
+
+h2 {
+    font: 15px/19px 'LiberationMonoRegular', Arial, sans-serif;
+    letter-spacing: 0;
+    margin: 0px;
+    padding: 0px;
+    text-transform: uppercase;
+    font-weight: normal;
+    text-indent: 25px;
+}
+
+h3 {
+    /*font: 15px/19px 'LiberationMonoBold', Arial, sans-serif;*/
+    font: 15px/19px 'LiberationMonoBold', Arial, sans-serif;    font-weight: normal;
+    letter-spacing: 0px;
+    margin: 0px;
+    padding: 0px;
+    text-transform: uppercase;
+    text-indent: 25px;
+    }
+
+.einzug {
+    *text-indent: 25px;
+    margin-left: 25px;
+}
+
+
+/* GRUNDSTRUKTUR */
+
+#wrapper {
+    position:absolute;
+    height:100%;
+    width:100%;
+}
+
+    .panel {
+        position:relative;
+        *height:100%;
+        *min-height:100%;
+        width:100%;
+        z-index:100;
+    }
+
+        .wrappercontent {
+            background:white;
+            padding:100px 0 30px 0;
+            -moz-box-shadow: 0 0 10px 0px #333;
+            -webkit-box-shadow: 0 0 10px 0px#333;
+            box-shadow: 0 0 10px 0px #333;
+            z-index:100;
+        }
+
+        #impressum {
+            background: #1a1a1a;
+            min-height: 90%;
+            color: white;
+        }
+
+
+#navigation {
+    position: absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    height:60px;
+    z-index:9666;
+    text-align: center;
+    text-transform: normal;
+    background: white;
+}
+
+    #navi {
+        margin-left: 20px;
+        margin-top: 0px;
+		padding:0;
+        width:770px;
+        display:block;
+        height:60px;
+        text-align: left;
+        
+    }
+
+        #navi li {
+            display:inline;
+            line-height:60px;
+            vertical-align: middle;
+            list-style-type: none;
+            padding: 0 7px;
+        }
+
+        #navi li.current, #navi li.current a:link {
+           color:#fe2836;
+           text-decoration:underline;
+        }
+
+       #navi li a:link { color:#181818; text-decoration: none; }
+       #navi li a:visited { color:#181818; text-decoration: none; }
+       #navi li a:focus { color:#181818; text-decoration:none; }
+       #navi li a:hover { color:#fe2836; text-decoration:underline; }
+       #navi li a:active { color:#181818; text-decoration:none; }
+
+    .image-content {
+        position:relative;
+        height:130%;
+        background-attachment: fixed;
+        background-position: center center;
+        background-repeat: no-repeat;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        color:white;
+        z-index:2;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        background-color:black;
+    }
+
+    #fixed-wrapper{
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        }
+
+#fix1 {
+    z-index:1;
+    background-image: url('../images/start_rotate/4.jpg');
+    height:100%;
+}
+
+#fix2 {
+    z-index:2;
+    background-image: url('../images/start_rotate/2.jpg');
+}
+
+#fix3 {
+    z-index:3;
+    background-image: url('../images/start_rotate/1.jpg');
+}
+
+#fix4 {
+    z-index:4;
+    background-image: url('../images/start_rotate/7.jpg');
+}
+
+#fix5 {
+    z-index:5;
+    background-image: url('../images/start_rotate/3.jpg');
+}
+
+#fix6 {
+    z-index:6;
+    background-image: url('../images/start_rotate/6.jpg');
+}
+
+#fix6a {
+    z-index:6;
+    background-image: url('../images/start_rotate/6.jpg');
+}
+
+#fix7 {
+    z-index:7;
+    background-image: url('../images/start_rotate/2.jpg');
+}
+
+
+
+/* ---- fixe elemente ---*/
+
+
+.fixed {
+    position:fixed;
+    z-index:9555;
+}
+
+.fixedMore {
+    position:fixed;
+    z-index: 9999;
+}
+
+.fixed99 {
+    position:fixed;
+    z-index:99;
+}
+
+
+a#contact_a:link, a#contact_a:visited {
+    left: 30px;
+    bottom: 10px;
+    color:white;
+}
+
+#description_a {
+    bottom: 10px;
+    left: 50%;
+    width: 400px;
+    margin-left: -200px;
+    text-align: center;
+    color:white;
+}
+
+#description_a.invert, a#contact_a.invert, a#nach_oben.invert, #navi li a.invert {
+    color:black;
+}
+
+#navi li a.invert {
+    color:white;
+}
+
+#nach_oben {
+    width: 200px;
+    right: 30px;
+    bottom: 10px;
+    text-align: right;
+    color:white;
+    display:none;
+}
+
+.bu {
+    font-size: 12px;
+    text-indent: 14px;
+}
+
+
+#social-small {
+    position: absolute;
+    top: 20px;
+    right: 15px;
+    z-index: 5;
+}
+
+
+#wortmarke {
+    text-align: center;
+}
+
+
+#nach_oben, #contact_a, #contact_b, #description_a, #description_b, #navigation, #impressum {
+    font-family: "LiberationMonoRegular";
+    font-size: 15px;
+}
+
+#description_b {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    width: 400px;
+    margin-left: -200px;
+    text-align: center;
+}
+
+#logo_small {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 48px;
+    z-index: 5;
+    display: none;
+}
+
+#logo_small_top {
+    position: absolute;
+    top: 65px;
+    right: 15px;
+    width: 48px;
+    z-index: 5;
+    
+}
+
+
+#interim {
+    position: absolute;
+    font-family: "LiberationSansBold";
+    text-transform: none;
+    top: 20px;
+    left: 56px;
+    text-align: left;
+}
+
+
+.content {
+    position: relative;
+    top: 80px;
+    padding: 50px;
+    text-indent: 25px;
+
+}
+
+.content_left, .content_right {
+    min-width: 400px;
+    max-width: 550px;
+    position: relative;
+    padding: 0 30px 0 30px;
+
+}
+
+.content_left {
+    float: left;
+}
+
+.content_right {
+    float: left;
+    padding-top: 40px;
+    padding-left:60px;
+    *padding-bottom: 30px;
+}
+
+p {
+    margin-top: 0px;
+}
+
+
+#contact_b {
+    position: fixed;
+    left: 30px;
+    bottom: 10px;
+}
+
+
+
+#ffmzlogo {
+    position: absolute;
+    vertical-align: center;
+    left:50%;
+    top: 50%;
+    margin-top: -210px;
+    margin-left: -200px;
+    background-image:url('../images/ffmz_logo.png');
+    width: 400px;
+    height: 400px;
+}
+
+#impressum-link {
+    position: fixed;
+    left: 20px;
+    bottom: 10px;
+    text-align: left;
+    color:white;
+}
+
+#we_build {
+    position: relative;
+    right: 30px;
+    top: 00px;
+    background-image: url('../images/we_build.png');
+    width: 415px;
+    height: 415px;
+    z-index: -1;
+}
+
+
+#get_involved {
+    position: absolute;
+    right: 30px;
+    top: 400px;
+    width: 262px;
+    height: 212px;
+    background-image: url('../images/get_involved_black.png');
+    /* Firefox */
+    -moz-transition: all 1s ease;
+    /* WebKit */
+    -webkit-transition: all 1s ease;
+    /* Opera */
+    -o-transition: all 1s ease;
+    /* Standard */
+    transition: all 1s ease;
+}
+
+
+#get_involved:hover {
+    -moz-transform:rotate(360deg);
+    -webkit-transform:rotate(360deg);
+    -o-transform:rotate(360deg);
+    transform:rotate(360deg);
+}
+
+.mediumtype {
+    font-size: 22px;
+    line-height: 23px;
+    font-family: "LiberationSansBold";
+}
+
+td {
+    padding: 0 25px 0 0;
+}
+
+#flashgluon {
+            background:white;
+            padding:100px 0 30px 0;
+}
