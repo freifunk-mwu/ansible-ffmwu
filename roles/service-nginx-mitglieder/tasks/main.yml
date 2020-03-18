@@ -9,6 +9,7 @@
   loop:
     - smarty3
     - smarty-validate
+    - php-mail
     - php-mail-mime
 
 - name: get latest liberation fonts release
@@ -80,6 +81,13 @@
   file:
     path: "{{ mitglieder_path }}/new_members"
     state: directory
+    owner: www-data
+    group: www-data
+
+- name: Copy index.php for new_members directory
+  copy:
+    src: "{{ role_path }}/files/index_members.php"
+    dest: "{{ mitglieder_path }}/new_members/index.php"
     owner: www-data
     group: www-data
 

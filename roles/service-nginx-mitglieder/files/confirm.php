@@ -1,7 +1,7 @@
 <?php
 // Load and start smarty
 require_once ('smarty3/Smarty.class.php');
-$smarty = & new Smarty;
+$smarty = new Smarty;
 
 
 if (file_exists ( './pending_members/'.$_GET['id'].".csv")){
@@ -21,20 +21,21 @@ if (file_exists ( './pending_members/'.$_GET['id'].".csv")){
 
   $headers['From']    = 'vorstand@freifunk-mainz.de';
   $headers['To']      = 'vorstand@freifunk-mainz.de';
-  $headers['Subject'] = 'Ein neues Mitglied möchte zum '.$member_data[22]." aufgenommen werden";
+  $headers['Content-type']  = 'text/plain; charset=utf-8';
+  $headers['Subject'] = '=?UTF-8?B?'.base64_encode('Ein neues Mitglied möchte zum '.$member_data[22]." aufgenommen werden").'?=';
 
   $url="https://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
   $url=substr($url, 0, strrpos($url, '/') + 1);
 
   $mail_object =& Mail::factory('mail', '');
-  $mail_object->send('vorstand@freifunk-mainz.de', $headers, "Name: ".$member_data[5]." ".$member_data[4]."\nDaten: ".$url.'new_members/'.$_GET['id'].".csv");
+  $mail_object->send('vorstand@freifunk-mainz.de', $headers, "Name: ".$member_data[5]." ".$member_data[4]."\nDaten: ".$url.'new_members/');
 
 }
 elseif (file_exists ( './new_members/'.$_GET['id'].".csv")){
   $message="Deine Mitgliedschaftsantrag ist bereits bei uns eingetroffen. Bitte gib uns noch etwas Zeit den Antrag zu bearbeiten.";
 }
 else{
-  $message="Falsche Id angegeben.";
+  $message="Entweder du hast eine falsche Id angegeben, oder dein Antrag wurde bereits bearbeitet, du hast aber noch keine willkommens Email erhalten.";
 }
 
 // Render Template for answer

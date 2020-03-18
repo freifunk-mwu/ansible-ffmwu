@@ -34,12 +34,10 @@ server {
   location  /pending_members {deny  all;}
   location  /templates {deny  all;}
   location  /templates_c {deny  all;}
-  location  /include {deny  all;}
 
   location /new_members {
     auth_basic           "Restricetd Content";
     auth_basic_user_file {{ mitglieder_path }}/new_members/.htpasswd;
-    autoindex on;
   }
 
   # Just in case, hide .svn and .git too
