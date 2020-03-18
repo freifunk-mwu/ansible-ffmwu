@@ -119,3 +119,7 @@ mediawiki_extensions: # IMPORTANT: update links when changing major version!
     conf: 'enableSemantics( "{{ http_mediawiki_external }}" );'
 
 http_firmware_selector_prefix: wizard
+
+mitglieder_path: "{{ www_path }}/freifunk-mainz/mitglieder"
+mitglieder_url: "mitglieder.freifunk-mainz.de"
+mitglieder_vorstand_htaccess_password: "{{ lookup('passwordstore', inventory_hostname_short + '/mitglieder_vorstand_htaccess') }}"
