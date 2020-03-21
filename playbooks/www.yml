@@ -10,3 +10,4 @@
   - service-nginx-firmware-selector
   - service-nginx-mediawiki
   - service-nginx-mitglieder
+  - service-nginx-git-homepage

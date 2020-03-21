@@ -1,0 +1,39 @@
+---
+- name: install packages
+  package:
+    name: "git"
+    state: present
+
+- name: get repos
+  git:
+    repo: "{{ item.git_repo }}"
+    dest: "{{ item.path }}"
+  loop: "{{ git_homepages|flatten(levels=1) }}"
+
+- name: change owner of repos
+  file:
+    path: "{{ item.path }}"
+    owner: "www-data"
+    group: "www-data"
+    state: directory
+    recurse: yes
+  loop: "{{ git_homepages|flatten(levels=1) }}"
+
+- name: write vhost
+  template:
+    src: vhost.conf.j2
+    dest: /etc/nginx/conf.d/{{ item|first }}-www-git.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+  loop: "{{ git_homepages|flatten(levels=1) }}"
+
+- name: add cronjob to update homepages from git
+  cron:
+    name: "Pull {{ item|first }} homepage"
+    cron_file: "homepage_pull_{{ item|first }}"
+    user: "www-data"
+    special_time: hourly
+    job: "git -C {{ item.path }} pull origin master"
+  loop: "{{ git_homepages|flatten(levels=1) }}"
