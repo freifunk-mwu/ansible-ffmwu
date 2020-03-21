@@ -6,7 +6,6 @@
   roles:
   - service-nginx-wordpress
   - service-nginx-etherpad
-  - service-nginx-mwu-landing-page
   - service-nginx-firmware-selector
   - service-nginx-mediawiki
   - service-nginx-mitglieder

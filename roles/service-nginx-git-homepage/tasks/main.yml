@@ -8,7 +8,7 @@
   git:
     repo: "{{ item.git_repo }}"
     dest: "{{ item.path }}"
-  loop: "{{ git_homepages|flatten(levels=1) }}"
+  loop: "{{ git_homepages }}"
 
 - name: change owner of repos
   file:
@@ -17,7 +17,7 @@
     group: "www-data"
     state: directory
     recurse: yes
-  loop: "{{ git_homepages|flatten(levels=1) }}"
+  loop: "{{ git_homepages }}"
 
 - name: write vhost
   template:
@@ -27,7 +27,7 @@
     group: root
     mode: 0644
   notify: restart nginx
-  loop: "{{ git_homepages|flatten(levels=1) }}"
+  loop: "{{ git_homepages }}"
 
 - name: add cronjob to update homepages from git
   cron:
@@ -36,4 +36,4 @@
     user: "www-data"
     special_time: hourly
     job: "git -C {{ item.path }} pull origin master"
-  loop: "{{ git_homepages|flatten(levels=1) }}"
+  loop: "{{ git_homepages }}"
