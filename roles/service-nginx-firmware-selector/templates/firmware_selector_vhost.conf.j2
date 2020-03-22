@@ -16,6 +16,10 @@ server {
 
     root {{ firmware_selector_path }};
     index index.html index.htm;
+
+    location /images {
+        return 301 https://firmware.{{ http_domain_external }};
+    }
 }
 
 {% for mesh in meshes %}
