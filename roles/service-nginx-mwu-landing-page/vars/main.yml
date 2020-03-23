@@ -1,6 +1,0 @@
----
-http_mwu_landing_page_external: "www.{{ http_domain_external }}"
-http_mwu_landing_page_internal: "www.{{ http_domain_internal }}"
-
-mwu_landing_page_path: "/var/www/mwu_landing_page"
-mwu_landing_page_src: "https://github.com/freifunk-mwu/www.freifunk-mwu.de.git"
