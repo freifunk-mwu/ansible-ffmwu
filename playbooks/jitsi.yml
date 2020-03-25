@@ -1,0 +1,7 @@
+#!/usr/bin/ansible-playbook
+---
+- name: Manage Jitsi Conference Servers.
+  hosts: jitsi
+
+  roles:
+  - udelarinterior.jitsi_meet

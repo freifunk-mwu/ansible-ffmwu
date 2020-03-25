@@ -7,3 +7,4 @@
 - import_playbook: buildservers.yml
 - import_playbook: unifi.yml
 - import_playbook: www.yml
+- import_playbook: jitsi.yml
