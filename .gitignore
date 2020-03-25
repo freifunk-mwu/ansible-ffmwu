@@ -8,3 +8,5 @@ roles/lean_delivery.java
 roles/geerlingguy.php
 roles/systemli.etherpad
 roles/geerlingguy.nodejs
+roles/udelarinterior.jitsi_meet
+roles/systemli.jitsi_meet_exporter
