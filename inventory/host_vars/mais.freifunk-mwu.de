@@ -1,0 +1,20 @@
+---
+server_type: "service"
+
+magic: 128
+
+jitsi_meet_cert_choice: "I want to use my own certificate"
+jitsi_meet_server_name: "meet.{{ http_domain_external }}"
+jitsi_meet_authentication: anonymous
+
+jitsi_meet_jicofo_loglevel: INFO
+jitsi_meet_videobridge_loglevel: INFO
+
+jitsi_meet_disable_third_party_requests: true
+jitsi_meet_configure_firewall: false
+jitsi_meet_configure_nginx: false
+jitsi_meet_customize_the_ui: true
+
+jitsi_meet_lang: 'de'
+jitsi_meet_appname: 'Freifunk MWU Jitsi Meet'
+jitsi_meet_org_link: 'https://www.freifunk-mwu.de'
