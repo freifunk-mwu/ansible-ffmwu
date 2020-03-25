@@ -13,6 +13,7 @@ packages:
   - python-pip
   - python3-pip
   - python3-yaml
+  - rsync
   - sysfsutils
   - unattended-upgrades
   - vim
