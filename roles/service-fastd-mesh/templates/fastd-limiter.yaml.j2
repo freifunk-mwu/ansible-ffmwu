@@ -11,7 +11,9 @@ key_ttl: 900
 
 gateways:
 {% for gateway in groups['gateways'] %}
+{% if not gateway == 'mate.freifunk-mwu.de' %}
   - {{ gateway.rsplit('.freifunk-mwu.de')[0] }}
+{% endif %}
 {% endfor %}
 
 metrics_url: 'https://%s.freifunk-mwu.de:9281/metrics'
