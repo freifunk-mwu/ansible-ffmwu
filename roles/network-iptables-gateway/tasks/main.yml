@@ -12,13 +12,16 @@
     src: nf_conntrack.module.conf.j2
     dest: /etc/modules-load.d/nf_conntrack.conf
 
-- name: load netfilter modules
+- name: load nf_conntrack module
   modprobe:
-    name: "{{ item }}"
+    name: nf_conntrack
     state: present
-  loop:
-    - nf_conntrack
-    - nf_conntrack_ipv4
+
+- name: load nf_conntrack_ipv4 module
+  when: ansible_distribution_major_version|int == 9
+  modprobe:
+    name: nf_conntrack
+    state: present
 
 - name: set netfilter sysctl settings
   sysctl:
