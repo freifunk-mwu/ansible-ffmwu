@@ -1,66 +1,9 @@
 ---
-- name: install dhcp packages
-  package:
-    name: "{{ kea_packages }}"
-    state: present
 
-- name: create systemd override dir for kea-dhcp4-server.service
-  file:
-    path: /etc/systemd/system/kea-dhcp4-server.service.d
-    state: directory
-    owner: root
-    group: root
-    mode: 0755
+- name: install Kea from Debain repository
+  include: debian9.yml
+  when: ansible_distribution_major_version|int == 9
 
-- name: configure systemd unit overrides
-  template:
-    src: kea_dhcp4_server_service_overrides.j2
-    dest: /etc/systemd/system/kea-dhcp4-server.service.d/override.conf
-    owner: root
-    group: root
-    mode: 0644
-  notify:
-    - reload systemd
-    - restart kea-dhcp4-server
-
-- name: configure kea dhcp server
-  template:
-    src: kea_dhcp4.conf.j2
-    dest: /etc/kea/kea-dhcp4.conf
-  notify: restart kea-dhcp4-server
-
-- name: remove kea init file if present
-  file:
-    path: /etc/init.d/kea-dhcp4-server
-    state: absent
-  notify: reload systemd
-
-- name: install kea-exporter
-  pip:
-    name: kea-exporter
-    executable: pip3
-  notify: restart kea-exporter
-
-- name: create systemd unit for exporter
-  template:
-    src: "kea-exporter.service.j2"
-    dest: "/etc/systemd/system/kea-exporter.service"
-  notify: reload systemd
-
-- name: write vhost for exporter
-  template:
-    src: kea_exporter_vhost.conf.j2
-    dest: /etc/nginx/conf.d/kea_exporter.conf
-    owner: root
-    group: root
-    mode: 0644
-  notify: restart nginx
-
-- name: enable systemd units
-  systemd:
-    name: "{{ item }}"
-    enabled: yes
-    state: started
-  loop:
-    - kea-dhcp4-server
-    - kea-exporter
+- name: install Kea from Upsteam repository
+  include: upstream.yml
+  when: ansible_distribution_major_version|int >= 10
