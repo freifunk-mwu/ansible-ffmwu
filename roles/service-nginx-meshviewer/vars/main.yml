@@ -2,12 +2,16 @@
 http_meshviewer_external: "{{ http_meshviewer_prefix }}.{{ http_domain_external }}"
 http_meshviewer_internal: "{{ http_meshviewer_prefix }}.{{ http_domain_internal }}"
 
+http_tiles_prefix: "tiles"
+http_tiles_external: "{{ http_tiles_prefix }}.{{ http_domain_external }}"
+http_tiles_internal: "{{ http_tiles_prefix }}.{{ http_domain_internal }}"
+
 meshviewer_path: "/var/www/{{ http_meshviewer_external }}"
 meshviewer_src: "/home/admin/clones/meshviewer"
 
 map_layers:
   - osm_mapnik:
-    name: 'OpenStreetMap'
-    url: 'https://{{ http_meshviewer_external }}/tiles/{z}/{x}/{y}.png'
+    name: 'OpenStreetMap DE'
+    url: 'https://{{ http_tiles_internal }}/{z}/{x}/{y}.png'
     max_zoom: 19
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'

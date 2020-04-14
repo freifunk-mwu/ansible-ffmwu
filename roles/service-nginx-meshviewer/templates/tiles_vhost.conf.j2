@@ -1,0 +1,60 @@
+proxy_cache_path /var/www/cache
+  levels=1:2 inactive=7d
+  keys_zone=tilecache:64m
+  max_size=2048M;
+proxy_temp_path  /var/www/cache/tmp;
+
+upstream osm_tiles {
+  server a.tile.openstreetmap.de;
+  server b.tile.openstreetmap.de;
+  server c.tile.openstreetmap.de;
+  keepalive 16;
+}
+
+server {
+  listen 80;
+  listen [::]:80;
+  server_name {{ http_tiles_internal }} {{ http_tiles_external }};
+
+  include snippets/letsencrypt-acme-challenge.conf;
+  include snippets/redirect-to-ssl.conf;
+}
+
+server {
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
+  server_name {{ http_tiles_internal }} {{ http_tiles_external }};
+
+  include snippets/ssl.conf;
+  include snippets/letsencrypt-acme-challenge.conf;
+
+  location / {
+    try_files $uri @osm;
+  }
+
+  location @osm {
+    proxy_pass http://osm_tiles;
+    proxy_http_version 1.1;
+    proxy_set_header Connection "";
+    proxy_set_header Accept-Encoding "";
+    proxy_set_header User-Agent "Mozilla/5.0 (compatible; OSMTileCache/1.0; +mailto:admin@lists.freifunk-mwu.de; +https://{{ http_tiles_external }}/)";
+    proxy_set_header Host tile.openstreetmap.de;
+
+    proxy_cache tilecache;
+    proxy_store off;
+    proxy_cache_key $uri$is_args$args;
+    proxy_ignore_headers Expires Cache-Control;
+    proxy_cache_valid 200 301 302 7d;
+    proxy_cache_valid 404 1m;
+    proxy_cache_valid any 1m;
+    proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504 http_403 http_404;
+    proxy_cache_use_stale error timeout updating invalid_header http_500 http_502 http_503 http_504 http_403 http_404;
+
+    proxy_hide_header Via;
+    proxy_hide_header X-Cache;
+    proxy_hide_header X-Cache-Lookup;
+    proxy_hide_header Strict-Transport-Security;
+
+    expires 7d;
+  }
+}

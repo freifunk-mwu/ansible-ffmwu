@@ -49,3 +49,12 @@
     group: root
     mode: 0644
   notify: restart nginx
+
+- name: write vhost
+  template:
+    src: tiles_vhost.conf.j2
+    dest: /etc/nginx/conf.d/tiles.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx

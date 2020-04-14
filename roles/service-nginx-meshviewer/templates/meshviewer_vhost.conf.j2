@@ -1,12 +1,3 @@
-proxy_cache_path  /var/www/cache levels=1:2 keys_zone=osm_tiles:32m max_size=5G;
-proxy_temp_path   /var/www/cache/tmp;
-
-upstream openstreetmap {
-    server  a.tile.openstreetmap.org;
-    server  b.tile.openstreetmap.org;
-    server  c.tile.openstreetmap.org;
-}
-
 server {
     listen 80;
     listen [::]:80;
@@ -28,21 +19,6 @@ server {
 
     location /data {
         alias /var/lib/yanic/data;
-    }
-
-    location /tiles {
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X_FORWARDED_PROTO http;
-        proxy_set_header Host $http_host;
-        proxy_cache osm_tiles;
-        proxy_cache_valid  200 302  7d;
-        proxy_cache_valid  404      1m;
-        proxy_redirect off;
-            if (!-f $request_filename) {
-            rewrite ^/tiles(/.*)$ $1 break;
-            proxy_pass http://openstreetmap;
-            break;
-        }
     }
 
     location / {
