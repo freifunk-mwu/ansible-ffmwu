@@ -5,9 +5,9 @@ proxy_cache_path /var/www/cache
 proxy_temp_path  /var/www/cache/tmp;
 
 upstream osm_tiles {
-  server a.tile.openstreetmap.de;
-  server b.tile.openstreetmap.de;
-  server c.tile.openstreetmap.de;
+  server a.tile.openstreetmap.de:443;
+  server b.tile.openstreetmap.de:443;
+  server c.tile.openstreetmap.de:443;
   keepalive 16;
 }
 
@@ -33,11 +33,11 @@ server {
   }
 
   location @osm {
-    proxy_pass http://osm_tiles;
+    proxy_pass https://osm_tiles;
     proxy_http_version 1.1;
     proxy_set_header Connection "";
     proxy_set_header Accept-Encoding "";
-    proxy_set_header User-Agent "Mozilla/5.0 (compatible; OSMTileCache/1.0; +mailto:admin@lists.freifunk-mwu.de; +https://{{ http_tiles_external }}/)";
+    proxy_set_header User-Agent "Mozilla/5.0 (compatible; OSMTileCache/1.0; +mailto:admin@lists.freifunk-mwu.de; +https://{{ http_meshviewer_external }}/)";
     proxy_set_header Host tile.openstreetmap.de;
 
     proxy_cache tilecache;
