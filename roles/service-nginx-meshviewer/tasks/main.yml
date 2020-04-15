@@ -41,7 +41,7 @@
     chdir: "{{ meshviewer_src }}"
     warn: no
 
-- name: write vhost
+- name: write meshviewer vhost
   template:
     src: meshviewer_vhost.conf.j2
     dest: /etc/nginx/conf.d/meshviewer.conf
@@ -50,7 +50,7 @@
     mode: 0644
   notify: restart nginx
 
-- name: write vhost
+- name: write tiles vhost
   template:
     src: tiles_vhost.conf.j2
     dest: /etc/nginx/conf.d/tiles.conf
