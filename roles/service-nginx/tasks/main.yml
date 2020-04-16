@@ -25,13 +25,19 @@
     path: "{{ nginx_dhparams }}"
     size: 4096
 
-- name: create config snippets directory
+- name: create config directories
   file:
-    path: /etc/nginx/snippets
+    path: "/etc/nginx/{{ item }}"
     state: directory
     mode: 0755
     owner: root
     group: root
+  loop:
+    - modules-available
+    - modules-enabled
+    - sites-available
+    - sites-enabled
+    - snippets
 
 - name: copy gzip.conf to snippets
   copy:
