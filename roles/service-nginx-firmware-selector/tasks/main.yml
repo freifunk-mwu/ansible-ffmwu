@@ -25,3 +25,11 @@
     group: root
     mode: 0644
   notify: restart nginx
+
+- name: add cronjob to update git
+  cron:
+    name: "Pull firmware_selector"
+    cron_file: "pull_firmware_selector"
+    user: "www-data"
+    special_time: hourly
+    job: "git -C {{ firmware_selector_path }} pull origin master"
