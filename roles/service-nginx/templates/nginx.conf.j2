@@ -1,6 +1,8 @@
 user  nginx;
 worker_processes  1;
 
+include /etc/nginx/modules-enabled/*.conf;
+
 error_log  /var/log/nginx/error.log warn;
 pid        /var/run/nginx.pid;
 
@@ -30,4 +32,5 @@ http {
     gzip  on;
 
     include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/sites-enabled/*;
 }
