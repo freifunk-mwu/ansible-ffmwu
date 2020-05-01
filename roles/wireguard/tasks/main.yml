@@ -14,6 +14,7 @@
                             {{ _my_nets }}"
 
 - name: Set unstable pin priority.
+  when: ansible_distribution_major_version|int == 9
   blockinfile:
     dest: "/etc/apt/preferences.d/limit-unstable"
     block: |
@@ -26,6 +27,7 @@
     mode: "0644"
 
 - name: Raise WireGuard pin priority.
+  when: ansible_distribution_major_version|int == 9
   blockinfile:
     dest: "/etc/apt/preferences.d/wireguard"
     block: |
@@ -38,11 +40,29 @@
     mode: "0644"
 
 - name: Add Debian unstable repository.
+  when: ansible_distribution_major_version|int == 9
   apt_repository:
     repo: "deb http://deb.debian.org/debian/ unstable main"
     state: "present"
     filename: "unstable"
     update_cache: True
+
+- name: Remove Debian unstable repository.
+  when: ansible_distribution_major_version|int >= 10
+  apt_repository:
+    repo: "deb http://deb.debian.org/debian/ unstable main"
+    state: "absent"
+    filename: "unstable"
+    update_cache: True
+
+- name: Remove old files
+  when: ansible_distribution_major_version|int >= 10
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "/etc/apt/preferences.d/limit-unstable"
+    - "/etc/apt/preferences.d/wireguard"
 
 - name: Install WireGuard packages.
   package:
