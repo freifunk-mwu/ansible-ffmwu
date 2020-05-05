@@ -16,7 +16,6 @@ server {
   listen [::]:80;
   server_name {{ http_tiles_internal }} {{ http_tiles_external }};
 
-  include snippets/letsencrypt-acme-challenge.conf;
   include snippets/redirect-to-ssl.conf;
 }
 
@@ -26,7 +25,6 @@ server {
   server_name {{ http_tiles_internal }} {{ http_tiles_external }};
 
   include snippets/ssl.conf;
-  include snippets/letsencrypt-acme-challenge.conf;
 
   location / {
     try_files $uri @osm;
