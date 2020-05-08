@@ -67,6 +67,8 @@ etherpad_mysql_database_user: etherpad
 etherpad_mysql_database_password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_etherpad') }}"
 etherpad_mysql_database_port: 3306
 etherpad_plugins: [ep_list_pads,ep_public_view,ep_search]
+etherpad_pad_options_lang: de
+etherpad_default_text: '"Willkommen bei Etherpad!\n\nDieses Pad wird automatisch synchronisiert, wenn du etwas schreibst. Jeder in diesem Pad sieht damit immer denselben Text wie alle Anderen. Dies soll eine reibungslose Zusammenarbeit beim Erstellen von Texten ermöglichen. Hierdurch lässt sich auch der umständliche manuelle Abgleich von Dokumenten vermeiden.\n\nWichtiger Hinweis: Bitte beachte, dass deine Pads von jeder Person, die die URL zu deinem Pad kennt, bearbeitet und gelöscht werden können."'
 
 http_mediawiki_prefix: wiki
 mediawiki_name: "Freifunk MWU Wiki"
