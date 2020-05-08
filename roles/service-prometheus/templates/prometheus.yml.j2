@@ -43,6 +43,23 @@ scrape_configs:
         replacement: '$1'
         target_label: hostname
 
+  - job_name: "bird"
+    scheme: "https"
+    static_configs:
+{%for group in bgp_groups %}
+      - targets:
+{% for host in groups[group] %}
+        - '{{ host }}:9324'
+{% endfor %}
+        labels:
+          group: '{{ group }}'
+{% endfor %}
+    relabel_configs:
+      - source_labels: [__address__]
+        regex: '([a-z]+)\..*'
+        replacement: '$1'
+        target_label: hostname
+
   - job_name: "fastd"
     scheme: "https"
     static_configs:
