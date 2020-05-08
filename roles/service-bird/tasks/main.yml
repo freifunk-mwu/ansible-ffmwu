@@ -61,6 +61,26 @@
     group: bird
   notify: reload systemd unit bird6
 
+- name: build bird-exporter binary
+  shell: "go get -v -u github.com/czerwonk/bird_exporter"
+  environment:
+    GOPATH: "{{ gopath }}"
+  notify: restart bird-exporter
+
+- name: copy vhost bird_exporter.conf
+  template:
+    src: "bird_exporter_vhost.conf.j2"
+    dest: "/etc/nginx/conf.d/bird_exporter.conf"
+  notify: restart nginx
+
+- name: create systemd unit for bird-exporter
+  template:
+    src: "bird-exporter.service.j2"
+    dest: "/etc/systemd/system/bird-exporter.service"
+  notify:
+    - reload systemd
+    - restart bird-exporter
+
 - name: enable + start systemd units bird + bird6
   systemd:
     name: bird{{ item }}
@@ -69,3 +89,9 @@
   loop:
     - ""
     - 6
+
+- name: configure bird-exporter systemd unit
+  systemd:
+    name: "bird-exporter.service"
+    enabled: yes
+    state: started

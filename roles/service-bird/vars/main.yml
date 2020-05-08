@@ -1,0 +1,2 @@
+bird_exporter_path: "{{ gopath }}/bin/bird_exporter"
+bird_exporter_default_opts: "--web.listen-address=localhost:9324 -bird.socket=/var/run/bird/bird.ctl -bird.socket6=/var/run/bird/bird6.ctl -format.new=true"

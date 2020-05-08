@@ -1,4 +1,18 @@
 ---
+- name: reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: restart nginx
+  systemd:
+    name: nginx.service
+    state: restarted
+
+- name: restart bird-exporter
+  systemd:
+    name: bird-exporter.service
+    state: restarted
+
 - name: reload systemd unit bird
   systemd:
     name: bird

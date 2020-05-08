@@ -1,3 +1,5 @@
 ---
 dependencies:
+  - golang
+  - service-nginx
   - wireguard
