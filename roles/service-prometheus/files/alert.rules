@@ -95,3 +95,12 @@ groups:
     annotations:
       description: 'No TX data was seen on a fastd interface for more than 5 minutes'
       summary: 'Instance {{ $labels.hostname }}: No traffic on {{ $labels.interface }}'
+
+- name: bird
+  rules:
+  - alert: BirdProtocolDown
+    expr: bird_protocol_up{import_filter != "icvpn_import_filter"} == 0
+    for: 5m
+    annotations:
+      description: 'The BIRD protocol is down for more than 5 minutes'
+      summary: 'Instance {{ $labels.hostname }}: {{ $labels.name }} ({{ $labels.protocol }}) down'
