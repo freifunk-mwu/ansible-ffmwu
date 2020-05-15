@@ -132,13 +132,20 @@ $wgVerifyMimeType = false;
 
 ## Default skin: you can change the default skin. Use the internal symbolic
 ## names, ie 'vector', 'monobook':
-$wgDefaultSkin = "vector";
+$wgDefaultSkin = "{{ mediawiki_default_skin }}";
 
 # Enabled skins.
 # The following skins were automatically enabled:
-wfLoadSkin( 'MonoBook' );
-wfLoadSkin( 'Timeless' );
-wfLoadSkin( 'Vector' );
+{% for skin in mediawiki_skins %}
+{% if skin.type == "require" %}
+require_once( "$IP/skins/{{ skin.name }}/{{ skin.name }}.php" );
+{% elif skin.type == "load" %}
+wfLoadSkin( '{{ skin.name }}' );
+{% endif %}
+{% if skin.conf is defined %}
+{{ skin.conf }}
+{% endif %}
+{% endfor %}
 
 # Permissions
 $wgGroupPermissions['bureaucrat']['usermerge'] = true;

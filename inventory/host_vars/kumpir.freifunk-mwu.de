@@ -82,6 +82,7 @@ mediawiki_mysql_db: "mediawiki"
 mediawiki_mysql_user: "mediawiki"
 mediawiki_version_major: "1.34"
 mediawiki_version_minor: "1"
+mediawiki_default_skin: "vector"
 mediawiki_extensions: # IMPORTANT: update links when changing major version!
   - name: "ConfirmEdit"
     type: "load"
@@ -120,6 +121,13 @@ mediawiki_extensions: # IMPORTANT: update links when changing major version!
     pkg: mediawiki/semantic-media-wiki
     ver: "3.1"
     conf: 'enableSemantics( "{{ http_mediawiki_external }}" );'
+mediawiki_skins:
+  - name: "MonoBook"
+    type: "load"
+  - name: "Timeless"
+    type: "load"
+  - name: "Vector"
+    type: "load"
 
 http_firmware_selector_prefix: wizard
 

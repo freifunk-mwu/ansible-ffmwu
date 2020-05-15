@@ -78,6 +78,17 @@
   when: item.url is defined
   loop: "{{ mediawiki_extensions }}"
 
+- name: install mediawiki skins (tarballs)
+  unarchive:
+    creates: "{{ mediawiki_path }}/current/skins/{{ item.name }}"
+    src: "{{ item.url }}"
+    dest: "{{ mediawiki_path }}/current/skins/"
+    remote_src: yes
+    owner: www-data
+    group: www-data
+  when: item.url is defined
+  loop: "{{ mediawiki_skins }}"
+
 - name: write composer.local.json
   template:
     src: "composer.local.json.j2"
