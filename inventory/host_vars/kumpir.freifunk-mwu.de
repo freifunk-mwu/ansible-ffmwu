@@ -101,6 +101,9 @@ mediawiki_extensions: # IMPORTANT: update links when changing major version!
   - name: "DeletePagesForGood"
     type: "load"
     url: "https://extdist.wmflabs.org/dist/extensions/DeletePagesForGood-REL1_34-7475b63.tar.gz"
+  - name: "MobileFrontend"
+    type: "load"
+    url: "https://extdist.wmflabs.org/dist/extensions/MobileFrontend-REL1_34-383273b.tar.gz"
   - name: "PageForms"
     type: "load"
     url: "https://extdist.wmflabs.org/dist/extensions/PageForms-REL1_34-95fc81e.tar.gz"
@@ -128,6 +131,10 @@ mediawiki_skins:
     type: "load"
   - name: "Vector"
     type: "load"
+  - name: "MinervaNeue"
+    type: "load"
+    url: "https://extdist.wmflabs.org/dist/skins/MinervaNeue-REL1_34-d0be74a.tar.gz"
+    conf: "$wgMFDefaultSkinClass = 'SkinMinerva';"
 
 http_firmware_selector_prefix: wizard
 
