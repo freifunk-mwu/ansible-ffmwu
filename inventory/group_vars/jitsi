@@ -1,0 +1,6 @@
+---
+ssl_users:
+  - nginx
+  - www-data
+  - prosody
+  - turnserver

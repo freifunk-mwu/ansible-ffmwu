@@ -26,3 +26,8 @@ prometheus_components:
   - node_exporter
 
 fastd_exporter_opts: '--metrics.perpeer'
+
+ssl_users:
+  - nginx
+  - www-data
+  - stunnel4
