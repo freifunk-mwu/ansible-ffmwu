@@ -4,6 +4,13 @@
     name: ssl-cert
     state: present
 
+- name: add users to ssl-cert group
+  user:
+    name: "{{ item }}"
+    groups: ssl-cert
+    append: yes
+  loop: "{{ ssl_users }}"
+
 - name: Add acme_server to known_hosts
   known_hosts:
     path: /etc/ssh/ssh_known_hosts
@@ -24,8 +31,8 @@
     path: "{{ ssl_directory }}/{{ ssl_cert_name }}"
     state: directory
     mode: 0550
-    owner: www-data
-    group: admin
+    owner: admin
+    group: ssl-cert
 
 - name: create snakeoil cert
   shell: make-ssl-cert generate-default-snakeoil
@@ -38,8 +45,8 @@
     dest: "{{ ssl_key_path }}"
     remote_src: yes
     force: no
-    owner: www-data
-    group: admin
+    owner: admin
+    group: ssl-cert
     mode: 0440
 
 - name: copy snakeoil ssl cert for first start
@@ -48,8 +55,8 @@
     dest: "{{ ssl_cert_path }}"
     remote_src: yes
     force: no
-    owner: www-data
-    group: admin
+    owner: admin
+    group: ssl-cert
     mode: 0440
 
 - name: try to sync ssl certs

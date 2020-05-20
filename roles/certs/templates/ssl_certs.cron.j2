@@ -12,7 +12,7 @@ for DOMAIN in $DOMAINS; do
 done
 
 #Fix owners
-chown -R www-data:admin $LOCAL_DIR
+chown -R admin:ssl-cert $LOCAL_DIR
 
 #restart
 systemctl reload nginx.service || systemctl start nginx.service
