@@ -103,4 +103,4 @@ groups:
     for: 5m
     annotations:
       description: 'The BIRD protocol is down for more than 5 minutes'
-      summary: 'Instance {{ $labels.hostname }}: {{ $labels.name }} ({{ $labels.protocol }}) down'
+      summary: 'Instance {{ $labels.hostname }}: {{ $labels.name }} ({{ $labels.proto }} v{{ $labels.ip_version }}) down'
