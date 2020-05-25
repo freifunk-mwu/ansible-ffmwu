@@ -429,6 +429,71 @@ wireguard_networks:
       - mate
       - gurke
     port: 50077
+  - ipv4: 10.87.253.156/31
+    peers:
+      - griesbrei
+      - ingwer
+    port: 50078
+  - ipv4: 10.87.253.158/31
+    peers:
+      - griesbrei
+      - spinat
+    port: 50079
+  - ipv4: 10.87.253.160/31
+    peers:
+      - griesbrei
+      - uffschnitt
+    port: 50080
+  - ipv4: 10.87.253.162/31
+    peers:
+      - griesbrei
+      - lotuswurzel
+    port: 50081
+  - ipv4: 10.87.253.164/31
+    peers:
+      - griesbrei
+      - wasserfloh
+    port: 50082
+  - ipv4: 10.87.253.166/31
+    peers:
+      - griesbrei
+      - reis
+    port: 50083
+  - ipv4: 10.87.253.168/31
+    peers:
+      - griesbrei
+      - kichererbse
+    port: 50084
+  - ipv4: 10.87.253.170/31
+    peers:
+      - mais
+      - griesbrei
+    port: 50085
+  - ipv4: 10.87.253.172/31
+    peers:
+      - griesbrei
+      - unifi
+    port: 50086
+  - ipv4: 10.87.253.174/31
+    peers:
+      - griesbrei
+      - kumpir
+    port: 50087
+  - ipv4: 10.87.253.176/31
+    peers:
+      - griesbrei
+      - morchel
+    port: 50088
+  - ipv4: 10.87.253.178/31
+    peers:
+      - griesbrei
+      - gurke
+    port: 50089
+  - ipv4: 10.87.253.180/31
+    peers:
+      - griesbrei
+      - mate
+    port: 50090
 
 fastd_groups:
   - gateways

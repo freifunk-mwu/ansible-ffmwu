@@ -1,0 +1,30 @@
+---
+additional_packages:
+  - ecdsautils
+  - haveged
+
+additional_repos:
+  site-ffmwu:
+    repo_url: https://github.com/freifunk-mwu/site-ffmwu.git
+    version: master
+    force: no
+
+rsync_folders:
+  firmware:
+    comment: 'gluon firmware builds'
+    path: '/var/www/html/firmware'
+    read only: 'yes'
+    list: 'yes'
+    uid: 'admin'
+    gid: 'admin'
+    strict modes: 'yes'
+    ignore nonreadable: 'yes'
+  archive:
+    comment: 'gluon firmware archive'
+    path: '/var/www/html/_archive'
+    read only: 'yes'
+    list: 'yes'
+    uid: 'admin'
+    gid: 'admin'
+    strict modes: 'yes'
+    ignore nonreadable: 'yes'
