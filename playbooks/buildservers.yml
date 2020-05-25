@@ -1,15 +1,8 @@
 #!/usr/bin/ansible-playbook
 ---
-- name: Manage firmware buid servers
+- name: Manage firmware build servers
   hosts: buildservers
 
   roles:
-  - prerequisites
-  - server-apt-repos
-  - server-basic
-  - users
-  - service-haveged
-  - service-ntpd
-  - service-vnstat
-  - service-nginx
-  - firmware-build-server
+  - service-docker
+  - service-rsync
