@@ -1,3 +1,4 @@
 ---
+git_path: /home/admin/clones
 git_packages:
   - "git"
