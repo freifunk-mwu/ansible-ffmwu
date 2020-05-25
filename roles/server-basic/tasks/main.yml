@@ -21,6 +21,12 @@
     name: "{{ packages }}"
     state: present
 
+- name: ensure additional packages are installed
+  when: additional_packages is defined
+  package:
+    name: "{{ additional_packages }}"
+    state: present
+
 - name: ensure vim is default editor
   alternatives:
     name: editor
