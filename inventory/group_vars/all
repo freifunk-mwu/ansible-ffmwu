@@ -514,6 +514,8 @@ mail_server: morchel.freifunk-mwu.de
 
 acme_server: reis
 
+firmware_server: griesbrei
+
 unifi_server: unifi
 
 git_path: "/home/admin/clones"
