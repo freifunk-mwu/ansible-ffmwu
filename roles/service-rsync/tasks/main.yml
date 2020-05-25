@@ -1,0 +1,33 @@
+---
+- name: install rsnycd configuration file
+  template:
+    src: rsyncd.conf.j2
+    dest: /etc/rsyncd.conf
+    mode: 0640
+    owner: root
+    group: root
+  notify: restart rsync
+
+- name: install rsnyc systemd unit
+  template:
+    src: rsync.service.j2
+    dest: /etc/systemd/system/
+    mode: 0644
+    owner: root
+    group: root
+  notify: restart rsync
+
+- name: create rsync folders
+  file:
+    path: "{{ item.value.path }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ item.value.uid }}"
+    group: "{{ item.value.gid }}"
+  loop: "{{ rsync_folders | dict2items }}"
+
+- name: ensure rsync is enabled and started
+  systemd:
+    name: rsync
+    state: started
+    enabled: True

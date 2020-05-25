@@ -1,0 +1,6 @@
+---
+- name: restart rsync
+  systemd:
+    daemon_reload: yes
+    name: rsync
+    state: restarted
