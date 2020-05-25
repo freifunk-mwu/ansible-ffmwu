@@ -12,11 +12,20 @@
     owner: admin
     group: admin
 
-- name: clone git repositories
+- name: clone common git repositories
   git:
     repo: "{{ item.value.repo_url }}"
-    dest: "/home/admin/clones/{{ item.key }}"
+    dest: "{{ git_path }}/{{ item.key }}"
     version: "{{ item.value.version }}"
     force: "{{ item.value.force }}"
   loop: "{{ common_repos | dict2items }}"
+  become: false
+
+- name: clone additional git repositories
+  git:
+    repo: "{{ item.value.repo_url }}"
+    dest: "{{ git_path }}/{{ item.key }}"
+    version: "{{ item.value.version }}"
+    force: "{{ item.value.force }}"
+  loop: "{{ additional_repos | default(dict()) | dict2items }}"
   become: false
