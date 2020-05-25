@@ -12,7 +12,7 @@ additional_repos:
 rsync_folders:
   firmware:
     comment: 'gluon firmware builds'
-    path: '/var/www/html/firmware'
+    path: '/home/admin/firmware'
     read only: 'yes'
     list: 'yes'
     uid: 'admin'
@@ -21,7 +21,7 @@ rsync_folders:
     ignore nonreadable: 'yes'
   archive:
     comment: 'gluon firmware archive'
-    path: '/var/www/html/_archive'
+    path: '/home/admin/archive'
     read only: 'yes'
     list: 'yes'
     uid: 'admin'

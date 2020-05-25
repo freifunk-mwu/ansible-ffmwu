@@ -1,0 +1,17 @@
+use chroot = true
+
+max connections = 10
+timeout = 300
+
+transfer logging = false
+log file = /var/log/rsyncd.log
+
+{% for folder, parameters in rsync_folders.items() %}
+[{{ folder }}]
+{% for parameter, value in parameters.items() %}
+{{ parameter }} = {{ value }}
+{% if loop.last %}
+
+{% endif %}
+{% endfor %}
+{% endfor %}
