@@ -1,0 +1,45 @@
+---
+- name: ensure apt key for is present
+  apt_key:
+    state: present
+    id: 0EBFCD88
+    url: "https://download.docker.com/linux/debian/gpg"
+
+- name: ensure apt repo is present
+  apt_repository:
+    state: present
+    repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+    update_cache: yes
+    filename: docker
+
+- name: install packages
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+
+- name: add the user 'admin' to docker group
+  user:
+    name: admin
+    groups: docker
+    append: yes
+
+- name: install daemon.json
+  copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: '0600'
+  notify:
+    - restart docker
+
+
+- name: configure systemd unit
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
