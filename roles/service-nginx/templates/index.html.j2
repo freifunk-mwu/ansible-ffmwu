@@ -17,12 +17,12 @@
 </head>
 <body>
     <header>
-        <h1>Freifunk MWU Server <a href="./index.html">{{ inventory_hostname_short }}</a></h1>
+        <h1><a href="https://www.freifunk-mwu.de">Freifunk MWU</a> Server <a href="./index.html">{{ inventory_hostname_short }}</a></h1>
     </header>
-{% if server_type == "firmware-build" or server_type == "gateway" %}
+{% if "gateways" in group_names or "buildservers" in group_names %}
     <div class="block"><a href="firmware">Firmware</a></div>
 {% endif %}
-{% if server_type == "firmware-build" %}
+{% if "buildservers" in group_names %}
     <div class="block"><a href="_archive">Firmware Archiv</a></div>
 {% endif %}
 </body>
