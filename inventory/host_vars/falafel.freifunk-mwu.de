@@ -1,0 +1,32 @@
+---
+storage_pool_name: root
+storage_pv_name: md0
+
+libvirt_host_pools:
+  - name: lvm_pool
+    type: lvm2
+    source: root
+    target: /dev/root
+    pvs:
+      - /dev/md0
+libvirt_host_networks:
+  - name: br-main
+    mode: bridge
+    bridge: br-pbl
+
+libvirt_vms:
+        - state: present
+          name: 'gurke'
+          memory_mb: 4096
+          vcpus: 4
+          enable_vnc: true
+          autostart: true
+          machine: 'pc-q35-3.1'
+          volumes:
+            - name: 'root_gurke'
+              device: 'disk'
+              format: 'raw'
+              capacity: '35GB'
+              pool: 'lvm_pool'
+          interfaces:
+            - network: 'br-main'

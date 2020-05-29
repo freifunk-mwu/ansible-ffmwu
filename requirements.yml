@@ -6,3 +6,5 @@
 - src: lean_delivery.java
 - src: geerlingguy.php
 - src: systemli.etherpad
+- src: stackhpc.libvirt-host
+- src: stackhpc.libvirt-vm
