@@ -10,6 +10,13 @@ route:
   repeat_interval: 3h
   receiver: 'mail_irc'
 
+inhibit_rules:
+- source_match:
+    alertname: MaschineDown
+  target_match_re:
+    alertname: (ExporterDown|Icmp4Timeout|Icmp6Timeout)
+  equal: [hostname]
+
 receivers:
   - name: 'mail_irc'
     email_configs:

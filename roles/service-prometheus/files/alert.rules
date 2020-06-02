@@ -1,15 +1,26 @@
 groups:
+- name: aggregate
+  rules:
+  - alert: MachineDown
+    expr: avg without (job) (probe_success{job=~"icmp(4|6)"}) < 0.5
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      description: 'Machine is down'
+      summary: 'Machine {{ $labels.hostname }} is down'
+
 - name: blackbox
   rules:
   - alert: Icmp4Timeout
-    expr: (probe_success{job="icmp4"} == 0 and on(hostname) ALERTS{alertname="InstanceDown"} == 0) or (probe_success{job="icmp4",hostname=~"zuckerwatte"} == 0)
+    expr: probe_success{job="icmp4"} == 0
     for: 5m
     annotations:
       description: 'ICMP requests to the primary IPv4 address timed out'
       summary: 'Instance {{ $labels.hostname }} does not respond to ICMPv4 echo requests'
 
   - alert: Icmp6Timeout
-    expr: (probe_success{job="icmp6"} == 0 and on(hostname) ALERTS{alertname="InstanceDown"} == 0) or (probe_success{job="icmp6",hostname=~"zuckerwatte"} == 0)
+    expr: probe_success{job="icmp6"} == 0
     for: 5m
     annotations:
       description: 'ICMP requests to the primary IPv6 address timed out'
@@ -17,15 +28,8 @@ groups:
 
 - name: node
   rules:
-  - alert: InstanceDown
-    expr: up{job="node"} == 0
-    for: 5m
-    annotations:
-      description: 'The instance is down for more than 5 minutes'
-      summary: 'Instance {{ $labels.hostname }} is down'
-
   - alert: ExporterDown
-    expr: up{job!="node"} == 0 and ON(hostname) ALERTS{alertname="InstanceDown"} == 0
+    expr: up == 0
     for: 5m
     annotations:
       description: 'An exporter is down for more than 5 minutes'
@@ -95,6 +99,28 @@ groups:
     annotations:
       description: 'No TX data was seen on a fastd interface for more than 5 minutes'
       summary: 'Instance {{ $labels.hostname }}: No traffic on {{ $labels.interface }}'
+
+- name: kea
+  rules:
+  - alert: DHCPPoolExhausted
+    expr: kea_dhcp4_addresses_total - kea_dhcp4_addresses_assigned_total == 0
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      description: 'A DHCP pool is exhausted for more than 5 minutes'
+      summary: 'The DHCP pool for {{ $labels.subnet }} on {{ $labels.hostname }} is exhausted'
+      value: '{{ $value }}'
+
+  - alert: DHCPPoolHighUsage
+    expr: kea_dhcp4_addresses_total - kea_dhcp4_addresses_assigned_total < 50
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      description: 'A DHCP pool is experiencing high usage for more than 5 minutes'
+      summary: 'The DHCP pool for {{ $labels.subnet }} on {{ $labels.hostname }} is experiencing high usage'
+      value: '{{ $value }}'
 
 - name: bird
   rules:
