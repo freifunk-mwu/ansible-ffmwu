@@ -1,0 +1,9 @@
+[Unit]
+Description=Run apt metrics collection every 15 minutes
+
+[Timer]
+OnBootSec=15
+OnUnitActiveSec=15min
+
+[Install]
+WantedBy=timers.target

@@ -24,6 +24,7 @@ prometheus_rule_files: [ "alert.rules" ]
 prometheus_file_sd_config_path: "{{ prometheus_config_path }}/tgroups"
 prometheus_db_path: /var/lib/prometheus
 alertmanager_db_path: /var/lib/alertmanager
+prometheus_textfile_path: "{{ prometheus_db_path }}/node-exporter"
 
 prometheus_download_path: /tmp
 prometheus_workdir: "{{ prometheus_download_path }}/prometheus_workdir"
