@@ -91,6 +91,41 @@ groups:
       summary: 'Instance {{ $labels.hostname }}: Service {{ $labels.name }} is flapping'
       value: '{{ $labels.name }}'
 
+  - alert: AptUpdateRequired
+    expr: apt_upgrades_pending > 0
+    for: 1d
+    labels:
+      severity: warning
+    annotations:
+      description: 'A machine has pending updates'
+      summary: 'Instance {{ $labels.hostname }}: {{ $value }} updates available'
+      value: '{{ $value }}'
+
+  - alert: MachineRebootRequired
+    expr: node_reboot_required > 0
+    labels:
+      severity: warning
+    annotations:
+      description: 'A machine requires a reboot'
+      summary: 'Instance {{ $labels.hostname }}: reboot required'
+
+  - alert: NodeExporterTextfileStale
+    expr: time() - node_textfile_mtime_seconds >= 3600
+    labels:
+      severity: warning
+    annotations:
+      description: 'Node exporter textfile has gone stale.'
+      summary: 'Instance {{ $labels.hostname }}: Node exporter textfile {{ $labels.file }} has gone stale.'
+
+  - alert: OutdatedLibs
+    expr: checkrestart_process_count > 0
+    labels:
+      severity: warning
+    annotations:
+      description: 'Number of processes which run on outdated libs'
+      summary: 'Instance {{ $labels.hostname }}: There are {{ $value }} processes with old libs.'
+      value: '{{ $value }}'
+
 - name: fastd
   rules:
   - alert: FastdNoTraffic
