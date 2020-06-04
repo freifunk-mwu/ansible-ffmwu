@@ -2,11 +2,13 @@
 packages:
   - apt-transport-https
   - bridge-utils
+  - debian-goodies
   - dnsutils
   - ethtool
   - ifupdown2
   - man-db
   - mlocate
+  - moreutils
   - mosh
   - net-tools
   - openresolv
