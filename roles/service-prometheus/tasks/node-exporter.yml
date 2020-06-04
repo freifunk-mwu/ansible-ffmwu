@@ -29,12 +29,49 @@
     group: "{{ prometheus_group }}"
     mode: "u=rwx,g=rx,o="
 
+- name: mkdir for textfiles
+  file:
+    path: "{{ prometheus_textfile_path }}"
+    state: directory
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: "u=rwx,g=rwx,o="
+
 - name: copy vhost node_exporter.conf
   template:
     src: "../templates/node_exporter_vhost.conf.j2"
     dest: "/etc/nginx/conf.d/node_exporter.conf"
   notify:
     - restart nginx
+
+- name: install textfile exporter scripts
+  copy:
+    src: "{{ item }}"
+    dest: "/usr/local/sbin/{{ item }}"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: "u=rwx,g=rx,o=rx"
+  loop:
+    - apt_exporter.sh
+    - checkrestart_exporter.sh
+
+- name: copy systemd configs for textfile exporters
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/systemd/system/{{ item }}"
+  loop:
+    - apt_exporter.service
+    - checkrestart_exporter.service
+  notify: reload systemd
+
+- name: copy systemd timers for textfile exporters
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/systemd/system/{{ item }}"
+  loop:
+    - apt_exporter.timer
+    - checkrestart_exporter.timer
+  notify: reload systemd
 
 - name: copy systemd config to server
   template:
@@ -43,6 +80,15 @@
   notify:
     - reload systemd
     - restart node_exporter
+
+- name: enable systemd timers
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  loop:
+    - apt_exporter.timer
+    - checkrestart_exporter.timer
 
 - name: enable node_exporter service
   service:

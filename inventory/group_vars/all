@@ -504,7 +504,7 @@ prometheus_groups:
   - services
   - monitoring
 
-node_exporter_opts: "--collector.systemd"
+node_exporter_opts: "--collector.systemd --collector.textfile.directory={{ prometheus_textfile_path }}"
 
 http_domain_internal: ffmwu.org
 http_domain_external: freifunk-mwu.de
