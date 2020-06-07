@@ -1,3 +1,7 @@
+proxy_cache_path /var/www/cache/grafana
+  keys_zone=grafana:10m
+  max_size=128m;
+
 server {
     listen 80;
     listen [::]:80;
@@ -12,6 +16,25 @@ server {
     server_name {{ grafana_url_external }} {{ grafana_url_internal }};
 
     include /etc/nginx/snippets/ssl.conf;
+
+    location ^~ /render/ {
+        proxy_pass http://127.0.0.1:3000/render/;
+
+        proxy_temp_path /var/www/cache/grafana/tmp;
+        proxy_cache grafana;
+        proxy_cache_valid 300s;
+        proxy_cache_lock on;
+        proxy_cache_lock_age 60s;
+        proxy_cache_lock_timeout 60s;
+
+        proxy_hide_header Cache-Control;
+        proxy_hide_header Expires;
+        proxy_hide_header Pragma;
+
+        proxy_ignore_headers Cache-Control Expires;
+
+        expires 150s;
+    }
 
     location / {
       proxy_pass http://127.0.0.1:3000;
