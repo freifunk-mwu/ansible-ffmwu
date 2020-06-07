@@ -35,12 +35,35 @@
     mode: 0644
   notify: restart nginx
 
-- name: install piechart panel plugin
+- name: install grafana-image-renderer dependencies
+  package:
+    name:
+      - libx11-xcb1
+      - libxcomposite1
+      - libxcursor1
+      - libxdamage1
+      - libxi6
+      - libxtst6
+      - libnss3
+      - libcups2
+      - libxss1
+      - libxrandr2
+      - libasound2
+      - libatk1.0-0
+      - libatk-bridge2.0-0
+      - libpangocairo-1.0-0
+      - libgtk-3-0
+    state: present
+
+- name: install plugins
   grafana_plugin:
-    name: grafana-piechart-panel
+    name: "{{ item }}"
     version: latest
     state: present
   notify: restart grafana
+  loop:
+    - grafana-image-renderer
+    - grafana-piechart-panel
 
 - name: enable systemd unit grafana
   systemd:
