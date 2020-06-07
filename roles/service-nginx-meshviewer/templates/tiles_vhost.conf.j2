@@ -1,8 +1,7 @@
-proxy_cache_path /var/www/cache
+proxy_cache_path /var/www/cache/tiles
   levels=1:2 inactive=7d
   keys_zone=tilecache:64m
   max_size=2048M;
-proxy_temp_path  /var/www/cache/tmp;
 
 upstream osm_tiles {
   server a.tile.openstreetmap.de:443;
@@ -38,6 +37,7 @@ server {
     proxy_set_header User-Agent "Mozilla/5.0 (compatible; OSMTileCache/1.0; +mailto:admin@lists.freifunk-mwu.de; +https://{{ http_meshviewer_external }}/)";
     proxy_set_header Host tile.openstreetmap.de;
 
+    proxy_temp_path /var/www/cache/tiles/tmp;
     proxy_cache tilecache;
     proxy_store off;
     proxy_cache_key $uri$is_args$args;
