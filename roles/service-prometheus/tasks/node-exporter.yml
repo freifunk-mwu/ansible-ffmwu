@@ -44,7 +44,7 @@
   notify:
     - restart nginx
 
-- name: install textfile exporter scripts
+- name: install general textfile exporter scripts
   copy:
     src: "{{ item }}"
     dest: "/usr/local/sbin/{{ item }}"
@@ -55,7 +55,7 @@
     - apt_exporter.sh
     - checkrestart_exporter.sh
 
-- name: copy systemd configs for textfile exporters
+- name: copy systemd configs for general textfile exporters
   template:
     src: "{{ item }}.j2"
     dest: "/etc/systemd/system/{{ item }}"
@@ -64,13 +64,36 @@
     - checkrestart_exporter.service
   notify: reload systemd
 
-- name: copy systemd timers for textfile exporters
+- name: copy systemd timers for general textfile exporters
   copy:
     src: "{{ item }}"
     dest: "/etc/systemd/system/{{ item }}"
   loop:
     - apt_exporter.timer
     - checkrestart_exporter.timer
+  notify: reload systemd
+
+- name: install batadv textfile exporter script
+  when: '"gateways" in group_names or "monitoring" in group_names'
+  copy:
+    src: "batadv_exporter.sh"
+    dest: "/usr/local/sbin/batadv_exporter.sh"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: "u=rwx,g=rx,o=rx"
+
+- name: copy systemd configs for batadv textfile exporter
+  when: '"gateways" in group_names or "monitoring" in group_names'
+  template:
+    src: "batadv_exporter.service.j2"
+    dest: "/etc/systemd/system/batadv_exporter.service"
+  notify: reload systemd
+
+- name: copy systemd timers for batadv textfile exporter
+  when: '"gateways" in group_names or "monitoring" in group_names'
+  copy:
+    src: "batadv_exporter.timer"
+    dest: "/etc/systemd/system/batadv_exporter.timer"
   notify: reload systemd
 
 - name: copy systemd config to server
@@ -81,7 +104,7 @@
     - reload systemd
     - restart node_exporter
 
-- name: enable systemd timers
+- name: enable general systemd timers
   systemd:
     name: "{{ item }}"
     enabled: yes
@@ -89,6 +112,13 @@
   loop:
     - apt_exporter.timer
     - checkrestart_exporter.timer
+
+- name: enable batadv systemd timer
+  when: '"gateways" in group_names or "monitoring" in group_names'
+  systemd:
+    name: "batadv_exporter.timer"
+    enabled: yes
+    state: started
 
 - name: enable node_exporter service
   service:

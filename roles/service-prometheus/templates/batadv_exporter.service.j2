@@ -1,0 +1,7 @@
+[Unit]
+Description=Collect batman-adv metrics for prometheus-node-exporter
+
+[Service]
+Type=oneshot
+Environment=TMPDIR={{ prometheus_textfile_path }}
+ExecStart=/bin/bash -c "/usr/local/sbin/batadv_exporter.sh | sponge {{ prometheus_textfile_path }}/batadv.prom"
