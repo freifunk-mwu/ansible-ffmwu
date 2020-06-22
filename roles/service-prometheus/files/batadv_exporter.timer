@@ -1,0 +1,10 @@
+[Unit]
+Description=Run batman-adv metrics collection every 1 minute
+Wants=network-online.target
+After=network-online.target
+
+[Timer]
+OnCalendar=Minutely
+
+[Install]
+WantedBy=timers.target
