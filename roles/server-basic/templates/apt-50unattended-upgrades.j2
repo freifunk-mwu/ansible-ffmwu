@@ -28,12 +28,17 @@ Unattended-Upgrade::Origins-Pattern {
         "origin=Debian,codename=${distro_codename}-updates";
         "origin=Debian,codename=${distro_codename}-proposed-updates";
         "origin=Debian,codename=${distro_codename},label=Debian-Security";
+{% if ansible_distribution_major_version|int >= 10 %}
+        "origin=Debian,codename=${distro_codename}-backports";
+{% endif %}
 
         // Archive or Suite based matching:
         // Note that this will silently match a different release after
         // migration to the specified archive (e.g. testing becomes the
         // new stable).
+{% if ansible_distribution_major_version|int == 9 %}
         "origin=Debian,codename=sid,archive=unstable";
+{% endif %}
         "origin=Freifunk MWU,codename=${distro_codename},label=Freifunk MWU";
         "origin=nginx,codename=${distro_codename},label=nginx,archive=stable";
 {% if 'monitoring' in group_names %}
