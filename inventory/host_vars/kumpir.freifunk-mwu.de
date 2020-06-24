@@ -145,6 +145,7 @@ mitglieder_vorstand_htaccess_password: "{{ lookup('passwordstore', inventory_hos
 git_homepages:
 - mainz:
   urls:
+  - "freifunk-mainz.de"
   - "www.freifunk-mainz.de"
   - "mainz.freifunk.net"
   path: "{{ www_path }}/freifunk-mainz/www"
