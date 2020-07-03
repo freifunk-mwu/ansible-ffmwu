@@ -29,7 +29,7 @@ Unattended-Upgrade::Origins-Pattern {
         "origin=Debian,codename=${distro_codename}-proposed-updates";
         "origin=Debian,codename=${distro_codename},label=Debian-Security";
 {% if ansible_distribution_major_version|int >= 10 %}
-        "origin=Debian,codename=${distro_codename}-backports";
+        "origin=Debian Backports,codename=${distro_codename}-backports";
 {% endif %}
 
         // Archive or Suite based matching:
