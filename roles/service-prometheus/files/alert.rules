@@ -36,7 +36,7 @@ groups:
       summary: 'Exporter {{ $labels.hostname }} is down'
 
   - alert: InstanceHighCpu
-    expr: 100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) BY (instance) * 100) > 90
+    expr: 100 - (avg(rate(node_cpu_seconds_total{mode="idle",hostname!="griesbrei"}[5m])) BY (instance) * 100) > 90
     for: 5m
     annotations:
       description: 'CPU usage above 90% for more than 5m'
@@ -44,7 +44,7 @@ groups:
       value: '{{ $value }}'
 
   - alert: InstanceHighCpuLong
-    expr: 100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) BY (instance) * 100) > 90
+    expr: 100 - (avg(rate(node_cpu_seconds_total{mode="idle",hostname!="griesbrei"}[5m])) BY (instance) * 100) > 90
     for: 30m
     annotations:
       description: 'CPU usage above 90% for more than 30m'
