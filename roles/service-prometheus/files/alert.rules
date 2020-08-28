@@ -72,8 +72,8 @@ groups:
     for: 1m
     annotations:
       description: 'Less than 10% of free disk space left on a device'
-      summary: 'Instance {{ $labels.hostname }}: {{ $value }}% free disk space on {{ $labels.device }}'
-      value: '{{ $value }}'
+      summary: 'Instance {{ $labels.hostname }}: {{ $value | printf "%.2f" }}% free disk space on {{ $labels.device }}'
+      value: '{{ $value | printf "%.2f" }}'
 
   - alert: ServiceFailed
     expr: node_systemd_unit_state{state="failed"} > 0
