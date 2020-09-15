@@ -5,6 +5,9 @@
 http:
     listen: "127.0.0.1:8084"
 
+logging:
+    level: "INFO"
+
 irc:
     host: "irc.hackint.eu"
     port: 6697
@@ -14,5 +17,6 @@ irc:
 
 modules:
     prometheus:
-        enabled: true
+        type: "prometheus"
+        endpoint: "/prometheus"
         channel: "#ffmwu-feed"
