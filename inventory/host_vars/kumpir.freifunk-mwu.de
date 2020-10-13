@@ -38,6 +38,9 @@ mysql_databases:
   - name: "mediawiki"
     encoding: "utf8mb4"
     collation: "utf8mb4_unicode_ci"
+  - name: "piwigo"
+    encoding: "utf8mb4"
+    collation: "utf8mb4_unicode_ci"
 mysql_users:
   - name: "wordpress"
     host: "localhost"
@@ -51,6 +54,10 @@ mysql_users:
     host: "localhost"
     password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_mediawiki') }}"
     priv: "mediawiki.*:ALL"
+  - name: "piwigo"
+    host: "localhost"
+    password: "{{ lookup('passwordstore', inventory_hostname_short + '/mysql_piwigo') }}"
+    priv: "piwigo.*:ALL"
 mysql_max_binlog_size: "100M"
 mysql_expire_logs_days: "10"
 mysql_bind_address: "127.0.0.1"
@@ -137,6 +144,7 @@ mediawiki_skins:
     conf: "$wgMFDefaultSkinClass = 'SkinMinerva';"
 
 http_firmware_selector_prefix: wizard
+http_piwigo_prefix: photos
 
 mitglieder_path: "{{ www_path }}/freifunk-mainz/mitglieder"
 mitglieder_url: "mitglieder.freifunk-mainz.de"
