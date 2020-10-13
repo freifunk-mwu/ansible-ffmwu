@@ -1,0 +1,36 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name {{ http_piwigo_external }} {{ http_piwigo_internal }} photos.wiesbaden.freifunk.net;
+
+    include /etc/nginx/snippets/redirect-to-ssl.conf;
+}
+
+server {
+    listen 443;
+    listen [::]:443;
+    server_name photos.wiesbaden.freifunk.net;
+
+    return 301 https://{{ http_piwigo_external }}$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name {{ http_piwigo_external }} {{ http_piwigo_internal }};
+
+    include /etc/nginx/snippets/gzip.conf;
+    include /etc/nginx/snippets/ssl.conf;
+
+    root {{ piwigo_path }};
+
+    index index.php index.html index.htm;
+    autoindex off;
+
+    location ~ \.php$ {
+      try_files $uri $uri/ =404; # Don't let php execute non-existent php files
+      include /etc/nginx/fastcgi_params;
+      fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+      fastcgi_pass 127.0.0.1:9000;
+    }
+}

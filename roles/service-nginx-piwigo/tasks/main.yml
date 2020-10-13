@@ -1,0 +1,33 @@
+---
+- name: download and extract
+  unarchive:
+    creates: "{{ piwigo_path }}"
+    src: "{{ piwigo_src }}"
+    dest: "{{ www_path }}"
+    remote_src: yes
+    owner: www-data
+    group: www-data
+
+- name: write database config
+  template:
+    src: database.inc.php.j2
+    dest: "{{ piwigo_path }}/local/config/database.inc.php"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: write vhost
+  template:
+    src: piwigo_vhost.conf.j2
+    dest: /etc/nginx/conf.d/piwigo.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+
+- name: fix permissions
+  file:
+    path: "{{ piwigo_path }}"
+    owner: www-data
+    group: www-data
+    recurse: yes

@@ -1,0 +1,6 @@
+---
+http_piwigo_external: "{{ http_piwigo_prefix }}.{{ http_domain_external }}"
+http_piwigo_internal: "{{ http_piwigo_prefix }}.{{ http_domain_internal }}"
+
+piwigo_path: "{{ www_path }}/piwigo"
+piwigo_src: "https://piwigo.org/download/dlcounter.php?code=latest"
