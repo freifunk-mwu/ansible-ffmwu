@@ -1,0 +1,34 @@
+---
+- name: "create {{ media_path }}"
+  file:
+    path: "{{ media_path }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+
+- name: download and extract h5ai
+  unarchive:
+    creates: "{{ media_path }}/_h5ai"
+    src: "{{ h5ai_src }}"
+    dest: "{{ media_path }}"
+    remote_src: yes
+    owner: www-data
+    group: www-data
+
+- name: fix permissions
+  file:
+    path: "{{ media_path }}"
+    owner: www-data
+    group: admin
+    mode: 0775
+    recurse: yes
+
+- name: write vhost
+  template:
+    src: media_vhost.conf.j2
+    dest: /etc/nginx/conf.d/media.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
