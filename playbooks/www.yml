@@ -10,4 +10,5 @@
   - service-nginx-media
   - service-nginx-mediawiki
   - service-nginx-mitglieder
+  - service-nginx-piwigo
   - service-nginx-git-homepage
