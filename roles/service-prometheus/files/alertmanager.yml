@@ -12,7 +12,7 @@ route:
 
 inhibit_rules:
 - source_match:
-    alertname: MaschineDown
+    alertname: MachineDown
   target_match_re:
     alertname: (ExporterDown|Icmp4Timeout|Icmp6Timeout)
   equal: [hostname]
