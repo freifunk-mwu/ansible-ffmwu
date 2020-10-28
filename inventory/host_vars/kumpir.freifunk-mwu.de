@@ -7,10 +7,13 @@ php_packages:
   - php
   - php-fpm
   - php-cli
+  - php-curl
   - php-gd
+  - php-imagick
   - php-mysql
   - php-mbstring
   - php-xml
+  - php-zip
 php_webserver_daemon: "nginx"
 php_default_version_debian: "7.3"
 php_enable_php_fpm: true
