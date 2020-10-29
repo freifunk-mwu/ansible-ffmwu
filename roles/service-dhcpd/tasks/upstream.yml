@@ -2,13 +2,19 @@
 - name: ensure apt key is present
   apt_key:
     state: present
-    id: 1F1564A6
-    url: "https://dl.cloudsmith.io/public/isc/kea-1-6/cfg/gpg/gpg.0607E2621F1564A6.key"
+    id: ADA7268E
+    url: "https://dl.cloudsmith.io/public/isc/kea-1-8/cfg/gpg/gpg.4DD5AE28ADA7268E.key"
+
+- name: remove previous apt repo
+  apt_repository:
+    state: absent
+    repo: "deb https://dl.cloudsmith.io/public/isc/kea-1-6/deb/debian {{ ansible_distribution_release }} main"
+    filename: isc-kea
 
 - name: ensure apt repo is present
   apt_repository:
     state: present
-    repo: "deb https://dl.cloudsmith.io/public/isc/kea-1-6/deb/debian {{ ansible_distribution_release }} main"
+    repo: "deb https://dl.cloudsmith.io/public/isc/kea-1-8/deb/debian {{ ansible_distribution_release }} main"
     update_cache: yes
     filename: isc-kea
 
@@ -23,6 +29,8 @@
     name: "isc-{{ item }}"
     state: latest
   loop: "{{ kea_packages }}"
+  notify:
+    - restart isc-kea-dhcp4-server
 
 - name: create systemd override dir for kea-dhcp4-server.service
   file:
