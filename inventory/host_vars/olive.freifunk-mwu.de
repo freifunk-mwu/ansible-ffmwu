@@ -1,0 +1,6 @@
+---
+server_type: "service"
+
+magic: 32
+
+nginx_default_vhost: False
