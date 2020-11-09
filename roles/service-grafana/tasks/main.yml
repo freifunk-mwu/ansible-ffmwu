@@ -79,7 +79,7 @@
     grafana_user: "admin"
     grafana_password: "{{ lookup('passwordstore', 'grafana/admin') }}"
     ds_type: "influxdb"
-    url: "http://localhost:8086"
+    ds_url: "http://localhost:8086"
     database: "yanic"
 
 - name: add prometheus datasource
@@ -90,4 +90,4 @@
     grafana_user: "admin"
     grafana_password: "{{ lookup('passwordstore', 'grafana/admin') }}"
     ds_type: "prometheus"
-    url: "http://localhost:9090"
+    ds_url: "http://localhost:9090"
