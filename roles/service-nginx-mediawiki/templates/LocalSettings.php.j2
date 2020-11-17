@@ -152,8 +152,9 @@ wfLoadSkin( '{{ skin.name }}' );
 $wgGroupPermissions['bureaucrat']['usermerge'] = true;
 $wgGroupPermissions['bureaucrat']['lookupcredentials'] = false;
 $wgGroupPermissions['sysop']['deleteperm'] = true;
+$wgGroupPermissions['*']['createaccount'] = false;
 
-# # ConfirmAccount settings
+# ConfirmAccount settings
 $wgConfirmAccountRequestFormItems['Biography']['minWords'] = 10;
 $wgConfirmAccountContact = 'web@lists.freifunk-mwu.de';
 
