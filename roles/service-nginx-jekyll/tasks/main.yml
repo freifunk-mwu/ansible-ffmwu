@@ -1,0 +1,64 @@
+---
+- name: create deployment dirs
+  file:
+    path: "{{ item.config.deploy }}"
+    owner: "admin"
+    group: "admin"
+    state: directory
+    recurse: yes
+  loop: "{{ jekyll_repositories }}"
+
+- name: write vhosts
+  template:
+    src: vhost.conf.j2
+    dest: /etc/nginx/conf.d/{{ item.name }}.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+  loop: "{{ jekyll_repositories }}"
+
+- name: add systemd units to sync websites
+  template:
+    src: "jekyll-sync.service.j2"
+    dest: "/etc/systemd/system/jekyll-sync-{{ item.name }}.service"
+  notify:
+    - reload systemd
+  loop: "{{ jekyll_repositories }}"
+
+- name: add systemd timer to sync websites
+  template:
+    src: "jekyll-sync.timer.j2"
+    dest: "/etc/systemd/system/jekyll-sync-{{ item.name }}.timer"
+  notify:
+    - reload systemd
+  loop: "{{ jekyll_repositories }}"
+
+- name: add systemd units to rebuild websites
+  template:
+    src: "jekyll-rebuild.service.j2"
+    dest: "/etc/systemd/system/jekyll-rebuild-{{ item.name }}.service"
+  notify:
+    - reload systemd
+  loop: "{{ jekyll_repositories }}"
+
+- name: enable sync systemd units
+  systemd:
+    name: "jekyll-sync-{{ item.name }}.service"
+    enabled: yes
+    state: started
+  loop: "{{ jekyll_repositories }}"
+
+- name: enable sync systemd timers
+  systemd:
+    name: "jekyll-sync-{{ item.name }}.timer"
+    enabled: yes
+    state: started
+  loop: "{{ jekyll_repositories }}"
+
+- name: enable rebuild systemd units
+  systemd:
+    name: "jekyll-rebuild-{{ item.name }}.service"
+    enabled: yes
+    state: started
+  loop: "{{ jekyll_repositories }}"

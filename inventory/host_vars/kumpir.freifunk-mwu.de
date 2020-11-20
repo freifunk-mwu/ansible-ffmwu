@@ -3,6 +3,10 @@ server_type: "service"
 
 magic: 162
 
+additional_packages:
+  - jekyll
+  - ruby-nokogiri
+
 php_packages:
   - php
   - php-fpm
@@ -170,3 +174,21 @@ git_homepages:
   - "ffmwu.org"
   path: "{{ www_path }}/freifunk-mwu/www"
   git_repo: "https://github.com/freifunk-mwu/www.freifunk-mwu.de.git"
+
+jekyll_user: admin
+jekyll_repositories:
+  - name: ffwi-webseite
+    module: git
+    config:
+      repo: https://github.com/freifunk-mwu/startseite.git
+      version: wiesbaden
+      dest: "{{ git_path }}/ffwi-webseite"
+      deploy: "{{ www_path }}/freifunk-wiesbaden/www"
+    bundler:
+      json: yes
+      i18n: yes
+    domains:
+      - wiesbaden.freifunk.net
+      - www.wiesbaden.freifunk.net
+      - freifunk-wiesbaden.de
+      - www.freifunk-wiesbaden.de

@@ -1,0 +1,17 @@
+#
+# {{ ansible_managed }}
+#
+[Unit]
+Description=Rebuild jekyll: {{ item.name }}
+
+[Service]
+Type=simple
+
+User=admin
+Group=admin
+
+WorkingDirectory={{ item.config.dest }}
+ExecStart=/usr/bin/jekyll build --watch --destination {{ item.config.deploy }}
+
+Restart=always
+RestartSec=5s

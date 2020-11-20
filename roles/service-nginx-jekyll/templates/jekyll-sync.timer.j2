@@ -1,0 +1,12 @@
+#
+# {{ ansible_managed }}
+#
+[Unit]
+Description=Sync jekyll: {{ item.name }} timer
+
+[Timer]
+OnBootSec=15m
+OnUnitActiveSec=15m
+
+[Install]
+WantedBy=timers.target

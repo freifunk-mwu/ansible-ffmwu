@@ -1,0 +1,4 @@
+---
+dependencies:
+  - { role: trombik.jekyll }
+  - { role: service-nginx }

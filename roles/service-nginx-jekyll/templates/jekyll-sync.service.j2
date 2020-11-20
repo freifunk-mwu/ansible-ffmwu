@@ -1,0 +1,11 @@
+#
+# {{ ansible_managed }}
+#
+[Unit]
+Description=Sync jekyll: {{ item.name }}
+
+[Service]
+User=admin
+Group=admin
+
+ExecStart=/usr/bin/git -C {{ item.config.dest }} pull
