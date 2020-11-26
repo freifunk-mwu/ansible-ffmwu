@@ -1,0 +1,12 @@
+#
+# {{ ansible_managed }}
+#
+[Unit]
+Description=Sync {{ item.name }} Freifunk API repo timer
+
+[Timer]
+OnBootSec=5m
+OnUnitActiveSec=1d
+
+[Install]
+WantedBy=timers.target

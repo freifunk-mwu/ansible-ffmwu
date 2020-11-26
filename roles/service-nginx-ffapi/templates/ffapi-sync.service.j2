@@ -1,0 +1,13 @@
+#
+# {{ ansible_managed }}
+#
+[Unit]
+Description=Sync {{ item.name }} Freifunk API repo
+
+[Service]
+Type=oneshot
+WorkingDirectory={{ item.path }}
+ExecStart=/usr/bin/sh -c '/usr/bin/git diff --quiet || (/usr/bin/git commit -m "%H auto commit" {{ item.file }} && /usr/bin/git push)'
+
+User=admin
+Group=admin

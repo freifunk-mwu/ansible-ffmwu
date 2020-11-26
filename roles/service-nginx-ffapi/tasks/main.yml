@@ -1,0 +1,90 @@
+---
+- name: install packages
+  package:
+    name: "git"
+    state: present
+
+- name: create repo dirs
+  file:
+    path: "{{ item.path }}"
+    owner: "admin"
+    group: "admin"
+    state: directory
+    recurse: yes
+  loop: "{{ ffapis }}"
+
+- name: clone ffapi repos
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.path }}"
+    update: no
+  loop: "{{ ffapis }}"
+  become: false
+
+- name: write vhosts
+  template:
+    src: vhost.conf.j2
+    dest: /etc/nginx/conf.d/{{ item.name }}-api.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+  loop: "{{ ffapis }}"
+
+- name: add update systemd units
+  template:
+    src: "ffapi-update.service.j2"
+    dest: "/etc/systemd/system/ffapi-update-{{ item.name }}.service"
+  notify:
+    - reload systemd
+  loop: "{{ ffapis }}"
+
+- name: add update systemd timer
+  template:
+    src: "ffapi-update.timer.j2"
+    dest: "/etc/systemd/system/ffapi-update-{{ item.name }}.timer"
+  notify:
+    - reload systemd
+  loop: "{{ ffapis }}"
+
+- name: add sync systemd units
+  template:
+    src: "ffapi-sync.service.j2"
+    dest: "/etc/systemd/system/ffapi-sync-{{ item.name }}.service"
+  notify:
+    - reload systemd
+  loop: "{{ ffapis }}"
+
+- name: add sync systemd timer
+  template:
+    src: "ffapi-sync.timer.j2"
+    dest: "/etc/systemd/system/ffapi-sync-{{ item.name }}.timer"
+  notify:
+    - reload systemd
+  loop: "{{ ffapis }}"
+
+- name: enable update systemd units
+  systemd:
+    name: "ffapi-update-{{ item.name }}.service"
+    enabled: yes
+  loop: "{{ ffapis }}"
+
+- name: enable sync systemd units
+  systemd:
+    name: "ffapi-sync-{{ item.name }}.service"
+    enabled: yes
+  loop: "{{ ffapis }}"
+
+- name: enable update systemd timers
+  systemd:
+    name: "ffapi-update-{{ item.name }}.timer"
+    enabled: yes
+    state: started
+  loop: "{{ ffapis }}"
+
+- name: enable sync systemd timers
+  systemd:
+    name: "ffapi-sync-{{ item.name }}.timer"
+    enabled: yes
+    state: started
+  loop: "{{ ffapis }}"

@@ -4,6 +4,7 @@ server_type: "service"
 magic: 162
 
 additional_packages:
+  - python3-requests
   - jekyll
   - ruby-nokogiri
 
@@ -192,3 +193,18 @@ jekyll_repositories:
       - www.wiesbaden.freifunk.net
       - freifunk-wiesbaden.de
       - www.freifunk-wiesbaden.de
+
+ffapi_nodes_url: https://map.freifunk-mwu.de/data/nodes.json
+ffapis:
+  - name: mainz
+    repo: git@github.com:freifunk-mwu/ffapi-mainz.git
+    file: ffapi_mz.json
+    path: "{{ www_path }}/freifunk-mainz/api"
+    domain: api.freifunk-mainz.de
+    ffdomains: ['mainz', 'ffmz']
+  - name: wiesbaden
+    repo: git@github.com:freifunk-mwu/ffapi-wiesbaden.git
+    file: ffapi_wi.json
+    path: "{{ www_path }}/freifunk-wiesbaden/api"
+    domain: api.wiesbaden.freifunk.net
+    ffdomains: ['wiesbaden', 'ffwi']

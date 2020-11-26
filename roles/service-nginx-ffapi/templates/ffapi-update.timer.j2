@@ -1,0 +1,12 @@
+#
+# {{ ansible_managed }}
+#
+[Unit]
+Description=Update {{ item.name }} Freifunk API file timer
+
+[Timer]
+OnBootSec=5m
+OnUnitActiveSec=1h
+
+[Install]
+WantedBy=timers.target

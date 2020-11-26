@@ -1,0 +1,27 @@
+server {
+  listen 80;
+  listen [::]:80;
+  server_name {{ item.domain }} ;
+  return 301 https://$http_host$request_uri;
+}
+
+server {
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
+  server_name {{ item.domain }} ;
+
+  include /etc/nginx/snippets/gzip.conf;
+  include /etc/nginx/snippets/ssl.conf;
+
+  root {{ item.path }};
+
+  index index.php index.html index.htm;
+
+  autoindex on;
+
+  # Just in case, hide .svn and .git too
+  location ~ /.(svn|git)(/|$) { deny all; }
+
+  # Hide any .htaccess files
+  location ~ /.htaccess { deny all; }
+}
