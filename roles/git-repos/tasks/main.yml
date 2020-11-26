@@ -4,6 +4,12 @@
     name: "{{ git_packages }}"
     state: present
 
+- name: write git config
+  template:
+    src: "gitconfig.j2"
+    dest: "/home/admin/.gitconfig"
+  become: false
+
 - name: ensure git directory is present
   file:
     path: /home/admin/clones
