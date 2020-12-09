@@ -16,7 +16,7 @@
 					<ul style="list-style-position:outside;"> 					
 					<li>Routerbetreiber! Auch wenn sich noch keine anderen Freifunk-Router in deiner Nähe befinden, kann dein Knoten über
    	        	einen DSL-Anschluss die Verbindung zum Freifunk-Netz aufbauen. Nur wenn viele Bürgerinnen und Bürger und Unternehmen mitmachen, wächst das 
-	           	Freifunk-Netz immer weiter zusammen und unsere Vision wird Realität. Wie das geht und was du dafür brauchst, kannst du <a href="http://freifunk-mainz.de/Freifunk-Router-aufstellen.html">hier nachlesen</a>.</li>            	
+	           	Freifunk-Netz immer weiter zusammen und unsere Vision wird Realität. Wie das geht und was du dafür brauchst, kannst du <a href="https://freifunk-mainz.de/Freifunk-Router-aufstellen.html">hier nachlesen</a>.</li>            	
             	<li>Backbone Aufbau (Orga, WLAN Technik)</li>
             	<li>Veranstaltungen (Orga, Router aufsetzen, Spread the word)</li>
             	<li>PR (Orga, Kontakte pflegen, Blog schreiben, Spread the word)</li>
@@ -25,9 +25,9 @@
             	</ul>
             </p>	
             <p>	
-            	 Wenn du unsere <a href="http://lists.freifunk.net/mailman/listinfo/mainz-freifunk.net">Mailingsliste</a> abonnierst, bleibst du immer auf dem aktuellsten Stand. Dort kannst du auch gerne Fragen, wenn du Probleme hast oder eine neue Idee vorstellen willst.</p>
+            	 Wenn du unsere <a href="https://lists.freifunk.net/mailman/listinfo/mainz-freifunk.net">Mailingsliste</a> abonnierst, bleibst du immer auf dem aktuellsten Stand. Dort kannst du auch gerne Fragen, wenn du Probleme hast oder eine neue Idee vorstellen willst.</p>
             	 <p>Oder komme einfach zu einem <a href="freifunk-mainz.de/#termine">Treffen</a> vorbei und wir finden was spannendes für dich zu tun.</p>
-				<p>Ausführliche Informationen zu vielen verschiedenen Themen im Freifunk Mainz Universum gibt es in unserem <a href="http://wiki.freifunk-mainz.de/">Wiki</a></p>			
+				<p>Ausführliche Informationen zu vielen verschiedenen Themen im Freifunk Mainz Universum gibt es in unserem <a href="https://wiki.freifunk-mwu.de/">Wiki</a></p>			
 					
 
         </div>
