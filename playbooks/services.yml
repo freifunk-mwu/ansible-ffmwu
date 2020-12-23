@@ -14,7 +14,6 @@
   - service-haveged
   - service-ntpd
   - wireguard
-  - network-routetables
   - network-routing
   - service-bird
   - service-nginx

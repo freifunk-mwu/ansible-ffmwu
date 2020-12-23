@@ -15,11 +15,8 @@
   - service-ntpd
   - kmod-batman
   - wireguard
-  - network-routetables
-  - network-batman
-  - network-meshbridge
-  - network-fastd
   - network-routing
+  - network-mesh
   - service-nginx
   - service-nginx-openlayers
   - service-cpthook

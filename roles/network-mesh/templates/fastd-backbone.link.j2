@@ -3,7 +3,9 @@
 #
 # {{ ansible_managed }}
 #
-auto {{ item.0.id }}igvpn-{{ item.1.mtu }}
-iface {{ item.0.id }}igvpn-{{ item.1.mtu }}
-    mtu {{ item.1.mtu }}
-    hwaddress {{ mac | ansible.utils.hwaddr('linux') }}
+[Match]
+Name={{ item.0.id }}igvpn-{{ item.1.mtu }}
+
+[Link]
+MACAddress={{ mac | ansible.utils.hwaddr('linux') }}
+MTUBytes={{ item.1.mtu }}

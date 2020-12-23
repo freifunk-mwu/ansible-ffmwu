@@ -1,14 +1,5 @@
 ---
-- name: reload systemd
+- name: restart networkd
   systemd:
-    daemon_reload: yes
-
-- name: restart systemd unit ffmwu-static-routes
-  systemd:
-    name: ffmwu-static-routes
-    state: restarted
-
-- name: restart systemd unit ffmwu-ip-rules
-  systemd:
-    name: ffmwu-ip-rules
+    name: systemd-networkd
     state: restarted

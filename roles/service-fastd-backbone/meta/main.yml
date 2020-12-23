@@ -1,5 +1,5 @@
 ---
 dependencies:
   - { role: git-repos }
-  - { role: network-fastd }
+  - { role: network-mesh }
   - { role: service-fastd }
