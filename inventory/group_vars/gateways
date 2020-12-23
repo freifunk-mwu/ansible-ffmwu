@@ -2,6 +2,7 @@
 routing_tables:
   icvpn: 23
   mwu: 41
+  unreachable: 51
   internet: 61
 
 common_repos:

@@ -1,0 +1,9 @@
+#
+# {{ ansible_managed }}
+#
+[Match]
+Name={{ item.key }}
+
+[Network]
+Address={{ item.value.tunnel_ipv4_network | ipaddr('net') | ipaddr('1') | ipaddr('ip/prefix') }}
+Address={{ item.value.tunnel_ipv6_network | ipaddr('net') | ipaddr('2') | ipaddr('ip/prefix') }}

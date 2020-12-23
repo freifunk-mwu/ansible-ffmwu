@@ -11,6 +11,15 @@
   apt:
     update_cache: yes
 
+- name: install systemd from backports
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: latest
+    default_release: "{{ ansible_distribution_release }}-backports"
+  loop:
+    - systemd
+    - systemd-sysv
+
 - name: ensure rpcbind is not installed
   package:
     name: rpcbind
@@ -137,6 +146,19 @@
     mode: 0644
   notify:
     - reload systemd
+
+- name: create overlay folder for primary interface
+  file:
+    path: "/etc/systemd/network/{{ ansible_default_ipv4.interface }}.network.d"
+    state: directory
+    owner: root
+    group: root
+
+- name: start and enable systemd unit systemd-networkd
+  systemd:
+    name: systemd-networkd
+    enabled: yes
+    state: started
 
 - name: configure local nameserver check
   when: "'mail' in group_names or 'gateways' in group_names"

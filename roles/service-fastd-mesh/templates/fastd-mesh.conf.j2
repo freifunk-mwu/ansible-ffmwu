@@ -20,7 +20,7 @@ secret "{{ lookup('passwordstore', item.1.pass + '/' + inventory_hostname_short 
 
 mtu {{ item.1.mtu }};
 
-on up "/bin/systemctl reload networking";
+on up "/usr/bin/networkctl reconfigure {{ item.0.id }}bat";
 
 on verify "{{ fastd_limiter_path }} verify $PEER_KEY";
 

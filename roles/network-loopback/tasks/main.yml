@@ -1,9 +1,15 @@
 ---
-- name: create loopback interface
+- name: create loopback.netdev
   template:
-    src: loopback.j2
-    dest: "/etc/network/interfaces.d/loopback"
-  notify: reload network interfaces
+    src: loopback.netdev.j2
+    dest: "/etc/systemd/network/loopback.netdev"
+  notify: restart networkd
+
+- name: create loopback.network
+  template:
+    src: loopback.network.j2
+    dest: "/etc/systemd/network/loopback.network"
+  notify: restart networkd
 
 - name: create check-anycast.sh
   template:

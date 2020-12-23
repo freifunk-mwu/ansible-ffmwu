@@ -1,0 +1,227 @@
+#
+# {{ ansible_managed }}
+#
+
+# Priority 7 - lookup rt_table mwu for all incoming traffic of freifunk related interfaces
+
+{% if server_type == 'gateway' or server_type == 'monitoring' %}
+{% for mesh in meshes %}
+[RoutingPolicyRule]
+Table={{ routing_tables.mwu }}
+Priority=7
+OutgoingInterface={{ mesh.id }}br
+Family=both
+
+{% endfor %}
+{% endif %}
+{% for network in my_wireguard_networks %}
+[RoutingPolicyRule]
+Table={{ routing_tables.mwu }}
+Priority=7
+IncomingInterface=wg-{{ network.remote[:11] }}
+Family=both
+
+[RoutingPolicyRule]
+Table={{ routing_tables.mwu }}
+Priority=7
+OutgoingInterface=wg-{{ network.remote[:11] }}
+Family=both
+
+{% endfor %}
+{% for prefix in internal_prefixes %}
+[RoutingPolicyRule]
+Table={{ routing_tables.mwu }}
+Priority=7
+From={{ prefix.ipv4 }}
+
+[RoutingPolicyRule]
+Table={{ routing_tables.mwu }}
+Priority=7
+To={{ prefix.ipv4 }}
+
+[RoutingPolicyRule]
+Table={{ routing_tables.mwu }}
+Priority=7
+From={{ prefix.ipv6 }}
+
+[RoutingPolicyRule]
+Table={{ routing_tables.mwu }}
+Priority=7
+To={{ prefix.ipv6 }}
+
+{% endfor %}
+{% for prefix in public_prefixes %}
+[RoutingPolicyRule]
+Table={{ routing_tables.mwu }}
+Priority=7
+From={{ prefix.ipv6 }}
+
+[RoutingPolicyRule]
+Table={{ routing_tables.mwu }}
+Priority=7
+To={{ prefix.ipv6 }}
+
+{% endfor %}
+
+{% if server_type == 'gateway' %}
+# Priority 23 - lookup rt_table icvpn for all incoming traffic of freifunk bridges
+
+{% for mesh in meshes %}
+[RoutingPolicyRule]
+Table={{ routing_tables.icvpn }}
+Priority=23
+OutgoingInterface={{ mesh.id }}br
+Family=both
+
+{% endfor %}
+{% for prefix in internal_prefixes %}
+[RoutingPolicyRule]
+Table={{ routing_tables.icvpn }}
+Priority=23
+From={{ prefix.ipv4 }}
+
+[RoutingPolicyRule]
+Table={{ routing_tables.icvpn }}
+Priority=23
+To={{ prefix.ipv4 }}
+
+[RoutingPolicyRule]
+Table={{ routing_tables.icvpn }}
+Priority=23
+From={{ prefix.ipv6 }}
+
+[RoutingPolicyRule]
+Table={{ routing_tables.icvpn }}
+Priority=23
+To={{ prefix.ipv6 }}
+
+{% endfor %}
+{% for prefix in public_prefixes %}
+[RoutingPolicyRule]
+Table={{ routing_tables.icvpn }}
+Priority=23
+From={{ prefix.ipv6 }}
+
+[RoutingPolicyRule]
+Table={{ routing_tables.icvpn }}
+Priority=23
+To={{ prefix.ipv6 }}
+
+{% endfor %}
+[RoutingPolicyRule]
+Table={{ routing_tables.icvpn }}
+Priority=23
+IncomingInterface=icvpn
+Family=both
+
+[RoutingPolicyRule]
+Table={{ routing_tables.icvpn }}
+Priority=23
+OutgoingInterface=icvpn
+Family=both
+
+# Priority 41 - lookup rt_table internet for all incoming traffic of freifunk bridges
+
+{% for mesh in meshes %}
+[RoutingPolicyRule]
+Table={{ routing_tables.internet }}
+Priority=41
+OutgoingInterface={{ mesh.id }}br
+Family=both
+
+{% endfor %}
+{% for prefix in internal_prefixes %}
+[RoutingPolicyRule]
+Table={{ routing_tables.internet }}
+Priority=41
+From={{ prefix.ipv4 }}
+
+[RoutingPolicyRule]
+Table={{ routing_tables.internet }}
+Priority=41
+From={{ prefix.ipv6 }}
+
+[RoutingPolicyRule]
+Table={{ routing_tables.internet }}
+Priority=41
+To={{ prefix.ipv6 }}
+
+{% endfor %}
+{% for prefix in public_prefixes %}
+[RoutingPolicyRule]
+Table={{ routing_tables.internet }}
+Priority=41
+From={{ prefix.ipv6 }}
+
+[RoutingPolicyRule]
+Table={{ routing_tables.internet }}
+Priority=41
+To={{ prefix.ipv6 }}
+
+{% endfor %}
+[RoutingPolicyRule]
+Table={{ routing_tables.internet }}
+Priority=41
+From={{ ffrl_public_ipv4_nat | ipaddr('host') }}
+
+[RoutingPolicyRule]
+Table={{ routing_tables.internet }}
+Priority=41
+To={{ ffrl_public_ipv4_nat | ipaddr('host') }}
+
+# Priority 61 - at this point this is the end of policy routing for freifunk related routes
+
+{% for mesh in meshes %}
+[RoutingPolicyRule]
+Type=unreachable
+Priority=61
+IncomingInterface={{ mesh.id }}br
+Family=both
+
+{% endfor %}
+[RoutingPolicyRule]
+Type=unreachable
+Priority=61
+IncomingInterface=icvpn
+Family=both
+
+[RoutingPolicyRule]
+Type=unreachable
+Priority=61
+IncomingInterface={{ ansible_default_ipv4.interface }}
+Family=both
+
+{% for server_id, server_value in ffrl_exit_server.items() %}
+[RoutingPolicyRule]
+Type=unreachable
+Priority=61
+IncomingInterface={{ server_id }}
+Family=both
+
+{% endfor %}
+
+{% for prefix in public_prefixes %}
+[RoutingPolicyRule]
+Type=unreachable
+Priority=61
+From={{ prefix.ipv6 }}
+
+[RoutingPolicyRule]
+Type=unreachable
+Priority=61
+To={{ prefix.ipv6 }}
+
+{% endfor %}
+# Priority 107 - lookup policies for the gateway host self originating traffic
+
+[RoutingPolicyRule]
+Table={{ routing_tables.mwu }}
+Priority=107
+Family=both
+
+[RoutingPolicyRule]
+Table={{ routing_tables.icvpn }}
+Priority=107
+Family=both
+
+{% endif %}

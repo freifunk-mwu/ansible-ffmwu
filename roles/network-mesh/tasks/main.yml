@@ -1,0 +1,89 @@
+---
+- name: create blackhole.conf
+  when: server_type == 'gateway'
+  template:
+    src: blackhole.conf.j2
+    dest: "/etc/systemd/network/{{ ansible_default_ipv4.interface }}.network.d/blackhole.conf"
+  notify: restart networkd
+
+- name: create dummy.netdev
+  template:
+    src: dummy.netdev.j2
+    dest: "/etc/systemd/network/{{ item.id }}.netdev"
+  notify: restart networkd
+  loop: "{{ meshes }}"
+
+- name: create dummy.network
+  template:
+    src: dummy.network.j2
+    dest: "/etc/systemd/network/{{ item.id }}.network"
+  notify: restart networkd
+  loop: "{{ meshes }}"
+
+- name: create batman.netdev
+  template:
+    src: batman.netdev.j2
+    dest: "/etc/systemd/network/{{ item.id }}bat.netdev"
+  notify: restart networkd
+  loop: "{{ meshes }}"
+
+- name: create batman.network
+  template:
+    src: batman.network.j2
+    dest: "/etc/systemd/network/{{ item.id }}bat.network"
+  notify: restart networkd
+  loop: "{{ meshes }}"
+
+- name: create bridge.netdev
+  template:
+    src: bridge.netdev.j2
+    dest: "/etc/systemd/network/{{ item.id }}br.netdev"
+  notify: restart networkd
+  loop: "{{ meshes }}"
+
+- name: create bridge.network
+  template:
+    src: bridge.network.j2
+    dest: "/etc/systemd/network/{{ item.id }}br.network"
+  notify: restart networkd
+  loop: "{{ meshes }}"
+
+- name: create fastd-backbone.link
+  template:
+    src: fastd-backbone.link.j2
+    dest: "/etc/systemd/network/{{ item.0.id }}igvpn-{{ item.1.mtu }}.link"
+  notify: restart networkd
+  loop: "{{ meshes | subelements('fastd.backbone.instances') }}"
+
+- name: create fastd-backbone.network
+  template:
+    src: fastd-backbone.network.j2
+    dest: "/etc/systemd/network/{{ item.0.id }}igvpn-{{ item.1.mtu }}.network"
+  notify: restart networkd
+  loop: "{{ meshes | subelements('fastd.backbone.instances') }}"
+
+- name: create fastd-mesh.link
+  when: server_type == "gateway"
+  template:
+    src: fastd-mesh.link.j2
+    dest: "/etc/systemd/network/{{ item.0.id }}igvpn-{{ item.1.mtu }}.link"
+  notify: restart networkd
+  loop: "{{ meshes | subelements('fastd.nodes.instances') }}"
+
+- name: create fastd-mesh.network
+  when: server_type == "gateway"
+  template:
+    src: fastd-mesh.network.j2
+    dest: "/etc/systemd/network/{{ item.0.id }}igvpn-{{ item.1.mtu }}.network"
+  notify: restart networkd
+  loop: "{{ meshes | subelements('fastd.nodes.instances') }}"
+
+- name: set sysfs variables
+  template:
+    src: sysfs.j2
+    dest: "/etc/sysfs.d/99-{{ item.id }}br.conf"
+  loop: "{{ meshes }}"
+  notify: activate sysfs variables
+
+- name: flush handlers
+  meta: flush_handlers
