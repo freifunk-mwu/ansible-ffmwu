@@ -38,6 +38,6 @@ peer group "servers" {
 {% endif %}
 }
 
-on up "/bin/systemctl reload networking";
+on up "/usr/bin/networkctl reconfigure {{ item.0.id }}bat";
 
 status socket "/var/run/fastd-{{ item.0.id }}igvpn-{{ item.1.mtu }}.status";

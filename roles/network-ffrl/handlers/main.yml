@@ -1,5 +1,5 @@
 ---
-- name: reload network interfaces
+- name: restart networkd
   systemd:
-    name: networking
-    state: reloaded
+    name: systemd-networkd
+    state: restarted

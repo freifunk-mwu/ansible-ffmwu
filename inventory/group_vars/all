@@ -605,8 +605,10 @@ meshes:
     ipv6_public:
       - 2a03:2260:11a:ff::/64
     batman:
-      it: 10000
-      gw: server 96mbit/96mbit
+      it: 10s
+      gw: server
+      up: 96M
+      down: 96M
       mm: 0
       dat: 1
       hop_penalty: 60
@@ -642,8 +644,10 @@ meshes:
     ipv6_public:
       - 2a03:2260:11a:1::/64
     batman:
-      it: 10000
-      gw: server 96mbit/96mbit
+      it: 10s
+      gw: server
+      up: 96M
+      down: 96M
       mm: 0
       dat: 1
       hop_penalty: 60
@@ -679,8 +683,10 @@ meshes:
     ipv6_public:
       - 2a03:2260:11a:2::/64
     batman:
-      it: 10000
-      gw: server 96mbit/96mbit
+      it: 10s
+      gw: server
+      up: 96M
+      down: 96M
       mm: 0
       dat: 1
       hop_penalty: 60
@@ -716,8 +722,10 @@ meshes:
     ipv6_public:
       - 2a03:2260:11a:3::/64
     batman:
-      it: 10000
-      gw: server 96mbit/96mbit
+      it: 10s
+      gw: server
+      up: 96M
+      down: 96M
       mm: 0
       dat: 1
       hop_penalty: 60
@@ -753,8 +761,10 @@ meshes:
     ipv6_public:
       - 2a03:2260:11a:4::/64
     batman:
-      it: 10000
-      gw: server 96mbit/96mbit
+      it: 10s
+      gw: server
+      up: 96M
+      down: 96M
       mm: 0
       dat: 1
       hop_penalty: 60
@@ -790,8 +800,10 @@ meshes:
     ipv6_public:
       - 2a03:2260:11a:5::/64
     batman:
-      it: 10000
-      gw: server 96mbit/96mbit
+      it: 10s
+      gw: server
+      up: 96M
+      down: 96M
       mm: 0
       dat: 1
       hop_penalty: 60
@@ -827,8 +839,10 @@ meshes:
     ipv6_public:
       - 2a03:2260:11a:6::/64
     batman:
-      it: 10000
-      gw: server 96mbit/96mbit
+      it: 10s
+      gw: server
+      up: 96M
+      down: 96M
       mm: 0
       dat: 1
       hop_penalty: 60
@@ -864,8 +878,10 @@ meshes:
     ipv6_public:
       - 2a03:2260:11a:7::/64
     batman:
-      it: 10000
-      gw: server 96mbit/96mbit
+      it: 10s
+      gw: server
+      up: 96M
+      down: 96M
       mm: 0
       dat: 1
       hop_penalty: 60
@@ -906,8 +922,10 @@ meshes:
       - ffmz.org
       - user.ffmz.org
     batman:
-      it: 10000
-      gw: server 96mbit/96mbit
+      it: 10s
+      gw: server
+      up: 96M
+      down: 96M
       mm: 0
       dat: 1
       hop_penalty: 60
@@ -952,8 +970,10 @@ meshes:
       - ffwi.org
       - user.ffwi.org
     batman:
-      it: 10000
-      gw: server 96mbit/96mbit
+      it: 10s
+      gw: server
+      up: 96M
+      down: 96M
       mm: 0
       dat: 1
       hop_penalty: 60

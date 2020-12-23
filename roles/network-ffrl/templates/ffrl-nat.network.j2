@@ -1,0 +1,8 @@
+#
+# {{ ansible_managed }}
+#
+[Match]
+Name=ffrl-nat
+
+[Network]
+Address={{ ffrl_public_ipv4_nat | ipaddr('host') }}

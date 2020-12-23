@@ -5,7 +5,6 @@ packages:
   - debian-goodies
   - dnsutils
   - ethtool
-  - ifupdown2
   - man-db
   - mlocate
   - moreutils

@@ -1,8 +1,0 @@
----
-- name: create routing tables
-  lineinfile:
-    path: /etc/iproute2/rt_tables
-    regexp: '^{{ item.value }}'
-    line: "{{ item.value }}{{ '\t' }}{{ item.key }}"
-    state: present
-  loop: "{{ routing_tables | dict2items }}"

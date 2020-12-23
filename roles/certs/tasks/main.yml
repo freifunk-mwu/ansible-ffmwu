@@ -52,12 +52,15 @@
 - name: copy snakeoil ssl cert for first start
   copy:
     src: /etc/ssl/certs/ssl-cert-snakeoil.pem
-    dest: "{{ ssl_cert_path }}"
+    dest: "{{ item }}"
     remote_src: yes
     force: no
     owner: admin
     group: ssl-cert
     mode: 0440
+  loop:
+    - "{{ ssl_cert_path }}"
+    - "{{ ssl_chain_path }}"
 
 - name: try to sync ssl certs
   shell: /etc/cron.daily/ssl_certs

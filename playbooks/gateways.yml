@@ -16,13 +16,10 @@
   - service-ntpd
   - kmod-batman
   - wireguard
-  - network-routetables
-  - network-batman
-  - network-meshbridge
-  - network-fastd
+  - network-routing
+  - network-mesh
   - network-ffrl
   - network-iptables-gateway
-  - network-routing
   - service-nginx
   - service-nginx-firmware
   - service-prometheus

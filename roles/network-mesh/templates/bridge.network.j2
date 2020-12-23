@@ -1,0 +1,48 @@
+#
+# {{ ansible_managed }}
+#
+[Match]
+Name={{ item.id }}br
+
+[Network]
+Address={{ item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('ip/prefix') }}
+{% for prefix in item.ipv6_ula %}
+Address={{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('ip/prefix') }}
+{% endfor %}
+{% for prefix in item.ipv6_public %}
+Address={{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('ip/prefix') }}
+{% endfor %}
+{% if mesh_gw_prefixes is defined %}
+{% for prefix in mesh_gw_prefixes[item.id].ipv6_public %}
+Address={{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(1) | ipaddr('ip/prefix') }}
+{% endfor %}
+{% endif %}
+{% if 'gateways' in group_names %}
+IPForward=yes
+{% endif %}
+IPv6AcceptRA=no
+
+[Route]
+Destination={{ item.ipv4_network }}
+Table={{ routing_tables.mwu }}
+
+{% for ula in item.ipv6_ula %}
+[Route]
+Destination={{ ula | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }}
+Table={{ routing_tables.mwu }}
+
+{% endfor %}
+{% for public in item.ipv6_public %}
+[Route]
+Destination={{ public | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }}
+Table={{ routing_tables.mwu }}
+
+{% endfor %}
+{% if mesh_gw_prefixes is defined %}
+{% for public in mesh_gw_prefixes[item.id].ipv6_public %}
+[Route]
+Destination={{ public | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }}
+Table={{ routing_tables.mwu }}
+
+{% endfor %}
+{% endif %}

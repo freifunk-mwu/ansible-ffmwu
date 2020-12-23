@@ -1,0 +1,9 @@
+#
+# {{ ansible_managed }}
+#
+[Match]
+Name=loopback
+
+[Network]
+Address={{ loopback_net_ipv4 | ipsubnet(32, magic) | ipaddr('network/prefix') }}
+Address={{ loopback_net_ipv6 | ipaddr(magic) | ipaddr('address') }}/128

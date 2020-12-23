@@ -3,3 +3,8 @@
   systemd:
     name: systemd-networkd
     state: restarted
+
+- name: activate sysfs variables
+  systemd:
+    name: sysfsutils
+    state: restarted
