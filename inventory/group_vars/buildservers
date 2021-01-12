@@ -7,6 +7,7 @@ additional_repos:
   site-ffmwu:
     repo_url: https://github.com/freifunk-mwu/site-ffmwu.git
     version: master
+    pull: no
     force: no
 
 rsync_folders:
