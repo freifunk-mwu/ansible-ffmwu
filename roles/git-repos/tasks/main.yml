@@ -22,8 +22,9 @@
   git:
     repo: "{{ item.value.repo_url }}"
     dest: "{{ git_path }}/{{ item.key }}"
-    version: "{{ item.value.version }}"
-    force: "{{ item.value.force }}"
+    version: "{{ item.value.version | default('HEAD') }}"
+    force: "{{ item.value.force | default('no') }}"
+    update: "{{ item.value.pull | default('yes') }}"
   loop: "{{ common_repos | dict2items }}"
   become: false
 
@@ -31,7 +32,8 @@
   git:
     repo: "{{ item.value.repo_url }}"
     dest: "{{ git_path }}/{{ item.key }}"
-    version: "{{ item.value.version }}"
-    force: "{{ item.value.force }}"
+    version: "{{ item.value.version | default('HEAD') }}"
+    force: "{{ item.value.force | default('no') }}"
+    update: "{{ item.value.pull | default('yes') }}"
   loop: "{{ additional_repos | default(dict()) | dict2items }}"
   become: false
