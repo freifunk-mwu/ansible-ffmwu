@@ -6,7 +6,7 @@ magic: 195
 nullmailer_interfaces:
   - '127.0.0.1'
   - '[::1]'
-  - '172.17.0.1'
+  - '172.16.0.1'
 
 nullmailer_networks:
   - '127.0.0.0/8'
