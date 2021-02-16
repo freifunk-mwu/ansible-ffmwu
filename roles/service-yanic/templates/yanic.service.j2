@@ -10,7 +10,7 @@ Type=simple
 User={{ yanic_user }}
 Group={{ yanic_user }}
 
-ExecStart={{ yanic_path }}  serve --config {{ yanic_config }}
+ExecStart={{ yanic_path }}  serve --config {{ yanic_config }} --loglevel 30
 Restart=always
 RestartSec=5s
 
