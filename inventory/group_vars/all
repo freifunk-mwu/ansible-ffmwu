@@ -987,10 +987,7 @@ icvpn:
   interface: icvpn
   icvpn_repo: https://github.com/freifunk/icvpn
 
-bgp_legacy_servers:
-  zuckerwatte:
-    ipv4: 10.37.1.2
-    ipv6: fd37:b4dc:4b1e::a25:102
+bgp_legacy_servers: {}
 
 dns_external:
   slaves:
