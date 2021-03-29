@@ -39,11 +39,6 @@ bgp_groups:
   - monitoring
 
 wireguard_networks:
-  - ipv4: 10.87.253.0/31
-    peers:
-      - lotuswurzel
-      - spinat
-    port: 50000
   - ipv4: 10.87.253.2/31
     peers:
       - lotuswurzel
@@ -59,21 +54,6 @@ wireguard_networks:
       - lotuswurzel
       - ingwer
     port: 50003
-  - ipv4: 10.87.253.8/31
-    peers:
-      - spinat
-      - wasserfloh
-    port: 50004
-  - ipv4: 10.87.253.10/31
-    peers:
-      - spinat
-      - uffschnitt
-    port: 50005
-  - ipv4: 10.87.253.12/31
-    peers:
-      - spinat
-      - ingwer
-    port: 50006
   - ipv4: 10.87.253.14/31
     peers:
       - ingwer
@@ -94,11 +74,6 @@ wireguard_networks:
       - lotuswurzel
       - kichererbse
     port: 50010
-  - ipv4: 10.87.253.22/31
-    peers:
-      - spinat
-      - kichererbse
-    port: 50011
   - ipv4: 10.87.253.24/31
     peers:
       - wasserfloh
@@ -124,11 +99,6 @@ wireguard_networks:
       - lotuswurzel
       - reis
     port: 50022
-  - ipv4: 10.87.253.46/31
-    peers:
-      - spinat
-      - reis
-    port: 50023
   - ipv4: 10.87.253.48/31
     peers:
       - uffschnitt
@@ -149,11 +119,6 @@ wireguard_networks:
       - unifi
       - ingwer
     port: 50028
-  - ipv4: 10.87.253.58/31
-    peers:
-      - unifi
-      - spinat
-    port: 50029
   - ipv4: 10.87.253.60/31
     peers:
       - unifi
@@ -184,11 +149,6 @@ wireguard_networks:
       - kumpir
       - ingwer
     port: 50036
-  - ipv4: 10.87.253.74/31
-    peers:
-      - kumpir
-      - spinat
-    port: 50037
   - ipv4: 10.87.253.76/31
     peers:
       - kumpir
@@ -224,11 +184,6 @@ wireguard_networks:
       - morchel
       - ingwer
     port: 50045
-  - ipv4: 10.87.253.92/31
-    peers:
-      - morchel
-      - spinat
-    port: 50046
   - ipv4: 10.87.253.94/31
     peers:
       - morchel
@@ -269,11 +224,6 @@ wireguard_networks:
       - gurke
       - ingwer
     port: 50055
-  - ipv4: 10.87.253.112/31
-    peers:
-      - gurke
-      - spinat
-    port: 50056
   - ipv4: 10.87.253.114/31
     peers:
       - gurke
@@ -319,11 +269,6 @@ wireguard_networks:
       - mate
       - ingwer
     port: 50066
-  - ipv4: 10.87.253.134/31
-    peers:
-      - mate
-      - spinat
-    port: 50067
   - ipv4: 10.87.253.136/31
     peers:
       - mate
@@ -374,11 +319,6 @@ wireguard_networks:
       - griesbrei
       - ingwer
     port: 50078
-  - ipv4: 10.87.253.158/31
-    peers:
-      - griesbrei
-      - spinat
-    port: 50079
   - ipv4: 10.87.253.160/31
     peers:
       - griesbrei
@@ -434,11 +374,6 @@ wireguard_networks:
       - olive
       - ingwer
     port: 50091
-  - ipv4: 10.87.253.184/31
-    peers:
-      - olive
-      - spinat
-    port: 50092
   - ipv4: 10.87.253.186/31
     peers:
       - olive
