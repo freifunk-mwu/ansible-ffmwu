@@ -62,6 +62,7 @@
   notify: reload systemd unit bird6
 
 - name: build bird-exporter binary
+  when: ansible_distribution_major_version|int > 9
   shell: "go get -v -u github.com/czerwonk/bird_exporter"
   environment:
     GOPATH: "{{ gopath }}"
