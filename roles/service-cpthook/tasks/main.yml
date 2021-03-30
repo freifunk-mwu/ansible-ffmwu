@@ -15,6 +15,7 @@
   shell: 'go get -u {{ cpthook_src }}'
   environment:
     GOPATH: "{{ gopath }}"
+    GO111MODULE: "on"
   notify: restart cpthook
 
 - name: configure cpthook systemd unit
