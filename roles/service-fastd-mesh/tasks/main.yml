@@ -25,6 +25,7 @@
   shell: "go get -v -u github.com/freifunk-mwu/fastd-limiter"
   environment:
     GOPATH: "{{ gopath }}"
+    GO111MODULE: "on"
 
 - name: configure systemd unit for redis-server
   systemd:
