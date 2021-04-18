@@ -6,4 +6,5 @@
 - src: lean_delivery.java
 - src: geerlingguy.php
 - src: systemli.etherpad
+  version: master
 - src: trombik.jekyll
