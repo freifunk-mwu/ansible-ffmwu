@@ -1,3 +1,3 @@
 fastd_exporter_path: "{{ gopath }}/bin/fastd-exporter"
 fastd_exporter_default_opts: "--web.listen-address=localhost:9281"
-debian_repo: "{{ 'stretch-backports' if ansible_distribution_release == 'stretch' else ansible_distribution_release }}"
+debian_repo: "{{ ansible_distribution_release }}"

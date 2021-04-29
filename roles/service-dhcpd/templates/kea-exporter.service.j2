@@ -7,11 +7,7 @@ After=network.target
 Type=simple
 User=root
 Group=root
-{% if ansible_distribution_major_version|int >= 10 %}
 ExecStart=/usr/local/bin/kea-exporter --address 127.0.0.1 /tmp/kea-dhcp4-ctrl.sock
-{% else %}
-ExecStart=/usr/local/bin/kea-exporter --address 127.0.0.1 /etc/kea/kea-dhcp4.conf
-{% endif %}
 Restart=always
 RestartSec=5s
 
