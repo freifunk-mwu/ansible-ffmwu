@@ -67,27 +67,53 @@
     dest: "{{ mediawiki_path }}/current"
     state: link
 
+- name: get urls for mediawiki extensions (tarballs)
+  uri:
+    url: "https://gerrit.wikimedia.org/r/projects/mediawiki%2Fextensions%2F{{ item.name }}/branches/REL{{ mediawiki_version_major | replace('.','_') }}"
+    return_content: yes
+  register: extension_urls
+  loop: "{{ mediawiki_extensions }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: item.url is defined and item.url == "extdist"
+  tags: test
+
+- name: get urls for mediawiki skins (tarballs)
+  uri:
+    url: "https://gerrit.wikimedia.org/r/projects/mediawiki%2Fskins%2F{{ item.name }}/branches/REL{{ mediawiki_version_major | replace('.','_') }}"
+    return_content: yes
+  register: skin_urls
+  loop: "{{ mediawiki_skins }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: item.url is defined and item.url == "extdist"
+  tags: test
+
 - name: install mediawiki extensions (tarballs)
   unarchive:
-    creates: "{{ mediawiki_path }}/current/extensions/{{ item.name }}"
-    src: "{{ item.url }}"
+    creates: "{{ mediawiki_path }}/current/extensions/{{ item.item.name }}"
+    src: "https://extdist.wmflabs.org/dist/extensions/{{ item.item.name }}-REL{{ mediawiki_version_major | replace('.','_') }}-{{ (item.content.split('\n')[1] | from_json).revision[:7] }}.tar.gz"
     dest: "{{ mediawiki_path }}/current/extensions/"
     remote_src: yes
     owner: www-data
     group: www-data
-  when: item.url is defined
-  loop: "{{ mediawiki_extensions }}"
+  when: item.skipped is not defined
+  loop: "{{ extension_urls.results }}"
+  loop_control:
+    label: "{{ item.item.name }}"
 
 - name: install mediawiki skins (tarballs)
   unarchive:
-    creates: "{{ mediawiki_path }}/current/skins/{{ item.name }}"
-    src: "{{ item.url }}"
+    creates: "{{ mediawiki_path }}/current/skins/{{ item.item.name }}"
+    src: "https://extdist.wmflabs.org/dist/skins/{{ item.item.name }}-REL{{ mediawiki_version_major | replace('.','_') }}-{{ (item.content.split('\n')[1] | from_json).revision[:7] }}.tar.gz"
     dest: "{{ mediawiki_path }}/current/skins/"
     remote_src: yes
     owner: www-data
     group: www-data
-  when: item.url is defined
-  loop: "{{ mediawiki_skins }}"
+  when: item.skipped is not defined
+  loop: "{{ skin_urls.results }}"
+  loop_control:
+    label: "{{ item.item.name }}"
 
 - name: write composer.local.json
   template:
