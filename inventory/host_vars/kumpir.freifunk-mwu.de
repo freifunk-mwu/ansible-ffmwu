@@ -96,7 +96,7 @@ mediawiki_mysql_server: "127.0.0.1"
 mediawiki_mysql_db: "mediawiki"
 mediawiki_mysql_user: "mediawiki"
 mediawiki_version_major: "1.35"
-mediawiki_version_minor: "2"
+mediawiki_version_minor: "3"
 mediawiki_default_skin: "vector"
 mediawiki_extensions: # IMPORTANT: update links when changing major version!
   - name: "ConfirmEdit"
