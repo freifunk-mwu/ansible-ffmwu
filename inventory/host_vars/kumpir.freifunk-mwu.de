@@ -72,7 +72,7 @@ mysql_bind_address: "127.0.0.1"
 
 nginx_etherpad_url: "pad.freifunk-mwu.de"
 
-etherpad_repository_version: 1.8.13
+etherpad_repository_version: 1.8.14
 etherpad_db_type: mysql
 etherpad_ip: 127.0.0.1
 etherpad_port: 9002
