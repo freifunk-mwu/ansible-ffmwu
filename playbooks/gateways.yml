@@ -38,4 +38,5 @@
   - service-bird-lg
   - service-bind-slave
   - service-yanic
+  - service-vnstat
   - service-nullmailer

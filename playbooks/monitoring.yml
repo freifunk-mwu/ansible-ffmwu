@@ -33,4 +33,5 @@
   - service-fastd-backbone
   - service-bird
   - service-bird-lg
+  - service-vnstat
   - service-nullmailer
