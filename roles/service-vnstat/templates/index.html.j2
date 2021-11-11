@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Freifunk MWU Server {{ inventory_hostname_short }} - Traffic</title>
+    <link href="../static/favicon.ico" rel="shortcut icon" />
+    <link href="../static/style.css" rel="stylesheet" type="text/css" media="screen" />
+</head>
+<body>
+    <header>
+        <h1><a href="https://www.freifunk-mwu.de">Freifunk MWU</a> Server <a href="../index.html">{{ inventory_hostname_short }}</a> - Traffic</h1>
+    </header>
+
+    <div class="ifblock">
+      <div class="ifimg" id="{{ ansible_default_ipv4.interface }}">
+{% for name,type in vnstati_types.items() %}
+        <img src="{{ ansible_default_ipv4.interface }}-{{ name }}.png" alt="{{ ansible_default_ipv4.interface }} - {{ name }}" /><br />
+{% endfor %}
+      </div>
+    </div>
+
+{% if server_type == 'gateway' %}
+{% for iface in ffrl_exit_server.keys() %}
+    <div class="ifblock">
+      <div class="ifimg" id="{{ iface }}">
+{% for name,type in vnstati_types.items() %}
+        <img src="{{ iface }}-{{ name }}.png" alt="{{ iface }} - {{ name }}" /><br />
+{% endfor %}
+      </div>
+    </div>
+{% endfor %}
+{% endif %}
+
+{% if server_type in ('gateway', 'monitoring') %}
+{% for mesh in meshes %}
+{% set iface = mesh.id + 'bat' %}
+    <div class="ifblock">
+      <div class="ifimg" id="{{ iface }}">
+{% for name,type in vnstati_types.items() %}
+        <img src="{{ iface }}-{{ name }}.png" alt="{{ iface }} - {{ name }}" /><br />
+{% endfor %}
+      </div>
+    </div>
+{% endfor %}
+{% endif %}
+
+{% for network in my_wireguard_networks %}
+{% set iface = 'wg-' + network.remote[:11] %}
+    <div class="ifblock">
+      <div class="ifimg" id="{{ iface }}">
+{% for name,type in vnstati_types.items() %}
+        <img src="{{ iface }}-{{ name }}.png" alt="{{ iface }} - {{ name }}" /><br />
+{% endfor %}
+      </div>
+    </div>
+{% endfor %}
+
+</body>
+</html>

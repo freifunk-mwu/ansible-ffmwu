@@ -1,0 +1,12 @@
+#
+# Ansible managed - don't edit this file!
+#
+[Unit]
+Description=Timer which schedules vnstati.service
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=1h
+
+[Install]
+WantedBy=timers.target

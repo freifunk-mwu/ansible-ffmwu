@@ -8,8 +8,6 @@ Diese Ansible role installiert und konfiguriert den vnstat daemon.
 
 - Variable `ansible_default_ipv4.interface` (Setup)
 
-## ToDo
+# Optionale Variablen
 
-- Liste mit Interfaces erstellen
-- Nginx vHost für vnstati Images
-- Script erstellen (systemd timer), das zyklisch vnstati Images erzeugt
+- Variable `vnstati_types`

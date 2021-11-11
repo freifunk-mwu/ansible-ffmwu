@@ -1,0 +1,4 @@
+---
+dependencies:
+  - { role: service-nginx }
+  - { role: wireguard }

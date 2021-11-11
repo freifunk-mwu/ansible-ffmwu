@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Main Interface
+{% for name,type in vnstati_types.items() %}
+/usr/bin/vnstati --noedge --altdate --{{ type }} -i {{ ansible_default_ipv4.interface }} -o /var/www/html/traffic/{{ ansible_default_ipv4.interface }}-{{ name }}.png
+{% endfor %}
+
+
+{% if server_type == 'gateway' %}
+# Freifunk Rheinland
+
+{% for iface in ffrl_exit_server.keys() %}
+# {{ iface }}
+{% for name,type in vnstati_types.items() %}
+/usr/bin/vnstati --noedge --altdate --{{ type }} -i {{ iface }} -o /var/www/html/traffic/{{ iface }}-{{ name }}.png
+{% endfor %}
+
+{% endfor %}
+{% endif %}
+
+{% if server_type in ('gateway', 'monitoring') %}
+# Freifunk MWU (Mesh)
+
+{% for mesh in meshes %}
+{% set iface = mesh.id + 'bat' %}
+# {{ iface }}
+{% for name,type in vnstati_types.items() %}
+/usr/bin/vnstati --noedge --altdate --{{ type }} -i {{ iface }} -o /var/www/html/traffic/{{ iface }}-{{ name }}.png
+{% endfor %}
+
+{% endfor %}
+{% endif %}
+
+# Freifunk MWU (wireguard)
+
+{% for network in my_wireguard_networks %}
+{% set iface = 'wg-' + network.remote[:11] %}
+# {{ iface }}
+{% for name,type in vnstati_types.items() %}
+/usr/bin/vnstati --noedge --altdate --{{ type }} -i {{ iface }} -o /var/www/html/traffic/{{ iface }}-{{ name }}.png
+{% endfor %}
+
+{% endfor %}

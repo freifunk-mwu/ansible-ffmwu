@@ -16,8 +16,56 @@
     group: vnstat
   notify: restart systemd unit vnstat
 
+- name: write ffmwu-draw-traffic.sh
+  template:
+    src: "ffmwu-draw-traffic.sh.j2"
+    dest: "/usr/local/bin/ffmwu-draw-traffic.sh"
+    owner: root
+    group: root
+    mode: 0755
+
+- name: create traffic directory
+  file:
+    path: /var/www/html/traffic
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+
+- name: write index.html
+  template:
+    src: "index.html.j2"
+    dest: "/var/www/html/traffic/index.html"
+    owner: www-data
+    group: www-data
+
+- name: write vnstati.service
+  copy:
+    src: "vnstati.service"
+    dest: "/etc/systemd/system/vnstati.service"
+  notify:
+    - reload systemd
+
+- name: write vnstati.timer
+  copy:
+    src: "vnstati.timer"
+    dest: "/etc/systemd/system/vnstati.timer"
+  notify:
+    - reload systemd
+
 - name: enable and start systemd unit vnstat
   systemd:
     name: vnstat
     enabled: yes
     state: started
+
+- name: enable and start systemd timer vnstati
+  systemd:
+    name: "vnstati.timer"
+    enabled: yes
+    state: started
+
+- name: run ffmwu-draw-traffic.sh once
+  shell: /usr/local/bin/ffmwu-draw-traffic.sh
+  become: yes
+  become_user: www-data

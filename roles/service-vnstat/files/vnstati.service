@@ -1,0 +1,13 @@
+#
+# Ansible managed - don't edit this file!
+#
+[Unit]
+Description=vnstati - draw traffic
+
+[Service]
+Type=oneshot
+
+User=www-data
+Group=www-data
+
+ExecStart=/usr/local/bin/ffmwu-draw-traffic.sh
