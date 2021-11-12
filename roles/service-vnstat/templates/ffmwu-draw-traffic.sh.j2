@@ -9,7 +9,7 @@
 {% if server_type == 'gateway' %}
 # Freifunk Rheinland
 
-{% for iface in ffrl_exit_server.keys() %}
+{% for iface in ffrl_exit_server.keys() | sort %}
 # {{ iface }}
 {% for name,type in vnstati_types.items() %}
 /usr/bin/vnstati --noedge --altdate --{{ type }} -i {{ iface }} -o /var/www/html/traffic/{{ iface }}-{{ name }}.png
@@ -21,7 +21,7 @@
 {% if server_type in ('gateway', 'monitoring') %}
 # Freifunk MWU (Mesh)
 
-{% for mesh in meshes %}
+{% for mesh in meshes | sort(attribute='id') %}
 {% set iface = mesh.id + 'bat' %}
 # {{ iface }}
 {% for name,type in vnstati_types.items() %}
@@ -33,7 +33,7 @@
 
 # Freifunk MWU (wireguard)
 
-{% for network in my_wireguard_networks %}
+{% for network in my_wireguard_networks | sort(attribute='remote') %}
 {% set iface = 'wg-' + network.remote[:11] %}
 # {{ iface }}
 {% for name,type in vnstati_types.items() %}

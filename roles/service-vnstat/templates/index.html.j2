@@ -20,7 +20,7 @@
     </div>
 
 {% if server_type == 'gateway' %}
-{% for iface in ffrl_exit_server.keys() %}
+{% for iface in ffrl_exit_server.keys() | sort %}
     <div class="ifblock">
       <div class="ifimg" id="{{ iface }}">
 {% for name,type in vnstati_types.items() %}
@@ -32,7 +32,7 @@
 {% endif %}
 
 {% if server_type in ('gateway', 'monitoring') %}
-{% for mesh in meshes %}
+{% for mesh in meshes | sort(attribute='id') %}
 {% set iface = mesh.id + 'bat' %}
     <div class="ifblock">
       <div class="ifimg" id="{{ iface }}">
@@ -44,7 +44,7 @@
 {% endfor %}
 {% endif %}
 
-{% for network in my_wireguard_networks %}
+{% for network in my_wireguard_networks | sort(attribute='remote') %}
 {% set iface = 'wg-' + network.remote[:11] %}
     <div class="ifblock">
       <div class="ifimg" id="{{ iface }}">
