@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>Freifunk MWU Server {{ inventory_hostname_short }}</title>
+    <title>Freifunk MWU {% if server_type == 'gateway' %}Gateway{% else %}Server{% endif %} {{ inventory_hostname_short | capitalize }}</title>
     <link href="./static/favicon.ico" rel="shortcut icon" />
     <link href="./static/style.css" rel="stylesheet" type="text/css" media="screen" />
 </head>
 <body>
     <header>
-        <h1><a href="https://www.freifunk-mwu.de">Freifunk MWU</a> Server <a href="./index.html">{{ inventory_hostname_short }}</a></h1>
+        <h1><a href="https://www.freifunk-mwu.de">Freifunk MWU</a> {% if server_type == 'gateway' %}Gateway{% else %}Server{% endif %} <a href="./index.html">{{ inventory_hostname_short | capitalize }}</a></h1>
     </header>
 {% if "gateways" in group_names or "buildservers" in group_names %}
     <div class="block"><a href="firmware">Firmware</a></div>
