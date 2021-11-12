@@ -89,6 +89,12 @@
     state: directory
     mode: 0755
 
+- name: copy favicon
+  copy:
+    src: favicon.ico
+    dest: /var/www/html/static/favicon.ico
+    mode: 0644
+
 - name: copy css stylesheet
   copy:
     src: style.css
