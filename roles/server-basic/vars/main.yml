@@ -21,3 +21,6 @@ packages:
   - vim
 
 default_locale: "en_US.UTF-8"
+
+additional_locales:
+  - "de_DE.UTF-8"

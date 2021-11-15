@@ -16,3 +16,4 @@ Diese Ansible role installiert Pakete, die auf allen MWU-Server benötigt werden
 ## Optionale Variablen
 
 - Variable `debian_apt_mirror`
+- Liste `additional_locales`

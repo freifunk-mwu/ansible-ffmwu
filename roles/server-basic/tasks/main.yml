@@ -37,6 +37,12 @@
     name: "{{ default_locale }}"
     state: present
 
+- name: ensure additional locales are installed
+  locale_gen:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ additional_locales }}"
+
 - name: ensure default locale is set
   command: "/usr/bin/localectl set-locale LANG={{ default_locale }}"
   changed_when: false
