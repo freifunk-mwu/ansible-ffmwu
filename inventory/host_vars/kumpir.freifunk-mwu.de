@@ -139,6 +139,11 @@ mediawiki_extensions: # IMPORTANT: update links when changing major version!
     pkg: mediawiki/semantic-media-wiki
     ver: "~3.2"
     conf: 'enableSemantics( "{{ http_mediawiki_external }}" );'
+  - name: "Maps"
+    type: "composer"
+    pkg: "mediawiki/maps"
+    ver: "~8.0"
+    conf: "wfLoadExtension( 'Maps' );"
 mediawiki_skins:
   - name: "MonoBook"
     type: "load"
