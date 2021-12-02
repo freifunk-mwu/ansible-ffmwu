@@ -134,9 +134,9 @@ mediawiki_extensions: # IMPORTANT: update links when changing major version!
   - name: "VisualEditor"
     type: "load"
     url: "extdist"
-  - name: SemanticMediaWiki
+  - name: "SemanticMediaWiki"
     type: "composer"
-    pkg: mediawiki/semantic-media-wiki
+    pkg: "mediawiki/semantic-media-wiki"
     ver: "~3.2"
     conf: 'enableSemantics( "{{ http_mediawiki_external }}" );'
   - name: "Maps"
