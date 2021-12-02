@@ -2,7 +2,8 @@
   "require": {
 {% for extension in mediawiki_extensions %}
 {% if extension.type == "composer" %}
-    "{{ extension.pkg }}": "{{ extension.ver }}"
+    "{{ extension.pkg }}": "{{ extension.ver }}"{% if not loop.last %},{% endif %}
+    
 {% endif %}
 {% endfor %}
   }
