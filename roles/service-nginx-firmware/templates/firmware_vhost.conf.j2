@@ -11,6 +11,12 @@ server {
         autoindex on;
         autoindex_exact_size off;
     }
+
+    location /experimental/sysupgrade/experimental.manifest {
+        if ($http_x_firmware_version = "") {
+            return 412;
+        }
+    }
 }
 
 server {
