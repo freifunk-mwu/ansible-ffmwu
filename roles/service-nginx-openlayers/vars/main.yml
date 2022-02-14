@@ -2,6 +2,6 @@
 http_openlayers_external: "{{ http_openlayers_prefix }}.{{ http_domain_external }}"
 http_openlayers_internal: "{{ http_openlayers_prefix }}.{{ http_domain_internal }}"
 
-openlayers_version: "v6.5.0"
+openlayers_version: "v6.12.0"
 openlayers_path: "/var/www/{{ http_openlayers_external }}"
 openlayers_src: "https://github.com/openlayers/openlayers/releases/download/{{ openlayers_version }}/{{ openlayers_version }}.zip"
