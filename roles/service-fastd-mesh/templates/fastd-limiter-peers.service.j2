@@ -6,6 +6,6 @@ Description=Update fastd connected peers
 
 [Service]
 Type=oneshot
-ExecStart={{ gopath }}/bin/fastd-limiter peers
+ExecStart={{ fastd_limiter_path }} peers
 User=admin
 Group=admin

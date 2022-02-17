@@ -21,11 +21,14 @@
     state: latest
     default_release: "{{ debian_repo }}"
 
-- name: build fastd-limiter
-  shell: "go get -v -u github.com/freifunk-mwu/fastd-limiter"
-  environment:
-    GOPATH: "{{ gopath }}"
-    GO111MODULE: "on"
+- name: download fastd-limiter
+  get_url:
+    url: "{{ fastd_limiter_url }}"
+    dest:  "{{ fastd_limiter_path }}"
+    checksum: "sha256:{{ fastd_limiter_url }}.sha256sum"
+    mode: 0755
+  notify:
+    - reload systemd
 
 - name: configure systemd unit for redis-server
   systemd:
@@ -95,11 +98,15 @@
     state: started
   loop: "{{ meshes | subelements('fastd.nodes.instances') }}"
 
-- name: build fastd-exporter binary
-  shell: "go get -v -u github.com/freifunk-darmstadt/fastd-exporter"
-  environment:
-    GOPATH: "{{ gopath }}"
-  notify: restart fastd-exporter
+- name: download fastd-exporter
+  get_url:
+    url: "{{ fastd_exporter_url }}"
+    dest:  "{{ fastd_exporter_path }}"
+    checksum: "sha256:{{ fastd_exporter_url }}.sha256sum"
+    mode: 0755
+  notify:
+    - reload systemd
+    - restart fastd-exporter
 
 - name: copy vhost fastd_exporter.conf
   template:

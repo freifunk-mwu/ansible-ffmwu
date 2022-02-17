@@ -22,6 +22,6 @@ mtu {{ item.1.mtu }};
 
 on up "/bin/systemctl reload networking";
 
-on verify "{{ gopath }}/bin/fastd-limiter verify $PEER_KEY";
+on verify "{{ fastd_limiter_path }} verify $PEER_KEY";
 
 status socket "/var/run/fastd-{{ item.0.id }}vpn-{{ item.1.mtu }}.status";
