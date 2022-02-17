@@ -11,11 +11,12 @@
     dest: "/etc/systemd/system/cpthook.service"
   notify: reload systemd
 
-- name: build cpthook binary
-  shell: 'go get -u {{ cpthook_src }}'
-  environment:
-    GOPATH: "{{ gopath }}"
-    GO111MODULE: "on"
+- name: download cpthook binary
+  get_url:
+    url: "{{ cpthook_url }}"
+    dest:  "{{ cpthook_path }}"
+    checksum: "sha256:{{ cpthook_url }}.sha256sum"
+    mode: 0755
   notify: restart cpthook
 
 - name: configure cpthook systemd unit

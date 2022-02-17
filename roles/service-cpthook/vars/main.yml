@@ -1,4 +1,4 @@
 ---
-cpthook_path: "{{ gopath }}/bin/CptHook"
+cpthook_url: "https://bin.freifunk-mwu.de/cpthook/CptHook"
+cpthook_path: "/usr/local/bin/CptHook"
 cpthook_config: "/etc/cpthook.yml"
-cpthook_src: "github.com/fleaz/CptHook"
