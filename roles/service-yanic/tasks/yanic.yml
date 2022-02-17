@@ -19,7 +19,9 @@
   template:
     src: "yanic.conf.j2"
     dest: "{{ yanic_config }}"
-  notify: restart yanic
+  notify:
+    - restart yanic
+    - restart respondd
 
 - name: create systemd unit
   template:
