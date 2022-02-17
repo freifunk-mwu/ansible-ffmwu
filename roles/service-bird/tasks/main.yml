@@ -61,11 +61,12 @@
     group: bird
   notify: reload systemd unit bird6
 
-- name: build bird-exporter binary
-  when: ansible_distribution_major_version|int > 9
-  shell: "go get -v -u github.com/czerwonk/bird_exporter"
-  environment:
-    GOPATH: "{{ gopath }}"
+- name: download bird-exporter
+  get_url:
+    url: "{{ bird_exporter_url }}"
+    dest:  "{{ bird_exporter_path }}"
+    checksum: "sha256:{{ bird_exporter_url }}.sha256sum"
+    mode: 0755
   notify: restart bird-exporter
 
 - name: copy vhost bird_exporter.conf
