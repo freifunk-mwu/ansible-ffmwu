@@ -50,8 +50,8 @@ enable = true
 path = "/var/lib/yanic/data/meshviewer.json"
 [nodes.output.meshviewer-ffrgb.filter]
 no_owner = true
-{% if yanic_blacklist is defined %}
-blacklist = [{% for node in yanic_blacklist %}"{{ node }}"{% if not loop.last %},{% endif %}{% endfor %}]
+{% if yanic_blocklist is defined %}
+blocklist = [{% for node in yanic_blacklist %}"{{ node }}"{% if not loop.last %},{% endif %}{% endfor %}]
 {% endif %}
 
 [[nodes.output.meshviewer]]
