@@ -10,6 +10,7 @@ interface = "loopback"
 {% else %}
 interface = "wg-{{ host.rsplit('.')[0][:11] }}"
 {% endif%}
+
 {% endfor %}
 {% for mesh in meshes %}
 {% if server_type == 'gateway' %}
@@ -18,6 +19,7 @@ interface = "wg-{{ host.rsplit('.')[0][:11] }}"
 address   = "ff02::2:1001"
 interface = "{{ mesh.id }}vpn-{{ instance.mtu }}"
 port      = 1001
+
 {% endfor %}
 {% endif %}
 {% for instance in mesh.fastd.backbone.instances %}
@@ -25,6 +27,12 @@ port      = 1001
 address   = "ff02::2:1001"
 interface = "{{ mesh.id }}igvpn-{{ instance.mtu }}"
 port      = 1001
+
+[[listen]]
+address   = "ff05::2:1001"
+interface = "{{ mesh.id }}br"
+port      = 1001
+
 {% endfor %}
 {% endfor %}
 
