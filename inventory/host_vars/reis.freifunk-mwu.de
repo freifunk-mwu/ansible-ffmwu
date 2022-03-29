@@ -37,7 +37,7 @@ mysql_expire_logs_days: "10"
 mysql_bind_address: "127.0.0.1"
 
 pdns_host: http://localhost:8081
-pdns_install_repo: "{{ pdns_auth_powerdns_repo_42 }}"
+pdns_install_repo: "{{ pdns_auth_powerdns_repo_45 }}"
 
 pdns_mysql_databases_credentials:
   gmysql:
@@ -50,12 +50,10 @@ pdns_config:
   allow-axfr-ips: "{% for slave in dns_external.slaves %}{{ lookup('dig', slave, 'qtype=A') | ipaddr('address') }}{% if not loop.last %},{% endif %}{% endfor %}"
   api: "yes"
   api-key: "{{ lookup('passwordstore', inventory_hostname_short + '/pdns_apikey') }}"
-  default-soa-name: "{{ inventory_hostname }}"
-  default-soa-mail: "admin.freifunk-mwu.de"
+  default-soa-content: "{{ inventory_hostname }} admin.freifunk-mwu.de 0 10800 3600 604800 3600"
   local-port: "53"
-  local-address: "127.0.0.1,{{ loopback_net_ipv4 | ipaddr(magic) | ipaddr('address') }},{{ ansible_default_ipv4.address | ipaddr('address') }}"
-  local-ipv6: "::1,{{ loopback_net_ipv6 | ipaddr(magic) | ipaddr('address') }},{{ ansible_default_ipv6.address | ipaddr('address') }}"
-  master: True
+  local-address: "127.0.0.1,{{ loopback_net_ipv4 | ipaddr(magic) | ipaddr('address') }},{{ ansible_default_ipv4.address | ipaddr('address') }},::1,{{ loopback_net_ipv6 | ipaddr(magic) | ipaddr('address') }},{{ ansible_default_ipv6.address | ipaddr('address') }}"
+  primary: True
   tcp-fast-open: "50"
   version-string: "anonymous"
   webserver: "yes"
