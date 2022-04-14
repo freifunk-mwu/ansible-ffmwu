@@ -8,10 +8,11 @@ After=network-online.target
 Type=simple
 
 {% if fastd_exporter_opts is defined %}
-ExecStart={{ fastd_exporter_path }} {{ fastd_exporter_default_opts }} {{ fastd_exporter_opts }} --instances="{% for mesh in meshes %}{% for instance in mesh.fastd.nodes.instances %}{{ mesh.id }}vpn-{{ instance.mtu }}{% if not loop.last %},{% endif %}{% endfor %}{% if not loop.last %},{% endif %}{% endfor %}"
+ExecStart={{ fastd_exporter_path }} {{ fastd_exporter_default_opts }} {{ fastd_exporter_opts }} {% for mesh in meshes %}{% for instance in mesh.fastd.nodes.instances %}{{ mesh.id }}vpn-{{ instance.mtu }}{% if not loop.last %} {% endif %}{% endfor %}{% if not loop.last %} {% endif %}{% endfor %}
 {% else %}
-ExecStart={{ fastd_exporter_path }} {{ fastd_exporter_default_opts }} --instances="{% for mesh in meshes %}{% for instance in mesh.fastd.nodes.instances %}{{ mesh.id }}vpn-{{ instance.mtu }}{% if not loop.last %},{% endif %}{% endfor %}{% if not loop.last %},{% endif %}{% endfor %}"
+ExecStart={{ fastd_exporter_path }} {{ fastd_exporter_default_opts }} {% for mesh in meshes %}{% for instance in mesh.fastd.nodes.instances %}{{ mesh.id }}vpn-{{ instance.mtu }}{% if not loop.last %} {% endif %}{% endfor %}{% if not loop.last %} {% endif %}{% endfor %}
 {% endif %}
+
 Restart=always
 RestartSec=5s
 
