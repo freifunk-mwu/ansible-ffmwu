@@ -129,11 +129,11 @@ groups:
 - name: fastd
   rules:
   - alert: FastdNoTraffic
-    expr: irate(fastd_tx_bytes[5m]) == 0 and on(hostname, interface) fastd_peers_up_total > 0  and on(hostname, interface) (fastd_uptime_seconds / 60) > 15
+    expr: irate(fastd_tx_bytes[5m]) == 0 and on(hostname, fastd_instance) fastd_peers_up_total > 0  and on(hostname, fastd_instance) (fastd_uptime_seconds / 60) > 15
     for: 5m
     annotations:
-      description: 'No TX data was seen on a fastd interface for more than 5 minutes'
-      summary: 'Instance {{ $labels.hostname }}: No traffic on {{ $labels.interface }}'
+      description: 'No TX data was seen on a fastd fastd_instance for more than 5 minutes'
+      summary: 'Instance {{ $labels.hostname }}: No traffic on {{ $labels.fastd_instance }}'
 
 - name: kea
   rules:
