@@ -3,4 +3,4 @@ server_type: "monitoring"
 
 magic: 64
 
-nodejs_major_version: "13"
+nodejs_major_version: "14"
