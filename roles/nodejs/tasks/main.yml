@@ -15,4 +15,4 @@
 - name: install nodejs package
   package:
     name: nodejs
-    state: present
+    state: latest
