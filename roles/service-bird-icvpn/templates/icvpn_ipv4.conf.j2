@@ -23,17 +23,14 @@ filter icvpn_import_filter {
     } else {
         if roa_check(roa_icvpn) = ROA_UNKNOWN then {
             if is_dn42() then {
-                print "ROA UNKNOWN for dn42 net, accepting: ", net, " ASN: ", bgp_path.last;
                 accept;
             }
             if is_freifunk() then {
-                print "ROA UNKNOWN for freifunk net, accepting: ", net, " ASN: ", bgp_path.last;
                 accept;
             }
         }
         if roa_check(roa_icvpn) = ROA_INVALID then {
             if is_freifunk() then {
-                print "ROA INVALID for freifunk net, accepting: ", net, " ASN: ", bgp_path.last;
                 accept;
             }
         }
