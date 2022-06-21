@@ -94,9 +94,6 @@ virtual_gid_maps = static:{{ dovecot_virtual_group_gid }}
 # deliver virtual recipients to dovecot via unix lmtp socket
 virtual_transport = lmtp:unix:private/dovecot-lmtp
 
-# TLS parameters
-tls_preempt_cipherlist = yes
-
 # SMTP Daemon TLS parameters
 smtpd_tls_cert_file={{ ssl_cert_path }}
 smtpd_tls_key_file={{ ssl_key_path }}
