@@ -63,7 +63,6 @@
   notify: restart grafana
   loop:
     - grafana-image-renderer
-    - grafana-piechart-panel
 
 - name: enable systemd unit grafana
   systemd:
