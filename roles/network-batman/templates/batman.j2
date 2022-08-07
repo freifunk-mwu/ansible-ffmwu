@@ -1,5 +1,5 @@
 #jinja2: trim_blocks:False
-{% set ip4hex = item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ip4_hex() -%}
+{% set ip4hex = item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ansible.utils.ip4_hex -%}
 {% set mac = '0201' + ip4hex -%}
 #
 # {{ ansible_managed }}
