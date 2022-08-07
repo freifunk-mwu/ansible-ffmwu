@@ -1,6 +1,12 @@
+{% set _inventory_hostname_a = lookup('dig', inventory_hostname, 'qtype=A') %}
+{% set _inventory_hostname_aaaa = lookup('dig', inventory_hostname, 'qtype=AAAA') %}
 server {
-    listen {{ lookup('dig', inventory_hostname, 'qtype=A') }}:9281 ssl;
-    listen [{{ lookup('dig', inventory_hostname, 'qtype=AAAA') }}]:9281 ssl;
+{% if _inventory_hostname_a | ansible.utils.ipv4 %}
+    listen {{ _inventory_hostname_a }}:9281 ssl;
+{% endif %}
+{% if _inventory_hostname_aaaa | ansible.utils.ipv6 %}
+    listen [{{ _inventory_hostname_aaaa }}]:9281 ssl;
+{% endif %}
     server_name {{ inventory_hostname_short }}.{{ http_domain_external }} {{ inventory_hostname_short }}.{{ http_domain_internal }};
 
     include /etc/nginx/snippets/ssl.conf;
@@ -12,8 +18,14 @@ server {
       allow ::1/128;
 {% for group in ['monitoring', 'gateways'] %}
 {% for host in groups[group] %}
-      allow {{ lookup('dig', host, 'qtype=A') }};
-      allow {{ lookup('dig', host, 'qtype=AAAA') }};
+{% set _host_a = lookup('dig', host, 'qtype=A') %}
+{% set _host_aaaa = lookup('dig', host, 'qtype=AAAA') %}
+{% if _host_a | ansible.utils.ipv4 %}
+      allow {{ _host_a }};
+{% endif %}
+{% if _host_aaaa | ansible.utils.ipv6 %}
+      allow {{ _host_aaaa }};
+{% endif %}
 {% endfor %}
 {% endfor %}
       deny all;
