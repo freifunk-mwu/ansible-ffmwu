@@ -11,7 +11,11 @@ key_ttl: 900
 
 gateways:
 {% for gateway in groups['gateways'] %}
+{% if gateway in groups['backbone_gateways'] %}
+{% continue %}
+{% else %}
   - {{ gateway.rsplit('.freifunk-mwu.de')[0] }}
+{% endif %}
 {% endfor %}
 
 metrics_url: 'https://%s.freifunk-mwu.de:9281/metrics'

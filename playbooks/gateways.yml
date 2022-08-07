@@ -29,7 +29,7 @@
   - service-dhcpd
   - service-radvd
   - service-fastd
-  - service-fastd-mesh
+  - { role: service-fastd-mesh, when: "'backbone_gateways' not in group_names" }
   - service-fastd-backbone
   - service-tinc
   - service-bird
