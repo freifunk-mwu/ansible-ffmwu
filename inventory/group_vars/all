@@ -429,6 +429,71 @@ wireguard_networks:
       - olive
       - griesbrei
     port: 50104
+  - ipv4: 10.87.253.210/31
+    peers:
+      - kumquat
+      - ingwer
+    port: 50105
+  - ipv4: 10.87.253.212/31
+    peers:
+      - kumquat
+      - uffschnitt
+    port: 50106
+  - ipv4: 10.87.253.214/31
+    peers:
+      - kumquat
+      - lotuswurzel
+    port: 50107
+  - ipv4: 10.87.253.216/31
+    peers:
+      - kumquat
+      - wasserfloh
+    port: 50108
+  - ipv4: 10.87.253.218/31
+    peers:
+      - kumquat
+      - reis
+    port: 50109
+  - ipv4: 10.87.253.220/31
+    peers:
+      - kumquat
+      - kichererbse
+    port: 50110
+  - ipv4: 10.87.253.222/31
+    peers:
+      - kumquat
+      - unifi
+    port: 50111
+  - ipv4: 10.87.253.224/31
+    peers:
+      - kumquat
+      - kumpir
+    port: 50112
+  - ipv4: 10.87.253.226/31
+    peers:
+      - kumquat
+      - morchel
+    port: 50113
+  - ipv4: 10.87.253.228/31
+    peers:
+      - kumquat
+      - gurke
+    port: 50114
+  - ipv4: 10.87.253.230/31
+    peers:
+      - kumquat
+      - mate
+    port: 50115
+  - ipv4: 10.87.253.232/31
+    peers:
+      - kumquat
+      - griesbrei
+    port: 50116
+  - ipv4: 10.87.253.234/31
+    peers:
+      - kumquat
+      - olive
+    port: 50117
 
 fastd_groups:
   - gateways
