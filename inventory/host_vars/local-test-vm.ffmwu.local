@@ -1,9 +1,0 @@
----
-
-ansible_managed_server: True
-ansible_managed_meshing: True
-
-# communities inherited as mz, wi
-
-fastd_config: 'meshing-only'
-fastd_alias: TST_local-vm
