@@ -23,6 +23,7 @@ with open('inventory/gateways', 'r') as f:
     hosts = f.read().splitlines()
 
 hosts.remove('[gateways]')
+hosts = filter(None, hosts)
 
 networks = []
 for host_fqdn in hosts:
