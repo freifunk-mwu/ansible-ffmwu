@@ -11,7 +11,7 @@
       - "dns_host_ipv4_address in ansible_all_ipv4_addresses"
       - "dns_host_ipv6_address in ansible_all_ipv6_addresses"
       - "ansible_distribution == 'Debian'"
-      - "ansible_distribution_major_version in ('9', '10')"
+      - "ansible_distribution_major_version in ('11')"
 
 - name: Check gateway specific DNS entries
   when: server_type == "gateway"

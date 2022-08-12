@@ -1,0 +1,7 @@
+#
+# {{ ansible_managed }}
+#
+[Network]
+{% for peer_id,_ in ffrl_exit_server.items() %}
+Tunnel={{ peer_id }}
+{% endfor%}

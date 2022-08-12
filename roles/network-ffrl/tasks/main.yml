@@ -1,16 +1,35 @@
 ---
-- name: create ffrl interfaces
+- name: create ffrl-nat.netdev
   template:
-    src: ffrl.j2
-    dest: "/etc/network/interfaces.d/{{ item.key }}"
-  notify: reload network interfaces
+    src: ffrl-gre.netdev.j2
+    dest: "/etc/systemd/network/{{ item.key }}.netdev"
+  notify: restart networkd
   loop: "{{ ffrl_exit_server | dict2items }}"
 
-- name: create ffrl-nat dummy interface
+- name: create ffrl-nat.network
   template:
-    src: ffrl_nat.j2
-    dest: "/etc/network/interfaces.d/ffrl-nat"
-  notify: reload network interfaces
+    src: ffrl-gre.network.j2
+    dest: "/etc/systemd/network/{{ item.key }}.network"
+  notify: restart networkd
+  loop: "{{ ffrl_exit_server | dict2items }}"
+
+- name: create ffrl-nat.netdev
+  template:
+    src: ffrl-nat.netdev.j2
+    dest: "/etc/systemd/network/ffrl-nat.netdev"
+  notify: restart networkd
+
+- name: create ffrl-nat.network
+  template:
+    src: ffrl-nat.network.j2
+    dest: "/etc/systemd/network/ffrl-nat.network"
+  notify: restart networkd
+
+- name: create ffrl-tunnel.conf
+  template:
+    src: ffrl-tunnel.conf.j2
+    dest: "/etc/systemd/network/{{ ansible_default_ipv4.interface }}.network.d/ffrl-tunnel.conf"
+  notify: restart networkd
 
 - name: flush handlers
   meta: flush_handlers

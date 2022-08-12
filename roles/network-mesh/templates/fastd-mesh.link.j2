@@ -1,0 +1,11 @@
+{% set ip4hex = item.0.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ansible.utils.ip4_hex -%}
+{% set mac = '022' + item.1.id|string + ip4hex -%}
+#
+# {{ ansible_managed }}
+#
+[Match]
+Name={{ item.0.id }}vpn-{{ item.1.mtu }}
+
+[Link]
+MACAddress={{ mac | hwaddr('linux') }}
+MTUBytes={{ item.1.mtu }}
