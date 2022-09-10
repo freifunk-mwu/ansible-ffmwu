@@ -74,7 +74,9 @@ ip -4 rule del from all iif {{ server_id }} type unreachable priority 61
 ip -6 rule del from all iif {{ server_id }} type unreachable priority 61
 {% endfor %}
 ip -6 rule del from all iif icvpn type unreachable priority 61
+{% if inventory_hostname not in groups["servers_ipv4_only"] %}
 ip -6 rule del from all iif {{ ansible_default_ipv6.interface }} type unreachable priority 61
+{% endif %}
 {% for prefix in public_prefixes %}
 ip -6 rule del from {{ prefix.ipv6 }} type unreachable priority 61
 ip -6 rule del to {{ prefix.ipv6 }} type unreachable priority 61

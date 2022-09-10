@@ -1,3 +1,4 @@
+{% set _host = item.remote[:13] + ".freifunk-mwu.de" %}
 # {{ ansible_managed }}
 #
 # {{ inventory_hostname }} wg_{{ item.remote[:13] }} configuration
@@ -7,6 +8,10 @@ PrivateKey = {{ wireguard_private_key }}
 ListenPort = {{ item.port }}
 
 [Peer]
+{% if inventory_hostname in groups["servers_ipv4_only"] or _host in groups["servers_ipv4_only"] %}
+Endpoint = {{ lookup('dig', item.remote_hostname, 'qtype=A') | ipwrap }}:{{ item.port }}
+{% else %}
 Endpoint = {{ lookup('dig', item.remote_hostname, 'qtype=AAAA') | ipwrap }}:{{ item.port }}
+{% endif %}
 PublicKey = {{ lookup('passwordstore', 'wireguard/' + item.remote + ' subkey=public') }}
 AllowedIPs = 0.0.0.0/0,::/0

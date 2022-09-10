@@ -1,6 +1,8 @@
 server {
     listen {{ lookup('dig', inventory_hostname, 'qtype=A') }}:9547 ssl;
+{% if inventory_hostname not in groups["servers_ipv4_only"] %}
     listen [{{ lookup('dig', inventory_hostname, 'qtype=AAAA') }}]:9547 ssl;
+{% endif %}
     server_name {{ inventory_hostname_short }}.{{ http_domain_external }} {{ inventory_hostname_short }}.{{ http_domain_internal }};
 
     include /etc/nginx/snippets/ssl.conf;
@@ -12,7 +14,9 @@ server {
       allow ::1/128;
 {% for host in groups['monitoring'] %}
       allow {{ lookup('dig', host, 'qtype=A') }};
+{% if host not in groups["servers_ipv4_only"] %}
       allow {{ lookup('dig', host, 'qtype=AAAA') }};
+{% endif %}
 {% endfor %}
       deny all;
     }
