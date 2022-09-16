@@ -7,6 +7,17 @@ public_gw_prefixes:
   - ipv6: 2a03:2260:11a:2b00::/56
   - ipv6: 2a03:2260:11b:2b00::/56
 
+gw_batman_mesh_interfaces:
+  wi:
+    - enp2s0f1.301
+    - enp2s0f1.303
+    - enp2s0f1.900
+    - enp2s0f1.910
+
+gw_meshbridge_ports:
+  wi:
+    - ens1f0
+
 mesh_gw_prefixes:
   dom0:
     ipv4_dhcp: 10.86.2.0/23
