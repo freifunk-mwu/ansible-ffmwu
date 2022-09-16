@@ -9,9 +9,14 @@
   assert:
     that:
       - "dns_host_ipv4_address in ansible_all_ipv4_addresses"
-      - "dns_host_ipv6_address in ansible_all_ipv6_addresses"
       - "ansible_distribution == 'Debian'"
       - "ansible_distribution_major_version in ('9', '10')"
+
+- name: Check basic DNS entries and target distribution
+  when: "'servers_ipv4_only' not in group_names"
+  assert:
+    that:
+      - "dns_host_ipv6_address in ansible_all_ipv6_addresses"
 
 - name: Check gateway specific DNS entries
   when: server_type == "gateway"
