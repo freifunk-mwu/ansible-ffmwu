@@ -16,7 +16,7 @@ PROXY = {
 # Used for bgpmap
 ROUTER_IP = {
 {% for host in groups["gateways"] %}
-  "{{ host.rsplit('.freifunk-mwu.de')[0] }}" : [ "{{ loopback_net_ipv4 | ipsubnet(32, hostvars[host]['magic']) | ipaddr('address') }}", "{{ loopback_net_ipv6 | ipaddr(hostvars[host]['magic']) | ipaddr('address') }}" ],
+  "{{ host.rsplit('.freifunk-mwu.de')[0] }}" : [ "{{ loopback_net_ipv4 | ansible.utils.ipsubnet(32, hostvars[host]['magic']) | ansible.utils.ipaddr('address') }}", "{{ loopback_net_ipv6 | ansible.utils.ipaddr(hostvars[host]['magic']) | ansible.utils.ipaddr('address') }}" ],
 {% endfor %}
 }
 

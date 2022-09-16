@@ -4,5 +4,5 @@ nullmailer_packages:
   - postfix-doc
   - mailutils
 
-nullmailer_relayhost: "[{{ loopback_net_ipv6 | ipaddr(hostvars[mail_server]['magic']) | ipaddr('address') }}]"
+nullmailer_relayhost: "[{{ loopback_net_ipv6 | ansible.utils.ipaddr(hostvars[mail_server]['magic']) | ansible.utils.ipaddr('address') }}]"
 admin_mail_address: "admin@lists.freifunk-mwu.de"

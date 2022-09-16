@@ -5,7 +5,7 @@
 :INPUT ACCEPT [0:0]
 :FORWARD ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
--A INPUT -d {{ ansible_default_ipv4.address | ipaddr('public') }}/32 -p gre -j ACCEPT
+-A INPUT -d {{ ansible_default_ipv4.address | ansible.utils.ipaddr('public') }}/32 -p gre -j ACCEPT
 -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 {% for mesh_forward in meshes %}
 {% for mesh_recursive in meshes recursive %}
@@ -15,7 +15,7 @@
 {% endfor %}
 {% endfor %}
 -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
--A OUTPUT -s {{ ansible_default_ipv4.address | ipaddr('public') }}/32 -p gre -j ACCEPT
+-A OUTPUT -s {{ ansible_default_ipv4.address | ansible.utils.ipaddr('public') }}/32 -p gre -j ACCEPT
 -A OUTPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 COMMIT
 *mangle
@@ -33,7 +33,7 @@ COMMIT
 :POSTROUTING ACCEPT [0:0]
 :ffrl-nat - [0:0]
 {% for mesh in meshes %}
--A POSTROUTING -s {{ mesh.ipv4_network | ipaddr('private') | ipaddr('net') }} -o ffrl+ -j ffrl-nat
+-A POSTROUTING -s {{ mesh.ipv4_network | ansible.utils.ipaddr('private') | ansible.utils.ipaddr('net') }} -o ffrl+ -j ffrl-nat
 {% endfor %}
--A ffrl-nat -o ffrl+ -j SNAT --to-source {{ ffrl_public_ipv4_nat | ipaddr('address') }}
+-A ffrl-nat -o ffrl+ -j SNAT --to-source {{ ffrl_public_ipv4_nat | ansible.utils.ipaddr('address') }}
 COMMIT

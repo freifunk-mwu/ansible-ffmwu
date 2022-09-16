@@ -2,8 +2,8 @@
 #
 # {{ ansible_managed }}
 #
-/sbin/ip addr del dev ${INTERFACE} {{ icvpn_ipv4_transfer_net | ipaddr('net') | ipsubnet(24, 37) | ipaddr(magic) | ipaddr('address') }}/16 broadcast {{ icvpn_ipv4_transfer_net | ipaddr('net') | ipaddr('broadcast') }}
-/sbin/ip -6 addr del dev ${INTERFACE} {{ icvpn_ipv6_transfer_net | ipaddr('net') | ipsubnet(112, 37) | ipaddr(magic) | ipaddr('address') }}/96
+/sbin/ip addr del dev ${INTERFACE} {{ icvpn_ipv4_transfer_net | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(24, 37) | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }}/16 broadcast {{ icvpn_ipv4_transfer_net | ansible.utils.ipaddr('net') | ansible.utils.ipaddr('broadcast') }}
+/sbin/ip -6 addr del dev ${INTERFACE} {{ icvpn_ipv6_transfer_net | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(112, 37) | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }}/96
 
 /sbin/ip -4 route del {{ icvpn_ipv4_transfer_net }} proto static dev ${INTERFACE} table {{ routing_tables.icvpn }}
 /sbin/ip -6 route del {{ icvpn_ipv6_transfer_net }} proto static dev ${INTERFACE} table {{ routing_tables.icvpn }}

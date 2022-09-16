@@ -4,20 +4,20 @@ protocol radv radv_{{ mesh.id }} {
 		max ra interval {{ mesh.radvd.maxrtradvinterval }};
 
 {% for prefix in mesh.ipv6_ula %}
-		prefix {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} {
+		prefix {{ prefix | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(64, 0) | ansible.utils.ipaddr('subnet') }} {
 			valid lifetime {{ mesh.radvd.advvalidlifetime }};
 			preferred lifetime {{ mesh.radvd.advpreferredlifetime }};
 		};
 {% endfor %}
 
 {% for prefix in mesh.ipv6_public %}
-		prefix {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} {
+		prefix {{ prefix | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(64, 0) | ansible.utils.ipaddr('subnet') }} {
 			skip yes;
 		};
 {% endfor %}
 
 {% for prefix in mesh_gw_prefixes[mesh.id].ipv6_public %}
-		prefix {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} {
+		prefix {{ prefix | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(64, 0) | ansible.utils.ipaddr('subnet') }} {
 			valid lifetime {{ mesh.radvd.advvalidlifetime }};
 			preferred lifetime {{ mesh.radvd.advpreferredlifetime }};
 		};
@@ -25,7 +25,7 @@ protocol radv radv_{{ mesh.id }} {
 
 		rdnss {
 {% for prefix in mesh.ipv6_ula %}
-			ns {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('address') }};
+			ns {{ prefix | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(64, 0) | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }};
 {% endfor %}
 		};
 

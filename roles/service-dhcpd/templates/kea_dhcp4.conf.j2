@@ -63,7 +63,7 @@
         {
           "name": "unifi-address",
           "space": "ubnt",
-          "data": "{{ loopback_net_ipv4 | ipaddr(hostvars[unifi_server + '.' + http_domain_external ]['magic']) | ipaddr('address') }}"
+          "data": "{{ loopback_net_ipv4 | ansible.utils.ipaddr(hostvars[unifi_server + '.' + http_domain_external ]['magic']) | ansible.utils.ipaddr('address') }}"
         },
         {
           "name": "vendor-encapsulated-options"
@@ -75,20 +75,20 @@
   "subnet4": [
 {% for mesh in meshes %}
     {
-      "subnet": "{{ mesh.ipv4_network | ipaddr('network/prefix') }}",
-      "pools": [ { "pool": "{{ mesh_gw_prefixes[mesh.id].ipv4_dhcp | ipaddr('net') | ipaddr('range_usable') }}" } ],
+      "subnet": "{{ mesh.ipv4_network | ansible.utils.ipaddr('network/prefix') }}",
+      "pools": [ { "pool": "{{ mesh_gw_prefixes[mesh.id].ipv4_dhcp | ansible.utils.ipaddr('net') | ansible.utils.ipaddr('range_usable') }}" } ],
       "option-data": [
         {
           "name": "routers",
-          "data": "{{ mesh.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') }}"
+          "data": "{{ mesh.ipv4_network | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }}"
         },
         {
           "name": "time-servers",
-          "data": "{{ mesh.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') }}"
+          "data": "{{ mesh.ipv4_network | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }}"
         },
         {
           "name": "domain-name-servers",
-          "data": "{{ mesh.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') }}"
+          "data": "{{ mesh.ipv4_network | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }}"
         }{% if mesh.dnssl is defined %},
         {
           "name": "domain-search",

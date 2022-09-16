@@ -3,7 +3,7 @@
 #
 
 # Variables
-define icvpn_address = {{ icvpn_ipv4_transfer_net | ipaddr('net') | ipsubnet(24, 37) | ipaddr(magic) | ipaddr('address') }};
+define icvpn_address = {{ icvpn_ipv4_transfer_net | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(24, 37) | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }};
 
 # ROA
 roa table roa_icvpn {

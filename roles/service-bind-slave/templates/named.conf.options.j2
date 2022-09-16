@@ -17,23 +17,23 @@ options {
 
 	listen-on {
 		127.0.0.1;
-		{{ anycast_ipv4 | ipaddr('address') }};
-		{{ loopback_net_ipv4 | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
+		{{ anycast_ipv4 | ansible.utils.ipaddr('address') }};
+		{{ loopback_net_ipv4 | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }};
 {% for mesh in meshes %}
-		{{ mesh.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
+		{{ mesh.ipv4_network | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }};
 {% endfor %}
-		{{ icvpn_ipv4_transfer_net | ipaddr('net') | ipsubnet(24, 37) | ipaddr(magic) | ipaddr('address') }};
+		{{ icvpn_ipv4_transfer_net | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(24, 37) | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }};
 	};
 
 	listen-on-v6 {
 		::1;
-		{{ anycast_ipv6 | ipaddr('address') }};
-		{{ loopback_net_ipv6 | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
+		{{ anycast_ipv6 | ansible.utils.ipaddr('address') }};
+		{{ loopback_net_ipv6 | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }};
 {% for mesh in meshes %}
 {% for ip in mesh.ipv6_ula %}
-		{{ ip | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('address') }};
+		{{ ip | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(64, 0) | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }};
 {% endfor %}
 {% endfor %}
-		{{ icvpn_ipv6_transfer_net | ipaddr('net') | ipsubnet(112, 37) | ipaddr(magic) | ipaddr('address') }};
+		{{ icvpn_ipv6_transfer_net | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(112, 37) | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }};
 	};
 };

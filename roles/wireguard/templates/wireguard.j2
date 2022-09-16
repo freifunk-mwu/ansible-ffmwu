@@ -11,11 +11,11 @@ iface wg-{{ network.remote[:11] }}
 {% endif %}
    ipv6-addrgen off
 {% if magic < network.remote_magic %}
-   address {{ network.ipv4 | ipaddr('ip/prefix') }}
+   address {{ network.ipv4 | ansible.utils.ipaddr('ip/prefix') }}
 {% else %}
-   address {{ network.ipv4 | ipaddr('1') | ipaddr('ip/prefix') }}
+   address {{ network.ipv4 | ansible.utils.ipaddr('1') | ansible.utils.ipaddr('ip/prefix') }}
 {% endif %}
-   address {{ 'fe80::/64' | ipaddr(magic) | ipaddr('ip/prefix') }}
+   address {{ 'fe80::/64' | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('ip/prefix') }}
    pre-up ip link add dev $IFACE type wireguard
    pre-up wg setconf $IFACE /etc/wireguard/$IFACE.conf
    post-up ip link set up dev $IFACE

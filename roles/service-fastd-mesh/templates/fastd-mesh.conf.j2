@@ -13,8 +13,8 @@ method "salsa2012+umac";
 
 interface "{{ item.0.id }}vpn-{{ item.1.mtu }}";
 
-bind {{ ansible_default_ipv4.address | ipaddr('public') }}:10{{ item.1.id }}{{ '%02d' % item.0.domain_number }};
-bind {{ ansible_default_ipv6.address | ipaddr('public') | ipwrap }}:10{{ item.1.id }}{{ '%02d' % item.0.domain_number }};
+bind {{ ansible_default_ipv4.address | ansible.utils.ipaddr('public') }}:10{{ item.1.id }}{{ '%02d' % item.0.domain_number }};
+bind {{ ansible_default_ipv6.address | ansible.utils.ipaddr('public') | ansible.utils.ipwrap }}:10{{ item.1.id }}{{ '%02d' % item.0.domain_number }};
 
 secret "{{ lookup('passwordstore', item.1.pass + '/' + inventory_hostname_short + ' subkey=secret') }}";
 

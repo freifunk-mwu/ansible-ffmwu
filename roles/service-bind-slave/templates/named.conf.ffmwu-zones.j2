@@ -4,14 +4,14 @@
 
 // ACLs
 masters "ns-master-ffmwu" {
-	{{ dns_internal.master_ipv4 | ipaddr('address') }};
-	{{ dns_internal.master_ipv6 | ipaddr('address') }};
+	{{ dns_internal.master_ipv4 | ansible.utils.ipaddr('address') }};
+	{{ dns_internal.master_ipv6 | ansible.utils.ipaddr('address') }};
 };
 
 acl "internal" {
 {% for network in internal_prefixes %}
-	{{ network.ipv4 | ipaddr('net') | ipaddr('network/prefix') }};
-	{{ network.ipv6 | ipaddr('net') | ipaddr('network/prefix') }};
+	{{ network.ipv4 | ansible.utils.ipaddr('net') | ansible.utils.ipaddr('network/prefix') }};
+	{{ network.ipv6 | ansible.utils.ipaddr('net') | ansible.utils.ipaddr('network/prefix') }};
 {% endfor %}
 };
 

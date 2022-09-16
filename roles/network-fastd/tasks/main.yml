@@ -1,6 +1,6 @@
 ---
 - name: create fastd mesh interfaces
-  when: server_type == "gateway"
+  when: server_type == "gateway" and "backbone_gateways" not in group_names
   template:
     src: fastd-mesh.j2
     dest: "/etc/network/interfaces.d/{{ item.0.id }}vpn-{{ item.1.mtu }}"

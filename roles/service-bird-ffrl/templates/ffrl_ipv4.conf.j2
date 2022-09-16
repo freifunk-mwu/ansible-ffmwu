@@ -4,7 +4,7 @@
 
 # Variables
 define ffrl_as = {{ as_public_ffrl }};
-define ffrl_nat_address = {{ ffrl_public_ipv4_nat | ipaddr('address') }};
+define ffrl_nat_address = {{ ffrl_public_ipv4_nat | ansible.utils.ipaddr('address') }};
 
 # Routing Table
 table ffrl;
@@ -12,7 +12,7 @@ table ffrl;
 # Functions
 function is_ffrl_nat() {
     return net ~ [
-        {{ ffrl_public_ipv4_nat | ipaddr('host') }}
+        {{ ffrl_public_ipv4_nat | ansible.utils.ipaddr('host') }}
     ];
 }
 

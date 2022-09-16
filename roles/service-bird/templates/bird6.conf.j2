@@ -3,9 +3,9 @@
 #
 
 # Variables
-define router_id = {{ loopback_net_ipv4 | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
-define loopback_address = {{ loopback_net_ipv6 | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
-define mwu_address_legacy = {{ bgp_ipv6_transfer_net_legacy | ipaddr('net') | ipaddr(magic) | ipaddr('address') }};
+define router_id = {{ loopback_net_ipv4 | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }};
+define loopback_address = {{ loopback_net_ipv6 | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }};
+define mwu_address_legacy = {{ bgp_ipv6_transfer_net_legacy | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }};
 define mwu_as = {{ as_private }};
 
 # General
@@ -28,7 +28,7 @@ function is_ula() {
 function is_mwu_self_nets_loose() {
     return net ~ [
 {% for prefix in internal_prefixes %}
-        {{ prefix.ipv6 | ipaddr('net') }}+{{ "," if not loop.last else "" }}
+        {{ prefix.ipv6 | ansible.utils.ipaddr('net') }}+{{ "," if not loop.last else "" }}
 {% endfor %}
     ];
 }
@@ -36,7 +36,7 @@ function is_mwu_self_nets_loose() {
 function is_mwu_self_nets_strict() {
     return net ~ [
 {% for prefix in internal_prefixes %}
-        {{ prefix.ipv6 | ipaddr('net') }}{{ "," if not loop.last else "" }}
+        {{ prefix.ipv6 | ansible.utils.ipaddr('net') }}{{ "," if not loop.last else "" }}
 {% endfor %}
     ];
 }

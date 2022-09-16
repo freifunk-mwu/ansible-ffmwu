@@ -12,16 +12,16 @@
 
 auto {{ item.id }}br
 iface {{ item.id }}br
-    address {{ item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('ip/prefix') }}
+    address {{ item.ipv4_network | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('ip/prefix') }}
 {% for prefix in item.ipv6_ula %}
-    address {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('ip/prefix') }}
+    address {{ prefix | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(64, 0) | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('ip/prefix') }}
 {% endfor %}
 {% for prefix in item.ipv6_public %}
-    address {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('ip/prefix') }}
+    address {{ prefix | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(64, 0) | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('ip/prefix') }}
 {% endfor %}
 {% if mesh_gw_prefixes is defined %}
 {% for prefix in mesh_gw_prefixes[item.id].ipv6_public %}
-    address {{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(1) | ipaddr('ip/prefix') }}
+    address {{ prefix | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(64, 0) | ansible.utils.ipaddr(1) | ansible.utils.ipaddr('ip/prefix') }}
 {% endfor %}
 {% endif %}
     bridge-ports {{ _bridge_ports | join(' ') }}

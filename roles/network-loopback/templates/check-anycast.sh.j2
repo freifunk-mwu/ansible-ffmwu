@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LOOPBACK="loopback"
-ANYCAST="{{ anycast_ipv4 | ipaddr('address') }}"
+ANYCAST="{{ anycast_ipv4 | ansible.utils.ipaddr('address') }}"
 
 ANYCAST_PRESENT=false
 if ping -c 1 "${ANYCAST}" > /dev/null 2>&1 ; then

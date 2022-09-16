@@ -5,11 +5,11 @@
 {% for network in my_wireguard_networks %}
 protocol bgp mwu_{{ network.remote }} from ibgp_mwu {
 {% if magic < network.remote_magic %}
-    source address {{ network.ipv4 | ipaddr('address') }};
-    neighbor {{ network.ipv4 | ipaddr('1') | ipaddr('address') }} as mwu_as;
+    source address {{ network.ipv4 | ansible.utils.ipaddr('address') }};
+    neighbor {{ network.ipv4 | ansible.utils.ipaddr('1') | ansible.utils.ipaddr('address') }} as mwu_as;
 {% else %}
-    source address {{ network.ipv4 | ipaddr('1') | ipaddr('address') }};
-    neighbor {{ network.ipv4 | ipaddr('address') }} as mwu_as;
+    source address {{ network.ipv4 | ansible.utils.ipaddr('1') | ansible.utils.ipaddr('address') }};
+    neighbor {{ network.ipv4 | ansible.utils.ipaddr('address') }} as mwu_as;
 {% endif %}
 };
 

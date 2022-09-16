@@ -4,5 +4,5 @@
 auto anycast
 iface anycast
     link-type dummy
-    address {{ anycast_ipv4 | ipaddr('network/prefix') }}
-    address {{ anycast_ipv6 | ipaddr('network/prefix') }}
+    address {{ anycast_ipv4 | ansible.utils.ipaddr('network/prefix') }}
+    address {{ anycast_ipv6 | ansible.utils.ipaddr('network/prefix') }}

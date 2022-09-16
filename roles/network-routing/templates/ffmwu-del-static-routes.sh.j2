@@ -5,9 +5,9 @@
 
 {% for network in my_wireguard_networks %}
 {% if magic < network.remote_magic %}
-/sbin/ip -4 route del {{ network.ipv4 | ipaddr('network/prefix') }} dev wg-{{ network.remote[:11] }} scope link src {{ network.ipv4 | ipaddr('address') }} table mwu
+/sbin/ip -4 route del {{ network.ipv4 | ansible.utils.ipaddr('network/prefix') }} dev wg-{{ network.remote[:11] }} scope link src {{ network.ipv4 | ansible.utils.ipaddr('address') }} table mwu
 {% else %}
-/sbin/ip -4 route del {{ network.ipv4 | ipaddr('network/prefix') }} dev wg-{{ network.remote[:11] }} scope link src {{ network.ipv4 | ipaddr('1') | ipaddr('address') }} table mwu
+/sbin/ip -4 route del {{ network.ipv4 | ansible.utils.ipaddr('network/prefix') }} dev wg-{{ network.remote[:11] }} scope link src {{ network.ipv4 | ansible.utils.ipaddr('1') | ansible.utils.ipaddr('address') }} table mwu
 {% endif %}
 {% endfor %}
 {% if server_type == 'gateway' or server_type == 'monitoring' %}
@@ -15,14 +15,14 @@
 # static {{ mesh.domain_name }} routes for rt_table mwu
 /sbin/ip -4 route del {{ mesh.ipv4_network }} proto static dev {{ mesh.id }}br table mwu
 {% for ula in mesh.ipv6_ula %}
-/sbin/ip -6 route del {{ ula | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev {{ mesh.id }}br table mwu
+/sbin/ip -6 route del {{ ula | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(64, 0) | ansible.utils.ipaddr('subnet') }} proto static dev {{ mesh.id }}br table mwu
 {% endfor %}
 {% for public in mesh.ipv6_public %}
-/sbin/ip -6 route del {{ public | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev {{ mesh.id }}br table mwu
+/sbin/ip -6 route del {{ public | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(64, 0) | ansible.utils.ipaddr('subnet') }} proto static dev {{ mesh.id }}br table mwu
 {% endfor %}
 {% if mesh_gw_prefixes is defined %}
 {% for public in mesh_gw_prefixes[mesh.id].ipv6_public %}
-/sbin/ip -6 route del {{ public | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }} proto static dev {{ mesh.id }}br table mwu
+/sbin/ip -6 route del {{ public | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(64, 0) | ansible.utils.ipaddr('subnet') }} proto static dev {{ mesh.id }}br table mwu
 {% endfor %}
 {% endif%}
 {% if not loop.last %}

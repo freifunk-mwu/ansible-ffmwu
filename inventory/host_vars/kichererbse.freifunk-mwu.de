@@ -31,12 +31,12 @@ pdns_mysql_databases_credentials:
       - "localhost"
 
 pdns_config:
-  allow-axfr-ips: "{% for host in groups['gateways'] %}{{ loopback_net_ipv4 | ipaddr(hostvars[host]['magic']) | ipaddr('address') }},{{ loopback_net_ipv6 | ipaddr(hostvars[host]['magic']) | ipaddr('address') }}{% if not loop.last %},{% endif %}{% endfor %}"
+  allow-axfr-ips: "{% for host in groups['gateways'] %}{{ loopback_net_ipv4 | ansible.utils.ipaddr(hostvars[host]['magic']) | ansible.utils.ipaddr('address') }},{{ loopback_net_ipv6 | ansible.utils.ipaddr(hostvars[host]['magic']) | ansible.utils.ipaddr('address') }}{% if not loop.last %},{% endif %}{% endfor %}"
   api: "yes"
   api-key: "{{ lookup('passwordstore', inventory_hostname_short + '/pdns_apikey') }}"
   default-soa-content: "{{ inventory_hostname }} admin.freifunk-mwu.de 0 10800 3600 604800 3600"
   local-port: "53"
-  local-address: "127.0.0.1,{{ loopback_net_ipv4 | ipaddr(magic) | ipaddr('address') }},::1,{{ loopback_net_ipv6 | ipaddr(magic) | ipaddr('address') }}"
+  local-address: "127.0.0.1,{{ loopback_net_ipv4 | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }},::1,{{ loopback_net_ipv6 | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }}"
   master: True
   only-notify: "{% for prefix in internal_prefixes %}{{ prefix.ipv4 }},{{ prefix.ipv6 }}{% if not loop.last %},{% endif %}{% endfor %}"
   tcp-fast-open: "50"

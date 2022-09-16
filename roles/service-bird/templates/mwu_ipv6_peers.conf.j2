@@ -5,8 +5,8 @@
 {% for network in my_wireguard_networks %}
 protocol bgp mwu_{{ network.remote }} from ibgp_mwu {
     interface "wg-{{ network.remote[:11] }}";
-    source address {{ 'fe80::/64' | ipaddr(magic) | ipaddr('address') }};
-    neighbor {{ 'fe80::/64' | ipaddr(network.remote_magic) | ipaddr('address') }} as mwu_as;
+    source address {{ 'fe80::/64' | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }};
+    neighbor {{ 'fe80::/64' | ansible.utils.ipaddr(network.remote_magic) | ansible.utils.ipaddr('address') }} as mwu_as;
 };
 
 {% endfor %}

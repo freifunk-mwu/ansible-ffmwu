@@ -18,39 +18,39 @@ cert = {{ ssl_cert_path }}
 key = {{ ssl_key_path }}
 
 [dns-anycast]
-accept = {{ anycast_ipv4 | ipaddr('address') }}:853
+accept = {{ anycast_ipv4 | ansible.utils.ipaddr('address') }}:853
 connect = 127.0.0.1:53
 cert = {{ ssl_cert_path }}
 key = {{ ssl_key_path }}
 
 [dns-anycast-v6]
-accept = {{ anycast_ipv6 | ipaddr('address') }}:853
+accept = {{ anycast_ipv6 | ansible.utils.ipaddr('address') }}:853
 connect = ::1:53
 cert = {{ ssl_cert_path }}
 key = {{ ssl_key_path }}
 
 [dns-loopback]
-accept = {{ loopback_net_ipv4 | ipaddr('net') | ipaddr(magic) | ipaddr('address') }}:853
+accept = {{ loopback_net_ipv4 | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }}:853
 connect = 127.0.0.1:53
 cert = {{ ssl_cert_path }}
 key = {{ ssl_key_path }}
 
 [dns-loopback-v6]
-accept = {{ loopback_net_ipv6 | ipaddr('net') | ipaddr(magic) | ipaddr('address') }}:853
+accept = {{ loopback_net_ipv6 | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }}:853
 connect = ::1:53
 cert = {{ ssl_cert_path }}
 key = {{ ssl_key_path }}
 
 {% for mesh in meshes %}
 [dns-{{ mesh.id }}]
-accept = {{ mesh.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') }}:853
+accept = {{ mesh.ipv4_network | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }}:853
 connect = 127.0.0.1:53
 cert = {{ ssl_cert_path }}
 key = {{ ssl_key_path }}
 
 {% for ip in mesh.ipv6_ula %}
 [dns-{{ mesh.id }}-v6-{{ loop.index }}]
-accept = {{ ip | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('address') }}:853
+accept = {{ ip | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(64, 0) | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }}:853
 connect = ::1:53
 cert = {{ ssl_cert_path }}
 key = {{ ssl_key_path }}

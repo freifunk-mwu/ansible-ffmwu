@@ -4,4 +4,4 @@
 auto ffrl-nat
 iface ffrl-nat
     link-type dummy
-    address {{ ffrl_public_ipv4_nat | ipaddr('host') }}
+    address {{ ffrl_public_ipv4_nat | ansible.utils.ipaddr('host') }}

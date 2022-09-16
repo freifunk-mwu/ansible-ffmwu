@@ -1,4 +1,4 @@
-{% set ip4hex = item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ansible.utils.ip4_hex %}
+{% set ip4hex = item.ipv4_network | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') | ansible.utils.ip4_hex %}
 {% set mac = '0201' + ip4hex %}
 {% set _batman_ifaces = [] %}
 {% if server_type == 'gateway' and inventory_hostname not in groups['backbone_gateways'] %}
@@ -21,7 +21,7 @@
 #
 auto {{ item.id }}bat
 iface {{ item.id }}bat
-    hwaddress {{ mac | hwaddr('linux') }}
+    hwaddress {{ mac | ansible.utils.hwaddr('linux') }}
     batman-ifaces {{ item.id }} {{ _batman_ifaces | join(' ') }}
     batman-hop-penalty {{ item.batman.hop_penalty }}
     post-up /usr/sbin/batctl -m $IFACE it {{ item.batman.it }}

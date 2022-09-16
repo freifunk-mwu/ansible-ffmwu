@@ -13,9 +13,9 @@ method "aes128-ctr+umac";
 
 interface "{{ item.0.id }}igvpn-{{ item.1.mtu }}";
 
-bind {{ ansible_default_ipv4.address | ipaddr('public') }}:11{{ item.1.id }}{{ '%02d' % item.0.domain_number }};
+bind {{ ansible_default_ipv4.address | ansible.utils.ipaddr('public') }}:11{{ item.1.id }}{{ '%02d' % item.0.domain_number }};
 {% if inventory_hostname not in groups["servers_ipv4_only"] %}
-bind {{ ansible_default_ipv6.address | ipaddr('public') | ipwrap }}:11{{ item.1.id }}{{ '%02d' % item.0.domain_number }};
+bind {{ ansible_default_ipv6.address | ansible.utils.ipaddr('public') | ansible.utils.ipwrap }}:11{{ item.1.id }}{{ '%02d' % item.0.domain_number }};
 {% endif %}
 
 include "secret.conf";

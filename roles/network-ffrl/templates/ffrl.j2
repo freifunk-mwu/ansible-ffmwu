@@ -4,8 +4,8 @@
 auto {{ item.key }}
 iface {{ item.key }} inet tunnel
     mode gre
-    local {{ ansible_default_ipv4.address | ipaddr('public') | ipaddr('address') }}
-    endpoint {{ item.value.public_ipv4_address | ipaddr('public') | ipaddr('address') }}
+    local {{ ansible_default_ipv4.address | ansible.utils.ipaddr('public') | ansible.utils.ipaddr('address') }}
+    endpoint {{ item.value.public_ipv4_address | ansible.utils.ipaddr('public') | ansible.utils.ipaddr('address') }}
 
     ttl 64
     mtu 1400
@@ -13,5 +13,5 @@ iface {{ item.key }} inet tunnel
     ip-forward on
     ip6-forward on
 
-    address {{ item.value.tunnel_ipv4_network | ipaddr('net') | ipaddr('1') | ipaddr('ip/prefix') }}
-    address {{ item.value.tunnel_ipv6_network | ipaddr('net') | ipaddr('2') | ipaddr('ip/prefix') }}
+    address {{ item.value.tunnel_ipv4_network | ansible.utils.ipaddr('net') | ansible.utils.ipaddr('1') | ansible.utils.ipaddr('ip/prefix') }}
+    address {{ item.value.tunnel_ipv6_network | ansible.utils.ipaddr('net') | ansible.utils.ipaddr('2') | ansible.utils.ipaddr('ip/prefix') }}
