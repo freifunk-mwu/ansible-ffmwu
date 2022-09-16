@@ -5,14 +5,14 @@
     msg: "You must update Ansible to at least version {{ ansible_version_minimum }}."
   run_once: True
 
-- name: Check basic DNS entries and target distribution
+- name: Check basic DNS entries and target distribution (legacy IP)
   assert:
     that:
       - "dns_host_ipv4_address in ansible_all_ipv4_addresses"
       - "ansible_distribution == 'Debian'"
       - "ansible_distribution_major_version in ('9', '10')"
 
-- name: Check basic DNS entries and target distribution
+- name: Check basic DNS entries and target distribution (IPv6)
   when: "'servers_ipv4_only' not in group_names"
   assert:
     that:
