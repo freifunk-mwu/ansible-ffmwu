@@ -13,7 +13,7 @@ interface = "wg-{{ host.rsplit('.')[0][:11] }}"
 
 {% endfor %}
 {% for mesh in meshes %}
-{% if server_type == 'gateway' %}
+{% if server_type == 'gateway' and inventory_hostname not in groups["backbone_gateways"] %}
 {% for instance in mesh.fastd.nodes.instances %}
 [[listen]]
 address   = "ff02::2:1001"
@@ -34,6 +34,20 @@ interface = "{{ mesh.id }}br"
 port      = 1001
 
 {% endfor %}
+{% if gw_batman_mesh_interfaces[mesh.id] is defined and gw_batman_mesh_interfaces[mesh.id] | length > 0 %}
+{% for _batman_interface in gw_batman_mesh_interfaces[mesh.id] %}
+[[listen]]
+address   = "ff02::2:1001"
+interface = "{{ _batman_interface }}"
+port      = 1001
+
+[[listen]]
+address   = "ff05::2:1001"
+interface = "{{ _batman_interface }}"
+port      = 1001
+
+{% endfor %}
+{% endif %}
 {% endfor %}
 
 [defaults]
