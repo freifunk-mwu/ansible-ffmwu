@@ -1,13 +1,28 @@
-#jinja2: trim_blocks:False
-{% set ip4hex = item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ansible.utils.ip4_hex -%}
-{% set mac = '0201' + ip4hex -%}
+{% set ip4hex = item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('address') | ansible.utils.ip4_hex %}
+{% set mac = '0201' + ip4hex %}
+{% set _batman_ifaces = [] %}
+{% if server_type == 'gateway' and inventory_hostname not in groups['backbone_gateways'] %}
+{% for instance in item.fastd.nodes.instances %}
+{% set _fastd_nodes_interface = item.id + 'vpn-' + instance.mtu|string %}
+{% do _batman_ifaces.append(_fastd_nodes_interface) %}
+{% endfor %}
+{% endif %}
+{% for instance in item.fastd.backbone.instances %}
+{% set _fastd_backbone_interface = item.id + 'igvpn-' + instance.mtu|string %}
+{% do _batman_ifaces.append(_fastd_backbone_interface) %}
+{% endfor %}
+{% if gw_batman_mesh_interfaces[item.id] is defined and gw_batman_mesh_interfaces[item.id] | length > 0 %}
+{% for _batman_interface in gw_batman_mesh_interfaces[item.id] %}
+{% do _batman_ifaces.append(_batman_interface) %}
+{% endfor %}
+{% endif %}
 #
 # {{ ansible_managed }}
 #
 auto {{ item.id }}bat
 iface {{ item.id }}bat
     hwaddress {{ mac | hwaddr('linux') }}
-    batman-ifaces {{ item.id }} {% if server_type == 'gateway' %}{% for instance in item.fastd.nodes.instances %}{{ item.id }}vpn-{{ instance.mtu }}{% if not loop.last %} {% endif %}{% endfor %} {% endif %}{% for instance in item.fastd.backbone.instances %}{{ item.id }}igvpn-{{ instance.mtu }}{% if not loop.last %} {% endif %}{% endfor %}
+    batman-ifaces {{ item.id }} {{ _batman_ifaces | join(' ') }}
     batman-hop-penalty {{ item.batman.hop_penalty }}
     post-up /usr/sbin/batctl -m $IFACE it {{ item.batman.it }}
     post-up /usr/sbin/batctl -m $IFACE mm {{ item.batman.mm }}
