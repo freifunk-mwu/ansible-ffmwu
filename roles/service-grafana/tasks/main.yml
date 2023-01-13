@@ -2,13 +2,13 @@
 - name: ensure apt key for grafana is present
   apt_key:
     state: present
-    id: 24098CB6
-    url: "https://packages.grafana.com/gpg.key"
+    id: 2CF3C0C6
+    url: "https://apt.grafana.com/gpg.key"
 
 - name: ensure grafana apt repo is present
   apt_repository:
     state: present
-    repo: "deb https://packages.grafana.com/oss/deb stable main"
+    repo: "deb https://apt.grafana.com stable main"
     update_cache: yes
     filename: grafana
 
