@@ -53,6 +53,9 @@ Unattended-Upgrade::Origins-Pattern {
 {% if 'mail' in group_names %}
         "origin=Rspamd,codename=${distro_codename},label=Rspamd";
 {% endif %}
+{% if 'unifi' in group_names %}
+        "origin=Docker,suite=${distro_codename},label=Docker CE";
+{% endif %}
 };
 
 // List of packages to not update (regexp are supported)
