@@ -4,5 +4,4 @@
   hosts: buildservers
 
   roles:
-  - service-docker
   - service-rsync
