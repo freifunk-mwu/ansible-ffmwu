@@ -45,7 +45,7 @@ Unattended-Upgrade::Origins-Pattern {
         "origin=yarn,codename=stable,archive=stable,label=yarn-stable";
         "origin=Node Source,codename=${distro_codename},label=Node Source";
         "origin=InfluxDB,codename=${distro_codename},label=InfluxDB";
-        "origin=grafana stable,codename=stable,archive=stable,label=grafana stable";
+        "origin=. stable,codename=stable,archive=stable,label=. stable";
 {% endif %}
 {% if 'dns' in group_names %}
         "origin=PowerDNS,label=PowerDNS";
