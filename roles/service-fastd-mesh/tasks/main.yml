@@ -53,19 +53,14 @@
     mode: 0644
   notify: reload systemd
   loop:
-    - fastd-limiter-limit.service
-    - fastd-limiter-limit.timer
-    - fastd-limiter-peers.service
-    - fastd-limiter-peers.timer
+    - fastd-limiter.service
+    - fastd-limiter.timer
 
 - name: configure systemd timers for fastd-limiter
   systemd:
-    name: "{{ item }}"
+    name: fastd-limiter.timer
     enabled: yes
     state: started
-  loop:
-    - fastd-limiter-limit.timer
-    - fastd-limiter-peers.timer
 
 - name: write systemd unit fastd-sync-meshkeys.service
   template:

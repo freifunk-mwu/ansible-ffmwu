@@ -2,12 +2,14 @@
 # {{ ansible_managed }}
 #
 
-additional: 8
-
 redis_db: '127.0.0.1:6379'
 
 fastd_keys: '{{ git_path }}/peers-ffmwu'
 key_ttl: 900
+
+metrics_exporter: 'kea'
+metrics_url: 'http://127.0.0.1:9547/metrics'
+metrics_url: 'https://%s.freifunk-mwu.de:9547/metrics'
 
 gateways:
 {% for gateway in groups['gateways'] %}
@@ -18,4 +20,7 @@ gateways:
 {% endif %}
 {% endfor %}
 
-metrics_url: 'https://%s.freifunk-mwu.de:9281/metrics'
+subnets:
+{% for mesh in meshes %}
+  '{{ mesh.ipv4_network | ansible.utils.ipaddr('network/prefix') }}': '{{ mesh.id }}'
+{% endfor %}
