@@ -15,13 +15,14 @@ mailman_packages:
   - "fcgiwrap"
 
 modoboa_pip_packages:
+  - "django-otp"
   - "gunicorn"
   - "modoboa=={{ modoboa_version }}"
   - "modoboa-dmarc=={{ modoboa_dmarc_version }}"
   - "modoboa-sievefilters=={{ modoboa_sievefilters_version }}"
-  - "modoboa-stats=={{ modoboa_stats_version }}"
   - "modoboa-webmail=={{ modoboa_webmail_version }}"
   - "mysqlclient"
+  - "qrcode"
 
 modoboa_packages:
   - "build-essential"
@@ -56,4 +57,4 @@ postfix_packages:
 rspamd_packages:
   - "rspamd"
 
-_mail_packages: "{{ postfix_packages }} + {{ rspamd_packages }} + {{ dovecot_packages }} + {{ modoboa_packages }}"
+_mail_packages: "{{ postfix_packages + rspamd_packages + dovecot_packages + modoboa_packages }}"

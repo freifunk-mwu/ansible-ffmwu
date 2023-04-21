@@ -51,6 +51,15 @@ X_FRAME_OPTIONS = "SAMEORIGIN"
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
+DISABLE_DASHBOARD_EXTERNAL_QUERIES = False
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+REDIS_HOST = '127.0.0.1'
+REDIS_PORT = 6379
+REDIS_QUOTA_DB = 1
+REDIS_URL = 'redis://{}:{}/{}'.format(REDIS_HOST, REDIS_PORT, REDIS_QUOTA_DB)
+
 # Application definition
 
 INSTALLED_APPS = (
@@ -65,6 +74,11 @@ INSTALLED_APPS = (
     'ckeditor_uploader',
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_spectacular',
+    'phonenumber_field',
+    'django_otp',
+    'django_otp.plugins.otp_totp',
+    'django_otp.plugins.otp_static',
 )
 
 # A dedicated place to register Modoboa applications
@@ -80,10 +94,11 @@ MODOBOA_APPS = (
     'modoboa.limits',
     'modoboa.parameters',
     'modoboa.dnstools',
+    'modoboa.policyd',
+    'modoboa.maillog',
     # Modoboa extensions here.
     'modoboa_dmarc',
     'modoboa_sievefilters',
-    'modoboa_stats',
     'modoboa_webmail',
 )
 
@@ -94,9 +109,12 @@ AUTH_USER_MODEL = 'core.User'
 MIDDLEWARE = (
     'x_forwarded_for.middleware.XForwardedForMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_otp.middleware.OTPMiddleware',
+    'modoboa.core.middleware.TwoFAMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -111,6 +129,8 @@ AUTHENTICATION_BACKENDS = (
     # 'modoboa.lib.authbackends.SMTPBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+OTP_TOTP_ISSUER = "mailadmin.freifunk-mwu.de"
 
 # SMTP authentication
 # AUTH_SMTP_SERVER_ADDRESS = 'localhost'
@@ -134,6 +154,7 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
                 'modoboa.core.context_processors.top_notifications',
+                'modoboa.core.context_processors.new_admin_url',
             ],
             'debug': False,
         },
@@ -144,6 +165,7 @@ ROOT_URLCONF = '{{ modoboa_instance_name }}.urls'
 
 WSGI_APPLICATION = '{{ modoboa_instance_name }}.wsgi.application'
 
+PID_FILE_STORAGE_PATH = '/var/run'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -193,11 +215,34 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Rest framework settings
 
 REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_RATES': {
+       'user': '300/minute',
+       'ddos': '5/second',
+       'ddos_lesser': '200/minute',
+       'login': '10/minute',
+       'password_recovery_request': '12/hour',
+       'password_recovery_totp_check': '25/hour',
+       'password_recovery_apply': '25/hour'
+    },
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'modoboa.core.drf_authentication.JWTAuthenticationWith2FA',
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
 }
+
+SPECTACULAR_SETTINGS = {
+    'SCHEMA_PATH_PREFIX': r'/api/v[0-9]',
+    'TITLE': 'Modoboa API',
+    'VERSION': None,
+    'SERVE_PERMISSIONS': ['rest_framework.permissions.IsAuthenticated'],
+}
+
+PHONENUMBER_DB_FORMAT = 'INTERNATIONAL'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Modoboa settings
 # MODOBOA_CUSTOM_LOGO = os.path.join(MEDIA_URL, "custom_logo.png")
@@ -283,7 +328,8 @@ LOGGING = {
         'syslog-auth': {
             'class': 'logging.handlers.SysLogHandler',
             'facility': SysLogHandler.LOG_AUTH,
-            'formatter': 'syslog'
+            'formatter': 'syslog',
+            'address': '/dev/log'
         },
         'modoboa': {
             'class': 'modoboa.core.loggers.SQLHandler',

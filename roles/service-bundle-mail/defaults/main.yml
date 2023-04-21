@@ -30,11 +30,11 @@ db_modoboa: "modoboa"
 dbuser_modoboa: "modoboa"
 dbuser_modoboa_password: "{{ lookup('passwordstore', 'morchel/mysql/modoboa subkey=secret') }}"
 
-modoboa_version: "1.14.0"
-modoboa_dmarc_version: "1.1.0"
-modoboa_sievefilters_version: "1.4.2"
-modoboa_stats_version: "1.4.1"
-modoboa_webmail_version: "1.5.0"
+modoboa_version: "2.0.5"
+modoboa_dmarc_version: "1.3.0"
+modoboa_sievefilters_version: "1.6.0"
+#modoboa_stats_version: "1.5.0"
+modoboa_webmail_version: "1.7.1"
 
 modoboa_secret_key: "{{ lookup('passwordstore', 'morchel/modoboa/secret_key subkey=secret') }}"
 modoboa_debug_mode: False

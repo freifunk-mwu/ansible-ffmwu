@@ -7,5 +7,3 @@ Description=Parse mail logs for modoboa
 [Service]
 Type=oneshot
 ExecStart={{ modoboa_venv_dir }}/bin/python3 {{ modoboa_instance_dir }}/manage.py logparser
-User={{ modoboa_user }}
-Group={{ modoboa_user }}
