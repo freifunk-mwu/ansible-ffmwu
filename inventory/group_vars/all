@@ -494,6 +494,76 @@ wireguard_networks:
       - kumquat
       - olive
     port: 50117
+  - ipv4: 10.87.253.8/31
+    peers:
+      - edamame
+      - ingwer
+    port: 50004
+  - ipv4: 10.87.253.10/31
+    peers:
+      - edamame
+      - kumquat
+    port: 50005
+  - ipv4: 10.87.253.12/31
+    peers:
+      - edamame
+      - lotuswurzel
+    port: 50006
+  - ipv4: 10.87.253.22/31
+    peers:
+      - edamame
+      - mate
+    port: 50011
+  - ipv4: 10.87.253.30/31
+    peers:
+      - edamame
+      - uffschnitt
+    port: 50015
+  - ipv4: 10.87.253.32/31
+    peers:
+      - edamame
+      - wasserfloh
+    port: 50016
+  - ipv4: 10.87.253.34/31
+    peers:
+      - edamame
+      - kichererbse
+    port: 50017
+  - ipv4: 10.87.253.36/31
+    peers:
+      - edamame
+      - morchel
+    port: 50018
+  - ipv4: 10.87.253.38/31
+    peers:
+      - edamame
+      - reis
+    port: 50019
+  - ipv4: 10.87.253.40/31
+    peers:
+      - edamame
+      - unifi
+    port: 50020
+  - ipv4: 10.87.253.46/31
+    peers:
+      - edamame
+      - kumpir
+    port: 50023
+  - ipv4: 10.87.253.52/31
+    peers:
+      - edamame
+      - griesbrei
+    port: 50026
+  - ipv4: 10.87.253.58/31
+    peers:
+      - edamame
+      - olive
+    port: 50029
+  - ipv4: 10.87.253.70/31
+    peers:
+      - edamame
+      - gurke
+    port: 50035
 
 fastd_groups:
   - gateways

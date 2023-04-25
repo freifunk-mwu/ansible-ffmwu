@@ -1,0 +1,88 @@
+---
+server_type: "gateway"
+
+magic: 58
+
+disable_ipv4_dns_check: True
+
+public_gw_prefixes:
+  - ipv6: 2a03:2260:11a:3a00::/56
+  - ipv6: 2a03:2260:11b:3a00::/56
+
+gw_batman_mesh_interfaces:
+  mz:
+    - enp1s0.4
+
+gw_meshbridge_ports:
+  mz:
+    - enp1s0.5
+
+mesh_gw_prefixes:
+  dom0:
+    ipv4_dhcp: 10.86.14.0/23
+    ipv6_public:
+      - 2a03:2260:11a:3aff::/64
+  dom1:
+    ipv4_dhcp: 10.86.30.0/23
+    ipv6_public:
+      - 2a03:2260:11a:3a01::/64
+  dom2:
+    ipv4_dhcp: 10.86.46.0/23
+    ipv6_public:
+      - 2a03:2260:11a:3a02::/64
+  dom3:
+    ipv4_dhcp: 10.86.62.0/23
+    ipv6_public:
+      - 2a03:2260:11a:3a03::/64
+  dom4:
+    ipv4_dhcp: 10.86.78.0/23
+    ipv6_public:
+      - 2a03:2260:11a:3a04::/64
+  dom5:
+    ipv4_dhcp: 10.86.94.0/23
+    ipv6_public:
+      - 2a03:2260:11a:3a05::/64
+  dom6:
+    ipv4_dhcp: 10.86.110.0/23
+    ipv6_public:
+      - 2a03:2260:11a:3a06::/64
+  dom7:
+    ipv4_dhcp: 10.86.126.0/23
+    ipv6_public:
+      - 2a03:2260:11a:3a07::/64
+  mz:
+    ipv4_dhcp: 10.37.28.0/22
+    ipv6_public:
+      - 2a03:2260:11a:3a00::/64
+  wi:
+    ipv4_dhcp: 10.56.28.0/22
+    ipv6_public:
+      - 2a03:2260:11b:3a00::/64
+
+ffrl_public_ipv4_nat: 185.66.195.34/32
+
+ffrl_exit_server:
+  ffrl-a-ak-ber:
+    public_ipv4_address: 185.66.195.0
+    tunnel_ipv4_network: 100.64.11.56/31
+    tunnel_ipv6_network: 2a03:2260:0:5b5::/64
+  ffrl-b-ak-ber:
+    public_ipv4_address: 185.66.195.1
+    tunnel_ipv4_network: 100.64.11.58/31
+    tunnel_ipv6_network: 2a03:2260:0:5b6::/64
+  ffrl-a-ix-dus:
+    public_ipv4_address: 185.66.193.0
+    tunnel_ipv4_network: 100.64.11.60/31
+    tunnel_ipv6_network: 2a03:2260:0:5b7::/64
+  ffrl-b-ix-dus:
+    public_ipv4_address: 185.66.193.1
+    tunnel_ipv4_network: 100.64.11.62/31
+    tunnel_ipv6_network: 2a03:2260:0:5b8::/64
+  ffrl-a-fra2-fra:
+    public_ipv4_address: 185.66.194.0
+    tunnel_ipv4_network: 100.64.11.64/31
+    tunnel_ipv6_network: 2a03:2260:0:5b9::/64
+  ffrl-b-fra2-fra:
+    public_ipv4_address: 185.66.194.1
+    tunnel_ipv4_network: 100.64.11.66/31
+    tunnel_ipv6_network: 2a03:2260:0:5ba::/64
