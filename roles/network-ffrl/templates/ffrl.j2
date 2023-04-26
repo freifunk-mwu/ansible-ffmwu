@@ -4,7 +4,7 @@
 auto {{ item.key }}
 iface {{ item.key }} inet tunnel
     mode gre
-    local {{ ansible_default_ipv4.address | ansible.utils.ipaddr('public') | ansible.utils.ipaddr('address') }}
+    local {{ dns_host_ipv4_address | ansible.utils.ipaddr('public')| ansible.utils.ipaddr('address') }}
     endpoint {{ item.value.public_ipv4_address | ansible.utils.ipaddr('public') | ansible.utils.ipaddr('address') }}
 
     ttl 64
