@@ -10,12 +10,12 @@ public_gw_prefixes:
   - ipv6: 2a03:2260:11b:3a00::/56
 
 gw_batman_mesh_interfaces:
-  mz:
-    - enp1s0.4
+  wi:
+    - enp2s0f1.301
 
 gw_meshbridge_ports:
-  mz:
-    - enp1s0.5
+  wi:
+    - ens1f0
 
 mesh_gw_prefixes:
   dom0:
