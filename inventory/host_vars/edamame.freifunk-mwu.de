@@ -3,7 +3,7 @@ server_type: "gateway"
 
 magic: 58
 
-disable_ipv4_dns_check: True
+ipv4_behind_nat: 192.168.178.15
 
 public_gw_prefixes:
   - ipv6: 2a03:2260:11a:3a00::/56
