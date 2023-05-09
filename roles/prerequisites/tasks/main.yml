@@ -12,7 +12,7 @@
       - "ansible_distribution_major_version in ('9', '10')"
 
 - name: Check basic DNS entries (IPv4)
-  when: "disable_ipv4_dns_check is undefined"
+  when: "ipv4_behind_nat is undefined"
   assert:
     that:
       - "dns_host_ipv4_address in ansible_all_ipv4_addresses"
