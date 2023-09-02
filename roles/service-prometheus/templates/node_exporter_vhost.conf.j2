@@ -1,5 +1,5 @@
 server {
-    listen {{ lookup('dig', inventory_hostname, 'qtype=A') }}:9100 ssl;
+    listen {{ ipv4_behind_nat | default(lookup('dig', inventory_hostname, 'qtype=A')) }}:9100 ssl;
 {% if inventory_hostname not in groups["servers_ipv4_only"] %}
     listen [{{ lookup('dig', inventory_hostname, 'qtype=AAAA') }}]:9100 ssl;
 {% endif %}

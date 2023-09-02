@@ -1,0 +1,2 @@
+---
+dns_host_ipv4_address: "{{ lookup('dig', inventory_hostname, 'qtype=A') }}"
