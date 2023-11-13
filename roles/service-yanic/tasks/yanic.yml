@@ -3,6 +3,11 @@
   set_fact:
     yanic_present: yes
 
+- name: install dependencies
+  package:
+    name: python3-influxdb
+    state: present
+
 - name: create data dir
   file:
     path: "{{ yanic_home }}/data"
