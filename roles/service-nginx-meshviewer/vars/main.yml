@@ -6,12 +6,15 @@ http_tiles_prefix: "tiles"
 http_tiles_external: "{{ http_tiles_prefix }}.{{ http_domain_external }}"
 http_tiles_internal: "{{ http_tiles_prefix }}.{{ http_domain_internal }}"
 
-meshviewer_path: "/var/www/{{ http_meshviewer_external }}"
+meshviewer_path: "{{ www_path }}/{{ http_meshviewer_external }}"
 meshviewer_src: "/home/admin/clones/meshviewer"
+
+meshviewer_deprecation_text: "Warnung: Dieser Knoten ist veraltet, und wird nicht mehr unterstützt. Es gibt auch keine Sicherheitsupdates mehr!<br><br>Mehr Infos im <a href='https://blog.freifunk-mainz.de/2020/02/04/freifunker-prueft-eure-hardware-und-ersetzt-aeltere-modelle-mit-4-mb-flash-und-oder-32-mb-ram/' target='_blank' rel='noopener noreferrer'>Blogbeitrag</a>.<br><br>Wenn du der Eigentümer des Gerätes bist bitten wir dich das Gerät zu ersetzen um weiterhin am Netz teilnehmen zu können."
 
 map_layers:
   - osm_mapnik:
     name: 'OpenStreetMap DE'
     url: 'https://{{ http_tiles_internal }}/{z}/{x}/{y}.png'
+    type: 'osm'
     max_zoom: 19
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    attribution: "&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>"

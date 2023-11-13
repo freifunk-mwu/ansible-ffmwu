@@ -1,21 +1,24 @@
 # Ansible role service-nginx-meshviewer
 
-Diese Ansible role installert den Meshviewer und konfiguriert den nginx vHosts.
+Diese Ansible role installiert den Meshviewer und konfiguriert den nginx vHosts.
 
-- schreibt config.js
+- legt Meshviewer Verzeichnis an
+- installert Meshviewer
+- schreibt config.json
 - schreibt meshviewer.conf
-- legt Meschviewer Verzeichnis an
-- installiert Abhängigkeiten via `yarn`
-- baut den Meschviewer
-- installert den Meshviewer
+- schreibt tiles.conf
 
 ## Benötigte Variablen
 
+- Variable `meshviewer_deprecation_text` (Rollen Variable)
 - Variable `meshviewer_src` (Rollen Variable)
 - Variable `meshviewer_path` (Rollen Variable)
 - Variable `http_meshviewer_external` (Rollen Variable)
 - Variable `http_meshviewer_internal` (Rollen Variable)
 - Variable `http_meshviewer_prefix` # string: Subdomain
+- Variable `http_tiles_external` (Rollen Variable)
+- Variable `http_tiles_internal` (Rollen Variable)
+- Variable `http_tiles_prefix` # string: Subdomain
 - Variable `http_domain_external` # string: Externe Freifunk MWU Domain
 - Variable `http_domain_internal` # string: Interne Freifunk MWU Domain
 - Dictionary `meshes`

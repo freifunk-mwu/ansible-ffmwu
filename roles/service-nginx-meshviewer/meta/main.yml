@@ -1,6 +1,3 @@
 ---
 dependencies:
-  - { role: nodejs }
-  - { role: yarn }
   - { role: service-nginx }
-  - { role: service-yanic }
