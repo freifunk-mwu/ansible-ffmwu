@@ -1,9 +1,9 @@
 ---
-- name: add official nginx apt key
-  apt_key:
-    state: present
-    id: 7BD9BF62
-    url: "https://nginx.org/keys/nginx_signing.key"
+- name: Add NGINX signing key
+  ansible.builtin.apt_key:
+    id: 8540A6F18833A80E9C1653A42FD21310B49F6B46
+    keyring: /usr/share/keyrings/nginx-archive-keyring.gpg
+    url: "http://nginx.org/keys/nginx_signing.key"
 
 - name: add official nginx apt repository
   apt_repository:
@@ -12,8 +12,8 @@
     update_cache: yes
     filename: nginx
   loop:
-    - deb http://nginx.org/packages/debian/ {{ ansible_distribution_release }} nginx
-    - deb-src http://nginx.org/packages/debian/ {{ ansible_distribution_release }} nginx
+    - deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/debian/ {{ ansible_distribution_release }} nginx
+    - deb-src [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/debian/ {{ ansible_distribution_release }} nginx
 
 - name: install nginx packages
   package:
