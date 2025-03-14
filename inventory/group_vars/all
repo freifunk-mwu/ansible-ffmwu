@@ -369,6 +369,66 @@ wireguard_networks:
       - griesbrei
       - mate
     port: 50090
+  - ipv4: 10.87.253.182/31
+    peers:
+      - olive
+      - ingwer
+    port: 50091
+  - ipv4: 10.87.253.186/31
+    peers:
+      - olive
+      - uffschnitt
+    port: 50093
+  - ipv4: 10.87.253.188/31
+    peers:
+      - olive
+      - lotuswurzel
+    port: 50094
+  - ipv4: 10.87.253.190/31
+    peers:
+      - olive
+      - wasserfloh
+    port: 50095
+  - ipv4: 10.87.253.192/31
+    peers:
+      - olive
+      - reis
+    port: 50096
+  - ipv4: 10.87.253.194/31
+    peers:
+      - olive
+      - kichererbse
+    port: 50097
+  - ipv4: 10.87.253.198/31
+    peers:
+      - olive
+      - unifi
+    port: 50099
+  - ipv4: 10.87.253.200/31
+    peers:
+      - olive
+      - kumpir
+    port: 50100
+  - ipv4: 10.87.253.202/31
+    peers:
+      - olive
+      - morchel
+    port: 50101
+  - ipv4: 10.87.253.204/31
+    peers:
+      - olive
+      - gurke
+    port: 50102
+  - ipv4: 10.87.253.206/31
+    peers:
+      - olive
+      - mate
+    port: 50103
+  - ipv4: 10.87.253.208/31
+    peers:
+      - olive
+      - griesbrei
+    port: 50104
   - ipv4: 10.87.253.210/31
     peers:
       - kumquat
@@ -429,6 +489,11 @@ wireguard_networks:
       - kumquat
       - griesbrei
     port: 50116
+  - ipv4: 10.87.253.234/31
+    peers:
+      - kumquat
+      - olive
+    port: 50117
   - ipv4: 10.87.253.8/31
     peers:
       - edamame
@@ -489,6 +554,11 @@ wireguard_networks:
       - edamame
       - griesbrei
     port: 50026
+  - ipv4: 10.87.253.58/31
+    peers:
+      - edamame
+      - olive
+    port: 50029
   - ipv4: 10.87.253.70/31
     peers:
       - edamame
