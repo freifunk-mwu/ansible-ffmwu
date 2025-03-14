@@ -1,30 +1,63 @@
 ---
-- name: ensure systemd-timesyncd is disabled
-  systemd:
-    name: systemd-timesyncd
-    enabled: no
-    state: stopped
+- name: Include OS-specific variables.
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_facts['distribution'] + '-' + ansible_facts['distribution_version'] }}.yml"
+    - "{{ ansible_facts['os_family'] + '-' + ansible_facts['distribution_major_version'] }}.yml"
+    - "{{ ansible_facts['os_family'] }}.yml"
 
-- name: install ntp packages
+- name: Set the ntp_driftfile variable.
+  set_fact:
+    ntp_driftfile: "{{ __ntp_driftfile }}"
+  when: ntp_driftfile is not defined
+
+- name: Set the ntp_package variable.
+  set_fact:
+    ntp_package: "{{ __ntp_package }}"
+  when: ntp_package is not defined
+
+- name: Set the ntp_config_file variable.
+  set_fact:
+    ntp_config_file: "{{ __ntp_config_file }}"
+  when: ntp_config_file is not defined
+
+- name: Set the ntp_daemon variable.
+  set_fact:
+    ntp_daemon: "{{ __ntp_daemon }}"
+  when: ntp_daemon is not defined
+
+- name: Ensure NTP package is installed.
   package:
-    name: "{{ item }}"
+    name: "{{ ntp_package }}"
     state: present
-  loop:
-    - ntp
-    - ntp-doc
-    - ntpdate
-    - ntpstat
 
-- name: update if-up ntpdate script
-  template:
-    src: ntpdate.j2
-    dest: /etc/network/if-up.d/ntpdate
-    mode: 0755
-    owner: root
-    group: root
+- name: Ensure tzdata package is installed.
+  package:
+    name: "{{ ntp_tzdata_package }}"
+    state: present
 
-- name: enable and start ntp daemon
-  systemd:
-    name: ntp
-    enabled: yes
+- name: Populate service facts.
+  service_facts:
+
+- name: Disable systemd-timesyncd if it's running but ntp is enabled.
+  service:
+    name: systemd-timesyncd.service
+    enabled: false
+    state: stopped
+  when:
+    - '"systemd-timesyncd.service" in services'
+    - services["systemd-timesyncd.service"]["status"] != "not-found"
+
+- name: Ensure NTP is running and enabled as configured.
+  service:
+    name: "{{ ntp_daemon }}"
     state: started
+    enabled: true
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: Generate ntp configuration file.
+  template:
+    src: "{{ ntp_config_file | basename }}.j2"
+    dest: "{{ ntp_config_file }}"
+    mode: 0644
+  notify: restart ntp

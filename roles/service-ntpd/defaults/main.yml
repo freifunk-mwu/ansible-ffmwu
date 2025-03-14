@@ -1,0 +1,10 @@
+---
+ntp_servers:
+  - "0.debian.pool.ntp.org iburst"
+  - "1.debian.pool.ntp.org iburst"
+  - "2.debian.pool.ntp.org iburst"
+  - "3.debian.pool.ntp.org iburst"
+
+ntp_restrict:
+  - "127.0.0.1"
+  - "::1"
