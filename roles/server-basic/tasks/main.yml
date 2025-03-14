@@ -1,9 +1,4 @@
 ---
-- name: set apt mirror for archived debian versions
-  set_fact:
-    debian_apt_mirror: "archive.debian.org"
-  when: ansible_distribution_major_version|int <= 10
-
 - name: configure debian apt repositories
   template:
     src: apt-sources-list.j2
@@ -55,22 +50,6 @@
 - name: set timezone to Europe/Berlin
   timezone:
     name: Europe/Berlin
-
-- name: copy resolvconf if-up
-  copy:
-    src: resolvconf.if-up
-    dest: /etc/network/if-up.d/000resolvconf
-    owner: root
-    group: root
-    mode: 0755
-
-- name: copy resolvconf if-down
-  copy:
-    src: resolvconf.if-down
-    dest: /etc/network/if-down.d/resolvconf
-    owner: root
-    group: root
-    mode: 0755
 
 - name: create ffmwu custom config dir
   file:

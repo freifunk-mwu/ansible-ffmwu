@@ -2,7 +2,6 @@
 packages:
   - apt-transport-https
   - bridge-utils
-  - debian-goodies
   - dnsutils
   - ethtool
   - ifupdown2
@@ -12,7 +11,6 @@ packages:
   - mosh
   - net-tools
   - openresolv
-  - python-pip
   - python3-pip
   - python3-yaml
   - rsync
