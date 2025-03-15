@@ -5,7 +5,6 @@
 
   roles:
   - prerequisites
-  - server-apt-repos
   - server-basic
   - network-loopback
   - network-anycast
@@ -16,13 +15,12 @@
   - service-ntpd
   - kmod-batman
   - wireguard
-  - network-routetables
+  - network-routing
   - network-batman
   - network-meshbridge
   - network-fastd
   - network-ffrl
   - network-iptables-gateway
-  - network-routing
   - service-nginx
   - service-nginx-firmware
   - service-prometheus

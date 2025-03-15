@@ -1,61 +1,17 @@
 ---
-- name: write systemd unit ffmwu-static-routes.service
+- name: set basic sysctl settings for routing
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+
+- name: create routing tables
   template:
-    src: ffmwu-static-routes.service.j2
-    dest: /etc/systemd/system/ffmwu-static-routes.service
+    src: routetable.conf
+    dest: "/etc/iproute2/rt_tables.d/{{ item.key }}.conf"
     owner: root
     group: root
     mode: 0644
-  notify: reload systemd
-
-- name: write static route scripts
-  template:
-    src: "{{ item }}.j2"
-    dest: "/usr/local/bin/{{ item }}"
-    owner: root
-    group: root
-    mode: 0750
-  loop:
-    - ffmwu-add-static-routes.sh
-    - ffmwu-del-static-routes.sh
-  notify: restart systemd unit ffmwu-static-routes
-
-- name: enable systemd unit ffmwu-static-routes.service
-  systemd:
-    name: ffmwu-static-routes
-    enabled: yes
-    state: started
-
-- name: write systemd unit ffmwu-ip-rules.service
-  template:
-    src: ffmwu-ip-rules.service.j2
-    dest: /etc/systemd/system/ffmwu-ip-rules.service
-    owner: root
-    group: root
-    mode: 0644
-  notify: reload systemd
-
-- name: Print the gateway for each host when defined
-  ansible.builtin.debug:
-    msg: System {{ inventory_hostname }} has gateway {{ ansible_default_ipv4.interface }}
-
-- name: write ip rule scripts
-  template:
-    src: "{{ item }}.j2"
-    dest: "/usr/local/bin/{{ item }}"
-    owner: root
-    group: root
-    mode: 0750
-  loop:
-    - ffmwu-add-ip-rules.sh
-    - ffmwu-del-ip-rules.sh
-  notify: restart systemd unit ffmwu-ip-rules
-
-- name: enable systemd unit ffmwu-ip-rules.service
-  systemd:
-    name: ffmwu-ip-rules
-    enabled: yes
-    state: started
+  loop: "{{ routing_tables | dict2items }}"
 
 - name: set basic sysctl settings for routing
   sysctl:
@@ -71,3 +27,9 @@
     value: "{{ item.value }}"
     state: present
   loop: "{{ sysctl_settings_routing_forwarding }}"
+
+- name: create policy-routing.conf
+  template:
+    src: policy-routing.conf.j2
+    dest: "/etc/systemd/network/{{ ansible_default_ipv4.interface }}.network.d/policy-routing.conf"
+  notify: restart networkd

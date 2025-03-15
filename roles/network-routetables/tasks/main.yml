@@ -1,9 +1,0 @@
----
-- name: create routing tables
-  template:
-    src: routetable.conf
-    dest: "/etc/iproute2/rt_tables.d/{{ item.key }}.conf"
-    owner: root
-    group: root
-    mode: 0644
-  loop: "{{ routing_tables | dict2items }}"
