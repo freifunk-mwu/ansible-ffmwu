@@ -1,5 +1,5 @@
 ---
-- name: install batman-module and linux headers
+- name: install batman packages
   package:
     name: "{{ batman_packages }}"
     state: present
