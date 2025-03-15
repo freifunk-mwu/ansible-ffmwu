@@ -1,8 +1,0 @@
-#
-# {{ ansible_managed }}
-#
-auto loopback
-iface loopback
-    link-type dummy
-    address {{ loopback_net_ipv4 | ansible.utils.ipsubnet(32, magic) | ansible.utils.ipaddr('network/prefix') }}
-    address {{ loopback_net_ipv6 | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') }}/128
