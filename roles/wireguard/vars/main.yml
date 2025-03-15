@@ -1,6 +1,5 @@
 ---
 wireguard_packages:
   - bc
-  - wireguard-dkms
+  - wireguard
   - wireguard-tools
-  - linux-headers-{{ ansible_kernel }}
