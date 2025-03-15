@@ -1,21 +1,10 @@
 ---
-- name: install iptables packages
+- name: install nftables packages
   package:
     name: "{{ item }}"
     state: present
   loop:
-    - iptables
-    - iptables-persistent
-
-- name: configure nf_conntrack module to load on system boot
-  template:
-    src: nf_conntrack.module.conf.j2
-    dest: /etc/modules-load.d/nf_conntrack.conf
-
-- name: load nf_conntrack module
-  modprobe:
-    name: nf_conntrack
-    state: present
+    - nftables
 
 - name: set netfilter sysctl settings
   sysctl:
@@ -24,14 +13,15 @@
     state: present
   loop: "{{ sysctl_settings_netfilter }}"
 
-- name: write iptables configuration
+- name: write netfilter configuration
   template:
-    src: rules.v4.j2
-    dest: /etc/iptables/rules.v4
-  notify: iptables-restore
+    src: nftables.conf
+    dest: /etc/nftables.conf
+  notify: nftables restart
 
-- name: write ip6tables configuration
-  template:
-    src: rules.v6.j2
-    dest: /etc/iptables/rules.v6
-  notify: ip6tables-restore
+- name: enable and start nftables
+  systemd_service:
+    state: started
+    daemon_reload: true
+    enabled: yes
+    name: nftables
