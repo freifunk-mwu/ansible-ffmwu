@@ -3,7 +3,7 @@
 #
 # {{ ansible_managed }}
 #
-auto {{ item.id }}
-iface {{ item.id }}
-    link-type dummy
-    hwaddress {{ mac | ansible.utils.hwaddr('linux') }}
+[NetDev]
+Name={{ item.id }}
+Kind=dummy
+MACAddress={{ mac | ansible.utils.hwaddr('linux') }}

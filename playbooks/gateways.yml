@@ -16,9 +16,7 @@
   - kmod-batman
   - wireguard
   - network-routing
-  - network-batman
-  - network-meshbridge
-  - network-fastd
+  - network-mesh
   - network-ffrl
   - network-iptables-gateway
   - service-nginx

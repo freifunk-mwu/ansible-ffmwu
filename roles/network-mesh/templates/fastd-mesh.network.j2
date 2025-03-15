@@ -1,0 +1,8 @@
+#
+# {{ ansible_managed }}
+#
+[Match]
+Name={{ item.0.id }}vpn-{{ item.1.mtu }}
+
+[Network]
+BatmanAdvanced={{ item.0.id }}bat

@@ -1,4 +1,4 @@
-# Ansible role network-batman
+# Ansible role network-mesh
 
 Diese Ansible role konfiguriert batman-adv Netzwerk Interfaces.
 
