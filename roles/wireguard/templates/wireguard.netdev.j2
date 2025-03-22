@@ -12,9 +12,9 @@ PrivateKey={{ wireguard_private_key }}
 
 [WireGuardPeer]
 {% if item.remote_hostname in groups['servers_ipv4_only'] %}
-Endpoint={{ lookup('dig', item.remote_hostname, 'qtype=A') | ipwrap }}:{{ item.port }}
+Endpoint={{ lookup('dig', item.remote_hostname, 'qtype=A') | ansible.utils.ipwrap }}:{{ item.port }}
 {% else %}
-Endpoint={{ lookup('dig', item.remote_hostname, 'qtype=AAAA') | ipwrap }}:{{ item.port }}
+Endpoint={{ lookup('dig', item.remote_hostname, 'qtype=AAAA') | ansible.utils.ipwrap }}:{{ item.port }}
 {% endif %}
 PublicKey={{ lookup('passwordstore', 'wireguard/' + item.remote + ' subkey=public') }}
 AllowedIPs=0.0.0.0/0
