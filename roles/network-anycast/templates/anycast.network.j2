@@ -5,5 +5,5 @@
 Name=anycast
 
 [Network]
-Address={{ anycast_ipv4 | ipaddr('network/prefix') }}
-Address={{ anycast_ipv6 | ipaddr('network/prefix') }}
+Address={{ anycast_ipv4 | ansible.utils.ipaddr('network/prefix') }}
+Address={{ anycast_ipv6 | ansible.utils.ipaddr('network/prefix') }}
