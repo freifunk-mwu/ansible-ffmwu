@@ -162,12 +162,12 @@ To={{ prefix.ipv6 }}
 [RoutingPolicyRule]
 Table={{ routing_tables.internet }}
 Priority=41
-From={{ ffrl_public_ipv4_nat | ipaddr('host') }}
+From={{ ffrl_public_ipv4_nat | ansible.utils.ipaddr('host') }}
 
 [RoutingPolicyRule]
 Table={{ routing_tables.internet }}
 Priority=41
-To={{ ffrl_public_ipv4_nat | ipaddr('host') }}
+To={{ ffrl_public_ipv4_nat | ansible.utils.ipaddr('host') }}
 
 # Priority 61 - at this point this is the end of policy routing for freifunk related routes
 
