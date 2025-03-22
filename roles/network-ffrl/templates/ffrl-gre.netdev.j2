@@ -1,0 +1,12 @@
+#
+# {{ ansible_managed }}
+#
+[NetDev]
+Name={{ item.key }}
+Kind=gre
+MTUBytes=1400
+
+[Tunnel]
+Local={{ ansible_default_ipv4.address | ansible.utils.ipaddr('public') | ansible.utils.ipaddr('address') }}
+Remote={{ item.value.public_ipv4_address | ansible.utils.ipaddr('public') | ansible.utils.ipaddr('address') }}
+TTL=64

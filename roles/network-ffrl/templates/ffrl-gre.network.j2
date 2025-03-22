@@ -1,0 +1,9 @@
+#
+# {{ ansible_managed }}
+#
+[Match]
+Name={{ item.key }}
+
+[Network]
+Address={{ item.value.tunnel_ipv4_network | ansible.utils.ipaddr('net') | ansible.utils.ipaddr('1') | ansible.utils.ipaddr('ip/prefix') }}
+Address={{ item.value.tunnel_ipv6_network | ansible.utils.ipaddr('net') | ansible.utils.ipaddr('2') | ansible.utils.ipaddr('ip/prefix') }}
