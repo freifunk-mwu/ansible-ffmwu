@@ -5,16 +5,16 @@
 Name={{ item.id }}br
 
 [Network]
-Address={{ item.ipv4_network | ipaddr('net') | ipaddr(magic) | ipaddr('ip/prefix') }}
+Address={{ item.ipv4_network | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('ip/prefix') }}
 {% for prefix in item.ipv6_ula %}
-Address={{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('ip/prefix') }}
+Address={{ prefix | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(64, 0) | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('ip/prefix') }}
 {% endfor %}
 {% for prefix in item.ipv6_public %}
-Address={{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(magic) | ipaddr('ip/prefix') }}
+Address={{ prefix | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(64, 0) | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('ip/prefix') }}
 {% endfor %}
 {% if mesh_gw_prefixes is defined %}
 {% for prefix in mesh_gw_prefixes[item.id].ipv6_public %}
-Address={{ prefix | ipaddr('net') | ipsubnet(64, 0) | ipaddr(1) | ipaddr('ip/prefix') }}
+Address={{ prefix | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(64, 0) | ansible.utils.ipaddr(1) | ansible.utils.ipaddr('ip/prefix') }}
 {% endfor %}
 {% endif %}
 {% if 'gateways' in group_names %}
@@ -28,20 +28,20 @@ Table={{ routing_tables.mwu }}
 
 {% for ula in item.ipv6_ula %}
 [Route]
-Destination={{ ula | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }}
+Destination={{ ula | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(64, 0) | ansible.utils.ipaddr('subnet') }}
 Table={{ routing_tables.mwu }}
 
 {% endfor %}
 {% for public in item.ipv6_public %}
 [Route]
-Destination={{ public | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }}
+Destination={{ public | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(64, 0) | ansible.utils.ipaddr('subnet') }}
 Table={{ routing_tables.mwu }}
 
 {% endfor %}
 {% if mesh_gw_prefixes is defined %}
 {% for public in mesh_gw_prefixes[item.id].ipv6_public %}
 [Route]
-Destination={{ public | ipaddr('net') | ipsubnet(64, 0) | ipaddr('subnet') }}
+Destination={{ public | ansible.utils.ipaddr('net') | ansible.utils.ipsubnet(64, 0) | ansible.utils.ipaddr('subnet') }}
 Table={{ routing_tables.mwu }}
 
 {% endfor %}
