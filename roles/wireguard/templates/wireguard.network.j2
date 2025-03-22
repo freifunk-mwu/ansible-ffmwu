@@ -1,0 +1,24 @@
+#
+# {{ ansible_managed }}
+#
+[Match]
+Name=wg-{{ item.remote[:11] }}
+
+[Network]
+{% if magic < item.remote_magic %}
+Address={{ item.ipv4 | ansible.utils.ipaddr('ip/prefix') }}
+{% else %}
+Address={{ item.ipv4 | ansible.utils.ipaddr('1') | ansible.utils.ipaddr('ip/prefix') }}
+{% endif %}
+Address={{ 'fe80::/64' | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('ip/prefix') }}
+IPForward=yes
+
+[Route]
+Destination={{ item.ipv4 | ansible.utils.ipaddr('network/prefix') }}
+{% if magic < item.remote_magic %}
+PreferredSource={{ item.ipv4 | ansible.utils.ipaddr('address') }}
+{% else %}
+PreferredSource={{ item.ipv4 | ansible.utils.ipaddr('1') | ansible.utils.ipaddr('address') }}
+{% endif %}
+Scope=link
+Table={{ routing_tables.mwu }}
