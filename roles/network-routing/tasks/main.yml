@@ -1,9 +1,4 @@
 ---
-- name: set basic sysctl settings for routing
-  sysctl:
-    name: "{{ item.name }}"
-    value: "{{ item.value }}"
-
 - name: create routing tables
   template:
     src: routetable.conf
@@ -27,6 +22,11 @@
     value: "{{ item.value }}"
     state: present
   loop: "{{ sysctl_settings_routing_forwarding }}"
+
+- name: create directory for primary interface networkd custom config
+  ansible.builtin.file:
+    path: "/etc/systemd/network/{{ ansible_default_ipv4.interface }}.network.d"
+    state: directory
 
 - name: create policy-routing.conf
   template:
