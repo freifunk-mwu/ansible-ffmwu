@@ -13,8 +13,8 @@ for batdev in /sys/class/net/*bat; do
     }
   '
 
-  echo "batman_originator_count{batdev=\"${batdev}\",selected=\"false\"}" $($BATCTL -m ${batdev} originators -H | egrep '^   ' | wc -l)
-  echo "batman_originator_count{batdev=\"${batdev}\",selected=\"true\"}" $($BATCTL -m ${batdev} originators -H | egrep '^ \*' | wc -l)
-  echo "batman_tg_count{batdev=\"${batdev}\",type=\"multicast\"}" $($BATCTL -m ${batdev} transglobal -H -m | wc -l)
-  echo "batman_tg_count{batdev=\"${batdev}\",type=\"unicast\"}" $($BATCTL -m ${batdev} transglobal -H -u | wc -l)
+  echo "batman_originator_count{batdev=\"${batdev}\",selected=\"false\"}" $($BATCTL meshif ${batdev} originators -H | egrep '^   ' | wc -l)
+  echo "batman_originator_count{batdev=\"${batdev}\",selected=\"true\"}" $($BATCTL meshif ${batdev} originators -H | egrep '^ \*' | wc -l)
+  echo "batman_tg_count{batdev=\"${batdev}\",type=\"multicast\"}" $($BATCTL meshif ${batdev} transglobal -H -m | wc -l)
+  echo "batman_tg_count{batdev=\"${batdev}\",type=\"unicast\"}" $($BATCTL meshif ${batdev} transglobal -H -u | wc -l)
 done
