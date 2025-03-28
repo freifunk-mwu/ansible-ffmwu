@@ -71,12 +71,6 @@
     group: admin
   notify: restart systemd unit tinc
 
-- name: remove tinc init file if present
-  file:
-    path: /etc/init.d/tinc
-    state: absent
-  notify: reload systemd
-
 - name: configure systemd unit tinc
   systemd:
     name: "tinc@{{ icvpn.interface }}"
