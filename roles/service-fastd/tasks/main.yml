@@ -7,28 +7,6 @@
     - fastd
     - git
 
-- name: mask legacy service fastd
-  systemd:
-    name: fastd
-    masked: yes
-
-- name: create systemd override dir for fastd@.service
-  file:
-    path: /etc/systemd/system/fastd@.service.d
-    state: directory
-    owner: root
-    group: root
-    mode: 0755
-
-- name: configure systemd unit overrides
-  template:
-    src: fastd@_service_overrides.j2
-    dest: /etc/systemd/system/fastd@.service.d/override.conf
-    owner: root
-    group: root
-    mode: 0644
-  notify: reload systemd
-
 - name: copy fastd status script
   copy:
     src: fastd-status
