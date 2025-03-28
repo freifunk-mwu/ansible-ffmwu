@@ -12,9 +12,9 @@
   set_fact:
     prometheus_default_opts: "{{ prometheus_default_opts }} --web.console.templates={{ prometheus_daemon_dir }}/consoles  --web.console.libraries={{ prometheus_daemon_dir }}/console_libraries"
 
-- name: install python-passlib
+- name: install python3-passlib
   package:
-    name: python-passlib
+    name: python3-passlib
     state: present
 
 - name: download and untar prometheus tarball

@@ -9,9 +9,6 @@
 - name: set internal variables, part 2
   set_fact:
     alertmanager_daemon_dir: "{{ prometheus_install_path }}/{{ alertmanager_signature }}"
-
-- name: set download url
-  set_fact:
     alertmanager_tarball_url: "https://github.com/prometheus/alertmanager/releases/download/v{{ alertmanager_version }}/{{ alertmanager_signature }}.tar.gz"
 
 - name: download and uncompress alertmanager tarball
