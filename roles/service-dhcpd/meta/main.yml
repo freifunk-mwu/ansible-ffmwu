@@ -1,3 +1,4 @@
 ---
 dependencies:
+  - { role: network-mesh }
   - { role: service-nginx }
