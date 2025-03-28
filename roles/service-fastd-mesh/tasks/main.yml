@@ -16,10 +16,9 @@
   tags: debug
 
 - name: install redis-server
-  apt:
+  package:
     name: redis-server
-    state: latest
-    default_release: "{{ debian_repo }}"
+    state: present
 
 - name: download fastd-limiter
   get_url:

@@ -19,12 +19,14 @@ server {
 {% for group in ['monitoring', 'gateways'] %}
 {% for host in groups[group] %}
 {% set _host_a = lookup('dig', host, 'qtype=A') %}
-{% set _host_aaaa = lookup('dig', host, 'qtype=AAAA') %}
 {% if _host_a | ansible.utils.ipv4 %}
       allow {{ _host_a }};
 {% endif %}
+{% if host not in groups["servers_ipv4_only"] %}
+{% set _host_aaaa = lookup('dig', host, 'qtype=AAAA') %}
 {% if _host_aaaa | ansible.utils.ipv6 %}
       allow {{ _host_aaaa }};
+{% endif %}
 {% endif %}
 {% endfor %}
 {% endfor %}

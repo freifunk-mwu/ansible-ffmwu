@@ -4,5 +4,3 @@ fastd_exporter_default_opts: "--web.listen-address=localhost:9281"
 
 fastd_limiter_url: "https://bin.freifunk-mwu.de/fastd-limiter/fastd-limiter"
 fastd_limiter_path: "/usr/local/bin/fastd-limiter"
-
-debian_repo: "{{ ansible_distribution_release }}"
