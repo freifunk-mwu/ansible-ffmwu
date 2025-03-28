@@ -66,7 +66,7 @@
   when: server_type == "gateway" and inventory_hostname not in groups['backbone_gateways']
   template:
     src: fastd-mesh.link.j2
-    dest: "/etc/systemd/network/{{ item.0.id }}igvpn-{{ item.1.mtu }}.link"
+    dest: "/etc/systemd/network/{{ item.0.id }}vpn-{{ item.1.mtu }}.link"
   notify: restart networkd
   loop: "{{ meshes | subelements('fastd.nodes.instances') }}"
 
@@ -74,7 +74,7 @@
   when: server_type == "gateway" and inventory_hostname not in groups['backbone_gateways']
   template:
     src: fastd-mesh.network.j2
-    dest: "/etc/systemd/network/{{ item.0.id }}igvpn-{{ item.1.mtu }}.network"
+    dest: "/etc/systemd/network/{{ item.0.id }}vpn-{{ item.1.mtu }}.network"
   notify: restart networkd
   loop: "{{ meshes | subelements('fastd.nodes.instances') }}"
 
