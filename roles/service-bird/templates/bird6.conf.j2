@@ -105,7 +105,7 @@ protocol kernel kernel_mwu {
         reject;
     };
     merge paths yes limit {{ groups['gateways'] | length }};
-    kernel table ipt_mwu;
+    kernel table 41;
 };
 
 # Templates
