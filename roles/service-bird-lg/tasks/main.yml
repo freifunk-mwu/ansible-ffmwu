@@ -12,10 +12,10 @@
     name: "{{ item }}"
     state: present
   loop:
-    - python-flask
-    - python-dnspython
-    - python-pydot
-    - python-memcache
+    - python3-flask
+    - python3-dnspython
+    - python3-pydot
+    - python3-memcache
     - graphviz
     - whois
     - traceroute
