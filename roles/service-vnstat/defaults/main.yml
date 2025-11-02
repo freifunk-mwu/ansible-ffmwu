@@ -3,4 +3,4 @@ vnstati_types:
   monthly: months
   daily: days
   hourly: hours
-  top10: top10
+  top10: "top 10"
