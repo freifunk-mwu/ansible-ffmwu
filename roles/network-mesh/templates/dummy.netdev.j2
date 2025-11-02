@@ -1,5 +1,5 @@
-{% set ip4hex = item.ipv4_network | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') | ansible.utils.ip4_hex -%}
-{% set mac = '0200' + ip4hex -%}
+{% set ip4hex = item.ipv4_network | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') | ansible.utils.ip4_hex %}
+{% set mac = '0200' + ip4hex %}
 #
 # {{ ansible_managed }}
 #

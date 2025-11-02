@@ -1,5 +1,5 @@
-{% set ip4hex = item.ipv4_network | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') | ansible.utils.ip4_hex() -%}
-{% set mac = '0201' + ip4hex -%}
+{% set ip4hex = item.ipv4_network | ansible.utils.ipaddr('net') | ansible.utils.ipaddr(magic) | ansible.utils.ipaddr('address') | ansible.utils.ip4_hex() %}
+{% set mac = '0201' + ip4hex %}
 #
 # {{ ansible_managed }}
 #
@@ -9,8 +9,12 @@ Kind=batadv
 MACAddress={{ mac | ansible.utils.hwaddr('linux') }}
 
 [BatmanAdvanced]
-GatewayMode={% if 'gateways' in group_names %}{{ item.batman.gw }}{% else %}off{% endif %}
-RoutingAlgorithm={{ item.batman.algo | default('BATMAN_IV') }}
+{% if 'gateways' in group_names %}
+GatewayMode={{ item.batman.gw }}
+{% else %}
+GatewayMode=off
+{% endif %}
+RoutingAlgorithm={{ item.batman.algo | default('batman-iv') }}
 DistributedArpTable={{ item.batman.dat }}
 HopPenalty={{ item.batman.hop_penalty }}
 OriginatorIntervalSec={{ item.batman.it }}
