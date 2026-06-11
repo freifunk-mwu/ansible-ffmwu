@@ -9,8 +9,9 @@
   assert:
     that:
       - "ansible_distribution == 'Debian'"
-      - "ansible_distribution_major_version in ('12')"
+      - "ansible_distribution_major_version in ('12', '13')"
 
+# TODO Die Spielwiese gateway1.freifunk-mwu.cloud verfügt (noch) über keine IPv4-Adresse. Der Freifunk Rheinleid e.V. erfodert dies jedoch!
 - name: Check basic DNS entries (IPv4)
   when: "ipv4_behind_nat is undefined"
   assert:
@@ -24,6 +25,8 @@
     that:
       - "dns_host_ipv6_address in ansible_all_ipv6_addresses"
 
+# TODO Ein gültiger CNAME-Eintrag wird im Format "gate$magic.freifunk-mwu.de" vorausgesetzt!
+# TODO Ein gültiger CNAME-Eintrag wird im Format "icvpn$magic.freifunk-mwu.de" vorausgesetzt!
 - name: Check gateway specific DNS entries
   when: server_type == "gateway"
   assert:

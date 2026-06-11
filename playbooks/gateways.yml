@@ -4,7 +4,8 @@
   hosts: gateways
 
   roles:
-  - prerequisites
+  - role: prerequisites
+    tags: prerequisites
   - server-basic
   - network-loopback
   - network-anycast
